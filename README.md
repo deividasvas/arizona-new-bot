@@ -20,9 +20,8 @@
               name: "families", // имя модуля
               acceptCustomsID: [], // модуль автоматически принимает эти айдишники interaction.customId
               run: async ({ bot, interaction, user, guild, message }) => {
-                // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
+                
 
-               // ...код
               },
             };
        ```
