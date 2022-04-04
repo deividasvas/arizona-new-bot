@@ -13,11 +13,11 @@ module.exports = {
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, guild, author, interaction }) => {
-    const owner = await bot.connection(
+    const family = (await bot.connection(
       `SELECT * FROM \`families\` WHERE \`owner_id\` = '${author.user.id}'`
-    );
+    ));
 
-    if (owner.length === 0) {
+    if (!family) {
       return interaction.reply({
         ephemeral: true,
         embeds: [
@@ -43,12 +43,12 @@ module.exports = {
         new EmbedBuilder()
           .setDescription(
             `**「👨‍👨‍👧‍👦」Семья: ${guild.roles.cache.get(
-              owner[0].role_id
+              family.role_id
             )}\n「📌」Участников: \`${
-              guild.roles.cache.get(owner[0].role_id).members.size
+              guild.roles.cache.get(family.role_id).members.size
             }\`**`
           )
-          .setColor(`DARK_GREEN`)
+          .setColor(`DarkGreen`)
           .setTimestamp()
           .setAuthor({
             name: guild.name,
