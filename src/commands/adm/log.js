@@ -75,6 +75,13 @@ module.exports = {
                 id: "886020016120672286"
             })
         ),
+        new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setCustomId("log_monitoring_no")
+            .setLabel(`Лог 📌 ${nickname}`)
+            .setStyle(ButtonStyle.Link)
+            .setURL(`http://ulog.union-u.net/search.php?searchtext=${nickname.split(' ').join('_')}&server=10`)
+        ),
       ],
       content: `http://ulog.union-u.net/search.php?searchtext=${nickname.split(" ").join("_")}&server=15`,
     });
@@ -84,8 +91,17 @@ module.exports = {
         new EmbedBuilder()
           .setColor("DARK_GREEN")
           .setTitle(`📌 | Лог Мониторинг`)
-          .setDescription(
-            `**Вы успешно отправили запрос об проверке игрока \`\`${nickname}\`\` на логи в канал <#${channelsID.logMonitoring}>**`
+          .addFields(
+            {
+              name: `🐹・Информация о запросе`,
+              value: `>>> **「🧍」Запросил: <@${author.id}>\n「👱‍♂️」Ник-Нейм: \`${nickname}\`\n「🏔」Источник: \`${from}\`\n「📄」Причина: \`${reason}\`**`,
+              inline: true
+            },
+            {
+              name: `📌・Результат проверки`,
+              value: `>>> **「🎸」Статус: \`В обработке\`\n「🔥」Проверил: \`Нет\`**`,
+              inline: true
+            }
           )
           .setAuthor({
             name: guild.name,
