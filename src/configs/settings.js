@@ -49,7 +49,7 @@ module.exports = {
       authoModerator: "",
     },
     prefix: "/",
-    token: `OTYwMTA2MjU4NDg3MTgxMzYy.YklmoQ.iXeBS81M7JnN1d1lJ9a7zT4biXI`,
+    token: `OTYwMTA2MjU4NDg3MTgxMzYy.YklmoQ.U9M9r6TSmWx0kmM9hrWzfJ9ATM8`,
     applicationId: "932397605651091466",
     SurpriseGuild: "948675243025764404",
     database: {
