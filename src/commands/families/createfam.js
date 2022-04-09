@@ -2,6 +2,7 @@ const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const { rolesID } = require("../../configs/settings");
 const settings = require("../../configs/settings");
 const { ChannelType } = require("discord.js");
+const Families = require("../../models/Families");
 
 module.exports = {
   name: "createfam", // название команды
@@ -34,47 +35,29 @@ module.exports = {
     const color = args[1]; // Цвет семьи
     const leaderFam =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
-    const owner = (
-      await bot.connection(
-        `SELECT * FROM \`families\` WHERE \`owner_id\` = '${leaderFam.id}'`
-      )
-    )[0];
-    const deputy = await (
-      await bot.connection(
-        `SELECT * FROM \`families\` WHERE \`zam_id\` = '${leaderFam.id}'`
-      )
-    )[0];
+    const family = await Families.findOne({
+      $or: [
+        {
+          owner_id: leaderFam.id,
+        },
+        {
+          deputies: {
+            $in: [{
+              user_id: leaderFam.id
+            }]
+          },
+        },
+      ],
+    }); // делаем поиск уже существующей семьи в которой есть данный чел
 
-    if (owner) {
+    if (family) {
       return interaction.reply({
         ephemeral: true,
         embeds: [
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(
-              `**${leaderFam} уже является лидером семьи \`${familyName}\`**`
-            )
-            .setColor(`Red`)
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
-        ],
-      });
-    }
-
-    if (deputy) {
-      return interaction.reply({
-        ephemeral: true,
-        embeds: [
-          new EmbedBuilder()
-            .setTitle(`❌ | Ошибка!`)
-            .setDescription(
-              `**${leaderFam} уже является заместителем семьи \`${familyName}\`**`
+              `**${leaderFam} уже является лидером или заместителем семьи \`${familyName}\`**`
             )
             .setColor(`Red`)
             .setAuthor({
@@ -231,9 +214,14 @@ module.exports = {
       reason: "Создан канал для семей",
       parent: settings.categories.fams,
     });
-    await bot.connection(
-      `INSERT INTO \`families\` (\`id\`, \`owner_id\`, \`zam_id\`, \`role_id\`, \`voice_channel_id\`, \`text_channel_id\`) VALUES (NULL, '${leaderFam.id}', '0', '${role.id}', '${voice_channel.id}', '${text_channel.id}')`
-    );
+    const newFamily = new Families({
+      owner_id: leaderFam.id,
+      deputy_id: "0",
+      role_id: role.id,
+      voice_channel_id: voice_channel.id,
+      text_channel_id: text_channel.id,
+    });
+    await newFamily.save();
     bot.reInitPermissionsForFamilies(); // ОБНОВЛЕНИЕ ПРАВ ДЛЯ ВСЕХ СЕМЕЙНЫХ КОМАНД, СДЕЛАНО ЧТОБ ПРАВА ПРИМЕНИЛИСЬ К НОВЫМ СЕМЬЯМ. НЕ ТРОГАТЬ!!!!!
   },
 };

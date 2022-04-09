@@ -3,6 +3,7 @@ const getAllRolesIDFamilies = require("../../components/getAllRolesIDFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
 const { rolesID } = require("../../configs/settings");
+const Families = require("../../models/Families");
 
 module.exports = {
   name: "famaddzam", // название команды
@@ -22,11 +23,9 @@ module.exports = {
   run: async ({ bot, interaction, author, args, guild }) => {
     const familyCandidateDeputy =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
-    const family = (
-      await bot.connection(
-        `SELECT * FROM \`families\` WHERE \`owner_id\` = '${author.user.id}'`
-      )
-    )[0];
+    const family = await Families.findOne({
+      owner_id: author.user.id,
+    });
     if (!family) {
       return interaction.reply({
         ephemeral: true,
@@ -47,14 +46,14 @@ module.exports = {
       });
     }
 
-    if (family.zam_id !== "0") {
+    if (family.deputies.length >= settings.limitDeputyInFamilies) {
       return interaction.reply({
         ephemeral: true,
         embeds: [
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(
-              `**В семье уже существует заместитель - <@${family.zam_id}> **`
+              `**Максимальное количество заместителей семьи - ${settings.limitDeputyInFamilies} человек*`
             )
             .setColor(`Red`)
             .setAuthor({
@@ -69,43 +68,53 @@ module.exports = {
       });
     }
 
-    const candidate_owner = await bot.connection(
-      `SELECT * FROM \`families\` WHERE \`owner_id\` = '${familyCandidateDeputy.user.id}'`
-    );
+    const familyCandidate = await Families.findOne({
+      $or: [
+        {
+          owner_id: familyCandidateDeputy.id,
+        },
+        {
+          deputies: {
+            $in: [
+              {
+                user_id: familyCandidateDeputy.id,
+              },
+            ],
+          },
+        },
+      ],
+    });
 
-    const candidate_deputy = await bot.connection(
-      `SELECT * FROM \`families\` WHERE \`zam_id\` = '${familyCandidateDeputy.user.id}'`
-    );
 
-    if (candidate_owner.length !== 0) {
+    if (familyCandidate) {
       return interaction.reply({
         ephemeral: true,
-        content: `**${familyCandidateDeputy} является владельцем ${guild.roles.cache.get(
-          candidate_owner[0].role_id
-        )}!**`,
-      });
-    }
-
-    if (candidate_deputy.length !== 0) {
-      return interaction.reply({
-        ephemeral: true,
-        content: `**${familyCandidateDeputy} является заместителем ${guild.roles.cache.get(
-          candidate_deputy[0].role_id
-        )}!**`,
+        content: `**${familyCandidateDeputy} является владельцем или заместителем семьи <@&${familyCandidate.role_id}>!**`,
       });
     }
 
     await guild.members.cache
       .get(familyCandidateDeputy.id)
       .roles.add(family.role_id);
-    await bot.connection(
-      `UPDATE \`families\` SET \`zam_id\` = ${familyCandidateDeputy.id} WHERE \`role_id\` = ${family.role_id} `
-    );
+
+    await Families.updateOne(
+      {
+        role_id: family.role_id,
+      },
+      {
+        $push: {
+          deputies: {
+            user_id: familyCandidateDeputy.id,
+          },
+        },
+      }
+    ); // добавляем заместителя в семью
     const role = guild.roles.cache.get(family.role_id);
-    let text_family_ch =
+    let text_family_channel =
       guild.channels.cache.get(family.text_channel_id) ||
       (await guild.channels.fetch(text_channel_id));
-    text_family_ch.permissionOverwrites.create(familyCandidateDeputy.id, {
+
+    text_family_channel.permissionOverwrites.create(familyCandidateDeputy.id, {
       ViewChannel: true,
       SendMessages: true,
       EmbedLinks: true,
@@ -164,24 +173,28 @@ module.exports = {
           }),
       ],
     });
-    sendUserMessage({
-      embeds: [
-        new EmbedBuilder()
-          .setTitle(`📌 | Новая должность`)
-          .setDescription(
-            `**Вы были успешно назначены на должность заместителя семьи \`\`${role.name}\`\`**`
-          )
-          .setColor(`DarkGreen`)
-          .setTimestamp()
-          .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL(),
-          })
-          .setFooter({
-            text: `Robo Hamster`,
-            iconURL: bot.user.displayAvatarURL(),
-          }),
-      ],
-    }, familyCandidateDeputy.id, guild);
+    sendUserMessage(
+      {
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`📌 | Новая должность`)
+            .setDescription(
+              `**Вы были успешно назначены на должность заместителя семьи \`\`${role.name}\`\`**`
+            )
+            .setColor(`DarkGreen`)
+            .setTimestamp()
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      },
+      familyCandidateDeputy.id,
+      guild
+    );
   },
 };

@@ -2,6 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const getAllRolesIDFamilies = require("../../components/getAllRolesIDFamilies");
 const { rolesID } = require("../../configs/settings");
 const settings = require("../../configs/settings");
+const Families = require("../../models/Families");
 
 module.exports = {
   name: "famcount", // название команды
@@ -13,9 +14,22 @@ module.exports = {
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, guild, author, interaction }) => {
-    const family = (await bot.connection(
-      `SELECT * FROM \`families\` WHERE \`owner_id\` = '${author.user.id}'`
-    ));
+    const family = await Families.findOne({
+      $or: [
+        {
+          owner_id: author.user.id,
+        },
+        {
+          deputies: {
+            $in: [
+              {
+                user_id: author.user.id,
+              },
+            ],
+          },
+        },
+      ],
+    });
 
     if (!family) {
       return interaction.reply({
@@ -23,8 +37,10 @@ module.exports = {
         embeds: [
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
-            .setDescription(`**Вы не являетесь владельцем семьи**`)
-            .setColor(`RED`)
+            .setDescription(
+              `**Вы не являетесь владельцем или заместителем семьи**`
+            )
+            .setColor(`Red`)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -44,7 +60,13 @@ module.exports = {
           .setDescription(
             `**「👨‍👨‍👧‍👦」Семья: ${guild.roles.cache.get(
               family.role_id
-            )}\n「📌」Участников: \`${
+            )}\n「🧍」Заместители семьи: ${
+              family.deputies.length > 0
+                ? family.deputies.map((deputy) => `<@${deputy.user_id}>`)
+                : "-"
+            }\`\`[${family.deputies.length}/${
+              settings.limitDeputyInFamilies
+            }]\`\`\n「📌」Участников: \`${
               guild.roles.cache.get(family.role_id).members.size
             }\`**`
           )

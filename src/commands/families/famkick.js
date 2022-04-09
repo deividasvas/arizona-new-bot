@@ -20,11 +20,22 @@ module.exports = {
     return getAllRolesIDFamilies(bot); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   run: async ({ bot, interaction, channel, author, args, guild }) => {
-    const family = (
-      await bot.connection(
-        `SELECT * FROM \`families\` WHERE \`owner_id\` = "${author.id}" OR \`zam_id\` = ${author.id} `
-      )
-    )[0];
+    const family = await Families.findOne({
+      $or: [
+        {
+          owner_id: author.user.id,
+        },
+        {
+          deputies: {
+            $in: [
+              {
+                user_id: author.user.id,
+              },
+            ],
+          },
+        },
+      ],
+    }); // семья в которой может быть человек владельцем или заместителем
     const familyCandidateForKick =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     if (!family) {
@@ -36,7 +47,7 @@ module.exports = {
             .setDescription(
               `**Вы не являетесь владельцем или заместителем семьи**`
             )
-            .setColor(`RED`)
+            .setColor(`Red`)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -51,7 +62,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Невозможно исключить самого себя из семьи**`)
-            .setColor(`RED`)
+            .setColor(`Red`)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -72,7 +83,7 @@ module.exports = {
             .setDescription(
               `**${familyCandidateForKick} не состоит в Вашей семье**`
             )
-            .setColor(`RED`)
+            .setColor(`Red`)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -97,11 +108,11 @@ module.exports = {
           .setDescription(
             `**「📝」Семья: <@&${family.role_id}>\n「📌」Лидер: ${author} \`[${
               author.id
-            }]\`${
-              family.zam_id !== "0"
-                ? `\n「🧍‍♂️」Заместитель семьи: <@${family.zam_id}>`
-                : ""
-            }\n「👪」Исключили: ${familyCandidateForKick} \`[${
+            }]\n「🧍」Заместители семьи: ${
+              family.deputies.length > 0
+                ? family.deputies.map((deputy) => `<@${deputy.user_id}>`)
+                : "-"
+            }\n「👪」Исключил: ${familyCandidateForKick} \`[${
               familyCandidateForKick.id
             }]\`**`
           )
@@ -116,7 +127,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor("DARK_GREEN")
+          .setColor("DarkGreen")
           .setTitle(`📌 | Исключение из семьи!`)
           .setAuthor({
             name: guild.name,
@@ -131,23 +142,27 @@ module.exports = {
           }),
       ],
     });
-    sendUserMessage({
-      embeds: [
-        new EmbedBuilder()
-          .setColor("DARK_GREEN")
-          .setTitle(`📌 | Исключение из семьи!`)
-          .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL(),
-          })
-          .setDescription(
-            `**Вы были исключены из семьи \`\`${role.name}\`\` её руководителем ${author}**`
-          )
-          .setFooter({
-            text: "Robo Hamster",
-            iconURL: bot.user.displayAvatarURL(),
-          }),
-      ],
-    }, familyCandidateForKick.id, guild);
+    sendUserMessage(
+      {
+        embeds: [
+          new EmbedBuilder()
+            .setColor("DarkGreen")
+            .setTitle(`📌 | Исключение из семьи!`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setDescription(
+              `**Вы были исключены из семьи \`\`${role.name}\`\` её руководителем ${author}**`
+            )
+            .setFooter({
+              text: "Robo Hamster",
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      },
+      familyCandidateForKick.id,
+      guild
+    );
   },
 };

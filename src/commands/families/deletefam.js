@@ -1,6 +1,7 @@
 const { EmbedBuilder, ApplicationCommandOptionType, ChannelType } = require("discord.js");
 const { rolesID } = require("../../configs/settings");
 const settings = require("../../configs/settings");
+const Families = require("../../models/Families");
 
 module.exports = {
   name: "deletefam", // название команды
@@ -18,11 +19,9 @@ module.exports = {
 
   run: async ({ bot, interaction, args, guild, author }) => {
     const familyRoleID = args[0]; // Семья
-    const family = (
-      await bot.connection(
-        `SELECT * FROM \`families\` WHERE \`role_id\` = "${familyRoleID}" `
-      )
-    )[0];
+    const family = await Families.findOne({
+      role_id: familyRoleID,
+    });
     if (!family) {
       return interaction.reply({
         ephemeral: true,
@@ -76,9 +75,9 @@ module.exports = {
           }),
       ],
     });
-    await bot.connection(
-      `DELETE FROM \`families\` WHERE \`role_id\` = '${role.id}'`
-    );
+    await Families.deleteOne({
+      role_id: familyRoleID,
+    })
     interaction.reply({
       ephemeral: true,
       embeds: [

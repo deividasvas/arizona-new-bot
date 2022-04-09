@@ -2,6 +2,7 @@ const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const getAllRolesIDFamilies = require("../../components/getAllRolesIDFamilies");
 const settings = require("../../configs/settings");
 const { rolesID } = require("../../configs/settings");
+const Families = require("../../models/Families");
 
 module.exports = {
   name: "faminfo", // название команды
@@ -21,11 +22,28 @@ module.exports = {
 
   run: async ({ bot, guild, args, author, interaction }) => {
     const roleID = args[0];
-    const family = (
-      await bot.connection(
-        `SELECT * FROM \`families\` WHERE \`role_id\` = '${roleID}'`
-      )
-    )[0];
+    const family = await Families.findOne({
+      role_id: roleID,
+    });
+    if (!family) {
+      return interaction.reply({
+        ephemeral: true,
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`❌ | Ошибка!`)
+            .setDescription(`**Данной семьи не существует**`)
+            .setColor(`Red`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      });
+    }
     const role =
       guild.roles.cache.get(roleID) || (await guild.roles.fetch(roleID));
 
@@ -34,7 +52,7 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
           .setTitle(`📌 | Информация о семье!`)
-          .setColor("RED")
+          .setColor("Red")
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),
@@ -46,11 +64,13 @@ module.exports = {
           .setDescription(
             `**「👨‍👨‍👧‍👦」Семья: ${role}\n「📌」Участников: \`${
               role.members.size
-            }\`\n「🧍」Владелец семьи: <@${family.owner_id}>${
-              family.zam_id !== "0"
-                ? `\n「🧍‍♂️」Заместитель семьи: <@${family.zam_id}>`
-                : ""
-            }**`
+            }\`\n「🧍」Владелец семьи: <@${
+              family.owner_id
+            }>\n「🧍」Заместители семьи: ${
+              family.deputies.length > 0
+                ? family.deputies.map((deputy) => `<@${deputy.user_id}>`)
+                : "-"
+            }\`\`[${family.deputies.length}/${settings.limitDeputyInFamilies}]\`\`**`
           ),
       ],
     });

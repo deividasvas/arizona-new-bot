@@ -1,8 +1,10 @@
-const { MessageEmbed, ApplicationCommandOptionType } = require("discord.js");
+const { ApplicationCommandOptionType, Colors } = require("discord.js");
+const { EmbedBuilder } = require("discord.js/node_modules/@discordjs/builders");
 const getAllRolesIDFamilies = require("../../components/getAllRolesIDFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
 const { rolesID } = require("../../configs/settings");
+const Families = require("../../models/Families");
 
 module.exports = {
   name: "famdelzam", // название команды
@@ -22,11 +24,9 @@ module.exports = {
   run: async ({ bot, interaction, author, args, guild }) => {
     const familyCandidateForRemoveOfDeputy =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
-    const family = (
-      await bot.connection(
-        `SELECT * FROM \`families\` WHERE \`owner_id\` = '${author.user.id}'`
-      )
-    )[0];
+    const family = await Families.findOne({
+      owner_id: author.user.id,
+    });
 
     if (!family) {
       return interaction.reply({
@@ -35,7 +35,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Вы не являетесь владельцем семьи**`)
-            .setColor(`RED`)
+            .setColor(`Red`)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -47,7 +47,11 @@ module.exports = {
         ],
       });
     }
-    if (family.zam_id !== familyCandidateForRemoveOfDeputy.id) {
+    if (
+      !family.deputies.find(
+        (deputy) => deputy.user_id === familyCandidateForRemoveOfDeputy.id
+      )
+    ) {
       return interaction.reply({
         ephemeral: true,
         embeds: [
@@ -56,7 +60,6 @@ module.exports = {
             .setDescription(
               `**${familyCandidateForRemoveOfDeputy} не является заместителем семьи**`
             )
-            .setColor(`RED`)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -70,16 +73,27 @@ module.exports = {
     }
     const role = guild.roles.cache.get(family.role_id);
     const textChannel = guild.channels.cache.get(family.text_channel_id);
-    await textChannel.permissionOverwrites.cache
-      .get(familyCandidateForRemoveOfDeputy.id)
-      .delete()
-      .catch(() => {});
+    try {
+      textChannel.permissionOverwrites.cache
+        .get(familyCandidateForRemoveOfDeputy.id)
+        .delete();
+      // удаляем права заместителю на просмотр и отправку сообщений в канал.
+    } catch (e) {}
     const logFamiliesChannel = guild.channels.cache.get(
       settings.channelsID.famLogs
     ); // лог семей
-    await bot.connection(
-      `UPDATE \`families\` SET \`zam_id\` = '0' WHERE \`owner_id\` = '${author.id}'`
-    );
+    await Families.updateOne(
+      {
+        role_id: family.role_id,
+      },
+      {
+        $pull: {
+          deputies: {
+            user_id: familyCandidateForRemoveOfDeputy.id,
+          },
+        },
+      }
+    ); // удаляем заместителя из семьи
     logFamiliesChannel.send({
       embeds: [
         new EmbedBuilder()
@@ -90,7 +104,17 @@ module.exports = {
             iconURL: guild.iconURL(),
           })
           .setDescription(
-            `**「📝」Семья: ${role}\n「📌」Лидер: ${author} \`[${author.id}]\`\n「👪」Поставили: ${familyCandidateForRemoveOfDeputy} \`[${familyCandidateForRemoveOfDeputy.id}]\`**`
+            `**「📝」Семья: ${role}\n「📌」Лидер: ${author} \`[${
+              author.id
+            }]\`\n「🧍」Заместители семьи: ${
+              family.deputies.length > 0
+                ? family.deputies.map((deputy) => `<@${deputy.user_id}>`)
+                : "-"
+            }\`\`[${family.deputies.length}/${
+              settings.limitDeputyInFamilies
+            }]\`\`「👪」Поставили: ${familyCandidateForRemoveOfDeputy} \`[${
+              familyCandidateForRemoveOfDeputy.id
+            }]\`**`
           )
           .setAuthor({
             name: guild.name,
@@ -114,7 +138,7 @@ module.exports = {
           .setDescription(
             `**Вы успешно сняли заместителя ${familyCandidateForRemoveOfDeputy} с семьи ${role} **`
           )
-          .setColor(`DARK_GREEN`)
+          .setColor(`DarkGreen`)
           .setTimestamp()
           .setAuthor({
             name: guild.name,
@@ -126,24 +150,28 @@ module.exports = {
           }),
       ],
     });
-    sendUserMessage({
-      embeds: [
-        new MessageEmbed()
-          .setTitle(`📌 | Понижения в должности`)
-          .setDescription(
-            `**Вы были сняты с должности заместителя семьи \`\`${role.name}\`\`**`
-          )
-          .setColor(`DARK_GREEN`)
-          .setTimestamp()
-          .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL(),
-          })
-          .setFooter({
-            text: `Robo Hamster`,
-            iconURL: bot.user.displayAvatarURL(),
-          }),
-      ],
-    }, familyCandidateForRemoveOfDeputy.id, guild);
+    sendUserMessage(
+      {
+        embeds: [
+          new MessageEmbed()
+            .setTitle(`📌 | Понижения в должности`)
+            .setDescription(
+              `**Вы были сняты с должности заместителя семьи \`\`${role.name}\`\`**`
+            )
+            .setColor(`DarkGreen`)
+            .setTimestamp()
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      },
+      familyCandidateForRemoveOfDeputy.id,
+      guild
+    );
   },
 };

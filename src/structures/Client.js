@@ -13,6 +13,7 @@ const { Routes } = require("discord-api-types/v9");
 const { REST } = require("@discordjs/rest");
 const { bot } = require("..");
 const path = require("path");
+const { default: mongoose } = require("mongoose");
 
 module.exports = class ExtendedClient extends Client {
   constructor() {
@@ -46,9 +47,6 @@ module.exports = class ExtendedClient extends Client {
     this.module();
     this.events();
     this.connectionDataBase();
-
-    if (!database.user && !database.pass && !database.host && !database.db)
-      return console.log(`[MYSQL]: Ошибка при подключении!`);
   }
 
   // async login(token) {
@@ -222,58 +220,12 @@ module.exports = class ExtendedClient extends Client {
   }
 
   async connectionDataBase() {
-    const connection = mysql.createConnection({
-      host: database.host,
-      user: database.user,
-      password: database.pass,
-      database: database.db,
-      charset: `utf8mb4`,
-    });
-
-    connection.connect(async (err) => {
-      if (err) {
-        console.log(`[Database]: Ошибка при подключении... Попробую снова.`);
-        console.log(err);
-
-        process.exit(143);
+    mongoose.connect(settings.database.url, (err) => {
+      if(err){
+        throw err;
       }
-
-      console.log(
-        `[Database]: Успешно установленно соединение с базой данных!`
-      );
+      console.log(`[MONGO] База данных успешно запущена!`);
     });
-
-    connection.on("error", async (err) => {
-      if (err.code === "PROTOCOL_CONNECTION_LOST") {
-        connection.connect(async (err) => {
-          if (err) {
-            console.log(
-              `[Database]: Ошибка при подключении... Попробую снова.`
-            );
-            console.log(err);
-
-            process.exit(143);
-          }
-
-          console.log(
-            `[Database]: Успешно установленно соединение с базой данных!`
-          );
-        });
-      }
-
-      console.log(`[MYSQL]: Произошла ошибка MySQL: ` + err);
-    });
-
-    const sql = async (query) => {
-      return new Promise((resolve, reject) => {
-        connection.query(query, async (err, res) => {
-          if (err) return reject(err);
-
-          resolve(res);
-        });
-      });
-    };
-
-    this.connection = sql;
+    this.connection = mongoose.connection;
   }
 };

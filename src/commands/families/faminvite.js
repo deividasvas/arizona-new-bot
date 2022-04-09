@@ -10,6 +10,7 @@ const getTwoHourInMs = require("../../components/getTwoHourInMs");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
 const { rolesID } = require("../../configs/settings");
+const Families = require("../../models/Families");
 
 module.exports = {
   name: "faminvite", // название команды
@@ -29,12 +30,23 @@ module.exports = {
 
   run: async ({ bot, interaction, args, guild, author }) => {
     let candidate = guild.members.cache.get(args[0]);
-    const allFamilies = await bot.connection("SELECT * FROM `families`");
-    let family = (
-      await bot.connection(
-        `SELECT * FROM \`families\` WHERE \`owner_id\` = '${author.user.id}' OR \`zam_id\` = '${author.user.id}'`
-      )
-    )[0]; // семья в которой может быть человек владельцем
+    const allFamilies = await Families.find();
+    let family = await Families.findOne({
+      $or: [
+        {
+          owner_id: author.user.id,
+        },
+        {
+          deputies: {
+            $in: [
+              {
+                user_id: author.user.id,
+              },
+            ],
+          },
+        },
+      ],
+    }); // семья в которой может быть человек владельцем или заместителем
 
     if (!family) {
       return interaction.reply({
@@ -92,9 +104,7 @@ module.exports = {
         embeds: [
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
-            .setDescription(
-              `**${candidate} уже состоит в Вашей семье**`
-            )
+            .setDescription(`**${candidate} уже состоит в Вашей семье**`)
             .setColor(`Red`)
             .setAuthor({
               name: guild.name,
@@ -137,11 +147,13 @@ module.exports = {
             .setDescription(
               `**「📝」Семья: \`${
                 guild.roles.cache.get(family.role_id).name
-              }\`\n「📌」Лидер: ${author} \`[${author.user.id}]\`${
-                family.zam_id !== "0"
-                  ? `\n「🧍」Заместитель семьи: <@${family.zam_id}> \`[${family.zam_id}]`
-                  : ""
-              }\n「📕」Дополнительно: \`У Вас есть два часа на рассмотрение предложения\`**`
+              }\`\n「📌」Лидер: ${author} \`[${
+                author.user.id
+              }]\`\n「🧍」Заместители семьи: ${
+                family.deputies.length > 0
+                  ? family.deputies.map((deputy) => `<@${deputy.user_id}>`)
+                  : "-"
+              }\`\`[${family.deputies.length}/${settings.limitDeputyInFamilies}]\`\`\n「📕」Дополнительно: \`У Вас есть два часа на рассмотрение предложения\`**`
             )
             .setColor(`DarkGreen`)
             .setTimestamp()

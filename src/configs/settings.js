@@ -53,10 +53,8 @@ module.exports = {
     applicationId: "932397605651091466",
     SurpriseGuild: "948675243025764404",
     database: {
-      host: "148.251.174.192",
-      user: "illegals",
-      pass: "Wafqf0Wdqef3eTG66QJehVaCYrNk4QjFOajlnJVxi81hSqDm02ReqU6lzTQM",
-      db: "illegals",
+      url: `mongodb://localhost:27017/arizona_10`,
     },
+    limitDeputyInFamilies: 5, // максимальное количество заместителей в семье
   };
   
