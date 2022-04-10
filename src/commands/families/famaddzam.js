@@ -24,7 +24,7 @@ module.exports = {
     const familyCandidateDeputy =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const family = await Families.findOne({
-      owner_id: author.user.id,
+      ownerId: author.user.id,
     });
     if (!family) {
       return interaction.reply({
@@ -71,13 +71,13 @@ module.exports = {
     const familyCandidate = await Families.findOne({
       $or: [
         {
-          owner_id: familyCandidateDeputy.id,
+          ownerId: familyCandidateDeputy.id,
         },
         {
           deputies: {
             $in: [
               {
-                user_id: familyCandidateDeputy.id,
+                userId: familyCandidateDeputy.id,
               },
             ],
           },
@@ -85,36 +85,35 @@ module.exports = {
       ],
     });
 
-
     if (familyCandidate) {
       return interaction.reply({
         ephemeral: true,
-        content: `**${familyCandidateDeputy} является владельцем или заместителем семьи <@&${familyCandidate.role_id}>!**`,
+        content: `**${familyCandidateDeputy} является владельцем или заместителем семьи <@&${familyCandidate.roleId}>!**`,
       });
     }
 
     await guild.members.cache
       .get(familyCandidateDeputy.id)
-      .roles.add(family.role_id);
+      .roles.add(family.roleId);
 
     await Families.updateOne(
       {
-        role_id: family.role_id,
+        roleId: family.roleId,
       },
       {
         $push: {
           deputies: {
-            user_id: familyCandidateDeputy.id,
+            userId: familyCandidateDeputy.id,
           },
         },
       }
     ); // добавляем заместителя в семью
-    const role = guild.roles.cache.get(family.role_id);
-    let text_family_channel =
-      guild.channels.cache.get(family.text_channel_id) ||
-      (await guild.channels.fetch(text_channel_id));
+    const role = guild.roles.cache.get(family.roleId);
+    let textFamilyChannel =
+      guild.channels.cache.get(family.textChannelId) ||
+      (await guild.channels.fetch(textChannelId));
 
-    text_family_channel.permissionOverwrites.create(familyCandidateDeputy.id, {
+    textFamilyChannel.permissionOverwrites.create(familyCandidateDeputy.id, {
       ViewChannel: true,
       SendMessages: true,
       EmbedLinks: true,
@@ -133,7 +132,7 @@ module.exports = {
           .setTitle(`📌 | Назначение заместителя`)
           .setDescription(
             `**「📝」Семья: ${guild.roles.cache.get(
-              family.role_id
+              family.roleId
             )}\n「📌」Лидер: ${author} \`[${
               author.id
             }]\`\n「👪」Поставили: ${familyCandidateDeputy} \`[${
@@ -159,7 +158,7 @@ module.exports = {
         new EmbedBuilder()
           .setTitle(`📌 | Назначение заместителя`)
           .setDescription(
-            `**Вы успешно назначили ${familyCandidateDeputy} на заместителя семьи <@&${family.role_id}>**`
+            `**Вы успешно назначили ${familyCandidateDeputy} на заместителя семьи <@&${family.roleId}>**`
           )
           .setColor(`DarkGreen`)
           .setTimestamp()

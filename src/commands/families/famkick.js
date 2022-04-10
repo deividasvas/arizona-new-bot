@@ -23,13 +23,13 @@ module.exports = {
     const family = await Families.findOne({
       $or: [
         {
-          owner_id: author.user.id,
+          ownerId: author.user.id,
         },
         {
           deputies: {
             $in: [
               {
-                user_id: author.user.id,
+                userId: author.user.id,
               },
             ],
           },
@@ -72,7 +72,7 @@ module.exports = {
     }
     if (
       !familyCandidateForKick.roles.cache.some(
-        (role) => role.id === family.role_id
+        (role) => role.id === family.roleId
       )
     ) {
       return interaction.reply({
@@ -92,7 +92,7 @@ module.exports = {
       });
     }
 
-    familyCandidateForKick.roles.remove(family.role_id);
+    familyCandidateForKick.roles.remove(family.roleId);
     const logFamiliesChannel = guild.channels.cache.get(
       settings.channelsID.famLogs
     ); // лог семей
@@ -106,11 +106,11 @@ module.exports = {
             iconURL: guild.iconURL(),
           })
           .setDescription(
-            `**「📝」Семья: <@&${family.role_id}>\n「📌」Лидер: ${author} \`[${
+            `**「📝」Семья: <@&${family.roleId}>\n「📌」Лидер: ${author} \`[${
               author.id
             }]\n「🧍」Заместители семьи: ${
               family.deputies.length > 0
-                ? family.deputies.map((deputy) => `<@${deputy.user_id}>`)
+                ? family.deputies.map((deputy) => `<@${deputy.userId}>`)
                 : "-"
             }\n「👪」Исключил: ${familyCandidateForKick} \`[${
               familyCandidateForKick.id
@@ -122,7 +122,7 @@ module.exports = {
           }),
       ],
     });
-    const role = guild.roles.cache.find((role) => role.id === family.role_id);
+    const role = guild.roles.cache.find((role) => role.id === family.roleId);
     interaction.reply({
       ephemeral: true,
       embeds: [

@@ -25,7 +25,7 @@ module.exports = {
     const familyCandidateForRemoveOfDeputy =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const family = await Families.findOne({
-      owner_id: author.user.id,
+      ownerId: author.user.id,
     });
 
     if (!family) {
@@ -49,7 +49,7 @@ module.exports = {
     }
     if (
       !family.deputies.find(
-        (deputy) => deputy.user_id === familyCandidateForRemoveOfDeputy.id
+        (deputy) => deputy.userId === familyCandidateForRemoveOfDeputy.id
       )
     ) {
       return interaction.reply({
@@ -72,8 +72,8 @@ module.exports = {
         ],
       });
     }
-    const role = guild.roles.cache.get(family.role_id);
-    const textChannel = guild.channels.cache.get(family.text_channel_id);
+    const role = guild.roles.cache.get(family.roleId);
+    const textChannel = guild.channels.cache.get(family.textChannelId);
     try {
       textChannel.permissionOverwrites.cache
         .get(familyCandidateForRemoveOfDeputy.id)
@@ -85,12 +85,12 @@ module.exports = {
     ); // лог семей
     await Families.updateOne(
       {
-        role_id: family.role_id,
+        roleId: family.roleId,
       },
       {
         $pull: {
           deputies: {
-            user_id: familyCandidateForRemoveOfDeputy.id,
+            userId: familyCandidateForRemoveOfDeputy.id,
           },
         },
       }
@@ -108,7 +108,7 @@ module.exports = {
               author.id
             }]\`\n「🧍」Заместители семьи: ${
               family.deputies.length > 0
-                ? family.deputies.map((deputy) => `<@${deputy.user_id}>`)
+                ? family.deputies.map((deputy) => `<@${deputy.userId}>`)
                 : "-"
             }\`\`[${family.deputies.length}/${
               settings.limitDeputyInFamilies

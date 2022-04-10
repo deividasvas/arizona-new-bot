@@ -21,9 +21,9 @@ module.exports = {
   ], // аргументы
 
   run: async ({ bot, guild, args, author, interaction }) => {
-    const roleID = args[0];
+    const roleId = args[0];
     const family = await Families.findOne({
-      role_id: roleID,
+      roleId,
     });
     if (!family) {
       return interaction.reply({
@@ -45,7 +45,7 @@ module.exports = {
       });
     }
     const role =
-      guild.roles.cache.get(roleID) || (await guild.roles.fetch(roleID));
+      guild.roles.cache.get(roleId) || (await guild.roles.fetch(roleId));
 
     interaction.reply({
       ephemeral: true,
@@ -65,10 +65,10 @@ module.exports = {
             `**「👨‍👨‍👧‍👦」Семья: ${role}\n「📌」Участников: \`${
               role.members.size
             }\`\n「🧍」Владелец семьи: <@${
-              family.owner_id
+              family.ownerId
             }>\n「🧍」Заместители семьи: ${
               family.deputies.length > 0
-                ? family.deputies.map((deputy) => `<@${deputy.user_id}>`)
+                ? family.deputies.map((deputy) => `<@${deputy.userId}>`)
                 : "-"
             }\`\`[${family.deputies.length}/${settings.limitDeputyInFamilies}]\`\`**`
           ),

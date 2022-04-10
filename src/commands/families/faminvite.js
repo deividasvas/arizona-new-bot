@@ -34,13 +34,13 @@ module.exports = {
     let family = await Families.findOne({
       $or: [
         {
-          owner_id: author.user.id,
+          ownerId: author.user.id,
         },
         {
           deputies: {
             $in: [
               {
-                user_id: author.user.id,
+                userId: author.user.id,
               },
             ],
           },
@@ -98,7 +98,7 @@ module.exports = {
       });
     }
 
-    if (candidate.roles.cache.some((role) => role.id === family.role_id)) {
+    if (candidate.roles.cache.some((role) => role.id === family.roleId)) {
       return interaction.reply({
         ephemeral: true,
         embeds: [
@@ -146,14 +146,16 @@ module.exports = {
             .setTitle(`📌 | Вы были приглашены в семью!`)
             .setDescription(
               `**「📝」Семья: \`${
-                guild.roles.cache.get(family.role_id).name
+                guild.roles.cache.get(family.roleId).name
               }\`\n「📌」Лидер: ${author} \`[${
                 author.user.id
               }]\`\n「🧍」Заместители семьи: ${
                 family.deputies.length > 0
-                  ? family.deputies.map((deputy) => `<@${deputy.user_id}>`)
+                  ? family.deputies.map((deputy) => `<@${deputy.userId}>`)
                   : "-"
-              }\`\`[${family.deputies.length}/${settings.limitDeputyInFamilies}]\`\`\n「📕」Дополнительно: \`У Вас есть два часа на рассмотрение предложения\`**`
+              }\`\`[${family.deputies.length}/${
+                settings.limitDeputyInFamilies
+              }]\`\`\n「📕」Дополнительно: \`У Вас есть два часа на рассмотрение предложения\`**`
             )
             .setColor(`DarkGreen`)
             .setTimestamp()
@@ -165,11 +167,11 @@ module.exports = {
         components: [
           new ActionRowBuilder().addComponents(
             new ButtonBuilder()
-              .setCustomId("fam_yes")
+              .setCustomId("famYes")
               .setLabel(`Принять`)
               .setStyle(ButtonStyle.Success),
             new ButtonBuilder()
-              .setCustomId("fam_no")
+              .setCustomId("famNo")
               .setLabel(`Отказать`)
               .setStyle(ButtonStyle.Danger)
           ),
@@ -180,7 +182,7 @@ module.exports = {
     );
     const filter = (i) =>
       i.user.id == candidate.id &&
-      (i.customId === "fam_yes" || i.customId == "fam_no");
+      (i.customId === "famYes" || i.customId == "famNo");
     const collector = await messageForCandidate.createMessageComponentCollector(
       {
         time: getTwoHourInMs(),
@@ -190,11 +192,11 @@ module.exports = {
     );
 
     let role =
-      guild.roles.cache.find((role) => role.id == family.role_id) ||
-      (await guild.roles.fetch(family.role_id)); // Поиск роли
+      guild.roles.cache.find((role) => role.id == family.roleId) ||
+      (await guild.roles.fetch(family.roleId)); // Поиск роли
     if (!role) {
       return await interaction.editReply({
-        content: `**Роль не найдена на сервере, сообщите разработчикам!\nID: ${family.role_id}**`,
+        content: `**Роль не найдена на сервере, сообщите разработчикам!\nID: ${family.roleId}**`,
         components: [],
         embeds: [],
       }); // сделать эмбед с ошибкой выше
@@ -202,7 +204,7 @@ module.exports = {
 
     collector.on("collect", async (interaction) => {
       if (
-        interaction.customId == "fam_no" &&
+        interaction.customId == "famNo" &&
         interaction.user.id == candidate.id
       ) {
         await interaction.deferUpdate();
@@ -298,11 +300,11 @@ module.exports = {
 
       candidate.roles.add(role, `Приглашения в фаму by ${author.user.tag}`);
 
-      let log_channel =
+      let logChannel =
         bot.channels.cache.get(settings.channelsID.famLogs) ||
         (await bot.channels.fetch(settings.channelsID.famLogs));
 
-      log_channel.send({
+      logChannel.send({
         embeds: [
           new EmbedBuilder()
             .setColor("DarkGreen")
@@ -312,7 +314,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setDescription(
-              `**「📝」Семья: <@&${family.role_id}>\n「📌」Пригласил: ${author} \`[${author.id}]\`\n「👪」Приглашенный: ${candidate} \`[${candidate.id}]\`**`
+              `**「📝」Семья: <@&${family.roleId}>\n「📌」Пригласил: ${author} \`[${author.id}]\`\n「👪」Приглашенный: ${candidate} \`[${candidate.id}]\`**`
             )
             .setFooter({
               text: "Robo Hamster",

@@ -13,7 +13,7 @@ module.exports = {
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   run: async ({ bot, interaction, channel, author, args, guild }) => {
     const familyList = await Families.find();
-    const familyRolesMap = familyList.map((r) => r.role_id); // Получаем название всех семей
+    const familyRolesMap = familyList.map((r) => r.roleId); // Получаем название всех семей
     let userFamilysString = "";
     let userFamilyCount = 0;
     let userFamilys = [];
@@ -68,7 +68,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setDescription(`**Вы вышли из семьи \`${userFamilys[0]}.\`**`)
-            .setColor(`DARK_GREEN`)
+            .setColor(`DarkGreen`)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,
@@ -85,7 +85,7 @@ module.exports = {
         .setDescription(
           `**${userFamilysString}\nВведите номер семьи которую вы хотите покинуть.\nЕсли хотите выйти из данного меню, введите \`-\`**`
         )
-        .setColor(`DARK_GREEN`)
+        .setColor(`DarkGreen`)
         .setTimestamp()
         .setFooter({
           text: `Robo Hamster`,
@@ -159,7 +159,7 @@ module.exports = {
             .setDescription(
               `**Вы вышли из семьи \`${userFamilys[selectedFamily]}.\`**`
             )
-            .setColor(`DARK_GREEN`)
+            .setColor(`DarkGreen`)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,

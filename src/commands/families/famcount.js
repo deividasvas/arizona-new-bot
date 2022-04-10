@@ -17,13 +17,13 @@ module.exports = {
     const family = await Families.findOne({
       $or: [
         {
-          owner_id: author.user.id,
+          ownerId: author.user.id,
         },
         {
           deputies: {
             $in: [
               {
-                user_id: author.user.id,
+                userId: author.user.id,
               },
             ],
           },
@@ -59,15 +59,15 @@ module.exports = {
         new EmbedBuilder()
           .setDescription(
             `**「👨‍👨‍👧‍👦」Семья: ${guild.roles.cache.get(
-              family.role_id
+              family.roleId
             )}\n「🧍」Заместители семьи: ${
               family.deputies.length > 0
-                ? family.deputies.map((deputy) => `<@${deputy.user_id}>`)
+                ? family.deputies.map((deputy) => `<@${deputy.userId}>`)
                 : "-"
             }\`\`[${family.deputies.length}/${
               settings.limitDeputyInFamilies
             }]\`\`\n「📌」Участников: \`${
-              guild.roles.cache.get(family.role_id).members.size
+              guild.roles.cache.get(family.roleId).members.size
             }\`**`
           )
           .setColor(`DarkGreen`)

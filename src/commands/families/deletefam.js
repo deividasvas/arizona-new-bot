@@ -20,7 +20,7 @@ module.exports = {
   run: async ({ bot, interaction, args, guild, author }) => {
     const familyRoleID = args[0]; // Семья
     const family = await Families.findOne({
-      role_id: familyRoleID,
+      roleId: familyRoleID,
     });
     if (!family) {
       return interaction.reply({
@@ -43,19 +43,19 @@ module.exports = {
     }
     let voiceChannel = guild.channels.cache.find(
       (channel) =>
-        channel.id == family.voice_channel_id && channel.type === ChannelType.GuildVoice
+        channel.id == family.voiceChannelId && channel.type === ChannelType.GuildVoice
     ); // Голосовой канал
 
     let textChannel = guild.channels.cache.find(
       (channel) =>
-        channel.id == family.text_channel_id && channel.type === ChannelType.GuildText
+        channel.id == family.textChannelId && channel.type === ChannelType.GuildText
     ); // Текстовый канал
 
-    let role = guild.roles.cache.find((role) => role.id === family.role_id); // Роль
+    let role = guild.roles.cache.find((role) => role.id === family.roleId); // Роль
     voiceChannel.delete(); // Удаление голосового канала
     textChannel.delete(); // Удаление текстового канала
     role.delete(); // Удаление роли
-    let owner = bot.users.cache.get(`${family.owner_id}`);
+    let owner = bot.users.cache.get(`${family.ownerId}`);
     let logChannel = bot.channels.cache.get(settings.channelsID.famLogs); // Лог семей
     logChannel.send({
       embeds: [
@@ -76,7 +76,7 @@ module.exports = {
       ],
     });
     await Families.deleteOne({
-      role_id: familyRoleID,
+      roleId: familyRoleID,
     })
     interaction.reply({
       ephemeral: true,

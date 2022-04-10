@@ -38,12 +38,12 @@ module.exports = {
     const family = await Families.findOne({
       $or: [
         {
-          owner_id: leaderFam.id,
+          ownerId: leaderFam.id,
         },
         {
           deputies: {
             $in: [{
-              user_id: leaderFam.id
+              userId: leaderFam.id
             }]
           },
         },
@@ -134,9 +134,9 @@ module.exports = {
       ],
     });
 
-    let log_channel = bot.channels.cache.get(settings.channelsID.famLogs); // Лог семей
+    let logChannel = bot.channels.cache.get(settings.channelsID.famLogs); // Лог семей
 
-    log_channel.send({
+    logChannel.send({
       embeds: [
         new EmbedBuilder()
           .setColor("#39FE7B")
@@ -156,7 +156,7 @@ module.exports = {
     });
 
     // Создание голосового канала
-    const voice_channel = await guild.channels.create(`${familyName}`, {
+    const voiceChannel = await guild.channels.create(`${familyName}`, {
       type: ChannelType.GuildVoice,
       permissionOverwrites: [
         {
@@ -186,7 +186,7 @@ module.exports = {
     });
 
     // Создание текстового канала
-    const text_channel = await guild.channels.create(`${familyName}`, {
+    const textChannel = await guild.channels.create(`${familyName}`, {
       type: ChannelType.GuildText,
       permissionOverwrites: [
         {
@@ -215,11 +215,11 @@ module.exports = {
       parent: settings.categories.fams,
     });
     const newFamily = new Families({
-      owner_id: leaderFam.id,
-      deputy_id: "0",
-      role_id: role.id,
-      voice_channel_id: voice_channel.id,
-      text_channel_id: text_channel.id,
+      ownerId: leaderFam.id,
+      deputies: [],
+      roleId: role.id,
+      voiceChannelId: voiceChannel.id,
+      textChannelId: textChannel.id,
     });
     await newFamily.save();
     bot.reInitPermissionsForFamilies(); // ОБНОВЛЕНИЕ ПРАВ ДЛЯ ВСЕХ СЕМЕЙНЫХ КОМАНД, СДЕЛАНО ЧТОБ ПРАВА ПРИМЕНИЛИСЬ К НОВЫМ СЕМЬЯМ. НЕ ТРОГАТЬ!!!!!
