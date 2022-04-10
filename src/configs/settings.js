@@ -18,6 +18,13 @@ module.exports = {
       moderator: `948675243248062519`, // модератор
       juniorModerator: `948675243248062518`, // мл.модератор
       muted: `948675243248062521`, // ✖ Muted ✖
+      spectatorGov: `948675243281641517`, // Следящий ЦА
+      spectatorPolice: `948675243281641516`, // Следящий МЮ 
+      spectatorArmy: `948675243281641515`, // Следящий МО
+      spectatorHealth: `948675243281641514`, // Следящий МЗ
+      spectatorRadio: `948675243281641513`, // Следящий СМИ
+      mainSpectatorsState: `948675243327770674`, // Руководство ГОС
+      spectatorState: `948675243310973003`, // Следящий ГОС
     },
     channelsID: { // айди каналов
       events: "948675246825828471", // ивенты / #🔥│ивенты
@@ -30,6 +37,7 @@ module.exports = {
       moderationLog: `948675252353916945`, // 🔐-moderation-log
       rolesBans: `948675252697825376`, // роли-баны
       moderation: `948675243579441176`, // модераторы
+      punishLeadershipChannel: `948675243826888766`, // нарушения-руководящего-состава
     },
     categories: { // категории
       fams: "948675246016299023", // семейные роли
@@ -52,7 +60,7 @@ module.exports = {
     prefix: "/",
     token: `OTYwMTA2MjU4NDg3MTgxMzYy.YklmoQ.U9M9r6TSmWx0kmM9hrWzfJ9ATM8`,
     applicationId: "932397605651091466",
-    SurpriseGuild: "948675243025764404",
+    surpriseGuild: "948675243025764404",
     database: {
       url: `mongodb://localhost:27017/arizona_10`,
     },

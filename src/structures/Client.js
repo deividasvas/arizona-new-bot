@@ -42,7 +42,7 @@ module.exports = class ExtendedClient extends Client {
     ];
     this.token = settings.token;
     this.applicationId = settings.applicationId;
-    this.guildId = settings.SurpriseGuild;
+    this.guildId = settings.surpriseGuild;
 
     this.login(this.token);
     this.module();
@@ -78,7 +78,7 @@ module.exports = class ExtendedClient extends Client {
     // return;
     // ЗАПУСКАЕТСЯ В ready.js, потому что иначе бот не успевает прогрузиться.
     const buildCommandes = [];
-    const guild = this.guilds.cache.get(this.guildId); // получаем дискорд сервер на котором будут запущены команды
+    const guild = this.guilds.cache.get(this.guildId) || await this.guilds.fetch(this.guildId); // получаем дискорд сервер на котором будут запущены команды
     fs.readdirSync("./src/commands/").forEach(async (dir) => {
       // инициализируем саму команду
       const commands = fs
