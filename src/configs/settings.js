@@ -1,5 +1,5 @@
 module.exports = {
-    rolesID: {
+    rolesID: { // айдишники ролей
       techSection: `948675243248062523`, // Технический отдел
       discordMaster: `948675243327770678`, // Discord Master
       juniorDiscordMaster: `948675243264868413`, // Jr. Discord Master
@@ -19,7 +19,7 @@ module.exports = {
       juniorModerator: `948675243248062518`, // мл.модератор
       muted: `948675243248062521`, // ✖ Muted ✖
     },
-    channelsID: {
+    channelsID: { // айди каналов
       events: "948675246825828471", // ивенты / #🔥│ивенты
       famGeneral: `948675246016299024`, // общение-семей
       famLogs: `948675244065947650`, // лог-семей
@@ -28,25 +28,26 @@ module.exports = {
       notifications: `960237241114951720`, // уведомления
       welcome: `948675245307469885`, // welcome
       moderationLog: `948675252353916945`, // 🔐-moderation-log
+      rolesBans: `948675252697825376`, // роли-баны
+      moderation: `948675243579441176`, // модераторы
     },
-    categories: {
+    categories: { // категории
       fams: "948675246016299023", // семейные роли
     },
-    saveError: {
+    saveError: { // логирование ошибок
       logChannel: `948675243826888772`, // * Канал куда логируем ошибки
     },
-    developers: [
+    developers: [ // разработчики
       "316154352760782849", // * Yuri Lance
       "904648434949169203", // * Deivid Brown
       "691701692256878632", // * Michell Mahonya
     ],
-    logs: {
-      ban: "948675252697825376",
-      join: "",
-      userLog: "",
-      messages: "",
-      tickets: "",
-      authoModerator: "",
+    rates: { // расценки за выданные наказания.
+      mute: 0.55, // за один мут
+      kick: 0.50, // за один кик
+      ticket: 0.55, // за один тикет
+      ban: 1, // за один бан
+      role: 0.45, // за одну ролю
     },
     prefix: "/",
     token: `OTYwMTA2MjU4NDg3MTgxMzYy.YklmoQ.U9M9r6TSmWx0kmM9hrWzfJ9ATM8`,

@@ -67,7 +67,8 @@ module.exports = {
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
-            }),
+            })
+            .setColor(`Red`),
         ],
       });
     }
@@ -97,7 +98,6 @@ module.exports = {
     logFamiliesChannel.send({
       embeds: [
         new EmbedBuilder()
-          .setColor("#39FE7B")
           .setTitle(`📌 | Снятие заместителя!`)
           .setAuthor({
             name: guild.name,
@@ -123,13 +123,14 @@ module.exports = {
           .setFooter({
             text: "Robo Hamster",
             iconURL: bot.user.displayAvatarURL(),
-          }),
+          })
+          .setColor(`DarkGreen`),
       ],
     });
     interaction.reply({
       ephemeral: true,
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),
@@ -153,7 +154,7 @@ module.exports = {
     sendUserMessage(
       {
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setTitle(`📌 | Понижения в должности`)
             .setDescription(
               `**Вы были сняты с должности заместителя семьи \`\`${role.name}\`\`**`

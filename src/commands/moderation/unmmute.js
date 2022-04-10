@@ -2,11 +2,12 @@ const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const convertMinutesToMs = require("../../components/convertMinutesToMs");
 const getAllRolesIDModers = require("../../components/getAllRolesIDModers");
 const sendUserMessage = require("../../components/sendUserMessage");
+const unmute = require("../../components/unmute");
 const { rolesID, channelsID } = require("../../configs/settings");
 
 module.exports = {
   name: "unmmute", // название команды
-  descr: "Выдача блокировки возможности писать/говорить", // описание команды
+  descr: "Отключение ограничений писать/говорить", // описание команды
   private: false, // ограничена в использовании
   arguments: [
     {
@@ -50,17 +51,9 @@ module.exports = {
         ],
       });
     }
+    unmute(bot, userForUnmute.id, author);
 
-    await userForUnmute.roles.remove(rolesID.muted);
-
-    userForUnmute.timeout(
-      1,
-      `Снятие мута by ${author.user.tag} | Причина: "${reason}"`
-    );
-
-    const moderationLog =
-      guild.channels.cache.get(channelsID.moderationLog) ||
-      (await guild.channels.fetch(channelsID.moderationLog));
+    const moderationLog = guild.channels.cache.get(channelsID.moderationLog); // канал куда отправляем сообщение о снятии мута
     moderationLog.send({
       embeds: [
         new EmbedBuilder()
@@ -71,7 +64,7 @@ module.exports = {
             iconURL: guild.iconURL(),
           })
           .setDescription(
-            `**「📝」Снял: <@${author.id}> (${author.user.tag})\n「📌」Кому: <@${userForUnmute.id}> (${userForUnmute.user.tag})\n「📕」Причина: \`${reason}\`\n**`
+            `**「📝」Снял: ${author} (${author.id})\n「📌」Кому: <@${userForUnmute.id}> (${userForUnmute.user.tag})\n 「📕」Причина: \`${reason}\`\n**`
           )
           .setTimestamp()
           .setFooter({
@@ -79,7 +72,7 @@ module.exports = {
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],
-    });
+    }); // отправляем в этот канал сообщение о снятии мута
 
     sendUserMessage(
       {

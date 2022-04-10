@@ -14,6 +14,7 @@ const { REST } = require("@discordjs/rest");
 const { bot } = require("..");
 const path = require("path");
 const { default: mongoose } = require("mongoose");
+const { scheduleJob } = require("node-schedule");
 
 module.exports = class ExtendedClient extends Client {
   constructor() {

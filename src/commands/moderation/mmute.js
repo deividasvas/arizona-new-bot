@@ -1,12 +1,16 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const convertMinutesToMs = require("../../components/convertMinutesToMs");
 const getAllRolesIDModers = require("../../components/getAllRolesIDModers");
+const mute = require("../../components/mute");
 const sendUserMessage = require("../../components/sendUserMessage");
+const setModerInfoParam = require("../../components/setModerInfoParam");
+const settings = require("../../configs/settings");
 const { rolesID, channelsID } = require("../../configs/settings");
+const Punish = require("../../models/Punishment");
 
 module.exports = {
   name: "mmute", // название команды
-  descr: "Выдача блокировки возможности писать/говорить", // описание команды
+  descr: "Выдача ограничений писать/говорить", // описание команды
   private: false, // ограничена в использовании
   arguments: [
     {
@@ -58,15 +62,7 @@ module.exports = {
       });
     }
 
-    userForMute.timeout(
-      convertMinutesToMs(time),
-      `Выдача мута by ${author.user.tag} | Причина: "${reason}"`
-    );
-    await userForMute.roles.add(rolesID.muted);
-
-    const moderationLog =
-      guild.channels.cache.get(channelsID.moderationLog) ||
-      (await guild.channels.fetch(channelsID.moderationLog));
+    const moderationLog = guild.channels.cache.get(channelsID.moderationLog) || (await guild.channels.fetch(channelsID.moderationLog));
     moderationLog.send({
       embeds: [
         new EmbedBuilder()
@@ -87,26 +83,30 @@ module.exports = {
       ],
     });
 
-    sendUserMessage({
+    sendUserMessage(
+      {
         content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
         embeds: [
-            new EmbedBuilder()
-              .setColor("DarkGreen")
-              .setTitle(`📌 | Система выдачи мута!`)
-              .setAuthor({
-                name: guild.name,
-                iconURL: guild.iconURL(),
-              })
-              .setDescription(
-                `**「📝」Выдал: <@${author.id}> (${author.user.tag})\n「📕」Причина: \`${reason}\`\n「📅」До снятия мута \`${time}\` минут**`
-              )
-              .setTimestamp()
-              .setFooter({
-                text: `Robo Hamster`,
-                iconURL: bot.user.displayAvatarURL(),
-              }),
-          ],
-    }, userForMute.id, guild);
+          new EmbedBuilder()
+            .setColor("DarkGreen")
+            .setTitle(`📌 | Система выдачи мута!`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setDescription(
+              `**「📝」Выдал: <@${author.id}> (${author.user.tag})\n「📕」Причина: \`${reason}\`\n「📅」До снятия мута \`${time}\` минут**`
+            )
+            .setTimestamp()
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      },
+      userForMute.id,
+      guild
+    );
     interaction.reply({
       ephemeral: true,
       embeds: [
@@ -127,5 +127,13 @@ module.exports = {
           }),
       ],
     });
+    mute(bot, guild.id, userForMute.id, author, time, reason);
+    // выдаем недельные муты и общие
+    await setModerInfoParam(author.id, "main", "mutes", ({mutes}) => mutes + 1);
+    await setModerInfoParam(author.id, "week", "mutes", ({mutes}) => mutes + 1);
+
+    // выдаем недельные баллы и общие
+    await setModerInfoParam(author.id, "main", "balls", ({ balls, coefficient }) => balls + settings.rates.mute * coefficient);
+    await setModerInfoParam(author.id, "week", "balls", ({ balls, coefficient }) => balls + settings.rates.mute * coefficient);
   },
 };
