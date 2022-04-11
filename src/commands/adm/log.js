@@ -1,6 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const getAllRolesIDAdmins = require("../../components/getAllRolesIDAdmins");
-const { channelsID } = require("../../configs/settings");
+const getAllRolesIdAdmins = require("../../components/getAllRolesIdAdmins");
+const { channelsId } = require("../../configs/settings");
 const { ApplicationCommandOptionType } = require('discord.js');
 module.exports = {
   name: "log", // название команды
@@ -29,7 +29,7 @@ module.exports = {
     },
   ], // аргументы
   perms: () => {
-    return getAllRolesIDAdmins();
+    return getAllRolesIdAdmins();
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, args, author, guild }) => {
@@ -37,7 +37,7 @@ module.exports = {
     const from = args[1]; // источник с которого узнали информацию
     const reason = args[2]; // причина по которой на него кидают мониторинг
     const logMonitoringChannel = guild.channels.cache.find(
-      (channel) => channel.id === channelsID.logMonitoring
+      (channel) => channel.id === channelsId.logMonitoring
     );
     logMonitoringChannel.send({
       embeds: [

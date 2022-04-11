@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
-const getAllRolesIDFamilies = require("../../components/getAllRolesIDFamilies");
-const { rolesID } = require("../../configs/settings");
+const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
+const { rolesId } = require("../../configs/settings");
 const Families = require("../../models/Families");
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
   private: false, // общедоступность команды
   arguments: [], // список аргументов
   perms: (bot) => {
-    return getAllRolesIDFamilies(bot); // все айди семейных ролей
+    return getAllRolesIdFamilies(bot); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   run: async ({ bot, interaction, channel, author, args, guild }) => {
     const familyList = await Families.find();

@@ -1,14 +1,14 @@
-const { rolesID } = require("../configs/settings");
+const { rolesId } = require("../configs/settings");
 
-const getAllRolesIDAdmins = () => {
+const getAllRolesIdAdmins = () => {
   return [
-      rolesID.mainAdmin, // ГА
-      rolesID.deputyMainAdmin, // ЗГА 
-      rolesID.curator, // Куратор
-      rolesID.adminsFourLVL, // Админы 4 уровня
-      rolesID.adminsThreeLVL, // Админы 3 уровня
-      rolesID.juniorAdmins, // админы 1-2 уровня
-    ]
+    rolesId.mainAdmin, // ГА
+    rolesId.deputyMainAdmin, // ЗГА
+    rolesId.curator, // Куратор
+    rolesId.adminsFourLVL, // Админы 4 уровня
+    rolesId.adminsThreeLVL, // Админы 3 уровня
+    rolesId.juniorAdmins, // админы 1-2 уровня
+  ];
 };
 
-module.exports = getAllRolesIDAdmins;
+module.exports = getAllRolesIdAdmins;

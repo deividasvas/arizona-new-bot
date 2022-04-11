@@ -1,7 +1,7 @@
 const { Colors } = require("discord.js");
 const { EmbedBuilder } = require("discord.js/node_modules/@discordjs/builders");
 const { scheduleJob } = require("node-schedule");
-const { rolesID, channelsID } = require("../configs/settings");
+const { rolesId, channelsId } = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 const convertMinutesToMs = require("./convertMinutesToMs");
 const sendUserMessage = require("./sendUserMessage");
@@ -27,7 +27,7 @@ const mute = async (bot, guildId, userId, provocateur, minutes, reason) => {
     convertMinutesToMs(minutes),
     `${reason} by ${provocateur.user.tag}`
   );
-  member.roles.add(rolesID.muted);
+  member.roles.add(rolesId.muted);
   const dateEnd = new Date();
   dateEnd.setMinutes(dateEnd.getMinutes() + minutes);
   const newPunish = new Punishment({
@@ -42,7 +42,7 @@ const mute = async (bot, guildId, userId, provocateur, minutes, reason) => {
   scheduleJob(`${guildId}-${userId}-mute-${reason}`, dateEnd, () => {
     unmute(bot, userId, "-"); // ставим отслеживание на мут до определённое времени конца наказания.
     const guild = bot.guilds.cache.get(guildId);
-    const moderationLog = guild.channels.cache.get(channelsID.moderationLog); // канал куда отправляем сообщение о снятии мута
+    const moderationLog = guild.channels.cache.get(channelsId.moderationLog); // канал куда отправляем сообщение о снятии мута
     moderationLog.send({
       embeds: [
         new EmbedBuilder()

@@ -1,5 +1,5 @@
 const { EmbedBuilder, ApplicationCommandOptionType, ChannelType } = require("discord.js");
-const { rolesID } = require("../../configs/settings");
+const { rolesId } = require("../../configs/settings");
 const settings = require("../../configs/settings");
 const Families = require("../../models/Families");
 
@@ -7,7 +7,7 @@ module.exports = {
   name: "deletefam", // название команды
   descr: "Удалить семью", // описание команды
   private: false, // ограничена в использовании
-  perms: () => [rolesID.discordMaster, rolesID.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: () => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   arguments: [
     {
       name: "семья",
@@ -56,7 +56,7 @@ module.exports = {
     textChannel.delete(); // Удаление текстового канала
     role.delete(); // Удаление роли
     let owner = bot.users.cache.get(`${family.ownerId}`);
-    let logChannel = bot.channels.cache.get(settings.channelsID.famLogs); // Лог семей
+    let logChannel = bot.channels.cache.get(settings.channelsId.famLogs); // Лог семей
     logChannel.send({
       embeds: [
         new EmbedBuilder()

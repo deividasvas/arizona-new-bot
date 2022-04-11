@@ -1,6 +1,6 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
-const getAllRolesIDModers = require("../../components/getAllRolesIDModers");
-const { rolesID, channelsID } = require("../../configs/settings");
+const getAllrolesIdModers = require("../../components/getAllrolesIdModers");
+const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "нарушение", // название команды
@@ -29,7 +29,7 @@ module.exports = {
     },
   ], // аргументы
   perms: () => {
-    return getAllRolesIDModers(); // все модерские роли
+    return getAllrolesIdModers(); // все модерские роли
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, guild, args, channel }) => {
@@ -86,26 +86,26 @@ module.exports = {
       });
     }
 
-    const punishChannel = guild.channels.cache.get(channelsID.punishLeadershipChannel); // канал с нарушениями рук.состава
+    const punishChannel = guild.channels.cache.get(channelsId.punishLeadershipChannel); // канал с нарушениями рук.состава
     let spectator = ""; // следящие которых нужно пинговать
     switch(structure){
         case "ЦА":
-            spectator = rolesID.spectatorGov;
+            spectator = rolesId.spectatorGov;
             break;
         case "МЮ":
-            spectator = rolesID.spectatorPolice
+            spectator = rolesId.spectatorPolice
             break;
         case "МО":
-            spectator = rolesID.spectatorArmy
+            spectator = rolesId.spectatorArmy
             break;
         case "МЗ":
-            spectator = rolesID.spectatorHealth
+            spectator = rolesId.spectatorHealth
             break;
         case "СМИ":
-            spectator = rolesID.spectatorRadio
+            spectator = rolesId.spectatorRadio
     }
     punishChannel.send({
-        content: `<@&${rolesID.mainSpectatorsState}> <@&${rolesID.spectatorState}> <@&${spectator}>`
+        content: `<@&${rolesId.mainSpectatorsState}> <@&${rolesId.spectatorState}> <@&${spectator}>`
     })
   },
 };

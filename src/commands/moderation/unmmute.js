@@ -1,9 +1,9 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const convertMinutesToMs = require("../../components/convertMinutesToMs");
-const getAllRolesIDModers = require("../../components/getAllRolesIDModers");
+const getAllrolesIdModers = require("../../components/getAllrolesIdModers");
 const sendUserMessage = require("../../components/sendUserMessage");
 const unmute = require("../../components/unmute");
-const { rolesID, channelsID } = require("../../configs/settings");
+const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "unmmute", // название команды
@@ -24,7 +24,7 @@ module.exports = {
     },
   ], // аргументы
   perms: () => {
-    return getAllRolesIDModers(); // все модерские роли
+    return getAllrolesIdModers(); // все модерские роли
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, guild, args }) => {
@@ -32,7 +32,7 @@ module.exports = {
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const reason = args[1];
 
-    if (!userForUnmute.roles.cache.some((role) => role.id === rolesID.muted)) {
+    if (!userForUnmute.roles.cache.some((role) => role.id === rolesId.muted)) {
       return interaction.reply({
         ephemeral: true,
         embeds: [
@@ -53,7 +53,7 @@ module.exports = {
     }
     unmute(bot, userForUnmute.id, author);
 
-    const moderationLog = guild.channels.cache.get(channelsID.moderationLog); // канал куда отправляем сообщение о снятии мута
+    const moderationLog = guild.channels.cache.get(channelsId.moderationLog); // канал куда отправляем сообщение о снятии мута
     moderationLog.send({
       embeds: [
         new EmbedBuilder()

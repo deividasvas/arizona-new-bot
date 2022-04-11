@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const getAllRolesIDAdmins = require("../components/getAllRolesIDAdmins");
+const getAllrolesIdAdmins = require("../components/getAllrolesIdAdmins");
 
 module.exports = {
   /*
@@ -13,7 +13,7 @@ module.exports = {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
 
     if (
-      !user.roles.cache.find((role) => getAllRolesIDAdmins().includes(role.id))
+      !user.roles.cache.find((role) => getAllrolesIdAdmins().includes(role.id))
     ) {
       // проверяем, есть ли у человека нажавшего кнопку админские роли. Если нет, то отвечаем что нет доступа.
       return interaction.reply({

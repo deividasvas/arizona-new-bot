@@ -1,11 +1,11 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const convertMinutesToMs = require("../../components/convertMinutesToMs");
-const getAllRolesIDModers = require("../../components/getAllRolesIDModers");
+const getAllrolesIdModers = require("../../components/getAllrolesIdModers");
 const mute = require("../../components/mute");
 const sendUserMessage = require("../../components/sendUserMessage");
 const setModerInfoParam = require("../../components/setModerInfoParam");
 const settings = require("../../configs/settings");
-const { rolesID, channelsID } = require("../../configs/settings");
+const { rolesId, channelsId } = require("../../configs/settings");
 const Punish = require("../../models/Punishment");
 
 module.exports = {
@@ -33,7 +33,7 @@ module.exports = {
     },
   ], // аргументы
   perms: () => {
-    return getAllRolesIDModers(); // все модерские роли
+    return getAllrolesIdModers(); // все модерские роли
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, guild, args }) => {
@@ -42,7 +42,7 @@ module.exports = {
     const time = args[1];
     const reason = args[2];
 
-    if (userForMute.roles.cache.some((role) => role.id === rolesID.muted)) {
+    if (userForMute.roles.cache.some((role) => role.id === rolesId.muted)) {
       return interaction.reply({
         ephemeral: true,
         embeds: [
@@ -62,7 +62,7 @@ module.exports = {
       });
     }
 
-    const moderationLog = guild.channels.cache.get(channelsID.moderationLog) || (await guild.channels.fetch(channelsID.moderationLog));
+    const moderationLog = guild.channels.cache.get(channelsId.moderationLog) || (await guild.channels.fetch(channelsId.moderationLog));
     moderationLog.send({
       embeds: [
         new EmbedBuilder()

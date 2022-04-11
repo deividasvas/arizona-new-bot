@@ -1,7 +1,7 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
-const getAllRolesIDFamilies = require("../../components/getAllRolesIDFamilies");
+const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const settings = require("../../configs/settings");
-const { rolesID } = require("../../configs/settings");
+const { rolesId } = require("../../configs/settings");
 const Families = require("../../models/Families");
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
   descr: "Получить информацию о семье", // описание команды
   private: false, // ограничена в использовании
   perms: (bot) => {
-    return getAllRolesIDFamilies(bot); // все айди семейных ролей
+    return getAllRolesIdFamilies(bot); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   arguments: [
     {

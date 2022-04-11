@@ -1,8 +1,8 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
-const getAllRolesIDFamilies = require("../../components/getAllRolesIDFamilies");
+const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
-const { rolesID } = require("../../configs/settings");
+const { rolesId } = require("../../configs/settings");
 
 module.exports = {
   name: "famkick", // название команды
@@ -17,7 +17,7 @@ module.exports = {
     },
   ], // список аргументов
   perms: (bot) => {
-    return getAllRolesIDFamilies(bot); // все айди семейных ролей
+    return getAllRolesIdFamilies(bot); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   run: async ({ bot, interaction, channel, author, args, guild }) => {
     const family = await Families.findOne({
@@ -94,7 +94,7 @@ module.exports = {
 
     familyCandidateForKick.roles.remove(family.roleId);
     const logFamiliesChannel = guild.channels.cache.get(
-      settings.channelsID.famLogs
+      settings.channelsId.famLogs
     ); // лог семей
     logFamiliesChannel.send({
       embeds: [

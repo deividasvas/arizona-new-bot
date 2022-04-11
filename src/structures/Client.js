@@ -31,7 +31,7 @@ module.exports = class ExtendedClient extends Client {
       curator,
       discordMaster,
       juniorDiscordMaster,
-    } = settings.rolesID;
+    } = settings.rolesId;
     this.whiteListRoles = [
       // белый список ролей
       mainAdmin, // ГА

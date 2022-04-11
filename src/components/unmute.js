@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { rolesID, channelsID } = require("../configs/settings");
+const { rolesId, channelsId } = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 const sendUserMessage = require("./sendUserMessage");
 
@@ -21,7 +21,7 @@ const unmute = async (bot, userId, provocateur = "-") => {
       ? `Снятие мута by System`
       : `Снятие мута через команду by ${provocateur.user.tag}`
   ); // снимаем ему мут.
-  await member.roles.remove([rolesID.muted]); // удаляем роль `Muted`
+  await member.roles.remove([rolesId.muted]); // удаляем роль `Muted`
   punish.remove(); // удаляем наказания из бд
   return true;
 };

@@ -1,14 +1,14 @@
-const { rolesID } = require("../configs/settings");
+const { rolesId } = require("../configs/settings");
 
-const getAllRolesIDModers = () => {
+const getAllRolesIdModers = () => {
   return [
-      rolesID.discordMaster, // Discord Master
-      rolesID.juniorAdmins, // Junior Discord Master
-      rolesID.adviceAdministration, // Совет администрации DISCORD'a
-      rolesID.curatorModeration, // Куратор модерации
-      rolesID.moderator, // Модератор
-      rolesID.juniorModerator, // Младшим модератор
-    ]
+    rolesId.discordMaster, // Discord Master
+    rolesId.juniorAdmins, // Junior Discord Master
+    rolesId.adviceAdministration, // Совет администрации DISCORD'a
+    rolesId.curatorModeration, // Куратор модерации
+    rolesId.moderator, // Модератор
+    rolesId.juniorModerator, // Младшим модератор
+  ];
 };
 
-module.exports = getAllRolesIDModers;
+module.exports = getAllRolesIdModers;

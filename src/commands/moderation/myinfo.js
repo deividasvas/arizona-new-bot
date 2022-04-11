@@ -1,7 +1,7 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
-const getAllRolesIDModers = require("../../components/getAllRolesIDModers");
+const getAllrolesIdModers = require("../../components/getAllrolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
-const { rolesID, channelsID } = require("../../configs/settings");
+const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "myinfo", // название команды
@@ -16,7 +16,7 @@ module.exports = {
     },
   ], // аргументы
   perms: () => {
-    return getAllRolesIDModers(); // все модерские роли
+    return getAllrolesIdModers(); // все модерские роли
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, guild, args, channel }) => {
@@ -41,7 +41,7 @@ module.exports = {
               `**${
                 args[0] ? "Пользователь не является" : "Вы не являетесь"
               } модератором. Если это не так, то обратитесь к <@&${
-                rolesID.techSection
+                rolesId.techSection
               }>**`
             )
             .setColor(`Red`)
@@ -60,7 +60,7 @@ module.exports = {
     const countRebukes = warns.filter((warn) => warn.type === "rebuke").length; // получаем количество всех выговоров
 
     interaction.reply({
-      ephemeral: channelsID.moderation !== channel.id, // если это модерский, то для всех, если не модерский, то только для чела который отправил команду
+      ephemeral: channelsId.moderation !== channel.id, // если это модерский, то для всех, если не модерский, то только для чела который отправил команду
       embeds: [
         new EmbedBuilder()
           .setColor("#ff3838")

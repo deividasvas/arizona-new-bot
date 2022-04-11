@@ -1,5 +1,5 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
-const { rolesID } = require("../../configs/settings");
+const { rolesId } = require("../../configs/settings");
 const settings = require("../../configs/settings");
 const { ChannelType } = require("discord.js");
 const Families = require("../../models/Families");
@@ -8,7 +8,7 @@ module.exports = {
   name: "createfam", // название команды
   descr: "Создать семью", // описание команды
   private: false, // ограничена в использовании
-  perms: () => [rolesID.discordMaster, rolesID.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: () => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   arguments: [
     {
       name: "владелец",
@@ -99,10 +99,10 @@ module.exports = {
       name: familyName,
       color,
       permision: [],
-      position: (await guild.roles.fetch(settings.rolesID.fams)).position - 1,
+      position: (await guild.roles.fetch(settings.rolesId.fams)).position - 1,
     }); // создание самой роли
     await guild.channels.cache
-      .find((channel) => channel.id === settings.channelsID.famGeneral)
+      .find((channel) => channel.id === settings.channelsId.famGeneral)
       .permissionOverwrites.create(role, {
         ViewChannel: true,
         EmbedLinks: true,
@@ -134,7 +134,7 @@ module.exports = {
       ],
     });
 
-    let logChannel = bot.channels.cache.get(settings.channelsID.famLogs); // Лог семей
+    let logChannel = bot.channels.cache.get(settings.channelsId.famLogs); // Лог семей
 
     logChannel.send({
       embeds: [
@@ -177,7 +177,7 @@ module.exports = {
           deny: ["Administrator"],
         },
         {
-          id: settings.rolesID.everyone,
+          id: settings.rolesId.everyone,
           deny: ["ViewChannel"],
         },
       ],
@@ -207,7 +207,7 @@ module.exports = {
           deny: ["Administrator", "ManageMessages"],
         },
         {
-          id: settings.rolesID.everyone,
+          id: settings.rolesId.everyone,
           deny: ["ViewChannel"],
         },
       ],

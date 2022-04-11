@@ -5,11 +5,11 @@ const {
   ApplicationCommandOptionType,
   ButtonStyle,
 } = require("discord.js");
-const getAllRolesIDFamilies = require("../../components/getAllRolesIDFamilies");
+const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const getTwoHourInMs = require("../../components/getTwoHourInMs");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
-const { rolesID } = require("../../configs/settings");
+const { rolesId } = require("../../configs/settings");
 const Families = require("../../models/Families");
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
   descr: "Пригласить в семью", // описание команды
   private: false, // ограничена в использовании
   perms: (bot) => {
-    return getAllRolesIDFamilies(bot); // все айди семейных ролей
+    return getAllRolesIdFamilies(bot); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   arguments: [
     {
@@ -301,8 +301,8 @@ module.exports = {
       candidate.roles.add(role, `Приглашения в фаму by ${author.user.tag}`);
 
       let logChannel =
-        bot.channels.cache.get(settings.channelsID.famLogs) ||
-        (await bot.channels.fetch(settings.channelsID.famLogs));
+        bot.channels.cache.get(settings.channelsId.famLogs) ||
+        (await bot.channels.fetch(settings.channelsId.famLogs));
 
       logChannel.send({
         embeds: [

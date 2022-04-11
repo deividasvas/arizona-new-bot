@@ -1,12 +1,12 @@
 const { EmbedBuilder } = require("discord.js");
-const { rolesID, channelsID } = require("../../configs/settings");
+const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "save", // название команды
   descr: "Информация о том как можно защитить свой аккаунт.", // описание команды
   private: false, // ограничена в использовании
   arguments: [], // аргументы
-  perms: () => [rolesID.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: () => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
 
   run: async ({ bot, interaction, args, guild }) => {

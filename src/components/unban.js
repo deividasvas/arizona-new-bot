@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { channelsID } = require("../configs/settings");
+const { channelsId } = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 
 const unban = async (bot, userId, provocateur) => {
