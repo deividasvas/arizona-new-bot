@@ -39,6 +39,10 @@ module.exports = {
     notifications: `960237241114951720`, // уведомления
     welcome: `948675245307469885`, // welcome
     moderationLog: `948675252353916945`, // 🔐-moderation-log
+    curators: `948675243579441175`, // кураторская
+    punishModeratorsLog: `948675243579441178`, // система-выговоров-модераторам
+    discordMasters: `948675243579441173`, // дискорд-мастера
+    administrationCouncil: `948675243579441174`, // совет-администрации-дискорда
   },
   categories: {
     fams: "948675246016299023", // семейные роли
