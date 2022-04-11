@@ -35,7 +35,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Вы не являетесь владельцем семьи**`)
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -68,7 +68,7 @@ module.exports = {
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
             })
-            .setColor(`Red`),
+            .setColor(Colors.Red),
         ],
       });
     }
@@ -124,7 +124,7 @@ module.exports = {
             text: "Robo Hamster",
             iconURL: bot.user.displayAvatarURL(),
           })
-          .setColor(`DarkGreen`),
+          .setColor(Colors.DarkGreen),
       ],
     });
     interaction.reply({
@@ -139,7 +139,7 @@ module.exports = {
           .setDescription(
             `**Вы успешно сняли заместителя ${familyCandidateForRemoveOfDeputy} с семьи ${role} **`
           )
-          .setColor(`DarkGreen`)
+          .setColor(Colors.DarkGreen)
           .setTimestamp()
           .setAuthor({
             name: guild.name,
@@ -159,7 +159,7 @@ module.exports = {
             .setDescription(
               `**Вы были сняты с должности заместителя семьи \`\`${role.name}\`\`**`
             )
-            .setColor(`DarkGreen`)
+            .setColor(Colors.DarkGreen)
             .setTimestamp()
             .setAuthor({
               name: guild.name,

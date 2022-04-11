@@ -30,7 +30,7 @@ const rolesId = {
 
 module.exports = {
   rolesId,
-  channelsID: {
+  channelsId: {
     events: "948675246825828471", // ивенты / #🔥│ивенты
     famGeneral: `948675246016299024`, // общение-семей
     famLogs: `948675244065947650`, // лог-семей
@@ -43,6 +43,7 @@ module.exports = {
     punishModeratorsLog: `948675243579441178`, // система-выговоров-модераторам
     discordMasters: `948675243579441173`, // дискорд-мастера
     administrationCouncil: `948675243579441174`, // совет-администрации-дискорда
+    punishLeadership: `948675243826888766`, // нарушения руководящего состава
   },
   categories: {
     fams: "948675246016299023", // семейные роли
@@ -54,6 +55,17 @@ module.exports = {
     "316154352760782849", // * Yuri Lance
     "904648434949169203", // * Deivid Brown
     "691701692256878632", // * Michell Mahonya
+  ],
+  whiteListRolesForPunish: [ // белый список ролей по отношению к наказаниям
+    rolesId.discordMaster, // дискорд мастер
+    rolesId.juniorDiscordMaster, // младший дискорд мастер
+    rolesId.mainAdmin, // ГА
+    rolesId.deputyMainAdmin, // ЗГА
+    rolesId.curator, // кураторы
+    rolesId.adviceAdministration, // совет администрации дискорда
+    rolesId.curatorModeration, // куратор модерации
+    rolesId.moderator, // старший модератор
+    rolesId.juniorModerator, // младший модератор
   ],
   maxCountImmunities: 2, // максимальное количество иммунитетов для модераторов
   maxCountWarns: 2, // максимальное количество предупреждений для модераторов

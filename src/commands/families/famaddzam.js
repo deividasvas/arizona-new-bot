@@ -46,6 +46,26 @@ module.exports = {
       });
     }
 
+    if(family.deputies.find(deputy => deputy.userId === familyCandidateDeputy.id)){
+      return interaction.reply({
+        ephemeral: true,
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`❌ | Ошибка!`)
+            .setDescription(`**${familyCandidateDeputy} уже является заместителем в семье**`)
+            .setColor(`Red`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      });
+    }
+
     if (family.deputies.length >= settings.limitDeputyInFamilies) {
       return interaction.reply({
         ephemeral: true,

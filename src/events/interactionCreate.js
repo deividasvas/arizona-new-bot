@@ -9,13 +9,12 @@ module.exports = async (bot, interaction) => {
     const { commandName, commandId, guild, channelId } = interaction;
     const command = bot.commands.get(commandName);
     if (!command) {
-      await bot.deleteSlashCommand(commandId, guild); // если нет команды, то удаляем команду чтоб не показывалась
       return interaction.reply({
         ephemeral: true,
         embeds: [
           new EmbedBuilder()
             .setTitle(`🚫 | Ошибка!`)
-            .setDescription(`**Данной команды не существует**`)
+            .setDescription(`**Ожидайте, происходит инициализация бота...**`)
             .setColor(`#ff0022`)
             .setTimestamp()
             .setFooter({

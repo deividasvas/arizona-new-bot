@@ -83,6 +83,7 @@ module.exports = {
       channelsId.punishModeratorsLog
     );
     punishModeratorsLogChannel.send({
+      content: `${author} ${moderator}`,
       embeds: [
         new EmbedBuilder()
           .setColor("DarkGreen")

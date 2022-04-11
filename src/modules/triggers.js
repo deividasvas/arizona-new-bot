@@ -1,4 +1,4 @@
-const { channelsID } = require("../configs/settings");
+const { channelsId } = require("../configs/settings");
 
 module.exports = {
   /*
@@ -12,7 +12,7 @@ module.exports = {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
 
     if (
-      message.channel.id === channelsID.welcome
+      message.channel.id === channelsId.welcome
     ) {
       const triger = ["роль", "дайте роль"];
       if (triger.includes(message.content.toLowerCase())) {

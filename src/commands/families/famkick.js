@@ -3,6 +3,7 @@ const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
 const { rolesId } = require("../../configs/settings");
+const Families = require("../../models/Families");
 
 module.exports = {
   name: "famkick", // название команды
