@@ -27,7 +27,6 @@ module.exports = {
       ? guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]))
       : author;
     const { week, main, error, warns } = await getModerInfo(
-      bot,
       guild,
       member.id
     ); // запрашиваем модерскую статистику за неделю и за всё время у бд
