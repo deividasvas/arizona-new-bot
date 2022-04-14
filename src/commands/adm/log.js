@@ -3,6 +3,7 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  Colors,
 } = require("discord.js");
 const getAllRolesIdAdmins = require("../../components/getAllRolesIdAdmins");
 const { channelsId } = require("../../configs/settings");
@@ -47,14 +48,19 @@ module.exports = {
     logMonitoringChannel.send({
       embeds: [
         new EmbedBuilder()
-          .setColor("Grey")
-          .setTitle(`📌 | В рассмотрении`)
-          .setDescription(
-            `**「🧍」Запросил: <@${author.id}>\n「👱‍♂️」Ник-Нейм: \`${nickname
-              .split(" ")
-              .join(
-                "_"
-              )}\`\n「🏔」Источник: \`${from}\`\n「📄」Причина: \`${reason}\`**`
+          .setColor(Colors.Grey)
+          .setTitle(`📌 | Лог Мониторинг`)
+          .addFields(
+            {
+              name: `🐹・Информация о запросе`,
+              value: `>>> **「🧍」Запросил: <@${author.id}>\n「👱」Ник-Нейм: \`${nickname}\`\n「🏔」Источник: \`${from}\`\n「📄」Причина: \`${reason}\`**`,
+              inline: true,
+            },
+            {
+              name: `📌・Результат проверки`,
+              value: `>>> **「🎸」Статус: \`В обработке\`\n「🔥」Проверил: \`Нет\`**`,
+              inline: true,
+            }
           )
           .setAuthor({
             name: guild.name,
@@ -86,7 +92,6 @@ module.exports = {
         ),
         new ActionRowBuilder().addComponents(
           new ButtonBuilder()
-            .setCustomId("log_monitoring_no")
             .setLabel(`Лог 📌 ${nickname}`)
             .setStyle(ButtonStyle.Link)
             .setURL(
@@ -104,20 +109,9 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor("DARK_GREEN")
+          .setColor(Colors.Grey)
           .setTitle(`📌 | Лог Мониторинг`)
-          .addFields(
-            {
-              name: `🐹・Информация о запросе`,
-              value: `>>> **「🧍」Запросил: <@${author.id}>\n「👱‍♂️」Ник-Нейм: \`${nickname}\`\n「🏔」Источник: \`${from}\`\n「📄」Причина: \`${reason}\`**`,
-              inline: true,
-            },
-            {
-              name: `📌・Результат проверки`,
-              value: `>>> **「🎸」Статус: \`В обработке\`\n「🔥」Проверил: \`Нет\`**`,
-              inline: true,
-            }
-          )
+          .setDescription(`**Вы успешно оставили заявку на проверку логов игрока \`${nickname}\` по причине \`${reason}\`. Источник данных: \`${from}\`**`)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),

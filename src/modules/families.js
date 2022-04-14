@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const getAllRolesIDAdmins = require("../components/getAllRolesIDAdmins");
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
             .setDescription(
               `**Уже прошло более 2 часов с момента отправки приглашения. Попросите отправить новое приглашение**`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),

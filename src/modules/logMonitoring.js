@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const getAllrolesIdAdmins = require("../components/getAllrolesIdAdmins");
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`🚫 | Ошибка!`)
             .setDescription(`**Вы не являетесь администратором!**`)
-            .setColor(`#ff0022`)
+            .setColor(Colors.DarkGreen)
             .setTimestamp()
             .setAuthor({
               name: guild.name,
@@ -42,11 +42,13 @@ module.exports = {
           content: `${message.content}`,
           embeds: [
             new EmbedBuilder()
-              .setColor("DarkGreen")
+              .setColor(Colors.DarkRed)
               .setTitle(`📌 | Рассмотрено`)
-              .setDescription(
-                `${message.embeds[0].description}\n**「🏁」Результат: \`Были найдены подозрительные действия\`\n「📛」Проверил: ${user}**`
-              )
+              .addFields(message.embeds[0].fields[0], {
+                name: `📌・Результат проверки`,
+                value: `>>> **「🎸」Статус: \`Найдены подозрительные действия\`\n「🔥」Проверил: ${user}**`,
+                inline: true,
+              })
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -66,11 +68,13 @@ module.exports = {
           content: `${message.content}`,
           embeds: [
             new EmbedBuilder()
-              .setColor("DarkRed")
+              .setColor(Colors.DarkRed)
               .setTitle(`📌 | Рассмотрено`)
-              .setDescription(
-                `${message.embeds[0].description}\n**「🏁」Результат: \`Не было найдено подозрительных действий\`\n「📛」Проверил: ${user}**`
-              )
+              .addFields(message.embeds[0].fields[0], {
+                name: `📌・Результат проверки`,
+                value: `>>> **「🎸」Статус: \`Ничего не найдено\`\n「🔥」Проверил: ${user}**`,
+                inline: true,
+              })
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),

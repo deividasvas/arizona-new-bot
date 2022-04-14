@@ -1,3 +1,4 @@
+const { Colors } = require("discord.js");
 const { scheduleJob } = require("node-schedule");
 const unban = require("../components/unban");
 const unmute = require("../components/unmute");
@@ -47,7 +48,7 @@ module.exports = {
           banesChannel.send({
             embeds: [
               new EmbedBuilder()
-                .setColor("DarkGreen")
+                .setColor(Colors.DarkGreen)
                 .setTitle(`📌 | Система снятия блокировки!`)
                 .setAuthor({
                   name: guild.name,
@@ -94,7 +95,7 @@ module.exports = {
           moderationLog.send({
             embeds: [
               new EmbedBuilder()
-                .setColor("DarkGreen")
+                .setColor(Colors.DarkGreen)
                 .setTitle(`📌 | Система снятия мута!`)
                 .setAuthor({
                   name: guild.name,
