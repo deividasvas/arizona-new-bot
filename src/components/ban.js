@@ -1,20 +1,22 @@
 const { scheduleJob } = require("node-schedule");
+const Punishment = require("../models/Punishment");
 const unban = require("./unban");
 
-const ban = async (bot, guildId, userId, provocateur, days, reason) => {
+const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
   const punish = await Punishment.findOne({
     userId,
     action: "ban",
   });
-  if (!punish) {
+  if (punish) {
     return null;
   }
-  await guild.members.fetch(userId).ban({
+  const guild = bot.guilds.cache.get(guildId);
+  const provocateur = guild.members.cache.get(provocateurId);
+  const dateEnd = new Date();
+  await guild.members.cache.get(userId).ban({
     days,
     reason: `${reason} by ${provocateur.user.tag}`,
   });
-  const guild = bot.guild.cache.get(guildId);
-  const dateEnd = new Date();
   dateEnd.setDate(dateEnd.getDate() + days);
   const newPunish = new Punishment({
     action: "ban",

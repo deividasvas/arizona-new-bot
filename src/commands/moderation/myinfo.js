@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const getAllrolesIdModers = require("../../components/getAllrolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
 const { rolesId, channelsId } = require("../../configs/settings");
@@ -44,7 +44,7 @@ module.exports = {
                 rolesId.techSection
               }>**`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -63,7 +63,7 @@ module.exports = {
       ephemeral: channelsId.moderation !== channel.id, // если это модерский, то для всех, если не модерский, то только для чела который отправил команду
       embeds: [
         new EmbedBuilder()
-          .setColor("#ff3838")
+          .setColor(Colors.DarkRed)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),

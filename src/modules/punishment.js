@@ -23,6 +23,7 @@ module.exports = {
     });
 
     for (const ban of bans) {
+      console.log(ban.dateEnd, new Date())
       if (ban.dateEnd <= new Date()) {
         // проверяем прошло ли время конца наказания пользователя
         return unban(bot, ban.guildId, ban.userId); // если прошло, то снимаем наказание

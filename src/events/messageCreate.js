@@ -1,7 +1,6 @@
 const { developers, prefix } = require("../configs/settings.js");
 const handleErrors = require("../components/handleErrors.js");
 const {
-  MessageEmbed,
   Colors,
   EmbedBuilder,
   ApplicationCommandOptionType,
@@ -102,6 +101,7 @@ module.exports = async (bot, message) => {
         })
         .then((msg) => {
           setTimeout(() => {
+            message.delete();
             msg.delete();
           }, 10000);
         });
@@ -181,6 +181,7 @@ module.exports = async (bot, message) => {
       setTimeout(() => {
         message.delete();
         answer.delete();
+        delete cache[message.id];
       }, 10000);
       return answer;
     };
@@ -194,8 +195,6 @@ module.exports = async (bot, message) => {
       if (!answer) return;
       return await answer.edit(option);
     };
-
-    console.log(args);
 
     return command
       .run({

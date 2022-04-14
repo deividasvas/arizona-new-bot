@@ -74,7 +74,7 @@ module.exports = {
       components: [
         new ActionRowBuilder().addComponents(
           new ButtonBuilder()
-            .setCustomId("log_monitoring_yes")
+            .setCustomId("logMonitoringYes")
             .setLabel("Проверенно, что-то нашёл")
             .setStyle(ButtonStyle.Success)
             .setEmoji({
@@ -83,7 +83,7 @@ module.exports = {
         ),
         new ActionRowBuilder().addComponents(
           new ButtonBuilder()
-            .setCustomId("log_monitoring_no")
+            .setCustomId("logMonitoringNo")
             .setLabel("Проверенно, ничего не нашёл")
             .setStyle(ButtonStyle.Danger)
             .setEmoji({

@@ -1,4 +1,13 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { ActionRow } = require("@discordjs/builders");
+const {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  Colors,
+  ButtonStyle,
+} = require("discord.js");
+const {
+  ButtonBuilder,
+} = require("discord.js/node_modules/@discordjs/builders");
 const ban = require("../../components/ban");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
@@ -11,6 +20,7 @@ const {
   channelsId,
   whiteListRoles,
 } = require("../../configs/settings");
+const BansVotes = require("../../models/BansVotes");
 
 module.exports = {
   name: "mban", // название команды
@@ -57,7 +67,7 @@ module.exports = {
             .setDescription(
               `**Пользователя ${userForBan} невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -72,7 +82,7 @@ module.exports = {
 
     let statusUserRoleId = ""; // id роли которая показывает статус пользователя в игре, заместитель фракции, лидер, министр.
 
-    const roleStatus = guild.roles.cache.find((role) =>
+    const roleStatus = userForBan.roles.cache.find((role) =>
       [
         rolesId.leadersFractions, // лидеры
         rolesId.ministers, // министры
@@ -85,100 +95,68 @@ module.exports = {
     }
 
     const moderationChannel = guild.channels.cache.get(channelsId.moderation);
-
-    moderationChannel.send({
-      embeds: [
-        new EmbedBuilder()
-          .setColor(0x483d8b)
-          .setTimestamp()
-          .setTitle(`📌 | Временая блокировка участника.`)
-          .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL(),
-          })
-          .setFooter({
-            text: `Robo Hamster`,
-            iconURL: bot.user.displayAvatarURL(),
-          })
-          .setDescription(
-            {
-              name: `Информация`,
-              value: `**「👨🏼‍💼」Отправитель: <@${
-                author.id
-              }>\n「👹」Нарушитель: <@${
-                userForBan.id
-              }>\n「🌌」Статус нарушителя: ${
-                statusUserRoleId ? `<@${statusUserRoleId}>` : `Пользователь`
-              }\n「🕒」Дней блокировки: ${days}**`,
-            },
-            {
-              name: `「🔥」Причина выдачи`,
-              value: `${reason}`,
-            }
-          ),
-      ],
+    const banVote = new BansVotes({
+      moderatorSenderId: author.id, // айди модератора
+      userForBanId: userForBan.id, // айди юзера которого банят
+      statusUserForBan: statusUserRoleId, // статус пользователя которого банят
+      days, // количество дней бана
+      reason, // причина бана
+      agrees: [], // айдишники принявших бан
+      denies: [], // айдишники отказавших бан
     });
-
-    return;
-    await sendUserMessage(
-      {
-        content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
-        embeds: [
-          new EmbedBuilder()
-            .setColor("DarkGreen")
-            .setTitle(`📌 | Вы были заблокированы на сервера!`)
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setDescription(
-              `**「📝」Заблокировал: <@${author.id}>\n「📕」Причина: \`${reason}\`\n「📅」Блокировка кончится через \`${days}\` дней**`
-            )
-            .setTimestamp()
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
-        ],
-      },
-      userForBan.id,
-      guild
-    ); // отправляем в лс пользователю сообщение об блокировке
-    await ban(bot, guild.id, userForKick.id, author, days, reason); // блокируем пользователя
-    const moderationLog = guild.channels.cache.get(channelsId.moderationLog);
-    moderationLog.send({
+    banVote.save();
+    await moderationChannel.send({
+      content: `<@&${rolesId.juniorModerator}>`,
       embeds: [
         new EmbedBuilder()
-          .setColor(`DarkGreen`)
-          .setTitle(`📌 | Система блокировки пользователей.`)
           .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL(),
+            name: `${interaction.guild.name} » Временая блокировка участника.`,
+            iconURL: interaction.guild.iconURL(),
           })
-          .setDescription(
-            `**「📝」Исключил: <@${author.id}> (${author.user.tag})\n「📌」Кого: <@${userForKick.id}> (${userForKick.user.tag})\n「📕」Причина: \`${reason}\`**`
-          )
+          .addFields({
+            name: `Информация:`,
+            value: `>>> \`Отправитель:\` ${author}\n\`Нарушитель:\` ${userForBan}\n\`Дней блокировки:\` ${days}\n\`Причина:\` ${reason}\n\n\`За\`: 0\n\`\`Против\`\`: 0`,
+            inline: false,
+          })
+          .setColor(Colors.Red)
           .setTimestamp()
           .setFooter({
             text: `Robo Hamster`,
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],
+
+      components: [
+        new ActionRow().addComponents(
+          new ButtonBuilder()
+            .setEmoji({
+              name: `✅`,
+            }) // ✅
+            .setStyle(ButtonStyle.Secondary)
+            .setCustomId(`banYes`),
+
+          new ButtonBuilder()
+            .setEmoji({
+              name: `❌`,
+            }) // ❌
+            .setStyle(ButtonStyle.Secondary)
+            .setCustomId(`banNo`)
+        ),
+      ],
     });
 
-    interaction.reply({
+    await interaction.reply({
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor("DarkGreen")
-          .setTitle(`📌 | Система исключения пользователей.`)
           .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL(),
+            name: `${interaction.guild.name} » Временая блокировка участника.`,
+            iconURL: interaction.guild.iconURL(),
           })
           .setDescription(
-            `**Вы успешно исключили пользователя ${userForKick} по причине \`${reason}\`**`
+            `**Вы успешно отправили заявление на блокировку пользователя ${userForBan} на \`${days}\` дней по причине \`${reason}\`**`
           )
+          .setColor(Colors.Red)
           .setTimestamp()
           .setFooter({
             text: `Robo Hamster`,
@@ -186,32 +164,5 @@ module.exports = {
           }),
       ],
     });
-    // выдаем недельные муты и общие
-    await setModerInfoParam(
-      author.id,
-      "main",
-      "kicks",
-      ({ kicks }) => kicks + 1
-    );
-    await setModerInfoParam(
-      author.id,
-      "week",
-      "kicks",
-      ({ kicks }) => kicks + 1
-    );
-
-    // выдаем недельные баллы и общие
-    await setModerInfoParam(
-      author.id,
-      "main",
-      "balls",
-      ({ balls, coefficient }) => balls + settings.rates.kick * coefficient
-    );
-    await setModerInfoParam(
-      author.id,
-      "week",
-      "balls",
-      ({ balls, coefficient }) => balls + settings.rates.kick * coefficient
-    );
   },
 };

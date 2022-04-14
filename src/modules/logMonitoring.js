@@ -8,7 +8,7 @@ module.exports = {
     принятия или отказа определённого мониторинга выдавался определённый ответ.
   */
   name: "logMonitoring", // имя модуля
-  acceptCustomsID: ["log_monitoring_yes", "log_monitoring_no"], // модуль автоматически принимает эти айдишники interaction.customId
+  acceptCustomsID: ["logMonitoringYes", "logMonitoringNo"], // модуль автоматически принимает эти айдишники interaction.customId
   run: async ({ bot, interaction, user, guild, message }) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
 
@@ -37,7 +37,7 @@ module.exports = {
     }
     // ниже идёт установка эмбедов в зависимости от выбранной кнопки
     switch (interaction.customId) {
-      case "log_monitoring_yes": {
+      case "logMonitoringYes": {
         message.edit({
           content: `${message.content}`,
           embeds: [
@@ -63,7 +63,7 @@ module.exports = {
         break;
       }
 
-      case "log_monitoring_no": {
+      case "logMonitoringNo": {
         message.edit({
           content: `${message.content}`,
           embeds: [

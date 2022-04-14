@@ -7,6 +7,7 @@ const unban = async (bot, userId, provocateur) => {
        action: 'ban',
        userId 
     });
+    console.log(punish, userId, "964160320765571104");
     if(!punish){
         return;
     }

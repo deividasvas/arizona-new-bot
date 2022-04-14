@@ -50,6 +50,7 @@ module.exports = {
     administrationCouncil: `948675243579441174`, // совет-администрации-дискорда
     punishLeadership: `948675243826888766`, // нарушения руководящего состава
     support: `948675245043220487`, // 🔔│support
+    rolesAndBans: `948675252697825376`, // роли-баны
   },
   categories: {
     fams: "948675246016299023", // семейные роли
@@ -104,8 +105,7 @@ module.exports = {
       value: `ID роли | упоминание роли`,
       validator(val, guild) {
         return Boolean(
-          guild.roles.cache.get(val) ||
-            MessageMentions.ROLES_PATTERN.test(val)
+          guild.roles.cache.get(val) || MessageMentions.ROLES_PATTERN.test(val)
         );
       },
     },
