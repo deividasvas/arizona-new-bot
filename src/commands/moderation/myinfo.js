@@ -6,7 +6,7 @@ const { rolesId, channelsId } = require("../../configs/settings");
 module.exports = {
   name: "myinfo", // название команды
   descr: "Узнать модерскую статистику по выданным наказаниям", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
       name: "пользователь",
@@ -27,7 +27,8 @@ module.exports = {
       ? guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]))
       : author;
     const { week, main, error, warns } = await getModerInfo(
-      guild,
+      bot,
+      guild.id,
       member.id
     ); // запрашиваем модерскую статистику за неделю и за всё время у бд
     if (error === "THE_NOT_MODERATOR") {
@@ -55,8 +56,8 @@ module.exports = {
         ],
       });
     }
-    const countWarns = warns.filter((warn) => warn.type === "warn").length; // получаем количество всех варнов
-    const countRebukes = warns.filter((warn) => warn.type === "rebuke").length; // получаем количество всех выговоров
+    const countWarns = warns.filter((warn) => warn.group === "warn").length; // получаем количество всех варнов
+    const countRebukes = warns.filter((warn) => warn.group === "rebuke").length; // получаем количество всех выговоров
 
     interaction.reply({
       ephemeral: channelsId.moderation !== channel.id, // если это модерский, то для всех, если не модерский, то только для чела который отправил команду

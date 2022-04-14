@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
@@ -8,7 +8,7 @@ const Families = require("../../models/Families");
 module.exports = {
   name: "famkick", // название команды
   descr: "Исключить человека из семьи", // описание команды
-  private: false, // общедоступность команды
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
       name: "пользователь",
@@ -20,7 +20,7 @@ module.exports = {
   perms: (bot) => {
     return getAllRolesIdFamilies(bot); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
-  run: async ({ bot, interaction, channel, author, args, guild }) => {
+  async run({ bot, interaction, channel, author, args, guild }) {
     const family = await Families.findOne({
       $or: [
         {
@@ -48,7 +48,7 @@ module.exports = {
             .setDescription(
               `**Вы не являетесь владельцем или заместителем семьи**`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -63,7 +63,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Невозможно исключить самого себя из семьи**`)
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -84,7 +84,7 @@ module.exports = {
             .setDescription(
               `**${familyCandidateForKick} не состоит в Вашей семье**`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -100,7 +100,7 @@ module.exports = {
     logFamiliesChannel.send({
       embeds: [
         new EmbedBuilder()
-          .setColor("#39FE7B")
+          .setColor(Colors.DarkRed)
           .setTitle(`📌 | Исключение из семьи!`)
           .setAuthor({
             name: guild.name,
@@ -128,7 +128,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor("DarkGreen")
+          .setColor(Colors.DarkRed)
           .setTitle(`📌 | Исключение из семьи!`)
           .setAuthor({
             name: guild.name,
@@ -147,7 +147,7 @@ module.exports = {
       {
         embeds: [
           new EmbedBuilder()
-            .setColor("DarkGreen")
+            .setColor(Colors.DarkRed)
             .setTitle(`📌 | Исключение из семьи!`)
             .setAuthor({
               name: guild.name,

@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType, MessageMentions } = require("discord.js");
 const rolesId = {
   // айдишники ролей
   techSection: `948675243248062523`, // Технический отдел
@@ -26,6 +27,9 @@ const rolesId = {
   mainSpectatorsState: `948675243327770674`, // Руководство ГОС
   spectatorState: `948675243310973003`, // Следящий ГОС
   bots: `948675243327770677`, // Боты
+  deputiesFractions: `948675243235475459`, // Заместители фракции
+  leadersFractions: `948675243235475460`, // Лидеры фракции
+  ministers: `948675243235475461`, // Министры
 };
 
 module.exports = {
@@ -40,10 +44,12 @@ module.exports = {
     welcome: `948675245307469885`, // welcome
     moderationLog: `948675252353916945`, // 🔐-moderation-log
     curators: `948675243579441175`, // кураторская
+    moderation: `948675243579441176`, // модераторы
     punishModeratorsLog: `948675243579441178`, // система-выговоров-модераторам
     discordMasters: `948675243579441173`, // дискорд-мастера
     administrationCouncil: `948675243579441174`, // совет-администрации-дискорда
     punishLeadership: `948675243826888766`, // нарушения руководящего состава
+    support: `948675245043220487`, // 🔔│support
   },
   categories: {
     fams: "948675246016299023", // семейные роли
@@ -56,7 +62,70 @@ module.exports = {
     "904648434949169203", // * Deivid Brown
     "691701692256878632", // * Michell Mahonya
   ],
-  whiteListRolesForPunish: [ // белый список ролей по отношению к наказаниям
+  fullPermissionCommandsRolesId: [
+    // Список ролей у которых есть доступ к АБСОЛЮТНО всем слэш командам.
+    rolesId.mainAdmin, // ГА
+    rolesId.deputyMainAdmin, // ЗГА
+    rolesId.curator, // Куратор
+    rolesId.discordMaster, // Дискорд Мастер
+    rolesId.juniorDiscordMaster, // Junior дискорд мастер
+  ],
+  typesArguments: [
+    // типы аргументов. Сделано для messageCreate нормального показа FAQ аргумент типов
+    {
+      type: ApplicationCommandOptionType.Number,
+      value: `Число`,
+      validator(val) {
+        return typeof val === "number" || isNaN(val);
+      },
+    },
+    {
+      type: ApplicationCommandOptionType.User,
+      value: `ID пользователя | упоминание пользователя`,
+      validator(val, guild) {
+        return Boolean(
+          guild.members.cache.get(val) ||
+            MessageMentions.USERS_PATTERN.test(val)
+        );
+      },
+    },
+    {
+      type: ApplicationCommandOptionType.Channel,
+      value: `ID канала | упоминание канала`,
+      validator(val, guild) {
+        return Boolean(
+          guild.channels.cache.get(val) ||
+            MessageMentions.CHANNELS_PATTERN.test(val)
+        );
+      },
+    },
+    {
+      type: ApplicationCommandOptionType.Role,
+      value: `ID роли | упоминание роли`,
+      validator(val, guild) {
+        return Boolean(
+          guild.roles.cache.get(val) ||
+            MessageMentions.ROLES_PATTERN.test(val)
+        );
+      },
+    },
+    {
+      type: ApplicationCommandOptionType.Boolean,
+      value: `True | False`,
+      validator(val) {
+        return val === true || val === false;
+      },
+    },
+    {
+      type: ApplicationCommandOptionType.String,
+      value: `Строка`,
+      validator(val) {
+        return typeof val === "string";
+      },
+    },
+  ],
+  whiteListRoles: [
+    // белый список ролей по отношению к наказаниям
     rolesId.discordMaster, // дискорд мастер
     rolesId.juniorDiscordMaster, // младший дискорд мастер
     rolesId.mainAdmin, // ГА
@@ -65,12 +134,31 @@ module.exports = {
     rolesId.adviceAdministration, // совет администрации дискорда
     rolesId.curatorModeration, // куратор модерации
     rolesId.moderator, // старший модератор
+    rolesId.adminsFourLVL, // админ 4 уровня
+    rolesId.adminsThreeLVL, // админ 3 уровня
+    rolesId.juniorAdmins, // хелпер 1-2 уровня
     rolesId.juniorModerator, // младший модератор
+  ],
+  fromPostToPostList: [
+    // массив с должностями. Должность с которой понижают, и должность на которую понижают
+    {
+      fromRoleId: rolesId.adviceAdministration, // совет администрации
+      toRoleId: rolesId.curatorModeration, // понижают до куратора модерации
+    },
+    {
+      fromRoleId: rolesId.curatorModeration, // куратор модерации
+      toRoleId: rolesId.moderator, // понижают до старшего модератора
+    },
+    {
+      fromRoleId: rolesId.moderator, // куратор модерации
+      toRoleId: rolesId.juniorModerator, // понижают до младшего модератора
+    },
   ],
   maxCountImmunities: 2, // максимальное количество иммунитетов для модераторов
   maxCountWarns: 2, // максимальное количество предупреждений для модераторов
+  maxCountRebukes: 3, // максимальное количество выговоров для модераторов
   prefix: "/",
-  token: `OTYwMTA2MjU4NDg3MTgxMzYy.YklmoQ.U9M9r6TSmWx0kmM9hrWzfJ9ATM8`,
+  token: `OTYzODc2NzU0OTUzNDk0NTU4.YlceLg.qf_KGNhq5ieZdITICp2SEZmss1k`,
   applicationId: "932397605651091466",
   surpriseGuild: "948675243025764404",
   database: {

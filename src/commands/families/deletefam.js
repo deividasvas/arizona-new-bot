@@ -1,4 +1,9 @@
-const { EmbedBuilder, ApplicationCommandOptionType, ChannelType } = require("discord.js");
+const {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  ChannelType,
+  Colors,
+} = require("discord.js");
 const { rolesId } = require("../../configs/settings");
 const settings = require("../../configs/settings");
 const Families = require("../../models/Families");
@@ -6,7 +11,7 @@ const Families = require("../../models/Families");
 module.exports = {
   name: "deletefam", // название команды
   descr: "Удалить семью", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: false, // показывать ли команду в slash командах
   perms: () => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   arguments: [
     {
@@ -17,7 +22,7 @@ module.exports = {
     },
   ], // аргументы
 
-  run: async ({ bot, interaction, args, guild, author }) => {
+  async run({ bot, interaction, args, guild, author }){
     const familyRoleID = args[0]; // Семья
     const family = await Families.findOne({
       roleId: familyRoleID,
@@ -29,7 +34,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Данной семьи не существует**`)
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -43,12 +48,14 @@ module.exports = {
     }
     let voiceChannel = guild.channels.cache.find(
       (channel) =>
-        channel.id == family.voiceChannelId && channel.type === ChannelType.GuildVoice
+        channel.id == family.voiceChannelId &&
+        channel.type === ChannelType.GuildVoice
     ); // Голосовой канал
 
     let textChannel = guild.channels.cache.find(
       (channel) =>
-        channel.id == family.textChannelId && channel.type === ChannelType.GuildText
+        channel.id == family.textChannelId &&
+        channel.type === ChannelType.GuildText
     ); // Текстовый канал
 
     let role = guild.roles.cache.find((role) => role.id === family.roleId); // Роль
@@ -77,14 +84,14 @@ module.exports = {
     });
     await Families.deleteOne({
       roleId: familyRoleID,
-    })
+    });
     interaction.reply({
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
           .setTitle(`📌 | Удаление семьи!`)
           .setDescription(`**Вы успешно удалили семью \`\`${role.name}\`\`**`)
-          .setColor(`Red`)
+          .setColor(Colors.Red)
           .setTimestamp()
           .setAuthor({
             name: guild.name,

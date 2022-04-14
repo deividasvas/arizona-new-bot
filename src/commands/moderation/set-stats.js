@@ -47,7 +47,7 @@ const choices = [
 module.exports = {
   name: "set-stats", // название команды
   descr: "Изменить статистику модератора", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
       name: "пользователь",

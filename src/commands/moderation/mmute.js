@@ -5,13 +5,13 @@ const mute = require("../../components/mute");
 const sendUserMessage = require("../../components/sendUserMessage");
 const setModerInfoParam = require("../../components/setModerInfoParam");
 const settings = require("../../configs/settings");
-const { rolesId, channelsId } = require("../../configs/settings");
+const { rolesId, channelsId, whiteListRoles } = require("../../configs/settings");
 const Punish = require("../../models/Punishment");
 
 module.exports = {
   name: "mmute", // название команды
   descr: "Выдача ограничений писать/говорить", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
       name: "пользователь",
@@ -42,6 +42,32 @@ module.exports = {
     const time = args[1];
     const reason = args[2];
 
+    const roleInWhiteList = userForKick.roles.cache.find((role) =>
+    whiteListRoles.includes(role.id)
+    ); // проверяем, есть ли у человека роль которая находится в белом списке по отношению к выдачам наказаний.
+    if (roleInWhiteList) {
+      // если у человека есть роль из белого списка ролей, то отвечаем запросившему что у пользователя роль из белого списка
+      return interaction.reply({
+        ephemeral: true,
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`❌ | Ошибка!`)
+            .setDescription(
+              `**Пользователя ${userForKick} невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
+            )
+            .setColor(`Red`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      });
+    }
+
     if (userForMute.roles.cache.some((role) => role.id === rolesId.muted)) {
       return interaction.reply({
         ephemeral: true,
@@ -62,7 +88,9 @@ module.exports = {
       });
     }
 
-    const moderationLog = guild.channels.cache.get(channelsId.moderationLog) || (await guild.channels.fetch(channelsId.moderationLog));
+    const moderationLog =
+      guild.channels.cache.get(channelsId.moderationLog) ||
+      (await guild.channels.fetch(channelsId.moderationLog));
     moderationLog.send({
       embeds: [
         new EmbedBuilder()
@@ -129,11 +157,31 @@ module.exports = {
     });
     mute(bot, guild.id, userForMute.id, author, time, reason);
     // выдаем недельные муты и общие
-    await setModerInfoParam(author.id, "main", "mutes", ({mutes}) => mutes + 1);
-    await setModerInfoParam(author.id, "week", "mutes", ({mutes}) => mutes + 1);
+    await setModerInfoParam(
+      author.id,
+      "main",
+      "mutes",
+      ({ mutes }) => mutes + 1
+    );
+    await setModerInfoParam(
+      author.id,
+      "week",
+      "mutes",
+      ({ mutes }) => mutes + 1
+    );
 
     // выдаем недельные баллы и общие
-    await setModerInfoParam(author.id, "main", "balls", ({ balls, coefficient }) => balls + settings.rates.mute * coefficient);
-    await setModerInfoParam(author.id, "week", "balls", ({ balls, coefficient }) => balls + settings.rates.mute * coefficient);
+    await setModerInfoParam(
+      author.id,
+      "main",
+      "balls",
+      ({ balls, coefficient }) => balls + settings.rates.mute * coefficient
+    );
+    await setModerInfoParam(
+      author.id,
+      "week",
+      "balls",
+      ({ balls, coefficient }) => balls + settings.rates.mute * coefficient
+    );
   },
 };

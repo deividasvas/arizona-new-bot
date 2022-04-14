@@ -14,7 +14,8 @@ const setWarnsOrRebukes = async (userId, func) => {
     discordId: userId,
   });
 
-  moderator.updateOne(
+
+  await Moderators.updateOne(
     {
       discordId: userId,
     },
@@ -23,7 +24,7 @@ const setWarnsOrRebukes = async (userId, func) => {
         warns: await func(moderator), // функция должна вернуть массив с всеми варнами и выговорами
       },
     }
-  ).then((...args) => console.log(args));
+  );
 
   return true;
 };

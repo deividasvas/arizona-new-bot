@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const { rolesID } = require("../configs/settings");
 
 const handleErrors = (err, bot, { message, command, isCommandError = false, } = {}) => {
@@ -21,7 +21,7 @@ const handleErrors = (err, bot, { message, command, isCommandError = false, } = 
                         iconURL: bot.user.displayAvatarURL()
                     })
                     .setDescription(`**「💻」Тип ошибки: \`${err.name}\`**\n\n\`\`\`xl\n${err.stack}\`\`\``)
-                    .setColor(`#ff0022`)
+                    .setColor(Colors.DarkGreen)
                     .setTimestamp()
             ]
         })

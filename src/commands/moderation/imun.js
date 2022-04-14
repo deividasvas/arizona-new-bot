@@ -7,7 +7,7 @@ const { rolesId, channelsId } = require("../../configs/settings");
 module.exports = {
   name: "imun", // название команды
   descr: "Выдать модератору иммунитет", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
       name: "пользователь",

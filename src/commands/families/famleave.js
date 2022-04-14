@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const { rolesId } = require("../../configs/settings");
 const Families = require("../../models/Families");
@@ -6,12 +6,12 @@ const Families = require("../../models/Families");
 module.exports = {
   name: "famleave", // название команды
   descr: "Покинуть семью", // описание команды
-  private: false, // общедоступность команды
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // список аргументов
-  perms: (bot) => {
-    return getAllRolesIdFamilies(bot); // все айди семейных ролей
+  perms: () => {
+    return getAllRolesIdFamilies(); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
-  run: async ({ bot, interaction, channel, author, args, guild }) => {
+  async run({ bot, interaction, channel, author, args, guild }) {
     const familyList = await Families.find();
     const familyRolesMap = familyList.map((r) => r.roleId); // Получаем название всех семей
     let userFamilysString = "";
@@ -39,7 +39,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Вы не состоите ни в одной из семей.**`)
-            .setColor(`RED`)
+            .setColor(Colors.Red)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -68,7 +68,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setDescription(`**Вы вышли из семьи \`${userFamilys[0]}.\`**`)
-            .setColor(`DarkGreen`)
+            .setColor(Colors.DarkGreen)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,
@@ -85,7 +85,7 @@ module.exports = {
         .setDescription(
           `**${userFamilysString}\nВведите номер семьи которую вы хотите покинуть.\nЕсли хотите выйти из данного меню, введите \`-\`**`
         )
-        .setColor(`DarkGreen`)
+        .setColor(Colors.DarkGreen)
         .setTimestamp()
         .setFooter({
           text: `Robo Hamster`,
@@ -126,7 +126,7 @@ module.exports = {
             new EmbedBuilder()
               .setTitle(`❌ | Ошибка!`)
               .setDescription(`**Некорректное значение!**`)
-              .setColor(`RED`)
+              .setColor(Colors.Red)
               .setFooter({
                 text: `Robo Hamster`,
                 iconURL: bot.user.displayAvatarURL(),
@@ -159,7 +159,7 @@ module.exports = {
             .setDescription(
               `**Вы вышли из семьи \`${userFamilys[selectedFamily]}.\`**`
             )
-            .setColor(`DarkGreen`)
+            .setColor(Colors.DarkGreen)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,

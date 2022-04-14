@@ -9,7 +9,7 @@ const Families = require("../../models/Families");
 module.exports = {
   name: "famdelzam", // название команды
   descr: "Убрать заместителя из семьи", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   perms: (bot) => {
     return getAllRolesIdFamilies(bot); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
@@ -21,7 +21,7 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  run: async ({ bot, interaction, author, args, guild }) => {
+  async run({ bot, interaction, author, args, guild }) {
     const familyCandidateForRemoveOfDeputy =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const family = await Families.findOne({

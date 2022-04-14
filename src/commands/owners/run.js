@@ -1,11 +1,11 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const settings = require("../../configs/settings");
 const { rolesId } = require("../../configs/settings");
 module.exports = {
   name: "run", // название команды
   descr: "Запускает JavaScript код", // описание команды
   perms: () => [rolesId.techSection], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
-  private: false, // ограничена в использовании
+  showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [
     {
       name: "код",
@@ -24,7 +24,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`🚫 | Ошибка!`)
             .setDescription(`**Вам недоступна данная команда**`)
-            .setColor(`RED`)
+            .setColor(Colors.Red)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,
@@ -44,7 +44,7 @@ module.exports = {
           .setDescription(
             `**Отправлено с ${channel} \`[${channel.id}]\`\nОтправил: ${author} \`[${author.user.id}]\`\n\nКод:\n\`\`\`js\n${code}\`\`\`**`
           )
-          .setColor("#82ca32")
+          .setColor(Colors.DarkGreen)
           .setTimestamp()
           .setFooter({
             text: `Robo Hamster`,
@@ -59,7 +59,7 @@ module.exports = {
         new EmbedBuilder()
           .setTitle("📌 | Оповещение об использовании команды run!")
           .setDescription(`**JavaScript выражение было успешно запущено!**`)
-          .setColor("#82ca32")
+          .setColor(Colors.DarkGreen)
           .setTimestamp()
           .setFooter({
             text: `Robo Hamster`,

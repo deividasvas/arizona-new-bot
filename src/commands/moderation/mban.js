@@ -1,4 +1,5 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const ban = require("../../components/ban");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
 const kick = require("../../components/kick");
@@ -12,20 +13,25 @@ const {
 } = require("../../configs/settings");
 
 module.exports = {
-  name: "mkick", // название команды
-  descr: "Исключить игрока из сервера", // описание команды
+  name: "mban", // название команды
+  descr: "Заблокировать пользователя на сервере", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
       name: "пользователь",
-      description: "Пользователь которого Вы хотите исключить из сервера",
+      description: "Пользователь которого Вы заблокировать на сервере",
       type: ApplicationCommandOptionType.User,
       required: true,
     },
     {
+      name: "срок",
+      description: "Срок в днях насколько Вы хотите заблокировать пользователя",
+      type: ApplicationCommandOptionType.Number,
+      required: true,
+    },
+    {
       name: "причина",
-      description:
-        "Причина по которой Вы хотите исключить пользователя из сервера",
+      description: "Причина по которой Вы хотите заблокировать пользователя",
       type: ApplicationCommandOptionType.String,
       required: true,
     },
@@ -33,11 +39,12 @@ module.exports = {
   perms: () => getAllRolesIdModers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, guild, args, channel }) => {
-    const userForKick =
+    const userForBan =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
-    const reason = args[1];
+    const days = args[1];
+    const reason = args[2];
 
-    const roleInWhiteList = userForKick.roles.cache.find((role) =>
+    const roleInWhiteList = userForBan.roles.cache.find((role) =>
       whiteListRoles.includes(role.id)
     ); // проверяем, есть ли у человека роль которая находится в белом списке по отношению к выдачам наказаний.
     if (roleInWhiteList) {
@@ -48,7 +55,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(
-              `**Пользователя ${userForKick} невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
+              `**Пользователя ${userForBan} невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
             )
             .setColor(`Red`)
             .setAuthor({
@@ -62,19 +69,70 @@ module.exports = {
         ],
       });
     }
+
+    let statusUserRoleId = ""; // id роли которая показывает статус пользователя в игре, заместитель фракции, лидер, министр.
+
+    const roleStatus = guild.roles.cache.find((role) =>
+      [
+        rolesId.leadersFractions, // лидеры
+        rolesId.ministers, // министры
+        rolesId.deputiesFractions, // заместители
+      ].includes(role.id)
+    );
+
+    if (roleStatus) {
+      statusUserRoleId = roleStatus.id;
+    }
+
+    const moderationChannel = guild.channels.cache.get(channelsId.moderation);
+
+    moderationChannel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(0x483d8b)
+          .setTimestamp()
+          .setTitle(`📌 | Временая блокировка участника.`)
+          .setAuthor({
+            name: guild.name,
+            iconURL: guild.iconURL(),
+          })
+          .setFooter({
+            text: `Robo Hamster`,
+            iconURL: bot.user.displayAvatarURL(),
+          })
+          .setDescription(
+            {
+              name: `Информация`,
+              value: `**「👨🏼‍💼」Отправитель: <@${
+                author.id
+              }>\n「👹」Нарушитель: <@${
+                userForBan.id
+              }>\n「🌌」Статус нарушителя: ${
+                statusUserRoleId ? `<@${statusUserRoleId}>` : `Пользователь`
+              }\n「🕒」Дней блокировки: ${days}**`,
+            },
+            {
+              name: `「🔥」Причина выдачи`,
+              value: `${reason}`,
+            }
+          ),
+      ],
+    });
+
+    return;
     await sendUserMessage(
       {
         content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
         embeds: [
           new EmbedBuilder()
             .setColor("DarkGreen")
-            .setTitle(`📌 | Вы были исключены из сервера!`)
+            .setTitle(`📌 | Вы были заблокированы на сервера!`)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
             })
             .setDescription(
-              `**「📝」Исключил: <@${author.id}>\n「📕」Причина: \`${reason}\`**`
+              `**「📝」Заблокировал: <@${author.id}>\n「📕」Причина: \`${reason}\`\n「📅」Блокировка кончится через \`${days}\` дней**`
             )
             .setTimestamp()
             .setFooter({
@@ -83,16 +141,16 @@ module.exports = {
             }),
         ],
       },
-      userForKick.id,
+      userForBan.id,
       guild
-    ); // отправляем в лс пользователю сообщение об исключений
-    await kick(bot, guild.id, userForKick.id, author, reason); // исключаем пользователя из сервера
+    ); // отправляем в лс пользователю сообщение об блокировке
+    await ban(bot, guild.id, userForKick.id, author, days, reason); // блокируем пользователя
     const moderationLog = guild.channels.cache.get(channelsId.moderationLog);
     moderationLog.send({
       embeds: [
         new EmbedBuilder()
           .setColor(`DarkGreen`)
-          .setTitle(`📌 | Система исключения пользователей.`)
+          .setTitle(`📌 | Система блокировки пользователей.`)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),

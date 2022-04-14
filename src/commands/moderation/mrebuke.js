@@ -14,19 +14,19 @@ const {
 } = require("../../configs/settings");
 
 module.exports = {
-  name: "mwarn", // название команды
-  descr: "Выдать модератору предупреждение", // описание команды
+  name: "mrebuke", // название команды
+  descr: "Выдать модератору выговоро", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
       name: "пользователь",
-      description: "Модератор которому Вы хотите выдать предупреждение",
+      description: "Модератор которому Вы хотите выдать выговоро",
       type: ApplicationCommandOptionType.User,
       required: true,
     },
     {
       name: "причина",
-      description: "Причина по которой Вы выдаёте модератору предупреждение",
+      description: "Причина по которой Вы выдаёте модератору выговор",
       type: ApplicationCommandOptionType.String,
       required: true,
     },
@@ -72,16 +72,13 @@ module.exports = {
     const punishModeratorsLogChannel = guild.channels.cache.get(
       channelsId.punishModeratorsLog
     );
-    const warns = listWarnsAndRebukes.filter(
-      (warnOrRebuke) => warnOrRebuke.group === "warn"
-    ); // предупреждения в массиве
 
     const rebukes = listWarnsAndRebukes.filter(
       (warnOrRebuke) => warnOrRebuke.group === "rebuke"
     );
 
-    if (immunities >= 1 && warns.length + 1 >= maxCountWarns) {
-      // проверяем, есть ли у человека один или больше иммунитет, и если выдать это предупреждение, то автомачетиски выдастся ли выговор
+    if (immunities >= 1) {
+      // проверяем, есть ли у человека один или больше иммунитет, если есть, то снимаем его вместо выговора
 
       await setModerInfoParam(
         moderator.id,
@@ -89,11 +86,6 @@ module.exports = {
         "immunities",
         ({ immunities }) => immunities - 1
       ); // снимаем один иммунитет
-
-      await setWarnsOrRebukes(
-        moderator.id,
-        rebukes // удаляем все предупреждения кроме выговоров
-      );
 
       punishModeratorsLogChannel.send({
         content: `${author} ${moderator}`,
@@ -106,7 +98,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setDescription(
-              `**「📝」Снял 1 имунитет: <@${author.id}>\n「🥶」Кому: <@${moderator.id}>\n「📕」Причина: \`Выдача выговора ${maxCountWarns}/${maxCountWarns} предупреждений\`\n「🌃」Причина последнего предупреждения: \`${reason}\`\n「⛔」Вам выдали выговор, но Вас спас иммунитет, будьте в следуйщий раз внимательней!**`
+              `**「📝」Снял 1 имунитет: <@${author.id}>\n「🥶」Кому: <@${moderator.id}>\n「📕」Причина: \`Выдача выговора\`\n「🌃」Причина выговора: \`${reason}\`\n「⛔」Вам выдали выговор, но Вас спас иммунитет, будьте в следуйщий раз внимательней!**`
             )
             .setTimestamp()
             .setFooter({
@@ -126,9 +118,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setDescription(
-              `**У модератора ${moderator} накопилось ${
-                warns.length + 1
-              } из ${maxCountWarns} предупреждений, но у него имелся иммунитет который был снят. Везунчик..**`
+              `**Вы успешно выдали модератору ${moderator} выговор, но у него имелся иммунитет который был снят. Везунчик..**`
             )
             .setTimestamp()
             .setFooter({
@@ -139,14 +129,9 @@ module.exports = {
       });
     }
 
-    if (
-      warns.length + 1 >= maxCountWarns &&
-      rebukes.length + 1 >= maxCountRebukes
-    ) {
-      /* предупреждение которое сейчас выдадут должно выдать модератору выговор
-      и у модератора будет максимальное количество выговоров, следовательно, его
-      нужно снять или понизить если он модератор и выше
-      */
+    if (rebukes.length + 1 >= maxCountRebukes) {
+      /* выговор который сейчас выдадут будет максимальным, и у модератора будет 3/3, соответственно, его нужно либо понизить либо снять.
+       */
 
       // пытаемся сначала понизить пользователя на должность ниже
       for (const post of fromPostToPostList) {
@@ -177,8 +162,6 @@ module.exports = {
                 })
                 .setDescription(
                   `**У модератора ${moderator} накопилось ${
-                    warns.length + 1
-                  } из ${maxCountWarns} предупреждений, по этой причине ему выдан выговор. Но, у него накопилось уже ${
                     rebukes.length + 1
                   } из ${maxCountRebukes} выговоров, поэтому, он был понижен до должности <@&${
                     post.toRoleId
@@ -193,7 +176,16 @@ module.exports = {
           });
         }
       }
-
+      await setWarnsOrRebukes(moderator.id, ({ warns }) => {
+        return [
+          ...warns,
+          {
+            group: "rebuke",
+            reason,
+            initiatorId: author.id,
+          },
+        ];
+      }); // заносим выговор в базу данных чтоб отобразилось в статистике снятия 3/3
       // если должность у пользователя - младший модератор, то снимаем его
       await removeModerator(bot, guild.id, moderator.id);
       return interaction.reply({
@@ -207,76 +199,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setDescription(
-              `**У модератора ${moderator} накопилось ${
-                warns.length + 1
-              } из ${maxCountWarns} предупреждений и ${maxCountRebukes} из ${maxCountRebukes} выговоров. Модератор с**`
-            )
-            .setTimestamp()
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
-        ],
-      });
-    }
-
-    if (warns.length + 1 >= maxCountWarns) {
-      // предупреждение которое выдадут сейчас должно выдать модератору выговор
-
-      await setWarnsOrRebukes(moderator.id, ({ warns }) => {
-        return [
-          ...warns.filter((warnOrRebuke) => warnOrRebuke.group === "rebuke"),
-          {
-            group: "rebuke",
-            reason: `${maxCountWarns}/${maxCountWarns} предупреждений`,
-            initiatorId: author.id,
-          },
-        ];
-      }); // заносим выговор в базу данных
-
-      punishModeratorsLogChannel.send({
-        content: `${author} ${moderator}`,
-        embeds: [
-          new EmbedBuilder()
-            .setColor("DarkGreen")
-            .setTitle(`📌 | Система выдачи выговоров!`)
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setDescription(
-              `**「📝」Выдал: <@${
-                author.id
-              }>\n「🥶」Кому: ${moderator}\n「📕」Причина: \`${
-                warns.length + 1
-              }/${maxCountWarns} предупреждений\`\n「⛔」Причина последнего предупреждения: \`${reason}\`\n「😿」Теперь у него ${
-                listWarnsAndRebukes.filter(
-                  (warnOrRebuke) => warnOrRebuke.group === "rebuke"
-                ).length + 1
-              } выговоров**`
-            )
-            .setTimestamp()
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
-        ],
-      });
-
-      return interaction.reply({
-        ephemeral: true,
-        embeds: [
-          new EmbedBuilder()
-            .setColor("DarkGreen")
-            .setTitle(`📌 | Система выдачи выговоров!`)
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setDescription(
-              `**У модератора ${moderator} накопилось ${
-                warns.length + 1
-              } из ${maxCountWarns} предупреждений, по этой причине ему выдан выговор.**`
+              `**У модератора ${moderator} накопилось ${maxCountRebukes} из ${maxCountRebukes} выговоров. Модератор снят.**`
             )
             .setTimestamp()
             .setFooter({
@@ -291,18 +214,18 @@ module.exports = {
       return [
         ...warns,
         {
-          group: "warn",
+          group: "rebuke",
           reason,
           initiatorId: author.id,
         },
       ];
-    }); // заносим предупреждение в базу данных
+    }); // заносим выговор в базу данных
     punishModeratorsLogChannel.send({
       content: `${author} ${moderator}`,
       embeds: [
         new EmbedBuilder()
           .setColor("DarkGreen")
-          .setTitle(`📌 | Система выдачи предупреждения!`)
+          .setTitle(`📌 | Система выдачи выговоров!`)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),
@@ -311,8 +234,8 @@ module.exports = {
             `**「📝」Выдал: <@${
               author.id
             }>\n「🥶」Кому: ${moderator}\n「📕」Причина: \`${reason}\`\n「😿」Теперь у него ${
-              warns.length + 1
-            } предупреждения(ий)**`
+              rebukes.length + 1
+            } выговор(ов)**`
           )
           .setTimestamp()
           .setFooter({
@@ -326,15 +249,15 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
           .setColor("DarkGreen")
-          .setTitle(`📌 | Система выдачи предупреждения!`)
+          .setTitle(`📌 | Система выдачи выговоров!`)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),
           })
           .setDescription(
-            `**Вы успешно выдали предупреждение модератору ${moderator} по причине \`${reason}\`. Теперь у него \`${
-              warns.length + 1
-            }\` предупреждения(ий)**`
+            `**Вы успешно выдали выговор модератору ${moderator} по причине \`${reason}\`. Теперь у него \`${
+              rebukes.length + 1
+            }\` выговор(ов)**`
           )
           .setTimestamp()
           .setFooter({

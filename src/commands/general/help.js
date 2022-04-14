@@ -4,7 +4,7 @@ const { rolesId } = require("../../configs/settings");
 module.exports = {
   name: "help", // название команды
   descr: "Команда для помощи по командам", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // аргументы
   perms: () => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 

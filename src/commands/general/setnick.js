@@ -4,7 +4,7 @@ const { rolesId } = require("../../configs/settings");
 module.exports = {
   name: "setnick", // название команды
   descr: "Изменить никнейм пользователя", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
       name: "имя",

@@ -1,12 +1,17 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const {
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require("discord.js");
 const getAllRolesIdAdmins = require("../../components/getAllRolesIdAdmins");
 const { channelsId } = require("../../configs/settings");
-const { ApplicationCommandOptionType } = require('discord.js');
+const { ApplicationCommandOptionType } = require("discord.js");
 module.exports = {
   name: "log", // название команды
   descr:
     "Сообщить тех.администраторам об пользователе который может являтся махинатором", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [
     {
       name: "никнейм",
@@ -45,7 +50,11 @@ module.exports = {
           .setColor("Grey")
           .setTitle(`📌 | В рассмотрении`)
           .setDescription(
-            `**「🧍」Запросил: <@${author.id}>\n「👱‍♂️」Ник-Нейм: \`${nickname.split(" ").join("_")}\`\n「🏔」Источник: \`${from}\`\n「📄」Причина: \`${reason}\`**`
+            `**「🧍」Запросил: <@${author.id}>\n「👱‍♂️」Ник-Нейм: \`${nickname
+              .split(" ")
+              .join(
+                "_"
+              )}\`\n「🏔」Источник: \`${from}\`\n「📄」Причина: \`${reason}\`**`
           )
           .setAuthor({
             name: guild.name,
@@ -63,7 +72,7 @@ module.exports = {
             .setLabel("Проверенно, что-то нашёл")
             .setStyle(ButtonStyle.Success)
             .setEmoji({
-                id: "886020016925990912"
+              id: "886020016925990912",
             })
         ),
         new ActionRowBuilder().addComponents(
@@ -72,7 +81,7 @@ module.exports = {
             .setLabel("Проверенно, ничего не нашёл")
             .setStyle(ButtonStyle.Danger)
             .setEmoji({
-                id: "886020016120672286"
+              id: "886020016120672286",
             })
         ),
         new ActionRowBuilder().addComponents(
@@ -80,10 +89,16 @@ module.exports = {
             .setCustomId("log_monitoring_no")
             .setLabel(`Лог 📌 ${nickname}`)
             .setStyle(ButtonStyle.Link)
-            .setURL(`http://ulog.union-u.net/search.php?searchtext=${nickname.split(' ').join('_')}&server=10`)
+            .setURL(
+              `http://ulog.union-u.net/search.php?searchtext=${nickname
+                .split(" ")
+                .join("_")}&server=10`
+            )
         ),
       ],
-      content: `http://ulog.union-u.net/search.php?searchtext=${nickname.split(" ").join("_")}&server=15`,
+      content: `http://ulog.union-u.net/search.php?searchtext=${nickname
+        .split(" ")
+        .join("_")}&server=15`,
     });
     interaction.reply({
       ephemeral: true,
@@ -95,12 +110,12 @@ module.exports = {
             {
               name: `🐹・Информация о запросе`,
               value: `>>> **「🧍」Запросил: <@${author.id}>\n「👱‍♂️」Ник-Нейм: \`${nickname}\`\n「🏔」Источник: \`${from}\`\n「📄」Причина: \`${reason}\`**`,
-              inline: true
+              inline: true,
             },
             {
               name: `📌・Результат проверки`,
               value: `>>> **「🎸」Статус: \`В обработке\`\n「🔥」Проверил: \`Нет\`**`,
-              inline: true
+              inline: true,
             }
           )
           .setAuthor({

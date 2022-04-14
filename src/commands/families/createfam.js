@@ -1,4 +1,8 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  Colors,
+} = require("discord.js");
 const { rolesId } = require("../../configs/settings");
 const settings = require("../../configs/settings");
 const { ChannelType } = require("discord.js");
@@ -7,7 +11,7 @@ const Families = require("../../models/Families");
 module.exports = {
   name: "createfam", // название команды
   descr: "Создать семью", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: false, // показывать ли команду в slash командах
   perms: () => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   arguments: [
     {
@@ -30,7 +34,7 @@ module.exports = {
     },
   ], // аргументы
 
-  run: async ({ bot, interaction, args, guild, author }) => {
+  async run({ bot, interaction, args, guild, author }) {
     const familyName = args[2]; // Название семьи
     const color = args[1]; // Цвет семьи
     const leaderFam =
@@ -42,9 +46,11 @@ module.exports = {
         },
         {
           deputies: {
-            $in: [{
-              userId: leaderFam.id
-            }]
+            $in: [
+              {
+                userId: leaderFam.id,
+              },
+            ],
           },
         },
       ],
@@ -59,7 +65,7 @@ module.exports = {
             .setDescription(
               `**${leaderFam} уже является лидером или заместителем семьи \`${familyName}\`**`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -82,7 +88,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Семья \`${checking.name}\` уже существует!**`)
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -118,7 +124,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor("#39FE7B")
+          .setColor(Colors.DarkGreen)
           .setTitle(`📌 | Создание семьи`)
           .setDescription(
             `**Название: \`${familyName}\`\nВладелец семьи: ${leaderFam}\n**`
@@ -139,7 +145,7 @@ module.exports = {
     logChannel.send({
       embeds: [
         new EmbedBuilder()
-          .setColor("#39FE7B")
+          .setColor(Colors.DarkGreen)
           .setTitle(`📌 | Создание семьи`)
           .setDescription(
             `**「📝」Название: \`${familyName}\`\n「📌」Владелец семьи: ${leaderFam}\n「👪」Семью создал Администратор: \`${author.user.tag}\`**`
@@ -222,6 +228,8 @@ module.exports = {
       textChannelId: textChannel.id,
     });
     await newFamily.save();
+
     bot.reInitPermissionsForFamilies(); // ОБНОВЛЕНИЕ ПРАВ ДЛЯ ВСЕХ СЕМЕЙНЫХ КОМАНД, СДЕЛАНО ЧТОБ ПРАВА ПРИМЕНИЛИСЬ К НОВЫМ СЕМЬЯМ. НЕ ТРОГАТЬ!!!!!
+
   },
 };

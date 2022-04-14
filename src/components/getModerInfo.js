@@ -1,7 +1,8 @@
 const Moderators = require("../models/Moderators");
 const getAllRolesIDModers = require("./getAllRolesIDModers");
 
-const getModerInfo = async (guild, userId) => {
+const getModerInfo = async (bot, guildId, userId) => {
+  const guild = bot.guilds.cache.get(guildId);
   const member = guild.members.cache.get(userId);
   const allRolesIDModers = getAllRolesIDModers();
   if (!member.roles.cache.some((role) => allRolesIDModers.includes(role.id))) {

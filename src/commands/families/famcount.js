@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const { rolesId } = require("../../configs/settings");
 const settings = require("../../configs/settings");
@@ -7,13 +7,13 @@ const Families = require("../../models/Families");
 module.exports = {
   name: "famcount", // название команды
   descr: "Количество участников семьи", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // аргументы
   perms: (bot) => {
     return getAllRolesIdFamilies(bot); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, guild, author, interaction }) => {
+  async run({ bot, guild, author, interaction }) {
     const family = await Families.findOne({
       $or: [
         {
@@ -40,7 +40,7 @@ module.exports = {
             .setDescription(
               `**Вы не являетесь владельцем или заместителем семьи**`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -70,7 +70,7 @@ module.exports = {
               guild.roles.cache.get(family.roleId).members.size
             }\`**`
           )
-          .setColor(`DarkGreen`)
+          .setColor(Colors.DarkGreen)
           .setTimestamp()
           .setAuthor({
             name: guild.name,

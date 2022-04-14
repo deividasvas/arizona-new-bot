@@ -5,7 +5,7 @@ const { rolesId, channelsId } = require("../../configs/settings");
 module.exports = {
   name: "нарушение", // название команды
   descr: "Пожаловаться следящим о нарушении руководящего состава", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
       name: "структура",

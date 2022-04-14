@@ -4,7 +4,7 @@ const { rolesId } = require("../../configs/settings");
 module.exports = {
   name: "verify", // название команды
   descr: "Получить роль 'Проверенный'", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // аргументы
   perms: () => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 

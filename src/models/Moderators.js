@@ -26,7 +26,7 @@ const ModeratorsSchema = new mongoose.Schema({
   },
   warns: [ // выговоры / предупреждения
       {
-          type: String, // rebuke - выговор / warn - предупреждение
+          group: String, // Группа выговоров или предов. rebuke - выговор / warn - предупреждение
           reason: String, // причина выговора, предупреждения
           initiatorId: String, // ID того кто выдал выговор / пред
       }

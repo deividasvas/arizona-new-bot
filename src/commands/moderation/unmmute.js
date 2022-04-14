@@ -8,7 +8,7 @@ const { rolesId, channelsId } = require("../../configs/settings");
 module.exports = {
   name: "unmmute", // название команды
   descr: "Отключение ограничений писать/говорить", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
       name: "пользователь",

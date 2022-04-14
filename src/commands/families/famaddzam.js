@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
@@ -8,7 +8,7 @@ const Families = require("../../models/Families");
 module.exports = {
   name: "famaddzam", // название команды
   descr: "Поставить заместителя в семье", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   perms: (bot) => {
     return getAllRolesIdFamilies(bot); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
@@ -20,7 +20,7 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  run: async ({ bot, interaction, author, args, guild }) => {
+  async run({ bot, interaction, author, args, guild }){
     const familyCandidateDeputy =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const family = await Families.findOne({
@@ -33,7 +33,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Вы не являетесь владельцем семьи**`)
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -53,7 +53,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**${familyCandidateDeputy} уже является заместителем в семье**`)
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -75,7 +75,7 @@ module.exports = {
             .setDescription(
               `**Максимальное количество заместителей семьи - ${settings.limitDeputyInFamilies} человек*`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -159,7 +159,7 @@ module.exports = {
               familyCandidateDeputy.id
             }]\`**`
           )
-          .setColor(`DarkGreen`)
+          .setColor(Colors.DarkGreen)
           .setTimestamp()
           .setAuthor({
             name: guild.name,
@@ -180,7 +180,7 @@ module.exports = {
           .setDescription(
             `**Вы успешно назначили ${familyCandidateDeputy} на заместителя семьи <@&${family.roleId}>**`
           )
-          .setColor(`DarkGreen`)
+          .setColor(Colors.DarkGreen)
           .setTimestamp()
           .setAuthor({
             name: guild.name,
@@ -200,7 +200,7 @@ module.exports = {
             .setDescription(
               `**Вы были успешно назначены на должность заместителя семьи \`\`${role.name}\`\`**`
             )
-            .setColor(`DarkGreen`)
+            .setColor(Colors.DarkGreen)
             .setTimestamp()
             .setAuthor({
               name: guild.name,

@@ -1,49 +1,30 @@
 const {
   Client,
   Collection,
-  ApplicationCommandOptionType,
   ApplicationCommandPermissionType,
 } = require("discord.js");
 const fs = require("fs");
-const mysql = require("mysql");
-const { database } = require("../configs/settings");
 const settings = require("../configs/settings");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { Routes } = require("discord-api-types/v9");
-const { REST } = require("@discordjs/rest");
-const { bot } = require("..");
 const path = require("path");
 const { default: mongoose } = require("mongoose");
-const { scheduleJob } = require("node-schedule");
 
 module.exports = class ExtendedClient extends Client {
   constructor() {
     super({
-      intents: 32767,
+      intents: 32767
     });
 
     this.commands = new Collection();
     this.modules = new Collection();
     this.buildCommandeds = new Collection();
-    const {
-      mainAdmin,
-      deputyMainAdmin,
-      curator,
-      discordMaster,
-      juniorDiscordMaster,
-    } = settings.rolesId;
-    this.whiteListRoles = [
-      // белый список ролей
-      mainAdmin, // ГА
-      deputyMainAdmin, // ЗГА
-      curator, // Куратор
-      discordMaster, // Дискорд Мастер
-      juniorDiscordMaster, // Junior дискорд мастер
-    ];
     this.token = settings.token;
     this.applicationId = settings.applicationId;
     this.guildId = settings.surpriseGuild;
-
+    this.prefix = settings.prefix;
+    this.fullPermissionCommandsRolesId = settings.fullPermissionCommandsRolesId;
+    this.whiteListRoles = settings.whiteListRoles;
+    this.typesArguments = settings.typesArguments;
     this.login(this.token);
     this.module();
     this.events();
@@ -77,8 +58,9 @@ module.exports = class ExtendedClient extends Client {
   async command() {
     // return;
     // ЗАПУСКАЕТСЯ В ready.js, потому что иначе бот не успевает прогрузиться.
-    const buildCommandes = [];
-    const guild = this.guilds.cache.get(this.guildId) || await this.guilds.fetch(this.guildId); // получаем дискорд сервер на котором будут запущены команды
+    const guild =
+      this.guilds.cache.get(this.guildId) ||
+      (await this.guilds.fetch(this.guildId)); // получаем дискорд сервер на котором будут запущены команды
     fs.readdirSync("./src/commands/").forEach(async (dir) => {
       // инициализируем саму команду
       const commands = fs
@@ -87,63 +69,20 @@ module.exports = class ExtendedClient extends Client {
       for (let file of commands) {
         let pull = require(`../commands/${dir}/${file}`);
         if (pull.name) {
-          this.commands.set(pull.name, pull); // устанавливаем инициализированную команду
-          const buildCommanded = new SlashCommandBuilder(); // создаём slash команду которая будет введена на сервер
-          buildCommanded.setName(pull.name);
-          buildCommanded.setDescription(pull.descr);
-          buildCommanded.options = [...pull.arguments];
-          buildCommandes.push(buildCommanded);
+          this.commands.set(pull.name, {
+            ...pull,
+            category: dir,
+          }); // устанавливаем инициализированную команду
+
+          if (pull.showInSlashCommands === true) {
+            // если данная включена в показ в слэш командах, то добавляем её в слэш команды
+            this.loadSlashCommand(pull, guild);
+          }
         } else {
           continue;
         }
       }
     });
-    for (const buildCommand of buildCommandes) {
-      const theCommand = this.commands.get(buildCommand.name); // получаем саму команду для настройек прав
-      const permissions = await (
-        await theCommand.perms(this)
-      ).map((roleID) => ({
-        type: ApplicationCommandPermissionType.Role,
-        id: roleID,
-        permission: true,
-      })); // создаём массив с правами
-
-      for (const whiteRoleID of this.whiteListRoles) {
-        // белый список ролей
-        permissions.push({
-          type: ApplicationCommandPermissionType.Role,
-          id: whiteRoleID,
-          permission: true,
-        }); // добавляем роли из белого списка доступ к команде
-      }
-      if (!permissions.find((perm) => perm.id === guild.roles.everyone.id)) {
-        // проверяем, есть ли разрешение смотреть и использовать команду у everyone
-        permissions.push({
-          type: ApplicationCommandPermissionType.Role,
-          id: guild.roles.everyone.id,
-          permission: false,
-        }); // если нет, то добавляем чтобы everyone нельзя было использовать эту команду
-      }
-      const commandInfoGuild = guild.commands.cache.find(
-        (command) => command.name === buildCommand.name
-      ); // пытаемся найти уже существующую такую команду, чтобы просто обновить права и не создавать новую.
-      if (commandInfoGuild) {
-        await commandInfoGuild.permissions.set({
-          permissions,
-        }); // обновляем права если команда существует
-        commandInfoGuild.setOptions(theCommand.arguments)
-        console.log(`${buildCommand.name} уже существует! Обновил ей права`);
-        continue;
-      }
-
-      const command = await guild.commands.create(buildCommand); // создаём команду если её ещё не создавали
-      await command.permissions.set({
-        permissions,
-      }); // обновляем права у только что созданной команды
-      console.log(
-        `${buildCommand.name} была успешно создана! Права инициализированы!`
-      );
-    }
 
     console.log(
       `[📌 | Commands]: ${this.commands.size} команд успешно загружено!`
@@ -151,6 +90,51 @@ module.exports = class ExtendedClient extends Client {
   }
   async deleteSlashCommand(commandId, guild) {
     await guild.commands.delete(commandId);
+  }
+  async loadSlashCommand(command, guild) {
+    const buildCommand = new SlashCommandBuilder(); // создаём slash команду которая будет введена на сервер
+    buildCommand.setName(command.name); // устанавливаем название команде
+    buildCommand.setDescription(command.descr); // устанавливаем описание команды
+    buildCommand.options = [...command.arguments]; // устанавливаем аргументы команды
+    const permissions = await (
+      await command.perms(this)
+    ).map((roleID) => ({
+      type: ApplicationCommandPermissionType.Role,
+      id: roleID,
+      permission: true,
+    })); // создаём массив с правами
+
+    for (const whiteRoleID of this.fullPermissionCommandsRolesId) {
+      // белый список ролей у которых есть полный доступ ко всем командам
+      permissions.push({
+        type: ApplicationCommandPermissionType.Role,
+        id: whiteRoleID,
+        permission: true,
+      }); // добавляем роли из белого списка доступ к команде
+    }
+    if (!permissions.find((perm) => perm.id === guild.roles.everyone.id)) {
+      // проверяем, есть ли разрешение смотреть и использовать команду у everyone
+      permissions.push({
+        type: ApplicationCommandPermissionType.Role,
+        id: guild.roles.everyone.id,
+        permission: false,
+      }); // если нет, то добавляем чтобы everyone нельзя было использовать эту команду
+    }
+    const commandInfoGuild = guild.commands.cache.find(
+      (command) => command.name === buildCommand.name
+    ); // пытаемся найти уже существующую такую команду, чтобы просто обновить права и не создавать новую.
+    if (commandInfoGuild) {
+      await commandInfoGuild.permissions.set({
+        permissions,
+      }); // обновляем права если команда существует
+      commandInfoGuild.setOptions(command.arguments);
+      return;
+    }
+
+    const newCommand = await guild.commands.create(buildCommand); // создаём команду если её ещё не создавали
+    await newCommand.permissions.set({
+      permissions,
+    }); // обновляем права у только что созданной команды
   }
   async deleteAllSlashCommands() {
     await this.guilds.fetch();
@@ -222,7 +206,7 @@ module.exports = class ExtendedClient extends Client {
 
   async connectionDataBase() {
     mongoose.connect(settings.database.url, (err) => {
-      if(err){
+      if (err) {
         throw err;
       }
       console.log(`[MONGO] База данных успешно запущена!`);

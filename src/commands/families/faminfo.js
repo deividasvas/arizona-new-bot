@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const settings = require("../../configs/settings");
 const { rolesId } = require("../../configs/settings");
@@ -7,7 +7,7 @@ const Families = require("../../models/Families");
 module.exports = {
   name: "faminfo", // название команды
   descr: "Получить информацию о семье", // описание команды
-  private: false, // ограничена в использовании
+  showInSlashCommands: true, // показывать ли команду в slash командах
   perms: (bot) => {
     return getAllRolesIdFamilies(bot); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
@@ -20,7 +20,7 @@ module.exports = {
     },
   ], // аргументы
 
-  run: async ({ bot, guild, args, author, interaction }) => {
+  async run({ bot, guild, args, author, interaction }) {
     const roleId = args[0];
     const family = await Families.findOne({
       roleId,
@@ -32,7 +32,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Данной семьи не существует**`)
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -52,7 +52,7 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
           .setTitle(`📌 | Информация о семье!`)
-          .setColor("Red")
+          .setColor(Colors.Red)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),
