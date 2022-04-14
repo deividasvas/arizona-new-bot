@@ -76,12 +76,12 @@ module.exports = async (bot, message) => {
                   command.descr
                 }\`\`\`\n**Аргументы:**\n\`\`\`${command.arguments
                   .map(
-                    ({ name, type, required, choices }) =>
-                      `${name} - ${
+                    ({ name, type, required, choices, description }) =>
+                      `${name} | ${description} | ${
                         bot.typesArguments.find(
                           (typeArgument) => typeArgument.type === type
                         ).value
-                      } [${required ? "Обязателен" : "Необязателен"}]${
+                      } - [${required ? "Обязателен" : "Необязателен"}] ${
                         choices?.length > 0
                           ? `(${choices
                               .map((choice) => choice.value)

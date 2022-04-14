@@ -2,6 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const { logs } = require("../configs/settings")
 
 module.exports = async(bot, banMember) => {
+    return
     const logChannel = banMember.guild.channels.cache.get(logs.ban);
 
     if(!logChannel) return console.log('[Ошибка]: Канал для лога банов не был найден!')

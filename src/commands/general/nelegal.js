@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonStyle, Colors } = require("discord.js");
 const { ButtonBuilder } = require("discord.js/node_modules/@discordjs/builders");
 const { rolesId, channelsId } = require("../../configs/settings");
 
@@ -19,7 +19,7 @@ module.exports = {
                 name: `${author.user.tag}`,
                 iconURL: author.displayAvatarURL()
             })
-          .setColor(`DarkGreen`)
+          .setColor(Colors.DarkGreen)
           .setDescription("**Чтобы перейти в Discord канал нелегалок , нажмите кнопку ниже!**")
           .setTimestamp()
           .setAuthor({

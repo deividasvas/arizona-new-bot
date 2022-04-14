@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const { rolesId, channelsId } = require("../../configs/settings");
 
@@ -80,7 +80,7 @@ module.exports = {
                 ", "
               )}**`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -103,7 +103,7 @@ module.exports = {
             .setDescription(
               `Суть жалобы должна быть не менее 5 символов, и не более 1300 символов`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -150,7 +150,7 @@ module.exports = {
             { name: `Обращение:`, value: `${textComplaint}`, inline: false },
             { name: `Доказательства:`, value: `${proof}`, inline: false }
           )
-          .setColor(`Red`)
+          .setColor(Colors.Red)
           .setTimestamp()
           .setFooter({
             text: `Robo Hamster`,
@@ -162,7 +162,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor("Red")
+          .setColor(Colors.Red)
           .setTitle(`📌 | Жалоба на руководство`)
           .setAuthor({
             name: guild.name,

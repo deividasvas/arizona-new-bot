@@ -1,4 +1,8 @@
-const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
+const {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  Colors,
+} = require("discord.js");
 const settings = require("../../configs/settings");
 const { rolesId } = require("../../configs/settings");
 const CommandsDisabled = require("../../models/CommandsDisabled");
@@ -9,23 +13,44 @@ module.exports = {
   showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [
     {
-      name: "действие",
-      description:
-        "Введите действие которое Вы хотите произвести(restart, stop, start)",
+      name: "команда",
+      description: "Название команды с которой Вы производите действия",
       type: ApplicationCommandOptionType.String,
       required: true,
     },
     {
-      name: "команда",
-      description: "Введите название команды с которой Вы производите действия",
+      name: "действие",
+      description: "Действие которое Вы хотите произвести",
       type: ApplicationCommandOptionType.String,
+      choices: [
+        {
+          name: "restart",
+          value: "restart",
+        },
+        {
+          name: "start",
+          value: "start",
+        },
+        {
+          name: "stop",
+          value: "stop",
+        },
+      ],
       required: true,
     },
   ], // аргументы
 
-  run: async ({ bot, interaction, channel, args, developers, author }) => {
-    const commandName = args[1];
-    const action = args[2];
+  run: async ({
+    bot,
+    interaction,
+    channel,
+    args,
+    guild,
+    developers,
+    author,
+  }) => {
+    const commandName = args[0];
+    const action = args[1];
 
     const command = bot.commands.get(commandName);
     const disabledCommand = await CommandsDisabled.findOne({
@@ -59,14 +84,14 @@ module.exports = {
       delete require.cache[
         require.resolve(`../../commands/${command.category}/${command.name}.js`)
       ];
-      bot.commands.delete(cmdname);
+      bot.commands.delete(commandName);
       const props = require(`../../commands/${command.category}/${command.name}.js`);
       bot.commands.set(command.name, props);
       return interaction.reply({
         ephemeral: true,
         embeds: [
           new EmbedBuilder()
-            .setColor("DarkGreen")
+            .setColor(Colors.DarkGreen)
             .setTitle(`📌 | Система управления командами!`)
             .setAuthor({
               name: guild.name,
@@ -91,10 +116,8 @@ module.exports = {
           embeds: [
             new EmbedBuilder()
               .setTitle(`❌ | Ошибка!`)
-              .setDescription(
-                `**Команда \`${commandName}\` не отключена**`
-              )
-              .setColor(`Red`)
+              .setDescription(`**Команда \`${commandName}\` не отключена**`)
+              .setColor(Colors.Red)
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -108,7 +131,86 @@ module.exports = {
       }
       disabledCommand.remove();
 
-      const command = require(`../${disabledCommand.category}/${commandName}.js`);
+      const command = require(`../${disabledCommand.commandCategory}/${commandName}.js`);
+      if (command.showInSlashCommands) {
+        bot.commands.set(command.name, {
+          ...command,
+          category: disabledCommand.category,
+        });
+        bot.loadSlashCommand(command, guild);
+      }
+      return interaction.reply({
+        ephemeral: true,
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`📌 | Запуск команды`)
+            .setDescription(`**Команда \`${commandName}\` успешно запущена**`)
+            .setColor(Colors.Red)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      });
+    }
+
+    if (action === "stop") {
+      if (disabledCommand) {
+        return interaction.reply({
+          ephemeral: true,
+          embeds: [
+            new EmbedBuilder()
+              .setTitle(`❌ | Ошибка!`)
+              .setDescription(
+                `**Команда \`${commandName}\` находится в состояний - отключена**`
+              )
+              .setColor(Colors.Red)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL(),
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
+          ],
+        });
+      }
+
+      const command = bot.commands.get(commandName);
+      bot.commands.delete(commandName);
+      if (command.showInSlashCommands) {
+        const commandGuild = guild.commands.cache.find(
+          (cmd) => cmd.name === command.name
+        );
+        bot.deleteSlashCommand(commandGuild.id, guild);
+      }
+      new CommandsDisabled({
+        commandName,
+        provocateurId: author.id,
+        commandCategory: command.category,
+      }).save();
+      return interaction.reply({
+        ephemeral: true,
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`📌 | Выключение команды`)
+            .setDescription(`**Команда \`${commandName}\` успешно выключена**`)
+            .setColor(Colors.Red)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      });
     }
   },
 };

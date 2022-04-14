@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const { rolesId } = require("../../configs/settings");
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
                 .map((command) => `/${command.name} - \`${command.descr}\``)
                 .join("\n")}**`
             )
-            .setColor(`DarkGreen`)
+            .setColor(Colors.DarkGreen)
             .setTimestamp()
             
             .setFooter({

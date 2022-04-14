@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
@@ -9,6 +9,7 @@ module.exports = {
   perms: () => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, message, author, interaction, guild }) => {
+    console.log(123)
     if (author.roles.cache.some((role) => rolesId.events === role.id)) {
       return interaction.reply({
         ephemeral: true,
@@ -16,7 +17,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`🚫 | Ошибка!`)
             .setDescription(`**У вас уже есть роль <@&${rolesId.events}>!**`)
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,
@@ -35,7 +36,7 @@ module.exports = {
           .setDescription(
             `**Вы успешно получили роль <@&${rolesId.events}>! Теперь Вам доступен канал: <#${channelsId.events}>**`
           )
-          .setColor(`DarkGreen`)
+          .setColor(Colors.DarkGreen)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),

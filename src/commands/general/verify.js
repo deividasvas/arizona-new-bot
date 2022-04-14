@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const { rolesId } = require("../../configs/settings");
 
 module.exports = {
@@ -10,20 +10,19 @@ module.exports = {
 
   run: async ({ bot, interaction, author, args, guild }) => {
     if (author.roles.cache.some((role) => rolesId.verify === role.id)) {
-      let roleHasAlready = new EmbedBuilder()
-        .setColor(`Red`)
-        .setTitle(`Ошибка!`)
-        .setDescription(
-          `\`${author.displayName}\`, У вас уже есть роль Проверенный 🔐`
-        )
-        .setAuthor({
-          name: guild.name,
-          iconURL: guild.iconURL(),
-        })
-        .setTimestamp();
       return interaction.reply({
         ephemeral: true,
-        embeds: [roleHasAlready],
+        embeds: [
+          new EmbedBuilder()
+            .setColor(`❌ | Ошибка!`)
+            .setTitle(`Ошибка!`)
+            .setDescription(`**У вас уже есть роль Проверенный 🔐**`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setTimestamp(),
+        ],
       });
     }
 

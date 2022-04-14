@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
@@ -47,7 +47,7 @@ module.exports = {
               inline: false,
             }
           )
-          .setColor(`Red`)
+          .setColor(Colors.Red)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),

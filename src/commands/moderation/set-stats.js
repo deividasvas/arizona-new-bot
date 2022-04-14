@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const setModerInfoParam = require("../../components/setModerInfoParam");
 const getModerInfo = require("../../components/getModerInfo");
 const { rolesId, channelsId } = require("../../configs/settings");
@@ -97,7 +97,7 @@ module.exports = {
             .setDescription(
               `**${member} не является модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}>**`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -126,7 +126,7 @@ module.exports = {
               member.id
             }>\nБыло: \`${main[typeStatistic]}\`\nСтало: \`${newCount}\`**`
           )
-          .setColor(`Red`)
+          .setColor(Colors.Red)
           .setTimestamp()
           .setFooter({
             text: `Robo Hamster`,

@@ -1,8 +1,8 @@
-const { Colors } = require("discord.js");
+const { Colors, EmbedBuilder } = require("discord.js");
 const { scheduleJob } = require("node-schedule");
 const unban = require("../components/unban");
 const unmute = require("../components/unmute");
-const { channelsID } = require("../configs/settings");
+const { channelsId } = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 
 module.exports = {
@@ -23,10 +23,31 @@ module.exports = {
     });
 
     for (const ban of bans) {
-      console.log(ban.dateEnd, new Date())
+      const guild = bot.guilds.cache.get(ban.guildId);
+      const banesChannel = guild.channels.cache.get(channelsId.rolesAndBans); // роли-баны. Канал куда будет кидаться эмбед снятия бана
       if (ban.dateEnd <= new Date()) {
         // проверяем прошло ли время конца наказания пользователя
-        return unban(bot, ban.guildId, ban.userId); // если прошло, то снимаем наказание
+
+        banesChannel.send({
+          embeds: [
+            new EmbedBuilder()
+              .setColor(Colors.DarkGreen)
+              .setTitle(`📌 | Система снятия блокировки!`)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL(),
+              })
+              .setDescription(
+                `**「📝」Выдавал: <@${ban.moderatorId}>「📌」Кому: <@${ban.userId}>\n 「📕」Причина: \`${ban.reason}\`\n「📛」Блокировка снята!**`
+              )
+              .setTimestamp()
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
+          ],
+        });
+        return unban(bot, ban.guildId, ban.userId, "-"); // если прошло, то снимаем наказание
       }
       scheduleJob(
         `${ban.guildId}-${ban.userId}-mute-${ban.reason}`,
@@ -42,10 +63,6 @@ module.exports = {
           }
           // ставим отслеживание на бан до определённое времени конца наказания.
           unban(bot, ban.guildId, ban.userId); // снимем бан как приходит время
-          
-
-          const guild = bot.guilds.cache.get(ban.guildId);
-          const banesChannel = guild.channels.cache.get(channelsID.rolesBans); // роли-баны. Канал куда будет кидаться эмбед снятия бана
           banesChannel.send({
             embeds: [
               new EmbedBuilder()
@@ -90,7 +107,7 @@ module.exports = {
           // снимаем мут как приходит время
           const guild = bot.guilds.cache.get(mute.guildId);
           const moderationLog = guild.channels.cache.get(
-            channelsID.moderationLog
+            channelsId.moderationLog
           ); // канал куда отправляем сообщение о снятии мута
           const member = guild.members.cache.get(mute.userId);
           moderationLog.send({

@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const { maxCountRebukes, rolesId, channelsId } = require("../configs/settings");
 const setWarnsOrRebukes = require("./setWarnsOrRebukes");
 
@@ -23,7 +23,7 @@ const downgradeModerator = async (
     content: `<@${provocateurId}> <@${moderatorId}>`,
     embeds: [
       new EmbedBuilder()
-        .setColor("DarkGreen")
+        .setColor(Colors.DarkGreen)
         .setTitle(`📌 | Система понижения!`)
         .setAuthor({
           name: guild.name,

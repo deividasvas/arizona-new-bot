@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const convertMinutesToMs = require("../../components/convertMinutesToMs");
 const getAllrolesIdModers = require("../../components/getAllrolesIdModers");
 const sendUserMessage = require("../../components/sendUserMessage");
@@ -39,7 +39,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**${userForUnmute} не замучен**`)
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -57,7 +57,7 @@ module.exports = {
     moderationLog.send({
       embeds: [
         new EmbedBuilder()
-          .setColor("DarkGreen")
+          .setColor(Colors.DarkGreen)
           .setTitle(`📌 | Система снятия мута!`)
           .setAuthor({
             name: guild.name,
@@ -78,7 +78,7 @@ module.exports = {
       {
         embeds: [
           new EmbedBuilder()
-            .setColor("DarkGreen")
+            .setColor(Colors.DarkGreen)
             .setTitle(`📌 | Система снятия мута!`)
             .setAuthor({
               name: guild.name,
@@ -101,7 +101,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor("DarkGreen")
+          .setColor(Colors.DarkGreen)
           .setTitle(`📌 | Система снятия мута!`)
           .setAuthor({
             name: guild.name,

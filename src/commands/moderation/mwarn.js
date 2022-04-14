@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const downgradeModerator = require("../../components/downgradeModerator");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
@@ -56,7 +56,7 @@ module.exports = {
             .setDescription(
               `**${moderator} не является модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}>**`
             )
-            .setColor(`Red`)
+            .setColor(Colors.Red)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -99,7 +99,7 @@ module.exports = {
         content: `${author} ${moderator}`,
         embeds: [
           new EmbedBuilder()
-            .setColor("DarkGreen")
+            .setColor(Colors.DarkGreen)
             .setTitle(`📌 | Использование иммунитета!`)
             .setAuthor({
               name: guild.name,
@@ -169,7 +169,7 @@ module.exports = {
             ephemeral: true,
             embeds: [
               new EmbedBuilder()
-                .setColor("DarkGreen")
+                .setColor(Colors.DarkGreen)
                 .setTitle(`📌 | Система понижения!`)
                 .setAuthor({
                   name: guild.name,
@@ -200,7 +200,7 @@ module.exports = {
         ephemeral: true,
         embeds: [
           new EmbedBuilder()
-            .setColor("DarkGreen")
+            .setColor(Colors.DarkGreen)
             .setTitle(`📌 | Система снятия модераторов!`)
             .setAuthor({
               name: guild.name,
@@ -238,7 +238,7 @@ module.exports = {
         content: `${author} ${moderator}`,
         embeds: [
           new EmbedBuilder()
-            .setColor("DarkGreen")
+            .setColor(Colors.DarkGreen)
             .setTitle(`📌 | Система выдачи выговоров!`)
             .setAuthor({
               name: guild.name,
@@ -267,7 +267,7 @@ module.exports = {
         ephemeral: true,
         embeds: [
           new EmbedBuilder()
-            .setColor("DarkGreen")
+            .setColor(Colors.DarkGreen)
             .setTitle(`📌 | Система выдачи выговоров!`)
             .setAuthor({
               name: guild.name,
@@ -301,7 +301,7 @@ module.exports = {
       content: `${author} ${moderator}`,
       embeds: [
         new EmbedBuilder()
-          .setColor("DarkGreen")
+          .setColor(Colors.DarkGreen)
           .setTitle(`📌 | Система выдачи предупреждения!`)
           .setAuthor({
             name: guild.name,
@@ -325,7 +325,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor("DarkGreen")
+          .setColor(Colors.DarkGreen)
           .setTitle(`📌 | Система выдачи предупреждения!`)
           .setAuthor({
             name: guild.name,

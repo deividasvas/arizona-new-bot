@@ -1,4 +1,6 @@
+const { Colors } = require("discord.js");
 const { scheduleJob } = require("node-schedule");
+const { channelsId } = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 const unban = require("./unban");
 
@@ -28,8 +30,28 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
   });
   newPunish.save();
   scheduleJob(`${guildId}-${userId}-mute-${reason}`, dateEnd, () => {
-    unban(bot, guildId, userId); // ставим отслеживание на мут до определённое времени конца наказания.
-    // снимаем мут как приходит время
+    unban(bot, guildId, userId); // ставим отслеживание на бан до определённое времени конца наказания.
+    // снимаем бан как приходит время
+    const bansLogsChannel = guild.channels.cache.get(channelsId.rolesAndBans);
+    bansLogsChannel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.DarkGreen)
+          .setTitle(`📌 | Система автоматической разблокировки!`)
+          .setAuthor({
+            name: guild.name,
+            iconURL: guild.iconURL(),
+          })
+          .setDescription(
+            `**「📝」Запрашивал: ${provocateur} \n「📌」Кому: <@${userId}>\n 「📕」Причина: \`${reason}\`\n「📛」Блокировка снята!**`
+          )
+          .setTimestamp()
+          .setFooter({
+            text: `Robo Hamster`,
+            iconURL: bot.user.displayAvatarURL(),
+          }),
+      ],
+    });
   });
   return null;
 };

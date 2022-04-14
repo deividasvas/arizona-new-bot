@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const { rolesId } = require("../../configs/settings");
 
 module.exports = {
@@ -27,7 +27,7 @@ module.exports = {
             .setDescription(
               `**Никнейм не может быть меньше одного и больше 32 символов!**`
             )
-            .setColor(`#ff0022`)
+            .setColor(Colors.Red)
             .setTimestamp()
             .setAuthor({
               name: guild.name,
