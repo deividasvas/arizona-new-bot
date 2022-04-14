@@ -70,7 +70,7 @@ module.exports = {
           .setColor(0xff4040)
           .setTitle(`📌 | Удаление семьи!`)
           .setDescription(
-            `**「📝」Семья: \`\`${role.name}\`\`\\n「📌」Лидер: ${owner.tag} \`[${owner.id}]\`\n「👪」Семью удалил Администратор: \`${author.user.tag}**`
+            `**「📝」Семья: \`\`${role.name}\`\`\ \n「📌」Лидер: ${owner.tag} \`[${owner.id}]\`\n「👪」Семью удалил Администратор: \`${author.user.tag}**`
           )
           .setAuthor({
             name: guild.name,

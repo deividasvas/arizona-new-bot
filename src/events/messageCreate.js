@@ -149,6 +149,18 @@ module.exports = async (bot, message) => {
         args[index] = userId;
         continue;
       }
+      if (
+        argumentOnCommand.split(`<@&`).length &&
+        argument.type === ApplicationCommandOptionType.Role
+      ) {
+        // проверяем, должен ли быть наш аргумент пингом каналау и если разделить строку с помощью начала пинга, то будет
+        // ли что-то. Если да, то получаем айдишник при помощи выреза и вставляем вместо аргумента.
+        const splited = argumentOnCommand.split(`<@&`);
+        const channelId = splited[1].split(">")[0];
+        // производим процессы чтоб получить айдишник из пинга канала, и затем, вставляем его вместо аргумента.
+        args[index] = channelId;
+        continue;
+      }
       if (Number(index) === command.arguments.length - 1) {
         // если этот аргумент последний, то ставим ему дополнительное значение через пробелы.
         // Могут быть указаны параметры и далее, к примеру, причина состоит из трёх и более слов.
@@ -182,6 +194,8 @@ module.exports = async (bot, message) => {
       if (!answer) return;
       return await answer.edit(option);
     };
+
+    console.log(args);
 
     return command
       .run({

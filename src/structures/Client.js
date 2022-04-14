@@ -12,7 +12,7 @@ const { default: mongoose } = require("mongoose");
 module.exports = class ExtendedClient extends Client {
   constructor() {
     super({
-      intents: 32767
+      intents: 32767,
     });
 
     this.commands = new Collection();
@@ -73,13 +73,18 @@ module.exports = class ExtendedClient extends Client {
             ...pull,
             category: dir,
           }); // устанавливаем инициализированную команду
-
           if (pull.showInSlashCommands === true) {
             // если данная включена в показ в слэш командах, то добавляем её в слэш команды
             this.loadSlashCommand(pull, guild);
+            continue;
           }
-        } else {
-          continue;
+          const commandGuild = guild.commands.cache.find(
+            (cmd) => cmd.name === pull.name
+          ); // проверяем существует ли подгруженная слэш команда у команды которой не должно быть слэша
+          if (commandGuild) {
+            // если существует, то просто удаляем её
+            commandGuild.delete();
+          }
         }
       }
     });
@@ -170,37 +175,7 @@ module.exports = class ExtendedClient extends Client {
       const command = require(path.resolve(
         `./src/commands/families/${fileName}`
       ));
-      const commandGuild = guild.commands.cache.find(
-        (buildCommand) => buildCommand.name === command.name
-      );
-      const permissions = await (
-        await command.perms(this)
-      ).map((roleID) => ({
-        type: ApplicationCommandPermissionType.Role,
-        id: roleID,
-        permission: true,
-      })); // создаём массив с правами
-
-      for (const whiteRoleID of this.whiteListRoles) {
-        // белый список прав
-        permissions.push({
-          type: ApplicationCommandPermissionType.Role,
-          id: whiteRoleID,
-          permission: true,
-        }); // добавляем роли из белого списка доступ к команде
-      }
-      if (!permissions.find((perm) => perm.id === guild.roles.everyone.id)) {
-        // проверяем, есть ли разрешение смотреть и использовать команду у everyone
-        permissions.push({
-          type: ApplicationCommandPermissionType.Role,
-          id: guild.roles.everyone.id,
-          permission: false,
-        }); // если нет, то добавляем чтобы everyone нельзя было использовать эту команду
-      }
-      commandGuild.setOptions([...command.arguments]);
-      commandGuild.permissions.set({
-        permissions,
-      });
+      this.loadSlashCommand(command, guild);
     });
   }
 
