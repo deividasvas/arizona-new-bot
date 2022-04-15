@@ -35,7 +35,7 @@ module.exports = {
             iconURL: interaction.guild.iconURL(),
           })
           .setDescription(
-            `**「📝」Запросил бан: <@${moderatorId}>\n「📅」Дней Бана: \`${days}\`\n「📕」Причина: \`${reason}\`**`
+            `**「📝」Запросил бан: <@${moderatorId}>\n「📌」Кому: <@${userId}>\n「📅」Дней Бана: \`${days}\`\n「📕」Причина: \`${reason}\`**`
           )
           .setTimestamp()
           .setFooter({
@@ -82,7 +82,7 @@ module.exports = {
     await setModerInfoParam(
       moderatorId,
       "week",
-      "mutes",
+      "bans",
       ({ bans }) => bans + 1
     );
 
