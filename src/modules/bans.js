@@ -193,6 +193,7 @@ module.exports = {
     }
 
     if (agrees.length >= 5) {
+      // если более 5 позитивных голосов за бан, то баним
       interaction.message.delete();
       await this.banUser(
         bot,
@@ -222,16 +223,9 @@ module.exports = {
       });
     }
 
-    if (agrees.length >= 5) {
+    if (denies.length >= 5) {
+      // если более 5 голосов отрицательных, то не баним
       interaction.message.delete();
-      await this.banUser(
-        bot,
-        interaction,
-        userForBan.id,
-        days,
-        reason,
-        moderatorSender.id
-      );
       return moderationChannel.send({
         embeds: [
           new EmbedBuilder()
@@ -292,7 +286,7 @@ module.exports = {
       if (interaction.customId === "banNo") {
         await BansVotes.deleteOne({
           ...ban
-        });
+        }); // удаляем данные о голосовании из бд
         return moderationChannel.send({
           embeds: [
             new EmbedBuilder()
@@ -320,12 +314,12 @@ module.exports = {
           agrees: [...agrees, user.id],
           denies: denies.filter((userId) => userId !== user.id),
         },
-      });
+      }); // обновляем в бд всё так, чтобы нельзя было проголосовать одновременно и за то и за то
       const { denies: actualDenies, agrees: actualAgrees } =
         await BansVotes.findOne({
           moderatorSenderId: moderatorSender.id,
           userForBanId: userForBan.id,
-        });
+        }); // получаем актуальные голоса и меняем эмбед
       return interaction.message.edit({
         content: `<@&${rolesId.juniorModerator}>`,
         embeds: [
@@ -349,7 +343,7 @@ module.exports = {
           denies: [...denies, user.id],
           agrees: agrees.filter((userId) => userId !== user.id),
         },
-      });
+      }); // получаем актуальные голоса и меняем эмбед
       const { denies: actualDenies, agrees: actualAgrees } =
         await BansVotes.findOne({
           moderatorSenderId: moderatorSender.id,
