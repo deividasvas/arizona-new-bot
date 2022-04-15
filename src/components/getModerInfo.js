@@ -1,6 +1,7 @@
 const Moderators = require("../models/Moderators");
 const getAllRolesIDModers = require("./getAllRolesIDModers");
 
+// Функция запрашивает и отдаёт модерскую статистику.
 const getModerInfo = async (bot, guildId, userId) => {
   const guild = bot.guilds.cache.get(guildId);
   const member = guild.members.cache.get(userId);

@@ -5,6 +5,7 @@ const {
   EmbedBuilder,
   ApplicationCommandOptionType,
 } = require("discord.js");
+const CommandsDisabled = require("../models/CommandsDisabled.js");
 const cache = {};
 module.exports = async (bot, message) => {
   if (message.channel.type === "DM" || message.author.bot) {
@@ -18,6 +19,32 @@ module.exports = async (bot, message) => {
       .split(/ +/g);
     const args = splitedCommand.slice(1); // все аргументы
     const commandName = splitedCommand[0]; // название команды
+    if (
+      await CommandsDisabled.findOne({
+        commandName,
+      })
+    ) {
+      // проверяем находится ли команда в выключенных. если да, то выдаём ошибку
+      return message
+        .reply({
+          embeds: [
+            new EmbedBuilder()
+              .setTitle(`🚫 | Ошибка!`)
+              .setDescription(`**Команда \`${commandName}\` отключена!**`)
+              .setColor(Colors.DarkRed)
+              .setTimestamp()
+              .setAuthor({
+                name: message.guild.name,
+                iconURL: message.guild.iconURL(),
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
+          ],
+        })
+        .then((msg) => setTimeout(() => msg.delete(), 10000));
+    }
     let command = bot.commands.get(commandName);
     if (!command) {
       return;
@@ -108,11 +135,16 @@ module.exports = async (bot, message) => {
     }
 
     for (const index in command.arguments) {
-      const argument = command.arguments[index];
-      const argumentOnCommand = args[index];
+      // проверка валидности аргументов
+      const argument = command.arguments[index]; // аргумент и его настройка из команды
+      const argumentOnCommand = args[index]; // значение аргумента из команды
+      console.log(argumentOnCommand)
+      if(!argument.required && !argumentOnCommand){
+        continue;
+      }
       const typeArgument = bot.typesArguments.find(
         (typeArgument) => typeArgument.type === argument.type
-      );
+      ); // тип discord.js аргумента.
       if (!typeArgument.validator(argumentOnCommand, message.guild, message)) {
         // проверяем через валидатор типов аргументов является ли наш аргумент валидным. Если нет, то выкидываем ошибку.
         return message.reply({

@@ -1,28 +1,27 @@
 const settings = require("../configs/settings");
 
-const sendUserMessage = async (message, id, guild) => {
-    // Функция отправки сообщения пользователям в лс.
-    /*
+// Функция отправки сообщения пользователям в лс.
+/*
         Делается отправка через функцию потому, что во многих случаях у людей бывают закрыты лс
         и нужно сообщение до них как-то донести, и поэтому есть канал #уведомления, туда скидываются
         подобные уведомления которые не дошли до людей в лс, и удобнее всего это делать через
         функцию.
     */
-    const member = guild.members.cache.get(id) || await guild.members.fetch(id);
-    try {
-        return await member.send(message);
-    } catch(e){
-        const notificationsChannel = guild.channels.cache.get(settings.channelsId.notifications) || await guild.channels.fetch(settings.channelsId.notifications);
-        return notificationsChannel.send({
-            content: `${member} ${message.content ? message.content : ""}`,
-            embeds: [
-                ...message.embeds
-            ],
-            components: [
-                ...message.components
-            ],
-        })
-    }
-}
+
+const sendUserMessage = async (message, id, guild) => {
+  const member = guild.members.cache.get(id) || (await guild.members.fetch(id));
+  try {
+    return await member.send(message);
+  } catch (e) {
+    const notificationsChannel =
+      guild.channels.cache.get(settings.channelsId.notifications) ||
+      (await guild.channels.fetch(settings.channelsId.notifications));
+    return notificationsChannel.send({
+      content: `${member} ${message.content ? message.content : ""}`,
+      embeds: [...message.embeds],
+      components: [...message.components],
+    });
+  }
+};
 
 module.exports = sendUserMessage;

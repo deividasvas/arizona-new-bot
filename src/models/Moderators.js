@@ -1,5 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
+// Коллекция в которой хранится информация о модераторах.
 const ModeratorsSchema = new mongoose.Schema({
   discordId: String, // Discord ID модератора
   main: { // общая информация по выданным наказаниям модератора и некоторая информация по самому модератору

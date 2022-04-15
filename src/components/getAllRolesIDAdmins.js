@@ -1,5 +1,6 @@
 const { rolesId } = require("../configs/settings");
 
+// Функция отдаёт все айдишники админских ролей
 const getAllRolesIdAdmins = () => {
   return [
     rolesId.mainAdmin, // ГА

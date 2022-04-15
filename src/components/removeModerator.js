@@ -28,21 +28,25 @@ const removeModerator = async (bot, guildId, moderatorId) => {
     balls,
   } = moderatorInfo.main;
   const { warns: warnsOrRebukes } = moderatorInfo;
-  const rebukes = warnsOrRebukes.filter(warnOrRebuke => warnOrRebuke.group === 'rebuke');
-  const warns = warnsOrRebukes.filter(warnOrRebuke => warnOrRebuke.group === 'warn');
+  const rebukes = warnsOrRebukes.filter(
+    (warnOrRebuke) => warnOrRebuke.group === "rebuke"
+  );
+  const warns = warnsOrRebukes.filter(
+    (warnOrRebuke) => warnOrRebuke.group === "warn"
+  );
   await curatorsChannel.send({
     content: `<@&${rolesId.curatorModeration}>`,
     embeds: [
       new EmbedBuilder()
-        .setColor(Colors.Red)
         .setTitle(`\`Снятие модератора:\`**${moderator.displayName}**`)
         .setAuthor({
           name: guild.name,
           iconURL: guild.iconURL(),
         })
         .setDescription(
-          `**Сняли: <@${moderatorId}>[\`${moderatorId}\`]\n\`\`\`\nСтатистика модератора до снятия\`\`\`\nСнятые роли: \`${roles}\`\nОтвеченые тикеты: \`${tickets}\`\nЗабанено пользователей: \`${bans}\`\nКикнуто пользователей: \`${kicks}\`\nЗамучено пользователей: \`${mutes}\`\nКоличество хороших оценок: \`${goodAnswers}\`\nКоличество плохих оценок: \`${toxicAnswers}\`\nКоличество баллов: \`${balls}\`\nМножитель баллов: \`${coefficient}\`\nВыговоров: \`${rebukes.length}\`\nПредупреждений: \`${warns.length}\`\nИммунитетов: \`${immunities}\`**`
+          `**Сняли: <@${moderatorId}>[\`${moderatorId}\`]\n\`\`\`\n[ Статистика модератора до снятия ]\`\`\`\n>>> Снятые роли: \`${roles}\`\nОтвеченые тикеты: \`${tickets}\`\nЗабанено пользователей: \`${bans}\`\nКикнуто пользователей: \`${kicks}\`\nЗамучено пользователей: \`${mutes}\`\nКоличество хороших оценок: \`${goodAnswers}\`\nКоличество плохих оценок: \`${toxicAnswers}\`\nКоличество баллов: \`${balls}\`\nМножитель баллов: \`${coefficient}\`\nВыговоров: \`${rebukes.length}\`\nПредупреждений: \`${warns.length}\`\nИммунитетов: \`${immunities}\`**`
         )
+        .setColor(Colors.Red)
         .setFooter({
           text: `Robo Hamster`,
           iconURL: bot.user.displayAvatarURL(),
@@ -52,7 +56,7 @@ const removeModerator = async (bot, guildId, moderatorId) => {
 
   await moderator.roles.remove(rolesId.juniorModerator);
   await Moderators.deleteOne({
-      discordId: moderatorId,
+    discordId: moderatorId,
   });
 };
 

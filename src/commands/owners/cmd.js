@@ -81,6 +81,7 @@ module.exports = {
 
     if (action === "restart") {
       // делаем рестарт команды
+      console.log(command);
       delete require.cache[
         require.resolve(`../../commands/${command.category}/${command.name}.js`)
       ];
@@ -135,7 +136,7 @@ module.exports = {
       if (command.showInSlashCommands) {
         bot.commands.set(command.name, {
           ...command,
-          category: disabledCommand.category,
+          category: disabledCommand.commandCategory,
         });
         bot.loadSlashCommand(command, guild);
       }

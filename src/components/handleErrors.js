@@ -1,6 +1,7 @@
 const { EmbedBuilder, Colors } = require("discord.js");
 const { rolesID } = require("../configs/settings");
 
+// Функция обработки ошибок.
 const handleErrors = (err, bot, { message, command, isCommandError = false, } = {}) => {
     console.log(err);
     if(!bot?.guilds){

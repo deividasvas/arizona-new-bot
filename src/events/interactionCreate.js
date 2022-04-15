@@ -1,12 +1,40 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const handleErrors = require("../components/handleErrors.js");
 const { developers } = require("../configs/settings.js");
+const CommandsDisabled = require("../models/CommandsDisabled.js");
 
 module.exports = async (bot, interaction) => {
   if (interaction.isChatInputCommand()) {
     // если это команда, то мы её обрабатываем
     // обработка команд
     const { commandName, commandId, guild, channelId } = interaction;
+    if (
+      await CommandsDisabled.findOne({
+        commandName,
+      })
+    ) {
+      // проверяем находится ли команда в выключенных. если да, то выдаём ошибку
+      bot.deleteSlashCommand(commandId, guild);
+      return interaction
+        .reply({
+          ephemeral: true,
+          embeds: [
+            new EmbedBuilder()
+              .setTitle(`🚫 | Ошибка!`)
+              .setDescription(`**Команда \`${commandName}\` отключена!**`)
+              .setColor(Colors.DarkRed)
+              .setTimestamp()
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL(),
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
+          ],
+        })
+    }
     const command = bot.commands.get(commandName);
     if (!command) {
       return interaction.reply({
@@ -15,7 +43,7 @@ module.exports = async (bot, interaction) => {
           new EmbedBuilder()
             .setTitle(`🚫 | Ошибка!`)
             .setDescription(`**Ожидайте, происходит инициализация бота...**`)
-            .setColor(`#ff0022`)
+            .setColor(Colors.Red)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,

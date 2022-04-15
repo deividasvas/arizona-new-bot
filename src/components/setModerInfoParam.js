@@ -1,11 +1,15 @@
 const Moderators = require("../models/Moderators");
 const createModerInfo = require("./createModerInfo");
 
+// Функция изменения какого-то модерского параметра в статистике модератора.
+// Пример: setModerInfoParam(123, "main", "bans", ({ bans, cofficient }) => 10 * cofficient)
+// ДЛЯ ВЫГОВОРОВ ИСПОЛЬЗУЕТСЯ setWarnsOrRebukes.js
 const setModerInfoParam = async (
   userId,
-  type,
-  paramKey,
-  paramValueOrFunction
+  type, // main - основная статистика / week - недельная статистика
+  paramKey, // название параметра
+  paramValueOrFunction // значение параметра. Тут либо обычное значение, либо функция которая принимает в 
+  // себя основную/еженедельную статистику + иммунитеты + объект warns с выговорами и предами
 ) => {
   if (type !== "main" && type !== "week") {
     throw new Error(

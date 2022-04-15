@@ -164,5 +164,12 @@ module.exports = {
   database: {
     url: `mongodb://localhost:27017/arizona_10`,
   },
+  rates: {
+    ban: 1,
+    role: 0.45,
+    ticket: 0.55,
+    mute: 0.55,
+    kick: 0.50,
+  }, // расценки баллов. Действия: количество баллов которое будет выдаваться. БЕЗ УЧЕТА КОЭФФИЦЕНТА!!
   limitDeputyInFamilies: 5, // максимальное количество заместителей в семье
 };

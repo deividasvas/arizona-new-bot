@@ -1,3 +1,4 @@
+// Функция кикает с сервера.
 const kick = async (bot, guildId, userId, provocateur, reason) => {
   const guild = bot.guilds.cache.get(guildId);
   const member =

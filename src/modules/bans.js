@@ -1,9 +1,13 @@
 const { EmbedBuilder, Colors } = require("discord.js");
 const ban = require("../components/ban");
 const getAllRolesIdModers = require("../components/getAllrolesIdModers");
+const getDaysInMs = require("../components/getDaysInMs");
 const sendUserMessage = require("../components/sendUserMessage");
+const setModerInfoParam = require("../components/setModerInfoParam");
+const settings = require("../configs/settings");
 const { rolesId, channelsId } = require("../configs/settings");
 const BansVotes = require("../models/BansVotes");
+const FuturePunishments = require("../models/futurePunishments");
 
 module.exports = {
   /*
@@ -13,6 +17,11 @@ module.exports = {
   name: "bans", // имя модуля
   acceptCustomsID: ["banYes", "banNo"], // модуль автоматически принимает эти айдишники interaction.customId
   async banUser(bot, interaction, userId, days, reason, moderatorId) {
+    await BansVotes.deleteOne({
+      moderatorSenderId: moderatorId,
+      userForBanId: userId,
+    });
+
     const bansLogsChannel = interaction.guild.channels.cache.get(
       channelsId.rolesAndBans
     ); // канал куда отправляются логи банов
@@ -60,6 +69,36 @@ module.exports = {
       interaction.guild
     );
     await ban(bot, interaction.guildId, userId, moderatorId, days, reason);
+    this.giveBalls(moderatorId);
+  },
+  async giveBalls(moderatorId) {
+    // выдаем недельные баны и общие
+    await setModerInfoParam(
+      moderatorId,
+      "main",
+      "bans",
+      ({ bans }) => bans + 1
+    );
+    await setModerInfoParam(
+      moderatorId,
+      "week",
+      "mutes",
+      ({ bans }) => bans + 1
+    );
+
+    // выдаем недельные баллы и общие
+    await setModerInfoParam(
+      moderatorId,
+      "main",
+      "balls",
+      ({ balls, coefficient }) => balls + settings.rates.ban * coefficient
+    );
+    await setModerInfoParam(
+      moderatorId,
+      "week",
+      "balls",
+      ({ balls, coefficient }) => balls + settings.rates.ban * coefficient
+    );
   },
   async run({ bot, interaction, user, guild }) {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
@@ -110,13 +149,26 @@ module.exports = {
     });
 
     if (!ban) {
+      // проверяем факт существования действующей блокировки, если его нет, то удаляем сообщение бана
       return interaction.message.delete();
     }
-    const { days, reason, agrees, denies } = ban;
-    const moderationChannel = guild.channels.cache.get(channelsId.moderation);
+    const { days, reason, agrees, denies } = ban; // данные из бана
+    const moderationChannel = guild.channels.cache.get(channelsId.moderation); // канал куда отправится сообщение в случае чего
 
     if (!userForBan) {
+      // проверяем находится ли пользователь на сервере, если нет, то
+      // добавляем его в список людей которые будут забанены при заходе
       interaction.message.delete();
+      this.giveBalls(moderatorSender.id);
+
+      new FuturePunishments({
+        action: "ban",
+        moderatorId: moderatorSender.id,
+        userId: userForBan.id,
+        guildId: guild.id,
+        reason,
+        timeInMs: getDaysInMs(days),
+      });
 
       return moderationChannel.send({
         embeds: [
@@ -150,7 +202,6 @@ module.exports = {
         reason,
         moderatorSender.id
       );
-      await ban.remove();
       return moderationChannel.send({
         embeds: [
           new EmbedBuilder()
@@ -181,7 +232,6 @@ module.exports = {
         reason,
         moderatorSender.id
       );
-      await ban.remove();
       return moderationChannel.send({
         embeds: [
           new EmbedBuilder()
@@ -219,7 +269,6 @@ module.exports = {
           moderatorSender.id
         );
 
-        await ban.remove();
         return moderationChannel.send({
           embeds: [
             new EmbedBuilder()
@@ -241,7 +290,9 @@ module.exports = {
       }
 
       if (interaction.customId === "banNo") {
-        await ban.remove();
+        await BansVotes.deleteOne({
+          ...ban
+        });
         return moderationChannel.send({
           embeds: [
             new EmbedBuilder()

@@ -7,6 +7,7 @@ const convertMinutesToMs = require("./convertMinutesToMs");
 const sendUserMessage = require("./sendUserMessage");
 const unmute = require("./unmute");
 
+// Функция мутит пользователей.
 const mute = async (bot, guildId, userId, provocateur, minutes, reason) => {
   const punish = await Punishment.findOne({
     userId,

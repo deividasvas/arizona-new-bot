@@ -1,4 +1,8 @@
-const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
+const {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  Colors,
+} = require("discord.js");
 const downgradeModerator = require("../../components/downgradeModerator");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
@@ -165,6 +169,31 @@ module.exports = {
             reason
           ); // понижаем пользователя
 
+          punishModeratorsLogChannel.send({
+            content: `${author} ${moderator}`,
+            embeds: [
+              new EmbedBuilder()
+                .setColor(Colors.DarkRed)
+                .setTitle(`📌 | Система выдачи выговоров!`)
+                .setAuthor({
+                  name: guild.name,
+                  iconURL: guild.iconURL(),
+                })
+                .setDescription(
+                  `**「📝」Выдал: <@${
+                    author.id
+                  }>\n「🥶」Кому: ${moderator}\n「📕」Причина: \`${reason}\`\n「😿」Теперь у него ${
+                    rebukes.length + 1
+                  } выговор(ов)\n 「🔴」__МОДЕРАТОР ПОНИЖЕН__!!**`
+                )
+                .setTimestamp()
+                .setFooter({
+                  text: `Robo Hamster`,
+                  iconURL: bot.user.displayAvatarURL(),
+                }),
+            ],
+          });
+
           return interaction.reply({
             ephemeral: true,
             embeds: [
@@ -195,7 +224,42 @@ module.exports = {
       }
 
       // если должность у пользователя - младший модератор, то снимаем его
+      await setWarnsOrRebukes(moderator.id, ({ warns }) => {
+        return [
+          ...warns,
+          {
+            group: "rebuke",
+            reason,
+            initiatorId: author.id,
+          },
+        ];
+      }); // заносим выговор в базу данных чтоб отобразилось в статистике снятия 3/3
+      // если должность у пользователя - младший модератор, то снимаем его
       await removeModerator(bot, guild.id, moderator.id);
+      punishModeratorsLogChannel.send({
+        content: `${author} ${moderator}`,
+        embeds: [
+          new EmbedBuilder()
+            .setColor(Colors.DarkGreen)
+            .setTitle(`📌 | Система выдачи выговоров!`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setDescription(
+              `**「📝」Выдал: <@${
+                author.id
+              }>\n「🥶」Кому: ${moderator}\n「📕」Причина: \`${reason}\`\n「😿」Теперь у него ${
+                rebukes.length + 1
+              } выговор(ов)\n 「🔴」__МОДЕРАТОР СНЯТ__!!**`
+            )
+            .setTimestamp()
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      });
       return interaction.reply({
         ephemeral: true,
         embeds: [
@@ -209,7 +273,7 @@ module.exports = {
             .setDescription(
               `**У модератора ${moderator} накопилось ${
                 warns.length + 1
-              } из ${maxCountWarns} предупреждений и ${maxCountRebukes} из ${maxCountRebukes} выговоров. Модератор с**`
+              } из ${maxCountWarns} предупреждений и ${maxCountRebukes} из ${maxCountRebukes} выговоров. Модератор снят.**`
             )
             .setTimestamp()
             .setFooter({

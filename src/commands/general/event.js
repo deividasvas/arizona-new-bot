@@ -9,7 +9,6 @@ module.exports = {
   perms: () => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, message, author, interaction, guild }) => {
-    console.log(123)
     if (author.roles.cache.some((role) => rolesId.events === role.id)) {
       return interaction.reply({
         ephemeral: true,

@@ -4,6 +4,10 @@ const { channelsId } = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 const unban = require("./unban");
 
+/*
+  Функция для выдачи блокировки пользователю. Используется в mban.js
+*/
+
 const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
   const punish = await Punishment.findOne({
     userId,

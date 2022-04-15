@@ -1,9 +1,10 @@
 const { default: mongoose } = require("mongoose");
 
-const commandsDisabledSchema = new mongoose.Schema({
+// Коллекция выключенных команд. Создана для работы cmd.js команды
+const CommandsDisabledSchema = new mongoose.Schema({
     commandName: String,
     provocateurId: String,
     commandCategory: String,
 });
 
-module.exports = new mongoose.model("commandsDisabled", commandsDisabledSchema) // семейная коллекция.
+module.exports = new mongoose.model("commandsDisabled", CommandsDisabledSchema) // семейная коллекция.

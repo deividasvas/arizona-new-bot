@@ -80,7 +80,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Red)
           .setTitle(
             args[0]
               ? `📌 | Статистика выговоров \`${moderator.displayName}\``
@@ -91,14 +91,19 @@ module.exports = {
             iconURL: guild.iconURL(),
           })
           .setDescription(
-            `**\nКоличество выговоров: \`${rebukes.length}\`${rebukes.map(
+            `**>>> Количество выговоров: \`${rebukes.length}\`${rebukes.map(
               (rebuke, index) =>
                 `\n[${index + 1}] Причина выдачи: \`${rebuke.reason}\`\n[${
                   index + 1
                 }] Выдал: <@${rebuke.initiatorId}>`
             )}\nКоличество предупреждений: \`${
               warns.length
-            }\`\nКоличество иммунитетов: \`${immunities}\`\n**`
+            }\`${warns.map(
+              (warn, index) =>
+                `\n[${index + 1}] Причина выдачи: \`${warn.reason}\`\n[${
+                  index + 1
+                }] Выдал: <@${warn.initiatorId}>`
+            )}\nКоличество иммунитетов: \`${immunities}\`\n**`
           )
           .setFooter({
             text: `Robo Hamster`,

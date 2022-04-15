@@ -3,6 +3,7 @@ const { rolesId, channelsId } = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 const sendUserMessage = require("./sendUserMessage");
 
+// Функция снятие мута пользователю
 const unmute = async (bot, userId, provocateur = "-") => {
   const punish = await Punishment.findOne({
     userId,
