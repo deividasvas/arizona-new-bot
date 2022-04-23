@@ -7,7 +7,7 @@ const handleErrors = (err, bot, { message, command, isCommandError = false, } = 
     if(!bot?.guilds){
         return;
     }
-    const errChannel = bot.guilds.cache.get('948675243025764404').channels.cache.get('948675243826888772');
+    const errChannel = bot.guilds.cache.get('948675243025764404')?.channels.cache.get('948675243826888772');
     if (!errChannel) {
         console.log(err);
         return console.log(`[📝 | Ошибка бота]: Я не нашел канал для отправки сообщения об ошибке! Вот информация о ней\n` + err.stack)

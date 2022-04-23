@@ -19,7 +19,11 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
   const guild = bot.guilds.cache.get(guildId);
   const provocateur = guild.members.cache.get(provocateurId);
   const dateEnd = new Date();
-  await guild.members.cache.get(userId).ban({
+  const userForBan = await bot.users.fetch(userId);
+  if(!userForBan){
+    return null;
+  }
+  guild.bans.create(userForBan, {
     days,
     reason: `${reason} by ${provocateur.user.tag}`,
   });

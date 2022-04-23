@@ -1,4 +1,8 @@
-const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
+const {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  Colors,
+} = require("discord.js");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const { rolesId, channelsId } = require("../../configs/settings");
 
@@ -116,26 +120,22 @@ module.exports = {
       });
     }
 
-    const punishChannel = guild.channels.cache.get(
-      channelsId.punishLeadership
-    ); // канал с нарушениями рук.состава
-    let spectatorRoleId = ""; // ID роли следящих которых нужно пинговать
-    switch (structure) {
-      case "ЦА":
-        spectatorRoleId = rolesId.spectatorGov;
-        break;
-      case "МЮ":
-        spectatorRoleId = rolesId.spectatorPolice;
-        break;
-      case "МО":
-        spectatorRoleId = rolesId.spectatorArmy;
-        break;
-      case "МЗ":
-        spectatorRoleId = rolesId.spectatorHealth;
-        break;
-      case "СМИ":
-        spectatorRoleId = rolesId.spectatorRadio;
-    }
+    const punishChannel = guild.channels.cache.get(channelsId.punishLeadership); // канал с нарушениями рук.состава
+    const getSpecratorRoleId = () => {
+      switch (structure) {
+        case "ЦА":
+          return rolesId.spectatorGov;
+        case "МЮ":
+          return rolesId.spectatorPolice;
+        case "МО":
+          return rolesId.spectatorArmy;
+        case "МЗ":
+          return rolesId.spectatorHealth;
+        case "СМИ":
+          return rolesId.spectatorRadio;
+      }
+    };
+    let spectatorRoleId = getSpecratorRoleId(); // ID роли следящих которых нужно пинговать
     punishChannel.send({
       content: `<@&${rolesId.mainSpectatorsState}> <@&${rolesId.spectatorState}> <@&${spectatorRoleId}>`,
       embeds: [

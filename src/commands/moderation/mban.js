@@ -49,12 +49,12 @@ module.exports = {
   perms: () => getAllRolesIdModers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, guild, args, channel }) => {
-    const userForBan =
-      guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
+    const userForBanId = args[0]
+    const userForBan = guild.members.cache.get(userForBanId);
     const days = args[1];
     const reason = args[2];
 
-    const roleInWhiteList = userForBan.roles.cache.find((role) =>
+    const roleInWhiteList = userForBan?.roles.cache.find((role) =>
       whiteListRoles.includes(role.id)
     ); // проверяем, есть ли у человека роль которая находится в белом списке по отношению к выдачам наказаний.
     if (roleInWhiteList) {
@@ -65,7 +65,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(
-              `**Пользователя ${userForBan} невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
+              `**Пользователя <@${userForBanId}> невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
             )
             .setColor(Colors.Red)
             .setAuthor({
@@ -80,25 +80,10 @@ module.exports = {
       });
     }
 
-    let statusUserRoleId = ""; // id роли которая показывает статус пользователя в игре, заместитель фракции, лидер, министр.
-
-    const roleStatus = userForBan.roles.cache.find((role) =>
-      [
-        rolesId.leadersFractions, // лидеры
-        rolesId.ministers, // министры
-        rolesId.deputiesFractions, // заместители
-      ].includes(role.id)
-    );
-
-    if (roleStatus) {
-      statusUserRoleId = roleStatus.id;
-    }
-
     const moderationChannel = guild.channels.cache.get(channelsId.moderation);
     const banVote = new BansVotes({
       moderatorSenderId: author.id, // айди модератора
-      userForBanId: userForBan.id, // айди юзера которого банят
-      statusUserForBan: statusUserRoleId, // статус пользователя которого банят
+      userForBanId: userForBanId, // айди юзера которого банят
       days, // количество дней бана
       reason, // причина бана
       agrees: [], // айдишники принявших бан
@@ -115,7 +100,7 @@ module.exports = {
           })
           .addFields({
             name: `Информация:`,
-            value: `>>> \`Отправитель:\` ${author}\n\`Нарушитель:\` ${userForBan}\n\`Дней блокировки:\` ${days}\n\`Причина:\` ${reason}\n\n\`За\`: 0\n\`\`Против\`\`: 0`,
+            value: `>>> \`Отправитель:\` ${author}\n\`Нарушитель:\` <@${userForBanId}>\n\`Дней блокировки:\` ${days}\n\`Причина:\` ${reason}\n\n\`За\`: 0\n\`\`Против\`\`: 0`,
             inline: false,
           })
           .setColor(Colors.Red)
@@ -154,7 +139,7 @@ module.exports = {
             iconURL: interaction.guild.iconURL(),
           })
           .setDescription(
-            `**Вы успешно отправили заявление на блокировку пользователя ${userForBan} на \`${days}\` дней по причине \`${reason}\`**`
+            `**Вы успешно отправили заявление на блокировку пользователя <@${userForBanId}> на \`${days}\` дней по причине \`${reason}\`**`
           )
           .setColor(Colors.Red)
           .setTimestamp()

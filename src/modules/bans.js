@@ -2,12 +2,12 @@ const { EmbedBuilder, Colors } = require("discord.js");
 const ban = require("../components/ban");
 const getAllRolesIdModers = require("../components/getAllrolesIdModers");
 const getDaysInMs = require("../components/getDaysInMs");
+const parseUserIdFromMention = require("../components/parseUserId");
 const sendUserMessage = require("../components/sendUserMessage");
 const setModerInfoParam = require("../components/setModerInfoParam");
 const settings = require("../configs/settings");
 const { rolesId, channelsId } = require("../configs/settings");
 const BansVotes = require("../models/BansVotes");
-const FuturePunishments = require("../models/futurePunishments");
 
 module.exports = {
   /*
@@ -139,13 +139,11 @@ module.exports = {
       (member) =>
         `<@${member.id}>` === getValue(0) || `<@!${member.id}>` === getValue(0)
     ); // модератор отправитель
-    const userForBan = guild.members.cache.find(
-      (member) => `<@${member.id}>` === getValue(1)
-    ); // пользователь который будет забанен
+    const userForBanId = parseUserIdFromMention(getValue(1)); // пользователь который будет забанен
 
     const ban = await BansVotes.findOne({
       moderatorSenderId: moderatorSender.id,
-      userForBanId: userForBan.id,
+      userForBanId,
     });
 
     if (!ban) {
@@ -155,50 +153,13 @@ module.exports = {
     const { days, reason, agrees, denies } = ban; // данные из бана
     const moderationChannel = guild.channels.cache.get(channelsId.moderation); // канал куда отправится сообщение в случае чего
 
-    // if (!userForBan) {
-    //   // проверяем находится ли пользователь на сервере, если нет, то
-    //   // добавляем его в список людей которые будут забанены при заходе
-    //   interaction.message.delete();
-    //   this.giveBalls(moderatorSender.id);
-
-    //   new FuturePunishments({
-    //     action: "ban",
-    //     moderatorId: moderatorSender.id,
-    //     userId: userForBan.id,
-    //     guildId: guild.id,
-    //     reason,
-    //     timeInMs: getDaysInMs(days),
-    //   });
-
-    //   return moderationChannel.send({
-    //     embeds: [
-    //       new EmbedBuilder()
-    //         .setTitle(`❌ | Ошибка!`)
-    //         .setDescription(
-    //           `**Пользователь ${getValue(
-    //             1
-    //           )} которого нужно было заблокировать на \`${days}\` дней по причине \`${reason}\` по форме модератора ${moderatorSender} - вышел с сервера. Пользователь добавлен в список будущих блокировок.**`
-    //         )
-    //         .setColor(Colors.Red)
-    //         .setAuthor({
-    //           name: guild.name,
-    //           iconURL: guild.iconURL(),
-    //         })
-    //         .setFooter({
-    //           text: `Robo Hamster`,
-    //           iconURL: bot.user.displayAvatarURL(),
-    //         }),
-    //     ],
-    //   });
-    // }
-
     if (agrees.length >= 5) {
       // если более 5 позитивных голосов за бан, то баним
       interaction.message.delete();
       await this.banUser(
         bot,
         interaction,
-        userForBan.id,
+        userForBanId,
         days,
         reason,
         moderatorSender.id
@@ -208,7 +169,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`✅ | Успешная блокировка пользователей!`)
             .setDescription(
-              `**Пользователь ${userForBan.id} был успешно заблокирован на \`${days}\` по причине \`${reason}\` по голосованию модераторов. Запросил: ${moderatorSender.id}**`
+              `**Пользователь ${userForBanId} был успешно заблокирован на \`${days}\` по причине \`${reason}\` по голосованию модераторов. Запросил: ${moderatorSender.id}**`
             )
             .setColor(Colors.DarkGreen)
             .setAuthor({
@@ -231,7 +192,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Упс..`)
             .setDescription(
-              `**Пользователь ${userForBan.id} был отказан от блокировки по голосованию модераторов. Запросил: ${moderatorSender.id}**`
+              `**Пользователь ${userForBanId} был отказан от блокировки по голосованию модераторов. Запросил: ${moderatorSender.id}**`
             )
             .setColor(Colors.Red)
             .setAuthor({
@@ -257,7 +218,7 @@ module.exports = {
         await this.banUser(
           bot,
           interaction,
-          userForBan.id,
+          userForBanId,
           days,
           reason,
           moderatorSender.id
@@ -268,7 +229,7 @@ module.exports = {
             new EmbedBuilder()
               .setTitle(`✅ | Одобрение блокировки пользователя!`)
               .setDescription(
-                `**Администратор ${user} одобрил блокировку пользователя ${userForBan}\n\n\`Отправил\`: ${moderatorSender}\n\`Пользователь\`: ${userForBan}\n\`Причина блокировки\`: ${reason}**`
+                `**Администратор ${user} одобрил блокировку пользователя <@${userForBanId}>\n\n\`Отправил\`: ${moderatorSender}\n\`Пользователь\`: <@${userForBanId}>\n\`Причина блокировки\`: ${reason}**`
               )
               .setColor(Colors.DarkGreen)
               .setAuthor({
@@ -285,14 +246,14 @@ module.exports = {
 
       if (interaction.customId === "banNo") {
         await BansVotes.deleteOne({
-          ...ban
+          ...ban,
         }); // удаляем данные о голосовании из бд
         return moderationChannel.send({
           embeds: [
             new EmbedBuilder()
               .setTitle(`❌ | Отклонение блокировки пользователя!`)
               .setDescription(
-                `**Администратор ${user} отклонил блокировку пользователя ${userForBan}\n\n\`Отправил\`: ${moderatorSender}\n\`Пользователь\`: ${userForBan}\n\`Причина блокировки\`: ${reason}**`
+                `**Администратор ${user} отклонил блокировку пользователя <@${userForBanId}>\n\n\`Отправил\`: ${moderatorSender}\n\`Пользователь\`: <@${userForBanId}>\n\`Причина блокировки\`: ${reason}**`
               )
               .setColor(Colors.Red)
               .setAuthor({
@@ -318,7 +279,7 @@ module.exports = {
       const { denies: actualDenies, agrees: actualAgrees } =
         await BansVotes.findOne({
           moderatorSenderId: moderatorSender.id,
-          userForBanId: userForBan.id,
+          userForBanId: userForBanId,
         }); // получаем актуальные голоса и меняем эмбед
       return interaction.message.edit({
         content: `<@&${rolesId.juniorModerator}>`,
@@ -347,7 +308,7 @@ module.exports = {
       const { denies: actualDenies, agrees: actualAgrees } =
         await BansVotes.findOne({
           moderatorSenderId: moderatorSender.id,
-          userForBanId: userForBan.id,
+          userForBanId,
         });
 
       return interaction.message.edit({

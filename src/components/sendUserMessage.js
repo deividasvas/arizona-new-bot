@@ -9,7 +9,10 @@ const settings = require("../configs/settings");
     */
 
 const sendUserMessage = async (message, id, guild) => {
-  const member = guild.members.cache.get(id) || (await guild.members.fetch(id));
+  const member = guild.members.cache.get(id);
+  if(!member){
+    return null;
+  }
   try {
     return await member.send(message);
   } catch (e) {

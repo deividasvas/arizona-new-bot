@@ -80,16 +80,17 @@ module.exports = {
         ],
       });
     }
-
-    let countFamsOfCandidate = 0; // количество семей в которых состоит пользователь
     const roles = candidate.roles.cache.values();
-    const familiesIDs = allFamilies.map((family) => family.id);
-    for (const role of roles) {
-      if (familiesIDs.includes(role.id)) {
-        // проверяем имеет ли кандидат на выдачу семейной роли другие семейные роли
-        countFamsOfCandidate++;
-      }
-    }
+    let countFamsOfCandidate = roles.reduce((total, current) =>
+      familiesIDs.includes(current.id) ? total + 1 : total
+    ); // количество семей в которых состоит пользователь
+    // const familiesIDs = allFamilies.map((family) => family.id);
+    // for (const role of roles) {
+    //   if (familiesIDs.includes(role.id)) {
+    //     // проверяем имеет ли кандидат на выдачу семейной роли другие семейные роли
+    //     countFamsOfCandidate++;
+    //   }
+    // }
 
     if (countFamsOfCandidate >= 2) {
       // если человек имеет более 2 семейные ролей, или 2 семейные роли, то больше нельзя выдавать.
