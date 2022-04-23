@@ -10,7 +10,6 @@ module.exports = {
   acceptCustomsID: [], // модуль автоматически принимает эти айдишники interaction.customId
   run: async (bot, message) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
-
     if (
       message.channel.id === channelsId.welcome
     ) {

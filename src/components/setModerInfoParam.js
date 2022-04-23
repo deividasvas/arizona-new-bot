@@ -6,6 +6,7 @@ const createModerInfo = require("./createModerInfo");
 // ДЛЯ ВЫГОВОРОВ ИСПОЛЬЗУЕТСЯ setWarnsOrRebukes.js
 const setModerInfoParam = async (
   userId,
+  guildId,
   type, // main - основная статистика / week - недельная статистика
   paramKey, // название параметра
   paramValueOrFunction // значение параметра. Тут либо обычное значение, либо функция которая принимает в 
@@ -19,10 +20,11 @@ const setModerInfoParam = async (
   if (
     !(await Moderators.findOne({
       discordId: userId,
+      guildId,
     }))
   ) {
     // если модератора не существует в коллекции, то создаём его
-    await createModerInfo(userId);
+    await createModerInfo(userId, guildId);
   }
   const moderator = await Moderators.findOne({
     discordId: userId,

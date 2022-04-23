@@ -69,18 +69,20 @@ module.exports = {
       interaction.guild
     );
     await ban(bot, interaction.guildId, userId, moderatorId, days, reason);
-    this.giveBalls(moderatorId);
+    this.giveBalls(moderatorId, interaction.guildId);
   },
-  async giveBalls(moderatorId) {
+  async giveBalls(moderatorId, guildId) {
     // выдаем недельные баны и общие
     await setModerInfoParam(
       moderatorId,
+      guildId,
       "main",
       "bans",
       ({ bans }) => bans + 1
     );
     await setModerInfoParam(
       moderatorId,
+      guildId,
       "week",
       "bans",
       ({ bans }) => bans + 1
@@ -89,18 +91,20 @@ module.exports = {
     // выдаем недельные баллы и общие
     await setModerInfoParam(
       moderatorId,
+      guildId,
       "main",
       "balls",
       ({ balls, coefficient }) => balls + settings.rates.ban * coefficient
     );
     await setModerInfoParam(
       moderatorId,
+      guildId,
       "week",
       "balls",
       ({ balls, coefficient }) => balls + settings.rates.ban * coefficient
     );
   },
-  async run({ bot, interaction, user, guild }) {
+  async run({ bot, interaction, member: user, guild }) {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
 
     if (

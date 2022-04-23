@@ -159,12 +159,14 @@ module.exports = {
     // выдаем недельные муты и общие
     await setModerInfoParam(
       author.id,
+      guild.id,
       "main",
       "mutes",
       ({ mutes }) => mutes + 1
     );
     await setModerInfoParam(
       author.id,
+      guild.id,
       "week",
       "mutes",
       ({ mutes }) => mutes + 1
@@ -173,12 +175,14 @@ module.exports = {
     // выдаем недельные баллы и общие
     await setModerInfoParam(
       author.id,
+      guild.id,
       "main",
       "balls",
       ({ balls, coefficient }) => balls + settings.rates.mute * coefficient
     );
     await setModerInfoParam(
       author.id,
+      guild.id,
       "week",
       "balls",
       ({ balls, coefficient }) => balls + settings.rates.mute * coefficient

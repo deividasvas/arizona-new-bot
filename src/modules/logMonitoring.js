@@ -9,7 +9,7 @@ module.exports = {
   */
   name: "logMonitoring", // имя модуля
   acceptCustomsID: ["logMonitoringYes", "logMonitoringNo"], // модуль автоматически принимает эти айдишники interaction.customId
-  run: async ({ bot, interaction, user, guild, message }) => {
+  run: async ({ bot, interaction, member: user, guild, message }) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
 
     if (

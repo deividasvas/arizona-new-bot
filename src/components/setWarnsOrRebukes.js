@@ -4,23 +4,26 @@ const createModerInfo = require("./createModerInfo");
 // Функция которая УСТАНАВЛИВАЕТ выговоры/предупреждения модератору
 // func - функция которая принимает в себя объект всего модератора и должна возвращать массив со ВСЕМИ предами и выговорами 
 
-const setWarnsOrRebukes = async (userId, func) => {
+const setWarnsOrRebukes = async (userId, guildId, func) => {
   if (
     !(await Moderators.findOne({
       discordId: userId,
+      guildId,
     }))
   ) {
     // если модератора не существует в коллекции, то создаём его
-    await createModerInfo(userId);
+    await createModerInfo(userId, guildId);
   }
   const moderator = await Moderators.findOne({
     discordId: userId,
+    guildId,
   });
 
 
   await Moderators.updateOne(
     {
       discordId: userId,
+      guildId,
     },
     {
       $set: {

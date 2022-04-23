@@ -15,25 +15,24 @@ module.exports = async (bot, interaction) => {
     ) {
       // проверяем находится ли команда в выключенных. если да, то выдаём ошибку
       bot.deleteSlashCommand(commandId, guild);
-      return interaction
-        .reply({
-          ephemeral: true,
-          embeds: [
-            new EmbedBuilder()
-              .setTitle(`🚫 | Ошибка!`)
-              .setDescription(`**Команда \`${commandName}\` отключена!**`)
-              .setColor(Colors.DarkRed)
-              .setTimestamp()
-              .setAuthor({
-                name: guild.name,
-                iconURL: guild.iconURL(),
-              })
-              .setFooter({
-                text: `Robo Hamster`,
-                iconURL: bot.user.displayAvatarURL(),
-              }),
-          ],
-        })
+      return interaction.reply({
+        ephemeral: true,
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`🚫 | Ошибка!`)
+            .setDescription(`**Команда \`${commandName}\` отключена!**`)
+            .setColor(Colors.DarkRed)
+            .setTimestamp()
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      });
     }
     const command = bot.commands.get(commandName);
     if (!command) {
@@ -58,7 +57,16 @@ module.exports = async (bot, interaction) => {
       interaction.guild.channels.cache.get(channelId) ||
       (await interaction.guild.channels.fetch(channelId));
     return command
-      .run({ interaction, author, guild, bot, channel, args, developers })
+      .run({
+        interaction,
+        author,
+        guild,
+        bot,
+        channel,
+        args,
+        developers,
+        theSlashCall: true,
+      })
       .catch((err) => handleErrors(err, bot));
   }
   if (interaction.isButton()) {
@@ -67,8 +75,8 @@ module.exports = async (bot, interaction) => {
       // берём все модули и смотрим в каком принимаются айдишники которые нам нужны
       const { acceptCustomsID } = module;
       if (acceptCustomsID.includes(interaction.customId)) {
-        const { member: user, guild, message } = interaction;
-        module.run({ bot, user, interaction, guild, message }); // запускаем модуль
+        const { member, user, guild, message } = interaction;
+        module.run({ bot, member, user, interaction, guild, message }); // запускаем модуль
       }
     }
   }

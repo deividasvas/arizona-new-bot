@@ -1,6 +1,5 @@
 const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
-const getModerInfo = require("../../components/getModerInfo");
 const kick = require("../../components/kick");
 const sendUserMessage = require("../../components/sendUserMessage");
 const setModerInfoParam = require("../../components/setModerInfoParam");
@@ -131,12 +130,14 @@ module.exports = {
     // выдаем недельные муты и общие
     await setModerInfoParam(
       author.id,
+      guild.id,
       "main",
       "kicks",
       ({ kicks }) => kicks + 1
     );
     await setModerInfoParam(
       author.id,
+      guild.id,
       "week",
       "kicks",
       ({ kicks }) => kicks + 1
@@ -145,12 +146,14 @@ module.exports = {
     // выдаем недельные баллы и общие
     await setModerInfoParam(
       author.id,
+      guild.id,
       "main",
       "balls",
       ({ balls, coefficient }) => balls + settings.rates.kick * coefficient
     );
     await setModerInfoParam(
       author.id,
+      guild.id,
       "week",
       "balls",
       ({ balls, coefficient }) => balls + settings.rates.kick * coefficient

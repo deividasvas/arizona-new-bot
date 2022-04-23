@@ -1,9 +1,25 @@
 const Moderators = require("../models/Moderators");
+const createModerInfo = require("./createModerInfo");
 const getAllRolesIDModers = require("./getAllRolesIDModers");
 
 // Функция запрашивает и отдаёт модерскую статистику.
 const getModerInfo = async (bot, guildId, userId) => {
-  const guild = bot.guilds.cache.get(guildId);
+  // пытаемся получить статистику модератора, если её нет, то инициализируем нулевую.
+  const moderator = await Moderators.findOne({
+    discordId: userId
+  });
+  console.log(moderator)
+
+  if (!moderator) {
+    await createModerInfo(userId, guildId); // если не найдено статистики модератора, то сохраняем новую.
+    // если модератора нет, то немного выше на 21 строке идёт создание новой статистики модератора
+    // мы просто благодаря рекурсий возвращаем так-же нового модератора без всяких заморочек
+    return getModerInfo(bot, guildId, userId);
+  }
+
+  // || сделана для того, чтобы можно было в случае чего понять является ли человек модератором
+  // даже если он к примеру нажал на кнопку в личных сообщениях у бота.
+  const guild = bot.guilds.cache.get(guildId || moderator.guildId);
   const member = guild.members.cache.get(userId);
   const allRolesIDModers = getAllRolesIDModers();
   if (!member.roles.cache.some((role) => allRolesIDModers.includes(role.id))) {
@@ -11,44 +27,6 @@ const getModerInfo = async (bot, guildId, userId) => {
     return {
       error: "THE_NOT_MODERATOR",
     };
-  }
-
-  // пытаемся получить статистику модератора, если её нет, то инициализируем нулевую.
-  const moderator =
-    (await Moderators.findOne({
-      discordId: userId,
-    })) ||
-    new Moderators({
-      discordId: userId, // Discord ID модератора
-      main: {
-        // общая информация по выданным наказаниям модератора
-        roles: 0, // роли
-        tickets: 0, // тикеты
-        kicks: 0, // кики
-        bans: 0, // баны
-        mutes: 0, // муты
-        goodAnswers: 0, // хорошие оценки за тикеты
-        toxicAnswers: 0, // плохие оценки за тикеты
-        balls: 0, // баллы
-        coefficient: 1, // коэффицент Xn баллов.
-        immunities: 0, // количество иммунитетов модератора
-      },
-      week: {
-        // недельная информация по выданным наказания модератора
-        roles: 0,
-        tickets: 0, // тикеты
-        kicks: 0, // кики
-        bans: 0, // баны
-        mutes: 0, // муты
-        goodAnswers: 0, // хорошие оценки за тикеты
-        toxicAnswers: 0, // плохие оценки за тикеты
-        balls: 0, // баллы
-      },
-      warns: [], // выговоры / преды
-    });
-
-  if(!await Moderators.findOne({ discordId: userId })){
-    moderator.save(); // если не найдено статистики модератора, то сохраняем новую.
   }
 
   return moderator;

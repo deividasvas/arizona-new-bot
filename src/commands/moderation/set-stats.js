@@ -23,8 +23,8 @@ const choices = [
     value: "mutes",
   },
   {
-    name: "Количество выданных мутов",
-    value: "mutes",
+    name: "Количество выданных киков",
+    value: "kicks",
   },
   {
     name: "Количество хороших оценок",
@@ -87,7 +87,7 @@ module.exports = {
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0])); // модератор которому будем меняь статистику
     const typeStatistic = args[1]; // тип статистики
     const newCount = args[2]; // новое количество для типа статистики
-    const { main, error } = await getModerInfo(guild, member.id);
+    const { main, error } = await getModerInfo(bot, guild.id, member.id);
     if (error === "THE_NOT_MODERATOR") {
       return interaction.reply({
         ephemeral: !whiteListChannels.includes(channel.id), // смотрим находится ли канал в белом списке, если да, то true, если нет, то false
@@ -110,7 +110,7 @@ module.exports = {
       });
     }
 
-    await setModerInfoParam(member.id, "main", typeStatistic, newCount);
+    await setModerInfoParam(member.id, guild.id, "main", typeStatistic, newCount);
     const choice = choices.find((choice) => choice.value === typeStatistic);
 
     interaction.reply({

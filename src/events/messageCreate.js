@@ -138,8 +138,7 @@ module.exports = async (bot, message) => {
       // проверка валидности аргументов
       const argument = command.arguments[index]; // аргумент и его настройка из команды
       const argumentOnCommand = args[index]; // значение аргумента из команды
-      console.log(argumentOnCommand)
-      if(!argument.required && !argumentOnCommand){
+      if (!argument.required && !argumentOnCommand) {
         continue;
       }
       const typeArgument = bot.typesArguments.find(
@@ -241,8 +240,16 @@ module.exports = async (bot, message) => {
         channel: message.channel,
         args,
         developers,
+        theSlashCall: false,
       })
-      .catch((err) => handleErrors(err, bot));
+      .catch((err) => handleErrors(err, bot))
+      .then(() => {
+        setTimeout(() => {
+          if (!cache[message.id]) {
+            return message.delete(); // если ответ был дан не через .reply, то удаляем сообщение после завершения работы команды
+          }
+        }, 2000);
+      });
   }
   bot.modules.get("trigger").run(bot, message);
 };

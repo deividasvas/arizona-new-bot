@@ -1,18 +1,22 @@
 const Moderators = require("../models/Moderators");
 
 // Функция создёт в случае отсутствия модерскую информацию в коллекции
-const createModerInfo = async (userId) => {
-    // проверяем существует ли модератор уже
+const createModerInfo = async (userId, guildId) => {
+  // проверяем существует ли модератор уже
+  
   if (
     await Moderators.findOne({
-      userId,
+      discordId: userId,
+      guildId,
     })
   ) {
-      return; // если да, то просто ничего не делаем
+    return; // если да, то просто ничего не делаем
   }
 
-  const newModerator = new Moderators({ // если нет, то создаём модератора
+  const newModerator = new Moderators({
+    // если нет, то создаём модератора
     discordId: userId, // Discord ID модератора
+    guildId,
     main: {
       // общая информация по выданным наказаниям модератора
       roles: 0, // роли

@@ -89,6 +89,7 @@ module.exports = {
 
       await setModerInfoParam(
         moderator.id,
+        guild.id,
         "main",
         "immunities",
         ({ immunities }) => immunities - 1
@@ -96,6 +97,7 @@ module.exports = {
 
       await setWarnsOrRebukes(
         moderator.id,
+        guild.id,
         rebukes // удаляем все предупреждения кроме выговоров
       );
 
@@ -224,7 +226,7 @@ module.exports = {
       }
 
       // если должность у пользователя - младший модератор, то снимаем его
-      await setWarnsOrRebukes(moderator.id, ({ warns }) => {
+      await setWarnsOrRebukes(moderator.id, guild.id, ({ warns }) => {
         return [
           ...warns,
           {
@@ -287,7 +289,7 @@ module.exports = {
     if (warns.length + 1 >= maxCountWarns) {
       // предупреждение которое выдадут сейчас должно выдать модератору выговор
 
-      await setWarnsOrRebukes(moderator.id, ({ warns }) => {
+      await setWarnsOrRebukes(moderator.id, guild.id, ({ warns }) => {
         return [
           ...warns.filter((warnOrRebuke) => warnOrRebuke.group === "rebuke"),
           {
@@ -351,7 +353,7 @@ module.exports = {
       });
     }
 
-    await setWarnsOrRebukes(moderator.id, ({ warns }) => {
+    await setWarnsOrRebukes(moderator.id, guild.id, ({ warns }) => {
       return [
         ...warns,
         {

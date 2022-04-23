@@ -19,7 +19,7 @@ const {
 
 module.exports = {
   name: "mrebuke", // название команды
-  descr: "Выдать модератору выговоро", // описание команды
+  descr: "Выдать модератору выговор", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
     {
@@ -86,6 +86,7 @@ module.exports = {
 
       await setModerInfoParam(
         moderator.id,
+        guild.id,
         "main",
         "immunities",
         ({ immunities }) => immunities - 1
@@ -205,7 +206,7 @@ module.exports = {
           });
         }
       }
-      await setWarnsOrRebukes(moderator.id, ({ warns }) => {
+      await setWarnsOrRebukes(moderator.id, guild.id, ({ warns }) => {
         return [
           ...warns,
           {
@@ -263,7 +264,7 @@ module.exports = {
       });
     }
 
-    await setWarnsOrRebukes(moderator.id, ({ warns }) => {
+    await setWarnsOrRebukes(moderator.id, guild.id, ({ warns }) => {
       return [
         ...warns,
         {

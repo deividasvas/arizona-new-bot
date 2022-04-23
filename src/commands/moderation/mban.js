@@ -8,13 +8,7 @@ const {
 const {
   ButtonBuilder,
 } = require("discord.js/node_modules/@discordjs/builders");
-const ban = require("../../components/ban");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
-const getModerInfo = require("../../components/getModerInfo");
-const kick = require("../../components/kick");
-const sendUserMessage = require("../../components/sendUserMessage");
-const setModerInfoParam = require("../../components/setModerInfoParam");
-const settings = require("../../configs/settings");
 const {
   rolesId,
   channelsId,

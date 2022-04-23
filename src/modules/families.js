@@ -10,7 +10,7 @@ module.exports = {
   */
   name: "families", // имя модуля
   acceptCustomsID: ["famYes", "famNo"], // модуль автоматически принимает эти айдишники interaction.customId
-  run: async ({ bot, interaction, user, guild, message }) => {
+  run: async ({ bot, interaction, guild, message }) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
 
     const hours = (new Date() - message.createdTimestamp) / 3600000;

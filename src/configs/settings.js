@@ -30,6 +30,8 @@ const rolesId = {
   deputiesFractions: `948675243235475459`, // Заместители фракции
   leadersFractions: `948675243235475460`, // Лидеры фракции
   ministers: `948675243235475461`, // Министры
+  infoMaker: `948675243235475465`, // Infomaker
+  chiefInfoMaker: `948675243248062516`, // Chief news
 };
 
 module.exports = {
@@ -51,6 +53,9 @@ module.exports = {
     punishLeadership: `948675243826888766`, // нарушения руководящего состава
     support: `948675245043220487`, // 🔔│support
     rolesAndBans: `948675252697825376`, // роли-баны
+    requestRoles: `948675245307469890`, // запрос-ролей
+    logBuysModerators: `948675243579441179`, // лог-покупок-модераторов
+    infomakers: `948675246825828468`, // инфомейкеры
   },
   categories: {
     fams: "948675246016299023", // семейные роли
@@ -77,7 +82,7 @@ module.exports = {
       type: ApplicationCommandOptionType.Number,
       value: `Число`,
       validator(val) {
-        return typeof val === "number" || isNaN(val);
+        return !isNaN(val);
       },
     },
     {

@@ -31,6 +31,7 @@ module.exports = {
       guild.id,
       member.id
     ); // запрашиваем модерскую статистику за неделю и за всё время у бд
+    console.log(main, error);
     if (error === "THE_NOT_MODERATOR") {
       return interaction.reply({
         ephemeral: true,
@@ -39,7 +40,7 @@ module.exports = {
             .setTitle(`❌ | Ошибка!`)
             .setDescription(
               `**${
-                args[0] ? "Пользователь не является" : "Вы не являетесь"
+                args[0] ? `Пользователь ${member} не является` : "Вы не являетесь"
               } модератором. Если это не так, то обратитесь к <@&${
                 rolesId.techSection
               }>**`
@@ -81,7 +82,7 @@ module.exports = {
             })}`
           )
           .setDescription(
-            `**Кол-во снятых ролей: \`${main.roles}[${week.roles}]\`\nКол-во тикетов: \`${main.tickets}[${week.tickets}]\`\nКол-во выданых банов \`${main.bans}[${week.bans}]\`\nКол-во выданых мутов \`${main.mutes}[${week.mutes}]\`\nКол-во хороших оценок \`${main.goodAnswers}[${week.goodAnswers}]\`\nКол-во плохих оценок \`${main.toxicAnswers}[${week.toxicAnswers}]\`\nКол-во киков: \`${main.kicks}[${week.kicks}]\`\n\nВыговоры: \`${countRebukes}\`\nПредупреждения: \`${countWarns}\`\nИммунитеты: \`${main.immunities}\`\nКоэффицент баллов: \`X${main.coefficient}\`**`
+            `>>> **Кол-во снятых ролей: \`${main.roles}[${week.roles}]\`\nКол-во тикетов: \`${main.tickets}[${week.tickets}]\`\nКол-во выданых банов \`${main.bans}[${week.bans}]\`\nКол-во выданых мутов \`${main.mutes}[${week.mutes}]\`\nКол-во хороших оценок \`${main.goodAnswers}[${week.goodAnswers}]\`\nКол-во плохих оценок \`${main.toxicAnswers}[${week.toxicAnswers}]\`\nКол-во киков: \`${main.kicks}[${week.kicks}]\`\n\nВыговоры: \`${countRebukes}\`\nПредупреждения: \`${countWarns}\`\nИммунитеты: \`${main.immunities}\`\nКоэффицент баллов: \`X${main.coefficient}\`**`
           )
           .setFooter({
             text: `Robo Hamster`,
