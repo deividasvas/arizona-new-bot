@@ -155,42 +155,42 @@ module.exports = {
     const { days, reason, agrees, denies } = ban; // данные из бана
     const moderationChannel = guild.channels.cache.get(channelsId.moderation); // канал куда отправится сообщение в случае чего
 
-    if (!userForBan) {
-      // проверяем находится ли пользователь на сервере, если нет, то
-      // добавляем его в список людей которые будут забанены при заходе
-      interaction.message.delete();
-      this.giveBalls(moderatorSender.id);
+    // if (!userForBan) {
+    //   // проверяем находится ли пользователь на сервере, если нет, то
+    //   // добавляем его в список людей которые будут забанены при заходе
+    //   interaction.message.delete();
+    //   this.giveBalls(moderatorSender.id);
 
-      new FuturePunishments({
-        action: "ban",
-        moderatorId: moderatorSender.id,
-        userId: userForBan.id,
-        guildId: guild.id,
-        reason,
-        timeInMs: getDaysInMs(days),
-      });
+    //   new FuturePunishments({
+    //     action: "ban",
+    //     moderatorId: moderatorSender.id,
+    //     userId: userForBan.id,
+    //     guildId: guild.id,
+    //     reason,
+    //     timeInMs: getDaysInMs(days),
+    //   });
 
-      return moderationChannel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setTitle(`❌ | Ошибка!`)
-            .setDescription(
-              `**Пользователь ${getValue(
-                1
-              )} которого нужно было заблокировать на \`${days}\` дней по причине \`${reason}\` по форме модератора ${moderatorSender} - вышел с сервера. Пользователь добавлен в список будущих блокировок.**`
-            )
-            .setColor(Colors.Red)
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
-        ],
-      });
-    }
+    //   return moderationChannel.send({
+    //     embeds: [
+    //       new EmbedBuilder()
+    //         .setTitle(`❌ | Ошибка!`)
+    //         .setDescription(
+    //           `**Пользователь ${getValue(
+    //             1
+    //           )} которого нужно было заблокировать на \`${days}\` дней по причине \`${reason}\` по форме модератора ${moderatorSender} - вышел с сервера. Пользователь добавлен в список будущих блокировок.**`
+    //         )
+    //         .setColor(Colors.Red)
+    //         .setAuthor({
+    //           name: guild.name,
+    //           iconURL: guild.iconURL(),
+    //         })
+    //         .setFooter({
+    //           text: `Robo Hamster`,
+    //           iconURL: bot.user.displayAvatarURL(),
+    //         }),
+    //     ],
+    //   });
+    // }
 
     if (agrees.length >= 5) {
       // если более 5 позитивных голосов за бан, то баним
