@@ -15,6 +15,8 @@ const {
   whiteListRoles,
 } = require("../../configs/settings");
 const BansVotes = require("../../models/BansVotes");
+const timeChecker = require("../../components/timeChecker");
+const bans = new timeChecker("бан");
 
 module.exports = {
   name: "mban", // название команды
@@ -143,5 +145,7 @@ module.exports = {
           }),
       ],
     });
+
+    bans.addModeratorPunish(author.id, guild.id);
   },
 };

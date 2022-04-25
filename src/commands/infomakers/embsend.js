@@ -65,14 +65,20 @@ module.exports = {
         })
       );
     if (urlTitle !== "-") embed.setURL(urlTitle);
-    if (authorName !== "-") embed.setAuthor(authorName, null, null);
+    if (authorName !== "-") embed.setAuthor({
+      name: authorName,
+    });
     if (authorName !== "-" && authorLink !== "-")
       embed.setAuthor({
         name: authorName,
         url: authorLink,
       });
     if (authorName !== "-" && authorLink !== "-" && authorImageLink !== "-")
-      embed.setAuthor(authorName, authorImageLink, authorLink);
+      embed.setAuthor({
+        name: authorName,
+        url: authorLink,
+        iconURL: authorImageLink
+      });
     if (imageUrl !== "-") embed.setImage(imageUrl);
     if (footer !== "-" && imageFooter == "-")
       embed.setFooter({

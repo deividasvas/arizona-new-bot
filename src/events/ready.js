@@ -8,5 +8,5 @@ module.exports = async bot => {
     await bot.command();
     const punishmentModule = await bot.modules.get("punishment");
     punishmentModule.run({ bot }); // запускаем снятие наказания тем у кого прошёл срок наказания
-    console.log(`\n[Ready]: Бот запущен. Авторизован как %s | Серверов: %d | Пользователей: %d | Каналов: %d | Команд: %d`, bot.user.tag, bot.guilds.cache.size, bot.users.cache.size, bot.channels.cache.size, bot.commands.size);
+    console.log(`\n[📌 | Ready]: Бот запущен. Авторизован как %s | Серверов: %d | Пользователей: %d | Каналов: %d | Команд: %d`, bot.user.tag, bot.guilds.cache.size, bot.users.cache.size, bot.channels.cache.size, bot.commands.size);
 }

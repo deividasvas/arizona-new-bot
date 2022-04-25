@@ -155,18 +155,18 @@ module.exports = {
         return interaction.reply({
           ephemeral: true,
           embeds: [
-            new EmbedBuilder()
-              .setTitle(`❌ | Ошибка!`)
-              .setDescription(`**Вы указали более 256 символов для заголовка**`)
-              .setColor(Colors.Red)
-              .setAuthor({
-                name: guild.name,
-                iconURL: guild.iconURL(),
-              })
-              .setFooter({
-                text: `Robo Hamster`,
-                iconURL: bot.user.displayAvatarURL(),
-              }),
+            await new EmbedBuilder()
+                .setTitle(`❌ | Ошибка!`)
+                .setDescription(`**Вы указали более 256 символов для заголовка**`)
+                .setColor(Colors.Red)
+                .setAuthor({
+                  name: guild.name,
+                  iconURL: guild.iconURL(),
+                })
+                .setFooter({
+                  text: `Robo Hamster`,
+                  iconURL: bot.user.displayAvatarURL(),
+                }),
           ],
         });
       }
@@ -350,15 +350,15 @@ module.exports = {
           infoMakerId: author.id,
         },
         {
-          description: value,
+          imageUrl: value,
         }
       );
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
             .setColor(Colors.DarkGreen)
-            .setTitle(`📌 | Изменение описания`)
-            .setDescription(`**Вы успешно изменили описание на \`${value}\`**`)
+            .setTitle(`📌 | Изменение картинки`)
+            .setDescription(`**Вы успешно изменили URL картинки на \`${value}\`**`)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),

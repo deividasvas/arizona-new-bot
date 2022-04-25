@@ -4,7 +4,7 @@ const { rolesId } = require("../../configs/settings");
 module.exports = {
   name: "run", // название команды
   descr: "Запускает JavaScript код", // описание команды
-  perms: () => [rolesId.techSection], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: () => [rolesId.techSection], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
   showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [
     {

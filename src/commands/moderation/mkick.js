@@ -9,6 +9,10 @@ const {
   channelsId,
   whiteListRoles,
 } = require("../../configs/settings");
+const getMinutesInMs = require("../../components/getMinutesInMs");
+const timeChecker = require("../../components/timeChecker");
+
+const kicks = new timeChecker('кик');
 
 module.exports = {
   name: "mkick", // название команды
@@ -158,5 +162,6 @@ module.exports = {
       "balls",
       ({ balls, coefficient }) => balls + settings.rates.kick * coefficient
     );
+    kicks.addModeratorPunish(author.id, guild.id);
   },
 };

@@ -184,7 +184,7 @@ module.exports = class ExtendedClient extends Client {
       if (err) {
         throw err;
       }
-      console.log(`[MONGO] База данных успешно запущена!`);
+      console.log(`[📌 | MONGO] База данных успешно запущена!`);
     });
     this.connection = mongoose.connection;
   }
