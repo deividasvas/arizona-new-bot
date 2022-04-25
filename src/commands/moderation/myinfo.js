@@ -1,12 +1,12 @@
 const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
-const getAllrolesIdModers = require("../../components/getAllrolesIdModers");
+const getAllrolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
 const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "myinfo", // название команды
   descr: "Узнать модерскую статистику по выданным наказаниям", // описание команды
-  showInSlashCommands: true, // показывать ли команду в slash командах
+  showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [
     {
       name: "пользователь",

@@ -1,6 +1,6 @@
 const Moderators = require("../models/Moderators");
 const createModerInfo = require("./createModerInfo");
-const getAllRolesIDModers = require("./getAllRolesIDModers");
+const getAllRolesIdModers = require("./getAllRolesIdModers");
 
 // Функция запрашивает и отдаёт модерскую статистику.
 const getModerInfo = async (bot, guildId, userId) => {
@@ -8,12 +8,11 @@ const getModerInfo = async (bot, guildId, userId) => {
   const moderator = await Moderators.findOne({
     discordId: userId
   });
-  console.log(moderator)
 
   if (!moderator) {
     await createModerInfo(userId, guildId); // если не найдено статистики модератора, то сохраняем новую.
-    // если модератора нет, то немного выше на 21 строке идёт создание новой статистики модератора
-    // мы просто благодаря рекурсий возвращаем так-же нового модератора без всяких заморочек
+    // Если модератора нет, то немного выше на 21 строке идёт создание новой статистики модератора
+    // мы просто благодаря рекурсиям возвращаем так-же нового модератора без всяких заморочек
     return getModerInfo(bot, guildId, userId);
   }
 

@@ -10,7 +10,7 @@ const { rolesId, channelsId } = require("../../configs/settings");
 module.exports = {
   name: "support", // название команды
   descr: "Сообщить пользователям об существовании support'a", // описание команды
-  showInSlashCommands: true, // показывать ли команду в slash командах
+  showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [], // аргументы
   perms: () => getAllRolesIdModers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
@@ -54,7 +54,7 @@ module.exports = {
             iconURL: guild.iconURL(),
           })
           .setDescription(
-            `**Вы успешно прорекламировали канал <#${channelsId.support}> в канале <#${channelsId.welcome}>**`
+            `**Вы успешно про рекламировали канал <#${channelsId.support}> в канале <#${channelsId.welcome}>**`
           )
           .setFooter({
             text: `Robo Hamster`,

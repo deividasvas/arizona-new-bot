@@ -1,6 +1,6 @@
 const { EmbedBuilder, Colors } = require("discord.js");
 const ban = require("../components/ban");
-const getAllRolesIdModers = require("../components/getAllrolesIdModers");
+const getAllRolesIdModers = require("../components/getAllRolesIdModers");
 const getDaysInMs = require("../components/getDaysInMs");
 const parseUserIdFromMention = require("../components/parseUserId");
 const sendUserMessage = require("../components/sendUserMessage");

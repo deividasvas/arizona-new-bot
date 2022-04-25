@@ -1,6 +1,6 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
 const convertMinutesToMs = require("../../components/convertMinutesToMs");
-const getAllrolesIdModers = require("../../components/getAllrolesIdModers");
+const getAllrolesIdModers = require("../../components/getAllRolesIdModers");
 const mute = require("../../components/mute");
 const sendUserMessage = require("../../components/sendUserMessage");
 const setModerInfoParam = require("../../components/setModerInfoParam");

@@ -1,6 +1,6 @@
 const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const convertMinutesToMs = require("../../components/convertMinutesToMs");
-const getAllrolesIdModers = require("../../components/getAllrolesIdModers");
+const getAllrolesIdModers = require("../../components/getAllRolesIdModers");
 const sendUserMessage = require("../../components/sendUserMessage");
 const unmute = require("../../components/unmute");
 const { rolesId, channelsId } = require("../../configs/settings");
@@ -25,7 +25,7 @@ module.exports = {
   ], // аргументы
   perms: () => {
     return getAllrolesIdModers(); // все модерские роли
-  }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, guild, args }) => {
     const userForUnmute =

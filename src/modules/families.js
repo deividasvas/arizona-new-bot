@@ -1,5 +1,5 @@
 const { EmbedBuilder, Colors } = require("discord.js");
-const getAllRolesIDAdmins = require("../components/getAllRolesIDAdmins");
+const getAllRolesIDAdmins = require("../components/getAllRolesIdAdmins");
 
 module.exports = {
   /*

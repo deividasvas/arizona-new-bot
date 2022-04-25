@@ -1,5 +1,5 @@
 const { EmbedBuilder, Colors } = require("discord.js");
-const getAllRolesIDAdmins = require("../components/getAllRolesIDAdmins");
+const getAllRolesIDAdmins = require("../components/getAllRolesIdAdmins");
 const getModerInfo = require("../components/getModerInfo");
 const setModerInfoParam = require("../components/setModerInfoParam");
 const setWarnsOrRebukes = require("../components/setWarnsOrRebukes");
