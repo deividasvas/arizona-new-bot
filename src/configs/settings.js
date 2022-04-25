@@ -42,6 +42,7 @@ module.exports = {
     famLogs: `948675244065947650`, // лог-семей
     testRoom: `948675243826888772`, // тест-комната
     logMonitoring: `948675244632195133`, // log-monitoring
+    onlineFraction: `948675245043220485`, // онлайн-фракции
     notifications: `960237241114951720`, // уведомления
     welcome: `948675245307469885`, // welcome
     moderationLog: `948675252353916945`, // 🔐-moderation-log

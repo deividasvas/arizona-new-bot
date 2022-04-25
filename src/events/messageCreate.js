@@ -80,7 +80,7 @@ module.exports = async (bot, message) => {
         .then((msg) => {
           setTimeout(() => {
             msg.delete();
-          }, 10000);
+          }, 20000);
         });
     }
 

@@ -17,7 +17,11 @@ module.exports = class ExtendedClient extends Client {
 
     this.commands = new Collection();
     this.modules = new Collection();
-    this.buildCommandeds = new Collection();
+    this.fractions = {
+      data: [],
+      init: false,
+      dateOldInit: null,
+    };
     this.token = settings.token;
     this.applicationId = settings.applicationId;
     this.guildId = settings.surpriseGuild;
@@ -184,7 +188,7 @@ module.exports = class ExtendedClient extends Client {
       if (err) {
         throw err;
       }
-      console.log(`[📌 | MONGO] База данных успешно запущена!`);
+      console.log(`[📌 | Mongo] База данных успешно запущена!`);
     });
     this.connection = mongoose.connection;
   }
