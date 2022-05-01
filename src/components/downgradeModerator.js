@@ -14,7 +14,7 @@ const downgradeModerator = async (
 ) => {
   const guild = bot.guilds.cache.get(guildId);
   const moderator = guild.members.cache.get(moderatorId);
-  setWarnsOrRebukes(moderator.id, () => []); // обнуляем все преды и выговоры в связи с понижением
+  await setWarnsOrRebukes(moderator.id, () => []); // обнуляем все преды и выговоры в связи с понижением
   await moderator.roles.remove(fromPostRoleId);
   const punishModeratorsLogChannel = guild.channels.cache.get(
     channelsId.punishModeratorsLog

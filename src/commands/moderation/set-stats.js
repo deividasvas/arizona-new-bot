@@ -116,22 +116,22 @@ module.exports = {
     interaction.reply({
       ephemeral: !whiteListChannels.includes(channel.id), // смотрим находится ли канал в белом списке, если да, то true, если нет, то false
       embeds: [
-        new EmbedBuilder()
-          .setAuthor({
-            name: `📌 | Изменение статистики модератора`,
-            iconURL: guild.iconURL(),
-          })
-          .setDescription(
-            `**Вы успешно изменили \`${choice.name.toLowerCase()}\` модератору <@${
-              member.id
-            }>\nБыло: \`${main[typeStatistic]}\`\nСтало: \`${newCount}\`**`
-          )
-          .setColor(Colors.Red)
-          .setTimestamp()
-          .setFooter({
-            text: `Robo Hamster`,
-            iconURL: bot.user.displayAvatarURL(),
-          }),
+        await new EmbedBuilder()
+            .setAuthor({
+              name: `📌 | Изменение статистики модератора`,
+              iconURL: guild.iconURL(),
+            })
+            .setDescription(
+                `**Вы успешно изменили \`${choice.name.toLowerCase()}\` модератору <@${
+                    member.id
+                }>\nБыло: \`${main[typeStatistic]}\`\nСтало: \`${newCount}\`**`
+            )
+            .setColor(Colors.Red)
+            .setTimestamp()
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
       ],
     });
   },

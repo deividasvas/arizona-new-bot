@@ -45,7 +45,7 @@ module.exports = {
                     })
                     .setFooter({
                         text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
-                    }),],
+                    })],
             });
         }
         if (!userForVoiceKick.voice?.channel) {

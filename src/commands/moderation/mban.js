@@ -94,11 +94,11 @@ module.exports = {
             name: `${interaction.guild.name} » Временая блокировка участника.`,
             iconURL: interaction.guild.iconURL(),
           })
-          .addFields({
+          .addFields([{
             name: `Информация:`,
             value: `>>> \`Отправитель:\` ${author}\n\`Нарушитель:\` <@${userForBanId}>\n\`Дней блокировки:\` ${days}\n\`Причина:\` ${reason}\n\n\`За\`: 0\n\`\`Против\`\`: 0`,
             inline: false,
-          })
+          }])
           .setColor(Colors.Red)
           .setTimestamp()
           .setFooter({
@@ -112,14 +112,14 @@ module.exports = {
           new ButtonBuilder()
             .setEmoji({
               name: `✅`,
-            }) // ✅
+            })
             .setStyle(ButtonStyle.Secondary)
             .setCustomId(`banYes`),
 
           new ButtonBuilder()
             .setEmoji({
               name: `❌`,
-            }) // ❌
+            })
             .setStyle(ButtonStyle.Secondary)
             .setCustomId(`banNo`)
         ),

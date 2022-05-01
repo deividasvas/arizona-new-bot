@@ -17,9 +17,9 @@ module.exports = {
   name: "faminvite", // название команды
   descr: "Пригласить в семью", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
-  perms: (bot) => {
-    return getAllRolesIdFamilies(bot); // все айди семейных ролей
-  }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: () => {
+    return getAllRolesIdFamilies(); // все айди семейных ролей
+  }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
   arguments: [
     {
       name: "пользователь",
@@ -153,31 +153,31 @@ module.exports = {
     const messageForCandidate = await sendUserMessage(
       {
         embeds: [
-          new EmbedBuilder()
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setTitle(`📌 | Вы были приглашены в семью!`)
-            .setDescription(
-              `**「📝」Семья: \`${
-                guild.roles.cache.get(family.roleId).name
-              }\`\n「📌」Лидер: ${author} \`[${
-                author.user.id
-              }]\`\n「🧍」Заместители семьи: ${
-                family.deputies.length > 0
-                  ? family.deputies.map((deputy) => `<@${deputy.userId}>`)
-                  : "-"
-              }\`\`[${family.deputies.length}/${
-                settings.limitDeputyInFamilies
-              }]\`\`\n「📕」Дополнительно: \`У Вас есть два часа на рассмотрение предложения\`**`
-            )
-            .setColor(Colors.DarkGreen)
-            .setTimestamp()
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
+          await new EmbedBuilder()
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL(),
+              })
+              .setTitle(`📌 | Вы были приглашены в семью!`)
+              .setDescription(
+                  `**「📝」Семья: \`${
+                      guild.roles.cache.get(family.roleId).name
+                  }\`\n「📌」Лидер: ${author} \`[${
+                      author.user.id
+                  }]\`\n「🧍」Заместители семьи: ${
+                      family.deputies.length > 0
+                          ? family.deputies.map((deputy) => `<@${deputy.userId}>`)
+                          : "-"
+                  }\`\`[${family.deputies.length}/${
+                      settings.limitDeputyInFamilies
+                  }]\`\`\n「📕」Дополнительно: \`У Вас есть два часа на рассмотрение предложения\`**`
+              )
+              .setColor(Colors.DarkGreen)
+              .setTimestamp()
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
         ],
         components: [
           new ActionRowBuilder().addComponents(
@@ -226,30 +226,10 @@ module.exports = {
         await interaction.editReply({
           components: [],
           embeds: [
-            new EmbedBuilder()
-              .setTitle(`📌 | Приглашение в семью!`)
-              .setDescription(
-                `**Вы успешно отклонили приглашение в семью \`\`${role.name}\`\`**`
-              )
-              .setColor(Colors.Red)
-              .setTimestamp()
-              .setAuthor({
-                name: guild.name,
-                iconURL: guild.iconURL(),
-              })
-              .setFooter({
-                text: `Robo Hamster`,
-                iconURL: bot.user.displayAvatarURL(),
-              }),
-          ],
-        });
-        sendUserMessage(
-          {
-            embeds: [
-              new EmbedBuilder()
+            await new EmbedBuilder()
                 .setTitle(`📌 | Приглашение в семью!`)
                 .setDescription(
-                  `**${candidate} отклонил ваше приглашение в семью**`
+                    `**Вы успешно отклонили приглашение в семью \`\`${role.name}\`\`**`
                 )
                 .setColor(Colors.Red)
                 .setTimestamp()
@@ -261,10 +241,30 @@ module.exports = {
                   text: `Robo Hamster`,
                   iconURL: bot.user.displayAvatarURL(),
                 }),
-            ],
-          },
-          author.id,
-          guild
+          ],
+        });
+        await sendUserMessage(
+            {
+              embeds: [
+                await new EmbedBuilder()
+                    .setTitle(`📌 | Приглашение в семью!`)
+                    .setDescription(
+                        `**${candidate} отклонил ваше приглашение в семью**`
+                    )
+                    .setColor(Colors.Red)
+                    .setTimestamp()
+                    .setAuthor({
+                      name: guild.name,
+                      iconURL: guild.iconURL(),
+                    })
+                    .setFooter({
+                      text: `Robo Hamster`,
+                      iconURL: bot.user.displayAvatarURL(),
+                    }),
+              ],
+            },
+            author.id,
+            guild
         );
       }
       await interaction.deferUpdate();

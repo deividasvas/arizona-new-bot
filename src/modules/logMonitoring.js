@@ -8,30 +8,30 @@ module.exports = {
     принятия или отказа определённого мониторинга выдавался определённый ответ.
   */
   name: "logMonitoring", // имя модуля
-  acceptCustomsID: ["logMonitoringYes", "logMonitoringNo"], // модуль автоматически принимает эти айдишники interaction.customId
+  acceptCustomsId: ["logMonitoringYes", "logMonitoringNo"], // модуль автоматически принимает эти айдишники interaction.customId
   run: async ({ bot, interaction, member: user, guild, message }) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
 
     if (
       !user.roles.cache.find((role) => getAllrolesIdAdmins().includes(role.id))
     ) {
-      // проверяем, есть ли у человека нажавшего кнопку админские роли. Если нет, то отвечаем что нет доступа.
+      // Проверяем, есть ли у человека нажавшего кнопку админские роли. Если нет, то отвечаем что нет доступа.
       return interaction.reply({
         ephemeral: true,
         embeds: [
-          new EmbedBuilder()
-            .setTitle(`🚫 | Ошибка!`)
-            .setDescription(`**Вы не являетесь администратором!**`)
-            .setColor(Colors.DarkGreen)
-            .setTimestamp()
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
+          await new EmbedBuilder()
+              .setTitle(`🚫 | Ошибка!`)
+              .setDescription(`**Вы не являетесь администратором!**`)
+              .setColor(Colors.DarkGreen)
+              .setTimestamp()
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL(),
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
         ],
       });
     }

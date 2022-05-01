@@ -40,7 +40,7 @@ module.exports = {
     rolesId.juniorDiscordMaster, // jr.discord master
     rolesId.adviceAdministration, // совет администрации дискорда
     rolesId.curatorModeration, // куратор модерации
-  ], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  ], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, guild, args, channel }) => {
     const moderator =
@@ -55,20 +55,20 @@ module.exports = {
       return interaction.reply({
         ephemeral: true,
         embeds: [
-          new EmbedBuilder()
-            .setTitle(`❌ | Ошибка!`)
-            .setDescription(
-              `**${moderator} не является модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}>**`
-            )
-            .setColor(Colors.Red)
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
+          await new EmbedBuilder()
+              .setTitle(`❌ | Ошибка!`)
+              .setDescription(
+                  `**${moderator} не является модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}>**`
+              )
+              .setColor(Colors.Red)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL(),
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
         ],
       });
     }

@@ -48,20 +48,20 @@ module.exports = {
       return interaction.reply({
         ephemeral: true,
         embeds: [
-          new EmbedBuilder()
-            .setTitle(`❌ | Ошибка!`)
-            .setDescription(
-              `**Пользователя ${userForKick} невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
-            )
-            .setColor(Colors.Red)
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
+          await new EmbedBuilder()
+              .setTitle(`❌ | Ошибка!`)
+              .setDescription(
+                  `**Пользователя ${userForKick} невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
+              )
+              .setColor(Colors.Red)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL(),
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
         ],
       });
     }

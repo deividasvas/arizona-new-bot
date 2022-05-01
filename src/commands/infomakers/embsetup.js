@@ -55,7 +55,7 @@ const choices = [
 ];
 module.exports = {
   name: "embsetup", // название команды
-  descr: "Команда для настройки эмбеда", // описание команды
+  descr: "Настройка эмбеда", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [
     {

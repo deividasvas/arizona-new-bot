@@ -9,7 +9,7 @@ module.exports = {
     прошло, то отправляет что уже прошло 2 часа, и нужно по новой отправить приглашение.
   */
   name: "families", // имя модуля
-  acceptCustomsID: ["famYes", "famNo"], // модуль автоматически принимает эти айдишники interaction.customId
+  acceptCustomsId: ["famYes", "famNo"], // модуль автоматически принимает эти айдишники interaction.customId
   run: async ({ bot, interaction, guild, message }) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
 

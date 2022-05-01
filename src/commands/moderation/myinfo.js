@@ -17,11 +17,11 @@ module.exports = {
   ], // аргументы
   perms: () => {
     return getAllrolesIdModers(); // все модерские роли
-  }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, guild, args, channel }) => {
-    /* пользователь которого модерскую стату мы будем смотреть.
-    либо пользователь который передан первым аргументом, либо автор сообщения.
+    /* Пользователь которого модерскую стату мы будем смотреть.
+    Либо пользователь который передан первым аргументом, либо автор сообщения.
     */
     const member = args[0]
       ? guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]))
@@ -31,29 +31,28 @@ module.exports = {
       guild.id,
       member.id
     ); // запрашиваем модерскую статистику за неделю и за всё время у бд
-    console.log(main, error);
     if (error === "THE_NOT_MODERATOR") {
       return interaction.reply({
         ephemeral: true,
         embeds: [
-          new EmbedBuilder()
-            .setTitle(`❌ | Ошибка!`)
-            .setDescription(
-              `**${
-                args[0] ? `Пользователь ${member} не является` : "Вы не являетесь"
-              } модератором. Если это не так, то обратитесь к <@&${
-                rolesId.techSection
-              }>**`
-            )
-            .setColor(Colors.Red)
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
+          await new EmbedBuilder()
+              .setTitle(`❌ | Ошибка!`)
+              .setDescription(
+                  `**${
+                      args[0] ? `Пользователь ${member} не является` : "Вы не являетесь"
+                  } модератором. Если это не так, то обратитесь к <@&${
+                      rolesId.techSection
+                  }>**`
+              )
+              .setColor(Colors.Red)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL(),
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
         ],
       });
     }

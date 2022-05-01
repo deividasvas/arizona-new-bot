@@ -7,7 +7,7 @@ const {
 const {
   ActionRowBuilder,
   ButtonBuilder,
-} = require("discord.js/node_modules/@discordjs/builders");
+} = require("discord.js");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
 const { rolesId, channelsId } = require("../../configs/settings");

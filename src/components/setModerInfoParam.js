@@ -19,7 +19,7 @@ const setModerInfoParam = async (
   }
   if (
     !(await Moderators.findOne({
-      discordId: userId,
+      userId,
       guildId,
     }))
   ) {
@@ -27,14 +27,14 @@ const setModerInfoParam = async (
     await createModerInfo(userId, guildId);
   }
   const moderator = await Moderators.findOne({
-    discordId: userId,
+    userId,
   });
   const obj = JSON.parse(JSON.stringify(moderator[type])); // копируем объект чтоб удалить из него уже существующее значение
   delete obj[paramKey];
 
   await Moderators.updateOne(
     {
-      discordId: userId,
+      userId,
     },
     {
       $set: {

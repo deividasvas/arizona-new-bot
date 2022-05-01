@@ -1,5 +1,4 @@
 const { EmbedBuilder, Colors } = require("discord.js");
-const getAllRolesIDAdmins = require("../components/getAllRolesIdAdmins");
 const getModerInfo = require("../components/getModerInfo");
 const setModerInfoParam = require("../components/setModerInfoParam");
 const setWarnsOrRebukes = require("../components/setWarnsOrRebukes");
@@ -15,7 +14,7 @@ module.exports = {
     Данный модуль нужен для обработки кнопок команды bshop
   */
   name: "bshop", // имя модуля
-  acceptCustomsID: [
+  acceptCustomsId: [
     "bshop_minus_rebuke",
     "bshop_10level",
     "bshop_20level",

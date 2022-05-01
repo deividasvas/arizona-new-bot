@@ -1,72 +1,84 @@
-const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
+const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
 const settings = require("../../configs/settings");
-const { rolesId } = require("../../configs/settings");
+const {rolesId} = require("../../configs/settings");
 module.exports = {
-  name: "run", // название команды
-  descr: "Запускает JavaScript код", // описание команды
-  perms: () => [rolesId.techSection], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
-  showInSlashCommands: false, // показывать ли команду в slash командах
-  arguments: [
-    {
-      name: "код",
-      description: "Код который будет запущен",
-      type: ApplicationCommandOptionType.String,
-      required: true,
+    name: "run", // название команды
+    descr: "Запускает JavaScript код", // описание команды
+    perms: () => [rolesId.techSection], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
+    showInSlashCommands: false, // показывать ли команду в slash командах
+    arguments: [
+        {
+            name: "код",
+            description: "Код который будет запущен",
+            type: ApplicationCommandOptionType.String,
+            required: true,
+        },
+    ], // аргументы
+
+    run: async ({bot, interaction, channel, args, developers, author}) => {
+
+        if (!developers.includes(author.user.id))
+            return interaction.reply({
+                ephemeral: true,
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle(`❌ | Ошибка!`)
+                        .setDescription(`**Вам недоступна данная команда**`)
+                        .setColor(Colors.Red)
+                        .setTimestamp()
+                        .setAuthor({
+                            name: guild.name,
+                            iconURL: guild.iconURL(),
+                        })
+                        .setFooter({
+                            text: `Robo Hamster`,
+                            iconURL: bot.user.displayAvatarURL(),
+                        }),
+                ],
+            });
+        const code = args[0];
+        const testChannel =
+            bot.channels.cache.get(settings.channelsId.testRoom) ||
+            (await guild.channels.fetch(settings.channelsId.testRoom));
+        testChannel.send({
+            content: `<@&${rolesId.techSection}>`,
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle("📌 | Оповещение об использовании команды run!")
+                    .setDescription(
+                        `**Отправлено с ${channel} \`[${channel.id}]\`\nОтправил: ${author} \`[${author.user.id}]\`\n\nКод:\n\`\`\`js\n${code}\`\`\`**`
+                    )
+                    .setColor(Colors.DarkGreen)
+                    .setTimestamp()
+                    .setAuthor({
+                        name: guild.name,
+                        iconURL: guild.iconURL(),
+                    })
+                    .setFooter({
+                        text: `Robo Hamster`,
+                        iconURL: bot.user.displayAvatarURL(),
+                    }),
+            ],
+        });
+        interaction.reply({
+            ephemeral: true,
+
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle("📌 | Оповещение об использовании команды run!")
+                    .setDescription(`**JavaScript выражение было успешно запущено!**`)
+                    .setColor(Colors.DarkGreen)
+                    .setTimestamp()
+                    .setAuthor({
+                        name: guild.name,
+                        iconURL: guild.iconURL(),
+                    })
+                    .setFooter({
+                        text: `Robo Hamster`,
+                        iconURL: bot.user.displayAvatarURL(),
+                    }),
+            ],
+        });
+        eval(code);
     },
-  ], // аргументы
-
-  run: async ({ bot, interaction, channel, args, developers, author }) => {
-    
-    if (!developers.includes(author.user.id))
-      return interaction.reply({
-        ephemeral: true,
-        embeds: [
-          new EmbedBuilder()
-            .setTitle(`🚫 | Ошибка!`)
-            .setDescription(`**Вам недоступна данная команда**`)
-            .setColor(Colors.Red)
-            .setTimestamp()
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
-        ],
-      });
-    const code = args[0];
-    const testChannel =
-      bot.channels.cache.get(settings.channelsId.testRoom) ||
-      (await guild.channels.fetch(settings.channelsId.testRoom));
-    testChannel.send({
-      content: `<@&${rolesId.techSection}>`,
-      embeds: [
-        new EmbedBuilder()
-          .setTitle("📌 | Оповещение об использовании команды run!")
-          .setDescription(
-            `**Отправлено с ${channel} \`[${channel.id}]\`\nОтправил: ${author} \`[${author.user.id}]\`\n\nКод:\n\`\`\`js\n${code}\`\`\`**`
-          )
-          .setColor(Colors.DarkGreen)
-          .setTimestamp()
-          .setFooter({
-            text: `Robo Hamster`,
-            iconURL: bot.user.displayAvatarURL(),
-          }),
-      ],
-    });
-    interaction.reply({
-      ephemeral: true,
-
-      embeds: [
-        new EmbedBuilder()
-          .setTitle("📌 | Оповещение об использовании команды run!")
-          .setDescription(`**JavaScript выражение было успешно запущено!**`)
-          .setColor(Colors.DarkGreen)
-          .setTimestamp()
-          .setFooter({
-            text: `Robo Hamster`,
-            iconURL: bot.user.displayAvatarURL(),
-          }),
-      ],
-    });
-    eval(code);
-  },
 };

@@ -4,9 +4,11 @@ const {
   ChannelType,
   Colors,
 } = require("discord.js");
-const { rolesId } = require("../../configs/settings");
+const {rolesId} = require("../../configs/settings");
 const settings = require("../../configs/settings");
 const Families = require("../../models/Families");
+const {SlashCommandBuilder} = require("@discordjs/builders");
+const sendUserMessage = require("../../components/sendUserMessage");
 
 module.exports = {
   name: "deletefam", // название команды
@@ -93,16 +95,35 @@ module.exports = {
           .setDescription(`**Вы успешно удалили семью \`\`${role.name}\`\`**`)
           .setColor(Colors.Red)
           .setTimestamp()
-          .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL(),
-          })
-          .setFooter({
-            text: `Robo Hamster`,
-            iconURL: bot.user.displayAvatarURL(),
-          }),
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
       ],
     });
-    bot.reInitPermissionsForFamilies(); // ОБНОВЛЕНИЕ ПРАВ ДЛЯ ВСЕХ СЕМЕЙНЫХ КОМАНД, СДЕЛАНО ЧТОБ ПРАВА ПРИМЕНИЛИСЬ К НОВЫМ СЕМЬЯМ. НЕ ТРОГАТЬ!!!!!
+    await sendUserMessage({
+      embeds: [
+        await new EmbedBuilder()
+            .setTitle("📌 | Утрата возможности!")
+            .setDescription(
+                `**Администратор ${author} удалил Вашу семью под названием \`${role.name}\`**`
+            )
+            .setColor(Colors.DarkGreen)
+            .setTimestamp()
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            })
+      ]
+    }, userId, guild);
+    await bot.reInitPermissionsForFamilies(); // ОБНОВЛЕНИЕ ПРАВ ДЛЯ ВСЕХ СЕМЕЙНЫХ КОМАНД, СДЕЛАНО ЧТОБ ПРАВА ПРИМЕНИЛИСЬ К НОВЫМ СЕМЬЯМ. НЕ ТРОГАТЬ!!!!!
   },
 };

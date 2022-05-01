@@ -7,7 +7,7 @@ module.exports = {
     то ему бот автоматически ответил что ему следует делать.
   */
   name: "trigger", // имя модуля
-  acceptCustomsID: [], // модуль автоматически принимает эти айдишники interaction.customId
+  acceptCustomsId: [], // модуль автоматически принимает эти айдишники interaction.customId
   run: async (bot, message) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
     if (

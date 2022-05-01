@@ -7,7 +7,7 @@ const getAllRolesIdInfoMakers = require("../../components/getAllRolesIdInfomaker
 const InfomakerEmbed = require("../../models/InfomakerEmbed");
 module.exports = {
   name: "embfield", // название команды
-  descr: "Команда для добавления/редактирования/удаления полей в эмбед", // описание команды
+  descr: "Добавление/редактирование/удаление полей в эмбеде", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [
     {
@@ -32,7 +32,7 @@ module.exports = {
       required: true,
     },
     {
-      name: "номер field'a",
+      name: "номер",
       description:
         "Номер field'a по отношению к которому будут добавлены вправки [ТОЛЬКО ДЛЯ УДАЛЕНИЯ И РЕДАКТИРОВАНИЯ]",
       type: ApplicationCommandOptionType.Number,

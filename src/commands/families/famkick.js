@@ -17,8 +17,8 @@ module.exports = {
       required: true,
     },
   ], // список аргументов
-  perms: (bot) => {
-    return getAllRolesIdFamilies(bot); // все айди семейных ролей
+  perms: () => {
+    return getAllRolesIdFamilies(); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   async run({ bot, interaction, channel, author, args, guild }) {
     const family = await Families.findOne({

@@ -74,28 +74,28 @@ module.exports = {
       ],
     }); // отправляем в этот канал сообщение о снятии мута
 
-    sendUserMessage(
-      {
-        embeds: [
-          new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
-            .setTitle(`📌 | Система снятия мута!`)
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setDescription(
-              `**「📝」Снял: <@${author.id}> (${author.user.tag})\n「📕」Причина: \`${reason}\`\n**`
-            )
-            .setTimestamp()
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
-        ],
-      },
-      userForUnmute.id,
-      guild
+    await sendUserMessage(
+        {
+          embeds: [
+            new EmbedBuilder()
+                .setColor(Colors.DarkGreen)
+                .setTitle(`📌 | Система снятия мута!`)
+                .setAuthor({
+                  name: guild.name,
+                  iconURL: guild.iconURL(),
+                })
+                .setDescription(
+                    `**「📝」Снял: <@${author.id}> (${author.user.tag})\n「📕」Причина: \`${reason}\`\n**`
+                )
+                .setTimestamp()
+                .setFooter({
+                  text: `Robo Hamster`,
+                  iconURL: bot.user.displayAvatarURL(),
+                }),
+          ],
+        },
+        userForUnmute.id,
+        guild
     );
     interaction.reply({
       ephemeral: true,

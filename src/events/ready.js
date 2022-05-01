@@ -5,6 +5,7 @@ module.exports = async bot => {
         await guild.channels.fetch();
         await guild.commands.fetch();
     }
+    // await bot.deleteAllSlashCommands();
     await bot.command();
     const punishmentModule = await bot.modules.get("punishment");
     punishmentModule.run({ bot }); // запускаем снятие наказания тем у кого прошёл срок наказания.

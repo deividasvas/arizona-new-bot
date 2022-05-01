@@ -3,7 +3,7 @@ const getAllRolesIdInfoMakers = require("../../components/getAllRolesIdInfomaker
 const InfomakerEmbed = require("../../models/InfomakerEmbed");
 module.exports = {
   name: "embsend", // название команды
-  descr: "Команда для отправки эмбеда", // описание команды
+  descr: "Отправка эмбеда", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [],
   perms: () => getAllRolesIdInfoMakers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду

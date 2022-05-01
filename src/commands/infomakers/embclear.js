@@ -7,7 +7,7 @@ const getAllRolesIdInfoMakers = require("../../components/getAllRolesIdInfomaker
 const InfomakerEmbed = require("../../models/InfomakerEmbed");
 module.exports = {
   name: "embclear", // название команды
-  descr: "Команда для очистки своего эмбеда", // описание команды
+  descr: "Очистка информации о своём эмбеде", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [],
   perms: () => getAllRolesIdInfoMakers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду

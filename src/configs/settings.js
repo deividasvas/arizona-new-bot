@@ -1,6 +1,7 @@
 const { ApplicationCommandOptionType, MessageMentions } = require("discord.js");
 const rolesId = {
   // айдишники ролей
+  supportBlock: `948675243248062522`, // 🔒Support Blocked🔒
   techSection: `948675243248062523`, // Технический отдел
   discordMaster: `948675243327770678`, // Discord Master
   juniorDiscordMaster: `948675243264868413`, // Jr. Discord Master
@@ -41,6 +42,7 @@ module.exports = {
     famGeneral: `948675246016299024`, // общение-семей
     famLogs: `948675244065947650`, // лог-семей
     testRoom: `948675243826888772`, // тест-комната
+    rules: `948675245043220484`, // правила-дискорда
     logMonitoring: `948675244632195133`, // log-monitoring
     onlineFraction: `948675245043220485`, // онлайн-фракции
     notifications: `960237241114951720`, // уведомления
@@ -59,7 +61,11 @@ module.exports = {
     infomakers: `948675246825828468`, // инфомейкеры
   },
   categories: {
-    fams: "948675246016299023", // семейные роли
+    fams: "948675246016299023", // Семейные роли
+    movies: `948675246016299019`, // Фильмы/аниме
+    moders: `603606059084546094`, // Модерация
+    basketTickets: `948675252089667663`, // Корзина
+    peopleRoles: `948675243101265948`, // Персональные роли категория
   },
   saveError: {
     logChannel: `948675243826888772`, // * Канал куда логируем ошибки
@@ -146,7 +152,7 @@ module.exports = {
     rolesId.juniorModerator, // младший модератор
   ],
   fromPostToPostList: [
-    // массив с должностями. Должность с которой понижают, и должность на которую понижают
+    // Массив с должностями. Должность с которой понижают, и должность на которую понижают
     {
       fromRoleId: rolesId.adviceAdministration, // совет администрации
       toRoleId: rolesId.curatorModeration, // понижают до куратора модерации
@@ -164,7 +170,7 @@ module.exports = {
   maxCountWarns: 2, // максимальное количество предупреждений для модераторов
   maxCountRebukes: 3, // максимальное количество выговоров для модераторов
   prefix: "/",
-  token: `OTYzODc2NzU0OTUzNDk0NTU4.YlceLg.qf_KGNhq5ieZdITICp2SEZmss1k`,
+  token: "OTYzODc2NzU0OTUzNDk0NTU4.YlceLg.QmLQ10ZLbE1FlU-yBCYV_bw00Rk",
   applicationId: "932397605651091466",
   surpriseGuild: "948675243025764404",
   database: {
@@ -176,6 +182,6 @@ module.exports = {
     ticket: 0.55,
     mute: 0.55,
     kick: 0.50,
-  }, // расценки баллов. Действия: количество баллов которое будет выдаваться. БЕЗ УЧЕТА КОЭФФИЦЕНТА!!
+  }, // Расценки баллов. Действия: количество баллов которое будет выдаваться. БЕЗ УЧЕТА КОЭФФИЦЕНТА!!
   limitDeputyInFamilies: 5, // максимальное количество заместителей в семье
 };

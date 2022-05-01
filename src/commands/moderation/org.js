@@ -1,15 +1,13 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors, MessageMentions} = require("discord.js");
 const getAllrolesIdModers = require("../../components/getAllRolesIdModers");
-const getModerInfo = require("../../components/getModerInfo");
-const {rolesId, channelsId} = require("../../configs/settings");
-const parseUserIdFromMention = require("../../components/parseUserIdFromMention");
+const parseUserIdFromMention = require("../../components/parseIdFromMention");
 
 module.exports = {
     name: "org", // название команды
     descr: "Проверить игрока на НСО(Не состоящий в организации)", // описание команды
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [{
-        name: "никнейм | упоминание пользователя",
+        name: "пользователь",
         description: "Пользователь которого Вы хотите проверить на факт НСО",
         type: ApplicationCommandOptionType.String,
         required: true,
@@ -42,7 +40,7 @@ module.exports = {
                     .setColor(Colors.DarkGreen)
                     .setTitle(`📌 | Проверка на НСО`)
                     .setDescription(`**Последнее обновление данных: ${bot.fractions.dateOldInit.toLocaleDateString('ru-RU', {timeZone: 'Europe/Moscow'})} ${bot.fractions.dateOldInit.toLocaleTimeString('ru-RU', {timeZone: 'Europe/Moscow'})}**`)
-                    .addFields({
+                    .addFields([{
                         name: `Проверил модератор`, value: `${author} (${author.user.tag})`
                     }, {
                         name: `Название фракции`, value: `${player.orgName}`
@@ -52,7 +50,7 @@ module.exports = {
                         name: `Статус онлайна`, value: player.isOnline ? 'В сети' : 'Не в сети'
                     }, {
                         name: `Должность`, value: `${player.rankName} (${player.rank})`
-                    })
+                    }])
                     .setTimestamp()
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
@@ -129,7 +127,7 @@ module.exports = {
         };
 
         // Проверяем, является ли переданный пользователь завуалированным упоминанием.
-        if (MessageMentions.USERS_PATTERN.test(userNickNameOrUnParsedMention)) {
+        if (MessageMentions.UsersPattern.test(userNickNameOrUnParsedMention)) {
             // Если да, то получаем айди пользователя и самого пользователя соответственно.
             const userId = parseUserIdFromMention(userNickNameOrUnParsedMention);
             const member = guild.members.cache.get(userId);
@@ -137,7 +135,7 @@ module.exports = {
             // Как только получили пользователя, то убираем все не нужные знаки(если они есть)
             // в нике пользователя и затем передаём его на проверку на НСО
             let nickname = ""; // результативный никнейм.
-            const splitedPreNickname = member.nickname.split("]"); // разделяем по ] чтобы можно было отсеять среди дискорд формы - ник
+            const splitedPreNickname = member?.nickname.split("]") || []; // разделяем по ] чтобы можно было отсеять среди дискорд формы - ник
             Array.from(splitedPreNickname[splitedPreNickname.length - 1]).map((letter) => {
                 // проходимся по всем символам никнейма. Начиная после тега ранга.
                 if (/^[a-zA-Z-_" "]+$/.test(letter)) {

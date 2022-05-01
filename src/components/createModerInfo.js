@@ -6,7 +6,7 @@ const createModerInfo = async (userId, guildId) => {
   
   if (
     await Moderators.findOne({
-      discordId: userId,
+      userId,
       guildId,
     })
   ) {
@@ -15,7 +15,7 @@ const createModerInfo = async (userId, guildId) => {
 
   const newModerator = new Moderators({
     // если нет, то создаём модератора
-    discordId: userId, // Discord ID модератора
+    userId, // Discord ID модератора
     guildId,
     main: {
       // общая информация по выданным наказаниям модератора

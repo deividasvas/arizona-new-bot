@@ -7,7 +7,7 @@ const createModerInfo = require("./createModerInfo");
 const setWarnsOrRebukes = async (userId, guildId, func) => {
   if (
     !(await Moderators.findOne({
-      discordId: userId,
+      userId,
       guildId,
     }))
   ) {
@@ -15,7 +15,7 @@ const setWarnsOrRebukes = async (userId, guildId, func) => {
     await createModerInfo(userId, guildId);
   }
   const moderator = await Moderators.findOne({
-    discordId: userId,
+    userId,
     guildId,
   });
 

@@ -4,9 +4,10 @@ const Punishment = require("../models/Punishment");
 const sendUserMessage = require("./sendUserMessage");
 
 // Функция снятие мута пользователю
-const unmute = async (bot, userId, provocateur = "-") => {
+const unmute = async (bot, guildId, userId, provocateur = "-") => {
   const punish = await Punishment.findOne({
     userId,
+    guildId,
     action: "mute",
   }); // получаем наказание мут пользователя из бд
   if (!punish) {

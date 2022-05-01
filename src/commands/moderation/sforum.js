@@ -8,7 +8,6 @@ const {rolesId, channelsId} = require("../../configs/settings");
 module.exports = {
     name: "sforum", // название команды
     descr: "Сообщить пользователям про существование форума модерации", // описание команды
-    showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [{
         name: "пользователь",
         description: "Модератор у которого Вы хотите статистику наказаний по выговорам/предупреждениям",

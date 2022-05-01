@@ -12,7 +12,7 @@ module.exports = {
       По большей части, в эти данные входит онлайн фракции и информация о них.
     */
     name: "fractionsInfo", // имя модуля
-    acceptCustomsID: [], // модуль автоматически принимает эти айдишники interaction.customId
+    acceptCustomsId: [], // модуль автоматически принимает эти айдишники interaction.customId
     tags: {
         1: "LSPD",
         2: "RCSD",
@@ -40,6 +40,7 @@ module.exports = {
         // Каждые пять минут обновляем информацию
         await this.updateAllFractionsInfo(); // инициализация данные информации об организациях
         await this.updateOnlineEmbed() // инициализируем данные в эмбеде онлайн-фракции
+
         setInterval(async () => {
             // Обновляем данные
             await this.updateAllFractionsInfo();
@@ -101,7 +102,7 @@ module.exports = {
             .setFooter({
                 text: `Robo Hamster`, iconURL: this.bot.user.displayAvatarURL(),
             })
-            .addFields({
+            .addFields([{
                 name: "**Полиция Los-Santos**",
                 value: `**Онлайн: \`${this.getOnlineFractionByTag('LSPD')}\`**`,
                 inline: true,
@@ -173,7 +174,7 @@ module.exports = {
                 name: "**Страховая компания**",
                 value: `**Онлайн: \`${this.getOnlineFractionByTag('INS')}\`**`,
                 inline: true,
-            })
+            }])
         // Получаем все сообщения из канала и затем для нормальной работы перекидываем их в массив.
         const messages = [];
         for (const [id, message] of (await onlineFractionChannel.messages.fetch())) {

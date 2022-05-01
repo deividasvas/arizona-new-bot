@@ -9,8 +9,8 @@ module.exports = {
   descr: "Количество участников семьи", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // аргументы
-  perms: (bot) => {
-    return getAllRolesIdFamilies(bot); // все айди семейных ролей
+  perms: () => {
+    return getAllRolesIdFamilies(); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   async run({ bot, guild, author, interaction }) {
@@ -56,30 +56,30 @@ module.exports = {
     interaction.reply({
       ephemeral: true,
       embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `**「👨‍👨‍👧‍👦」Семья: ${guild.roles.cache.get(
-              family.roleId
-            )}\n「🧍」Заместители семьи: ${
-              family.deputies.length > 0
-                ? family.deputies.map((deputy) => `<@${deputy.userId}>`)
-                : "-"
-            }\`\`[${family.deputies.length}/${
-              settings.limitDeputyInFamilies
-            }]\`\`\n「📌」Участников: \`${
-              guild.roles.cache.get(family.roleId).members.size
-            }\`**`
-          )
-          .setColor(Colors.DarkGreen)
-          .setTimestamp()
-          .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL(),
-          })
-          .setFooter({
-            text: `Robo Hamster`,
-            iconURL: bot.user.displayAvatarURL(),
-          }),
+        await new EmbedBuilder()
+            .setDescription(
+                `**「👨‍👨‍👧‍👦」Семья: ${guild.roles.cache.get(
+                    family.roleId
+                )}\n「🧍」Заместители семьи: ${
+                    family.deputies.length > 0
+                        ? family.deputies.map((deputy) => `<@${deputy.userId}>`)
+                        : "-"
+                }\`\`[${family.deputies.length}/${
+                    settings.limitDeputyInFamilies
+                }]\`\`\n「📌」Участников: \`${
+                    guild.roles.cache.get(family.roleId).members.size
+                }\`**`
+            )
+            .setColor(Colors.DarkGreen)
+            .setTimestamp()
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
       ],
     });
   },

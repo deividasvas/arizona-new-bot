@@ -12,8 +12,8 @@ module.exports = {
   name: "famhelp", // название команды
   descr: "Помощь по семейным командам", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
-  perms: (bot) => {
-    return getAllRolesIdFamilies(bot); // все айди семейных ролей
+  perms: () => {
+    return getAllRolesIdFamilies(); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   arguments: [], // аргументы
 

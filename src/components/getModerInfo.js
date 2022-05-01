@@ -6,7 +6,7 @@ const getAllRolesIdModers = require("./getAllRolesIdModers");
 const getModerInfo = async (bot, guildId, userId) => {
   // пытаемся получить статистику модератора, если её нет, то инициализируем нулевую.
   const moderator = await Moderators.findOne({
-    discordId: userId
+    userId
   });
 
   if (!moderator) {
@@ -20,8 +20,8 @@ const getModerInfo = async (bot, guildId, userId) => {
   // даже если он к примеру нажал на кнопку в личных сообщениях у бота.
   const guild = bot.guilds.cache.get(guildId || moderator.guildId);
   const member = guild.members.cache.get(userId);
-  const allRolesIDModers = getAllRolesIDModers();
-  if (!member.roles.cache.some((role) => allRolesIDModers.includes(role.id))) {
+  const allRolesIdModers = getAllRolesIdModers();
+  if (!member.roles.cache.some((role) => allRolesIdModers.includes(role.id))) {
     // проверяем является ли пользователь модератором, если нет, то кидаем ошибку.
     return {
       error: "THE_NOT_MODERATOR",
