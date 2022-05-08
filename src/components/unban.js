@@ -1,6 +1,5 @@
-const {EmbedBuilder} = require("discord.js");
-const {channelsId} = require("../configs/settings");
 const Punishment = require("../models/Punishment");
+const {cancelJob} = require("node-schedule");
 
 // Функция разблокировки пользователя.
 const unban = async (bot, guildId, userId, provocateur = "-", reason = "Система снятия блокировки") => {
@@ -20,6 +19,7 @@ const unban = async (bot, guildId, userId, provocateur = "-", reason = "Сист
         userId,
         guildId,
     });
+    cancelJob(`${guildId}-${userId}-ban-${punish.reason}`); // отменяем автоматическое снятие наказания через модуль punishment.js
 };
 
 module.exports = unban;

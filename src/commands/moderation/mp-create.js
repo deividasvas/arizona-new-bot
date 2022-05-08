@@ -3,7 +3,6 @@ const {
 } = require("discord.js");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
-const {rolesId, channelsId, categories} = require("../../configs/settings");
 
 module.exports = {
     name: "mp-create", // название команды
@@ -11,9 +10,9 @@ module.exports = {
     showInSlashCommands: false, // показывать ли команду в slash командах
     archive: true, // находится ли команда в архиве
     arguments: [], // аргументы
-    perms: () => [rolesId.discordMaster, rolesId.juniorDiscordMaster, rolesId.adviceAdministration], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster, rolesId.adviceAdministration], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-    run: async ({bot, interaction, author, guild, args}) => {
+    run: async ({bot, interaction, author, guild, args, channelsId, rolesId}) => {
         // КОМАНДА ПЕРЕНЕСЕНА ЛИШЬ В ТЕОРИИ. НЕОБХОДИМО ТЕСТИРОВАНИЕ!!!!!
         const channel = await guild.channels.create(`mp-модераторы`, {
             type: ChannelType.GuildText, permissionOverwrites: [{

@@ -3,8 +3,6 @@ const {
   ApplicationCommandOptionType,
   Colors,
 } = require("discord.js");
-const { rolesId } = require("../../configs/settings");
-const settings = require("../../configs/settings");
 const { ChannelType } = require("discord.js");
 const Families = require("../../models/Families");
 const sendUserMessage = require("../../components/sendUserMessage");
@@ -13,7 +11,7 @@ module.exports = {
   name: "createfam", // название команды
   descr: "Создать семью", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
-  perms: () => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   arguments: [
     {
       name: "владелец",
@@ -35,7 +33,7 @@ module.exports = {
     },
   ], // аргументы
 
-  async run({bot, interaction, args, guild, author, channelsId, rolesId}) {
+  async run({bot, interaction, args, guild, author, channelsId, rolesId, categories}) {
     const familyName = args[2]; // Название семьи
     const color = args[1]; // Цвет семьи
     const leaderFam =
@@ -106,10 +104,10 @@ module.exports = {
       name: familyName,
       color,
       permision: [],
-      position: (await guild.roles.fetch(settings.rolesId.fams)).position - 1,
+      position: (await guild.roles.fetch(rolesId.fams)).position - 1,
     }); // создание самой роли
     await guild.channels.cache
-      .find((channel) => channel.id === settings.channelsId.famGeneral)
+      .find((channel) => channel.id === channelsId.famGeneral)
       .permissionOverwrites.create(role, {
         ViewChannel: true,
         EmbedLinks: true,
@@ -141,7 +139,7 @@ module.exports = {
       ],
     });
 
-    let logChannel = bot.channels.cache.get(settings.channelsId.famLogs); // Лог семей
+    let logChannel = bot.channels.cache.get(channelsId.famLogs); // Лог семей
 
     logChannel.send({
       embeds: [
@@ -184,12 +182,12 @@ module.exports = {
           deny: ["Administrator"],
         },
         {
-          id: settings.rolesId.everyone,
+          id: rolesId.everyone,
           deny: ["ViewChannel"],
         },
       ],
       reason: "Создан канал для семей",
-      parent: settings.categories.fams,
+      parent: categories.fams,
     });
 
     // Создание текстового канала
@@ -214,12 +212,12 @@ module.exports = {
           deny: ["Administrator", "ManageMessages"],
         },
         {
-          id: settings.rolesId.everyone,
+          id: rolesId.everyone,
           deny: ["ViewChannel"],
         },
       ],
       reason: "Создан канал для семей",
-      parent: settings.categories.fams,
+      parent: categories.fams,
     });
     const newFamily = new Families({
       ownerId: leaderFam.id,

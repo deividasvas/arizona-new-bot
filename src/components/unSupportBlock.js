@@ -1,7 +1,5 @@
-const {EmbedBuilder} = require("discord.js");
-const {rolesId, channelsId} = require("../configs/settings");
+const {rolesId} = require("../configs/settings");
 const Punishment = require("../models/Punishment");
-const sendUserMessage = require("./sendUserMessage");
 
 // Функция снятия блокировки писать тикеты пользователю
 const unSupportBlock = async (bot, guildId, userId, provocateur = "-", reason) => {
@@ -17,7 +15,7 @@ const unSupportBlock = async (bot, guildId, userId, provocateur = "-", reason) =
     const guild = bot.guilds.cache.get(punish.guildId); // получаем сервер нарушителя
     const member =
         guild.members.cache.get(userId) || (await guild.members.fetch(userId)); // получаем самого нарушителя которому нужно снять блок саппорта
-    await member.roles.remove(rolesId.supportBlock); // удаляем роль `Support-Block`
+    await member.roles.remove(rolesId[guildId].supportBlock); // удаляем роль `Support-Block`
     punish.remove(); // удаляем наказание из бд
     return true;
 };

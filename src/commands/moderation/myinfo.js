@@ -1,7 +1,6 @@
 const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const getAllrolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
-const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "myinfo", // название команды
@@ -15,11 +14,11 @@ module.exports = {
       required: false,
     },
   ], // аргументы
-  perms: () => {
-    return getAllrolesIdModers(); // все модерские роли
+  perms: (rolesId) => {
+    return getAllrolesIdModers(rolesId); // все модерские роли
   }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, author, guild, args, channel }) => {
+  run: async ({ bot, interaction, author, guild, args, channel, rolesId, channelsId }) => {
     /* Пользователь которого модерскую стату мы будем смотреть.
     Либо пользователь который передан первым аргументом, либо автор сообщения.
     */

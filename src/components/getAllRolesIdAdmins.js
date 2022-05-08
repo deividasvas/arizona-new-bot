@@ -1,7 +1,5 @@
-const { rolesId } = require("../configs/settings");
-
 // Функция отдаёт все айдишники админских ролей
-const getAllRolesIdAdmins = () => {
+const getAllRolesIdAdmins = (rolesId) => {
   return [
     rolesId.mainAdmin, // ГА
     rolesId.deputyMainAdmin, // ЗГА

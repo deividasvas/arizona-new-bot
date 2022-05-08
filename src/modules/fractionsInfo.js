@@ -1,9 +1,7 @@
 const {EmbedBuilder, Colors} = require("discord.js");
-const getAllrolesIdAdmins = require("../components/getAllRolesIdAdmins");
 const axios = require("axios");
 const getMinutesInMs = require("../components/getMinutesInMs");
 const {channelsId} = require("../configs/settings");
-const {maxCountWarns} = require("../configs/settings");
 
 module.exports = {
     /*
@@ -93,116 +91,120 @@ module.exports = {
     }, // Функция обновления эмбеда в канале онлайн-фракции.
     async updateOnlineEmbed() {
         // Получаем все сообщения в канале
-        const onlineFractionChannel = this.bot.channels.cache.get(channelsId.onlineFraction)
-        const messageEmbed = new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
-            .setTitle(`📌 | Онлайн фракции`)
-            .setTimestamp()
-            .setColor(Colors.DarkGreen)
-            .setFooter({
-                text: `Robo Hamster`, iconURL: this.bot.user.displayAvatarURL(),
-            })
-            .addFields([{
-                name: "**Полиция Los-Santos**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('LSPD')}\`**`,
-                inline: true,
-            }, {
-                name: "**Полиция San-Fierro**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('SFPD')}\`**`,
-                inline: true,
-            }, {
-                name: "**Полиция Red-Country**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('SFPD')}\`**`,
-                inline: true,
-            }, {
-                name: "**Полиция Las-Venturas**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('LVMPD')}\`**`,
-                inline: true,
-            }, {
-                name: "**Армия Los-Santos**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('LSa')}\`**`,
-                inline: true,
-            }, {
-                name: "**Армия San-Fierro**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('SFa')}\`**`,
-                inline: true,
-            }, {
-                name: "**Центральный банк**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('CB')}\`**`,
-                inline: true,
-            }, {
-                name: "**Правительство**", value: `**Онлайн: \`${this.getOnlineFractionByTag('GOV')}\`**`, inline: true,
-            }, {
-                name: "**Автошкола**", value: `**Онлайн: \`${this.getOnlineFractionByTag('ASH')}\`**`, inline: true,
-            }, {
-                name: "**Больница Los-Santos**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('LSMC')}\`**`,
-                inline: true,
-            }, {
-                name: "**Больница San-Fierro**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('SFMC')}\`**`,
-                inline: true,
-            }, {
-                name: "**Больница Las-Venturas**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('LVMC')}\`**`,
-                inline: true,
-            }, {
-                name: "**Радио Los-Santos**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('LSFM')}\`**`,
-                inline: true,
-            }, {
-                name: "**Радио San-Fierro**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('SFFM')}\`**`,
-                inline: true,
-            }, {
-                name: "**Радио Las-Venturas**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('LVFM')}\`**`,
-                inline: true,
-            }, {
-                name: "**Радио Las-Venturas**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('LVFM')}\`**`,
-                inline: true,
-            }, {
-                name: "**Тюрьма Строгого Режима**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('TCP')}\`**`,
-                inline: true,
-            }, {
-                name: "**Федеральное Бюро Расследований**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('FBI')}\`**`,
-                inline: true,
-            }, {
-                name: "**Страховая компания**",
-                value: `**Онлайн: \`${this.getOnlineFractionByTag('INS')}\`**`,
-                inline: true,
-            }])
-        // Получаем все сообщения из канала и затем для нормальной работы перекидываем их в массив.
-        const messages = [];
-        for (const [id, message] of (await onlineFractionChannel.messages.fetch())) {
-            messages.push(message);
-        }
-        const messageByBot = messages.find(message => message.author.id === this.bot.user.id);
-        if (messageByBot) {
-            // Если сообщение, то просто редактируем его
-            await messageByBot.edit({
-                embeds: [
-                    messageEmbed
-                        .setAuthor({
-                            name: messageByBot.guild.name,
-                            iconURL: messageByBot.guild.iconURL()
-                        })
-                ]
-            });
-        } else {
-            // Если сообщения нет, то отправляем новое
-            await onlineFractionChannel.send({
-                embeds: [
-                    messageEmbed
-                        .setAuthor({
-                            name: onlineFractionChannel.guild.name,
-                            iconURL: onlineFractionChannel.guild.iconURL()
-                        })
-                ]
-            })
+        for (const [id, guild] of this.bot.guilds.cache) {
+            const onlineFractionChannel = this.bot.channels.cache.get(channelsId[id].onlineFraction)
+            const messageEmbed = new EmbedBuilder()
+                .setColor(Colors.DarkGreen)
+                .setTitle(`📌 | Онлайн фракции`)
+                .setTimestamp()
+                .setColor(Colors.DarkGreen)
+                .setFooter({
+                    text: `Robo Hamster`, iconURL: this.bot.user.displayAvatarURL(),
+                })
+                .addFields([{
+                    name: "**Полиция Los-Santos**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('LSPD')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Полиция San-Fierro**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('SFPD')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Полиция Red-Country**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('SFPD')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Полиция Las-Venturas**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('LVMPD')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Армия Los-Santos**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('LSa')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Армия San-Fierro**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('SFa')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Центральный банк**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('CB')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Правительство**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('GOV')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Автошкола**", value: `**Онлайн: \`${this.getOnlineFractionByTag('ASH')}\`**`, inline: true,
+                }, {
+                    name: "**Больница Los-Santos**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('LSMC')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Больница San-Fierro**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('SFMC')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Больница Las-Venturas**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('LVMC')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Радио Los-Santos**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('LSFM')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Радио San-Fierro**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('SFFM')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Радио Las-Venturas**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('LVFM')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Радио Las-Venturas**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('LVFM')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Тюрьма Строгого Режима**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('TCP')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Федеральное Бюро Расследований**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('FBI')}\`**`,
+                    inline: true,
+                }, {
+                    name: "**Страховая компания**",
+                    value: `**Онлайн: \`${this.getOnlineFractionByTag('INS')}\`**`,
+                    inline: true,
+                }])
+            // Получаем все сообщения из канала и затем для нормальной работы перекидываем их в массив.
+            const messages = [];
+            for (const [id, message] of (await onlineFractionChannel.messages.fetch())) {
+                messages.push(message);
+            }
+            const messageByBot = messages.find(message => message.author.id === this.bot.user.id);
+            if (messageByBot) {
+                // Если сообщение, то просто редактируем его
+                await messageByBot.edit({
+                    embeds: [
+                        messageEmbed
+                            .setAuthor({
+                                name: messageByBot.guild.name,
+                                iconURL: messageByBot.guild.iconURL()
+                            })
+                    ]
+                });
+            } else {
+                // Если сообщения нет, то отправляем новое
+                await onlineFractionChannel.send({
+                    embeds: [
+                        messageEmbed
+                            .setAuthor({
+                                name: onlineFractionChannel.guild.name,
+                                iconURL: onlineFractionChannel.guild.iconURL()
+                            })
+                    ]
+                })
+            }
         }
     }
 };

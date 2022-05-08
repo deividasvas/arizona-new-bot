@@ -2,7 +2,6 @@ const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
 const setModerInfoParam = require("../../components/setModerInfoParam");
-const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "imun", // название команды
@@ -22,14 +21,14 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  perms: () => [
+  perms: (rolesId) => [
     rolesId.discordMaster, // discord master
     rolesId.juniorDiscordMaster, // jr.discord master
     rolesId.adviceAdministration, // совет администрации дискорда
     rolesId.curatorModeration, // куратор модерации
-  ], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  ], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, author, guild, args, channel }) => {
+  run: async ({ bot, interaction, author, guild, args, rolesId, channelsId }) => {
     const moderator =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const reason = args[1];

@@ -4,7 +4,6 @@ const {
   ApplicationCommandOptionType,
 } = require("discord.js");
 const getAllRolesIdInfoMakers = require("../../components/getAllRolesIdInfomakers");
-const { channelsId } = require("../../configs/settings");
 const InfomakerEmbed = require("../../models/InfomakerEmbed");
 const choices = [
   // подсказки к аргументу
@@ -72,9 +71,9 @@ module.exports = {
       required: true,
     },
   ],
-  perms: () => getAllRolesIdInfoMakers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => getAllRolesIdInfoMakers(rolesId), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, args, guild, channel, author }) => {
+  run: async ({ bot, interaction, channelsId, args, guild, channel, author }) => {
     if (channel.id !== channelsId.infomakers) {
       return interaction.reply({
         ephemeral: true,

@@ -5,16 +5,15 @@ const {
 } = require("discord.js");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
-const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "support", // название команды
   descr: "Сообщить пользователям об существовании support'a", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [], // аргументы
-  perms: () => getAllRolesIdModers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => getAllRolesIdModers(rolesId), // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, author, guild, args, channel }) => {
+  run: async ({ bot, interaction, channelsId, guild }) => {
     const welcome = guild.channels.cache.get(channelsId.welcome); // получаем канал куда будет отправлять эмбед
     welcome.send({
       embeds: [

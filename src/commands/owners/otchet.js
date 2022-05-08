@@ -1,13 +1,13 @@
 const {
-    EmbedBuilder, ApplicationCommandOptionType, Colors,
+    EmbedBuilder,
+    Colors,
 } = require("discord.js");
 const {rolesId, channelsId} = require("../../configs/settings");
 const Moderators = require('../../models/Moderators');
-const fs = require("fs");
 module.exports = {
     name: "otchet", // название команды
     descr: "Статистика на всех модераторов для отчёта", // описание команды
-    perms: () => [
+    perms: (rolesId) => [
         rolesId.discordMaster,
         rolesId.juniorDiscordMaster,
         rolesId.adviceAdministration,
@@ -16,7 +16,7 @@ module.exports = {
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [], // аргументы
 
-    run: async ({bot, guild, args, interaction, author, channel}) => {
+    run: async ({bot, guild, channelsId, interaction, rolesId, channel}) => {
         const allModerators = (await Moderators.find({
             guildId: guild.id,
         })).filter(moderator => {

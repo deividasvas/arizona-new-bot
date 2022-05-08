@@ -1,7 +1,6 @@
-const { rolesId } = require("../configs/settings");
 
 // Функция отдаёт все айдишники инфомейкерских ролей
-const getAllRolesIdInfoMakers = () => {
+const getAllRolesIdInfoMakers = (rolesId) => {
   return [
     rolesId.discordMaster, // Discord Master
     rolesId.juniorAdmins, // Junior Discord Master

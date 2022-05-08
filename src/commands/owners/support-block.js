@@ -1,15 +1,13 @@
 const {
     EmbedBuilder, ApplicationCommandOptionType, Colors,
 } = require("discord.js");
-const {rolesId, channelsId} = require("../../configs/settings");
-const fs = require("fs");
 const Punishment = require('../../models/Punishment');
 const sendUserMessage = require("../../components/sendUserMessage");
 const {scheduleJob} = require("node-schedule");
 module.exports = {
     name: "support-block", // название команды
     descr: "Блокировка саппорта пользователю", // описание команды
-    perms: () => [rolesId.discordMaster, rolesId.juniorDiscordMaster, rolesId.adviceAdministration,], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster, rolesId.adviceAdministration], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [{
         name: "пользователь",

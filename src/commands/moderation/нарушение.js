@@ -4,7 +4,6 @@ const {
   Colors,
 } = require("discord.js");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
-const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "нарушение", // название команды
@@ -61,11 +60,11 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  perms: () => {
-    return getAllRolesIdModers(); // все модерские роли
-  }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => {
+    return getAllRolesIdModers(rolesId); // все модерские роли
+  }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, author, guild, args, channel }) => {
+  run: async ({ bot, interaction, author, guild, args, channelsId, rolesId }) => {
     const structure = args[0]; // структура
     const violatorId = args[1]; // нарушитель
     const textComplaint = args[2]; // суть жалобы

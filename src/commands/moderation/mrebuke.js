@@ -4,7 +4,6 @@ const {
   Colors,
 } = require("discord.js");
 const downgradeModerator = require("../../components/downgradeModerator");
-const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
 const removeModerator = require("../../components/removeModerator");
 const setModerInfoParam = require("../../components/setModerInfoParam");
@@ -12,7 +11,6 @@ const setWarnsOrRebukes = require("../../components/setWarnsOrRebukes");
 const {
   rolesId,
   channelsId,
-  maxCountWarns,
   maxCountRebukes,
   fromPostToPostList,
 } = require("../../configs/settings");

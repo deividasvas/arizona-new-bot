@@ -2,7 +2,6 @@ const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
-const { rolesId } = require("../../configs/settings");
 const Families = require("../../models/Families");
 
 module.exports = {
@@ -20,7 +19,7 @@ module.exports = {
   perms: () => {
     return getAllRolesIdFamilies(); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
-  async run({ bot, interaction, channel, author, args, guild }) {
+  async run({ bot, interaction, channelsId, author, args, guild }) {
     const family = await Families.findOne({
       $or: [
         {
@@ -95,7 +94,7 @@ module.exports = {
 
     familyCandidateForKick.roles.remove(family.roleId);
     const logFamiliesChannel = guild.channels.cache.get(
-      settings.channelsId.famLogs
+      channelsId.famLogs
     ); // лог семей
     logFamiliesChannel.send({
       embeds: [

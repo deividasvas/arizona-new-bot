@@ -11,7 +11,7 @@ module.exports = {
   run: async (bot, message) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
     if (
-      message.channel.id === channelsId.welcome
+      message.channel.id === channelsId[message.guild.id].welcome
     ) {
       const triger = ["роль", "дайте роль"];
       if (triger.includes(message.content.toLowerCase())) {

@@ -4,17 +4,14 @@ const {
   ChannelType,
   Colors,
 } = require("discord.js");
-const {rolesId} = require("../../configs/settings");
-const settings = require("../../configs/settings");
 const Families = require("../../models/Families");
-const {SlashCommandBuilder} = require("@discordjs/builders");
 const sendUserMessage = require("../../components/sendUserMessage");
 
 module.exports = {
   name: "deletefam", // название команды
   descr: "Удалить семью", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
-  perms: () => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   arguments: [
     {
       name: "семья",
@@ -24,7 +21,7 @@ module.exports = {
     },
   ], // аргументы
 
-  async run({ bot, interaction, args, guild, author }){
+  async run({ bot, interaction, args, guild, author, rolesId, channelsId, categories}){
     const familyRoleID = args[0]; // Семья
     const family = await Families.findOne({
       roleId: familyRoleID,
@@ -65,7 +62,7 @@ module.exports = {
     textChannel.delete(); // Удаление текстового канала
     role.delete(); // Удаление роли
     let owner = bot.users.cache.get(`${family.ownerId}`);
-    let logChannel = bot.channels.cache.get(settings.channelsId.famLogs); // Лог семей
+    let logChannel = bot.channels.cache.get(channelsId.famLogs); // Лог семей
     logChannel.send({
       embeds: [
         new EmbedBuilder()

@@ -9,8 +9,6 @@ const {
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const getTwoHourInMs = require("../../components/getTwoHourInMs");
 const sendUserMessage = require("../../components/sendUserMessage");
-const settings = require("../../configs/settings");
-const { rolesId } = require("../../configs/settings");
 const Families = require("../../models/Families");
 
 module.exports = {
@@ -29,7 +27,7 @@ module.exports = {
     },
   ], // аргументы
 
-  async run({ bot, interaction, args, guild, author }) {
+  async run({ bot, interaction, args, guild, author, channelsId }) {
     let candidate = guild.members.cache.get(args[0]);
     const allFamilies = await Families.find();
     let family = await Families.findOne({
@@ -80,17 +78,11 @@ module.exports = {
         ],
       });
     }
+    const familiesIDs = allFamilies.map((family) => family.id);
     const roles = candidate.roles.cache.values();
     let countFamsOfCandidate = roles.reduce((total, current) =>
       familiesIDs.includes(current.id) ? total + 1 : total
     ); // количество семей в которых состоит пользователь
-    // const familiesIDs = allFamilies.map((family) => family.id);
-    // for (const role of roles) {
-    //   if (familiesIDs.includes(role.id)) {
-    //     // проверяем имеет ли кандидат на выдачу семейной роли другие семейные роли
-    //     countFamsOfCandidate++;
-    //   }
-    // }
 
     if (countFamsOfCandidate >= 2) {
       // если человек имеет более 2 семейные ролей, или 2 семейные роли, то больше нельзя выдавать.
@@ -316,8 +308,8 @@ module.exports = {
       candidate.roles.add(role, `Приглашения в фаму by ${author.user.tag}`);
 
       let logChannel =
-        bot.channels.cache.get(settings.channelsId.famLogs) ||
-        (await bot.channels.fetch(settings.channelsId.famLogs));
+        bot.channels.cache.get(channelsId.famLogs) ||
+        (await bot.channels.fetch(channelsId.famLogs));
 
       logChannel.send({
         embeds: [

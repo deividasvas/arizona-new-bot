@@ -1,7 +1,6 @@
-const { EmbedBuilder } = require("discord.js");
-const { rolesId, channelsId } = require("../configs/settings");
+const { rolesId } = require("../configs/settings");
 const Punishment = require("../models/Punishment");
-const sendUserMessage = require("./sendUserMessage");
+const {cancelJob} = require("node-schedule");
 
 // Функция снятие мута пользователю
 const unmute = async (bot, guildId, userId, provocateur = "-") => {
@@ -23,7 +22,8 @@ const unmute = async (bot, guildId, userId, provocateur = "-") => {
       ? `Снятие мута by System`
       : `Снятие мута через команду by ${provocateur.user.tag}`
   ); // снимаем ему мут.
-  await member.roles.remove([rolesId.muted]); // удаляем роль `Muted`
+  await member.roles.remove([rolesId[punish.guildId].muted]); // удаляем роль `Muted`
+  cancelJob(`${guildId}-${userId}-mute-${punish.reason}`); // отменяем автоматическое снятие наказания через модуль punishment.js
   punish.remove(); // удаляем наказания из бд
   return true;
 };

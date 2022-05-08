@@ -1,12 +1,11 @@
 const { EmbedBuilder, Colors } = require("discord.js");
-const { rolesId } = require("../../configs/settings");
 
 module.exports = {
   name: "help", // название команды
   descr: "Помощь по командам", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // аргументы
-  perms: () => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, args }) => {
     // Сделать фильтрацию команд

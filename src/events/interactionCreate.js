@@ -1,6 +1,7 @@
 const {EmbedBuilder, Colors} = require("discord.js");
 const handleErrors = require("../components/handleErrors.js");
 const {developers} = require("../configs/settings.js");
+const settings = require("../configs/settings.js");
 const CommandsDisabled = require("../models/CommandsDisabled.js");
 
 module.exports = async (bot, interaction) => {
@@ -42,9 +43,26 @@ module.exports = async (bot, interaction) => {
         const args = interaction.options._hoistedOptions.map((arg) => arg.value);
         const author = interaction.member;
         const channel = interaction.guild.channels.cache.get(channelId) || (await interaction.guild.channels.fetch(channelId));
+        const rolesId = settings.rolesId[guild.id];
+        const channelsId = settings.channelsId[guild.id];
+        const whiteListRoles = settings.whiteListRoles[guild.id];
+        const categories = settings.categories[guild.id];
+        const fromPostToPostList = settings.fromPostToPostList[guild.id];
         return command
             .run({
-                interaction, author, guild, bot, channel, args, developers, theSlashCall: true,
+                interaction,
+                whiteListRoles,
+                categories,
+                rolesId,
+                channelsId,
+                author,
+                guild,
+                bot,
+                fromPostToPostList,
+                channel,
+                args,
+                developers,
+                theSlashCall: true,
             })
             .catch((err) => handleErrors(err, bot));
     }

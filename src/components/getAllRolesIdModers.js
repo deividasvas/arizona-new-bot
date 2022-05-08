@@ -1,7 +1,5 @@
-const { rolesId } = require("../configs/settings");
-
 // Функция отдаёт все айдишники модерских ролей
-const getAllRolesIdModers = () => {
+const getAllRolesIdModers = (rolesId) => {
   return [
     rolesId.discordMaster, // Discord Master
     rolesId.juniorAdmins, // Junior Discord Master

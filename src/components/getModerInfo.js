@@ -6,18 +6,11 @@ const getAllRolesIdModers = require("./getAllRolesIdModers");
 const getModerInfo = async (bot, guildId, userId) => {
   // пытаемся получить статистику модератора, если её нет, то инициализируем нулевую.
   const moderator = await Moderators.findOne({
-    userId
+    userId,
+    guildId,
   });
 
-  if (!moderator) {
-    await createModerInfo(userId, guildId); // если не найдено статистики модератора, то сохраняем новую.
-    // Если модератора нет, то немного выше на 21 строке идёт создание новой статистики модератора
-    // мы просто благодаря рекурсиям возвращаем так-же нового модератора без всяких заморочек
-    return getModerInfo(bot, guildId, userId);
-  }
-
-  // || сделана для того, чтобы можно было в случае чего понять является ли человек модератором
-  // даже если он к примеру нажал на кнопку в личных сообщениях у бота.
+  // Проверка на то, является ли человек модератором
   const guild = bot.guilds.cache.get(guildId || moderator.guildId);
   const member = guild.members.cache.get(userId);
   const allRolesIdModers = getAllRolesIdModers();
@@ -26,6 +19,13 @@ const getModerInfo = async (bot, guildId, userId) => {
     return {
       error: "THE_NOT_MODERATOR",
     };
+  }
+
+  if (!moderator) {
+    await createModerInfo(userId, guildId); // если не найдено статистики модератора, то сохраняем новую.
+    // Если модератора нет, то немного выше на 21 строке идёт создание новой статистики модератора
+    // мы просто благодаря рекурсиям возвращаем так-же нового модератора без всяких заморочек
+    return getModerInfo(bot, guildId, userId);
   }
 
   return moderator;

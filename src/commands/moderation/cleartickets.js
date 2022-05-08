@@ -5,21 +5,20 @@ const {
     ButtonBuilder,
     ButtonStyle
 } = require("discord.js");
-const {rolesId, categories} = require("../../configs/settings");
 
 module.exports = {
     name: "cleartickets", // название команды
     descr: "Очистить корзину с тикетами", // описание команды
     showInSlashCommands: true, // показывать ли команду в slash командах
     arguments: [], // аргументы
-    perms: () => [
+    perms: (rolesId) => [
         rolesId.discordMaster, // discord master
         rolesId.juniorDiscordMaster, // jr.discord master
         rolesId.adviceAdministration, // совет администрации дискорда
         rolesId.curatorModeration, // куратор модерации
     ], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-    run: async ({bot, interaction, author, guild, args, channel}) => {
+    run: async ({bot, interaction, author, guild, rolesId, categories}) => {
         const categoryWithTickets = guild.channels.cache.get(categories.basketTickets);
         const answer = await interaction.reply({
             embeds: [

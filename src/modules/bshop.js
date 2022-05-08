@@ -89,7 +89,7 @@ module.exports = {
         }, // выполнение логики услуги. НЕ ПИСАТЬ ЗДЕСЬ ЭМБЕДЫ И ТОМУ ПОДОБНОЕ ОФОРМЛЕНИЕ
         answer() {
           const punishModeratorsLog = guild.channels.cache.get(
-            channelsId.punishModeratorsLog
+            channelsId[guildId].punishModeratorsLog
           );
           punishModeratorsLog.send({
             content: `${user}`,
@@ -192,7 +192,7 @@ module.exports = {
         }, // выполнение логики услуги. НЕ ПИСАТЬ ЗДЕСЬ ЭМБЕДЫ И ТОМУ ПОДОБНОЕ ОФОРМЛЕНИЕ
         answer() {
           const punishModeratorsLog = guild.channels.cache.get(
-            channelsId.punishModeratorsLog
+            channelsId[guildId].punishModeratorsLog
           );
           punishModeratorsLog.send({
             content: `${user}`,
@@ -347,10 +347,10 @@ module.exports = {
     });
     // так-же, нужно отправить лог об этой покупке в канал лог-покупок-модераторов
     const logBuysModerators = guild.channels.cache.get(
-      channelsId.logBuysModerators
+      channelsId[guildId].logBuysModerators
     );
     logBuysModerators.send({
-      content: `<@&${rolesId.adviceAdministration}> <@&${rolesId.juniorDiscordMaster}>`,
+      content: `<@&${rolesId[guildId].adviceAdministration}> <@&${rolesId[guildId].juniorDiscordMaster}>`,
       embeds: [
         new EmbedBuilder()
           .setColor(Colors.DarkGreen)

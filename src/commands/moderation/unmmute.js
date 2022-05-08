@@ -3,7 +3,6 @@ const convertMinutesToMs = require("../../components/convertMinutesToMs");
 const getAllrolesIdModers = require("../../components/getAllRolesIdModers");
 const sendUserMessage = require("../../components/sendUserMessage");
 const unmute = require("../../components/unmute");
-const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "unmmute", // название команды
@@ -23,11 +22,11 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  perms: () => {
-    return getAllrolesIdModers(); // все модерские роли
+  perms: (rolesId) => {
+    return getAllrolesIdModers(rolesId); // все модерские роли
   }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, author, guild, args }) => {
+  run: async ({ bot, interaction, author, guild, args, rolesId, channelsId }) => {
     const userForUnmute =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const reason = args[1];
@@ -51,7 +50,7 @@ module.exports = {
         ],
       });
     }
-    unmute(bot, userForUnmute.id, author);
+    unmute(bot, userForUnmute.id, author.id, reason);
 
     const moderationLog = guild.channels.cache.get(channelsId.moderationLog); // канал куда отправляем сообщение о снятии мута
     moderationLog.send({

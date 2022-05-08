@@ -10,9 +10,9 @@ module.exports = {
   descr: "Очистка информации о своём эмбеде", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [],
-  perms: () => getAllRolesIdInfoMakers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => getAllRolesIdInfoMakers(rolesId), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, args, guild, channel, author }) => {
+  run: async ({ bot, interaction, guild, author }) => {
     const embed = await InfomakerEmbed.findOne({
       guildId: guild.id,
       infoMakerId: author.id,

@@ -6,7 +6,7 @@ module.exports = {
   descr: "Помощь по командам инфомейкеров", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [],
-  perms: () => getAllRolesIdInfoMakers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => getAllRolesIdInfoMakers(rolesId), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, args, guild, channel, author }) => {
     interaction.reply({

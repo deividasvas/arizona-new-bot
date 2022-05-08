@@ -1,12 +1,11 @@
 const { EmbedBuilder } = require("discord.js");
-const { rolesId, channelsId } = require("../../configs/settings");
 
 module.exports = {
   name: "server-info", // название команды
   descr: "Информация по контактам руководства сервера, соц.сетям сервера", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // аргументы
-  perms: () => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, args, guild }) => {
     interaction.reply({

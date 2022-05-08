@@ -1,13 +1,7 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
-const convertMinutesToMs = require("../../components/convertMinutesToMs");
 const getAllrolesIdModers = require("../../components/getAllRolesIdModers");
 const mute = require("../../components/mute");
 const sendUserMessage = require("../../components/sendUserMessage");
-const setModerInfoParam = require("../../components/setModerInfoParam");
-const settings = require("../../configs/settings");
-const {rolesId, channelsId, whiteListRoles} = require("../../configs/settings");
-const Punish = require("../../models/Punishment");
-const getMinutesInMs = require("../../components/getMinutesInMs");
 const timeChecker = require("../../components/timeChecker");
 
 const mutes = new timeChecker('мут');
@@ -35,11 +29,11 @@ module.exports = {
             required: true,
         },
     ], // аргументы
-    perms: () => {
-        return getAllrolesIdModers(); // все модерские роли
-    }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => {
+        return getAllrolesIdModers(rolesId); // все модерские роли
+    }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-    run: async ({bot, interaction, author, guild, args}) => {
+    run: async ({bot, interaction, author, guild, args, rolesId, channelsId, whiteListRoles}) => {
         const userForMute =
             guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
         const time = args[1];
@@ -158,38 +152,7 @@ module.exports = {
                     }),
             ],
         });
-        mute(bot, guild.id, userForMute.id, author, time, reason);
-        // выдаем недельные муты и общие
-        await setModerInfoParam(
-            author.id,
-            guild.id,
-            "main",
-            "mutes",
-            ({mutes}) => mutes + 1
-        );
-        await setModerInfoParam(
-            author.id,
-            guild.id,
-            "week",
-            "mutes",
-            ({mutes}) => mutes + 1
-        );
-
-        // выдаем недельные баллы и общие
-        await setModerInfoParam(
-            author.id,
-            guild.id,
-            "main",
-            "balls",
-            ({balls, coefficient}) => balls + settings.rates.mute * coefficient
-        );
-        await setModerInfoParam(
-            author.id,
-            guild.id,
-            "week",
-            "balls",
-            ({balls, coefficient}) => balls + settings.rates.mute * coefficient
-        );
+        await mute(bot, guild.id, userForMute.id, author.id, time, reason);
         mutes.addModeratorPunish(author.id, guild.id);
     },
 };

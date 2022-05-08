@@ -1,11 +1,8 @@
 const {EmbedBuilder, Colors, Attachment} = require("discord.js");
 const ban = require("../components/ban");
 const getAllRolesIdModers = require("../components/getAllRolesIdModers");
-const getDaysInMs = require("../components/getDaysInMs");
 const parseUserIdFromMention = require("../components/parseIdFromMention");
 const sendUserMessage = require("../components/sendUserMessage");
-const setModerInfoParam = require("../components/setModerInfoParam");
-const settings = require("../configs/settings");
 const {rolesId, channelsId} = require("../configs/settings");
 const BansVotes = require("../models/BansVotes");
 const fs = require("fs");
@@ -25,7 +22,7 @@ module.exports = {
         });
 
         const bansLogsChannel = interaction.guild.channels.cache.get(
-            channelsId.rolesAndBans
+            channelsId[interaction.guild.id].rolesAndBans
         ); // канал куда отправляются логи банов
         await bansLogsChannel.send({
             embeds: [
@@ -71,40 +68,6 @@ module.exports = {
             interaction.guild
         );
         await ban(bot, interaction.guildId, userId, moderatorId, days, reason);
-        await this.giveBalls(moderatorId, interaction.guildId);
-    },
-    async giveBalls(moderatorId, guildId) {
-        // выдаем недельные баны и общие
-        await setModerInfoParam(
-            moderatorId,
-            guildId,
-            "main",
-            "bans",
-            ({bans}) => bans + 1
-        );
-        await setModerInfoParam(
-            moderatorId,
-            guildId,
-            "week",
-            "bans",
-            ({bans}) => bans + 1
-        );
-
-        // выдаем недельные баллы и общие
-        await setModerInfoParam(
-            moderatorId,
-            guildId,
-            "main",
-            "balls",
-            ({balls, coefficient}) => balls + settings.rates.ban * coefficient
-        );
-        await setModerInfoParam(
-            moderatorId,
-            guildId,
-            "week",
-            "balls",
-            ({balls, coefficient}) => balls + settings.rates.ban * coefficient
-        );
     },
     async run({bot, interaction, member: user, guild}) {
         // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
@@ -119,7 +82,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(
-                            `**Вы не являетесь модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}>**`
+                            `**Вы не являетесь модератором. Если это не так, то обратитесь к <@&${rolesId[guild.id].techSection}>**`
                         )
                         .setColor(Colors.Red)
                         .setAuthor({
@@ -157,7 +120,7 @@ module.exports = {
             return interaction.message.delete();
         }
         const {days, reason, agrees, denies} = ban; // данные из бана
-        const moderationChannel = guild.channels.cache.get(channelsId.moderation); // канал куда отправится сообщение в случае чего
+        const moderationChannel = guild.channels.cache.get(channelsId[guild.id].moderation); // канал куда отправится сообщение в случае чего
         const pathToFile = path.resolve(`./${interaction.message.id}.txt`);
         await fs.writeFileSync(pathToFile, `Информация по голосам бана №${interaction.message.id}`);
         for (const agreeUserId of agrees) {
@@ -227,7 +190,7 @@ module.exports = {
 
         if (
             user.permissions.has("Administrator") ||
-            user.roles.cache.some((role) => role.id === rolesId.juniorDiscordMaster)
+            user.roles.cache.some((role) => role.id === rolesId[guild.id].juniorDiscordMaster)
         ) {
             // если пользователь является администратором или является Jr. Discord Master, то одобряем или отказываем бан автоматически
             interaction.message.delete();
@@ -302,7 +265,7 @@ module.exports = {
                     userForBanId: userForBanId,
                 }); // получаем актуальные голоса и меняем эмбед
             await interaction.message.edit({
-                content: `<@&${rolesId.juniorModerator}>`,
+                content: `<@&${rolesId[guild.id].juniorModerator}>`,
                 embeds: [
                     new EmbedBuilder()
                         .setAuthor(interaction.message.embeds[0].author)
@@ -334,7 +297,7 @@ module.exports = {
                 });
 
             await interaction.message.edit({
-                content: `<@&${rolesId.juniorModerator}>`,
+                content: `<@&${rolesId[guild.id].juniorModerator}>`,
                 embeds: [
                     new EmbedBuilder()
                         .setAuthor(interaction.message.embeds[0].author)

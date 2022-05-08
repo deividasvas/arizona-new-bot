@@ -1,5 +1,5 @@
 const { EmbedBuilder, Colors } = require("discord.js");
-const { maxCountRebukes, rolesId, channelsId } = require("../configs/settings");
+const { maxCountRebukes, channelsId} = require("../configs/settings");
 const setWarnsOrRebukes = require("./setWarnsOrRebukes");
 
 // Функция понижения в должности модераторов, кураторов, совета
@@ -17,7 +17,7 @@ const downgradeModerator = async (
   await setWarnsOrRebukes(moderator.id, () => []); // обнуляем все преды и выговоры в связи с понижением
   await moderator.roles.remove(fromPostRoleId);
   const punishModeratorsLogChannel = guild.channels.cache.get(
-    channelsId.punishModeratorsLog
+    channelsId[guildId].punishModeratorsLog
   );
   punishModeratorsLogChannel.send({
     content: `<@${provocateurId}> <@${moderatorId}>`,

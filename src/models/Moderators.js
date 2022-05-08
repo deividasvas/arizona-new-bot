@@ -33,6 +33,19 @@ const ModeratorsSchema = new mongoose.Schema({
           initiatorId: String, // ID того кто выдал выговор / пред
       }
     ],
+  task: { // задание на снятие предупреждения
+    status: String, // active / no
+    mutes: Number, // количество мутов для снятия предупреждения
+    kicks: Number, // количество киков для снятия предупреждения
+    bans: Number, // количество банов для снятия предупреждения
+    tickets: Number, // количество тикетов для снятия предупреждения
+  },
+  neactive: { // неактив модератора.
+    dateEnd: Date, // дата конца неактива
+    givedId: String, // айди того кто выдал неактив
+    active: Boolean, // активен ли неактив
+    reason: String, // причина неактива
+  }
 });
 
 module.exports = new mongoose.model("moderators", ModeratorsSchema); // коллекция с наказаниями

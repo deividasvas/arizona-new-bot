@@ -12,11 +12,11 @@ module.exports = {
         type: ApplicationCommandOptionType.String,
         required: true,
     }], // аргументы
-    perms: () => {
-        return getAllrolesIdModers(); // все модерские роли
+    perms: (rolesId) => {
+        return getAllrolesIdModers(rolesId); // все модерские роли
     }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-    run: async ({bot, interaction, author, guild, args, channel}) => {
+    run: async ({bot, interaction, author, guild, args, rolesId, channelsId}) => {
         if (!bot.fractions.init) {
             // если фракции ещё не инициализированы, то отдаём ошибку.
             return interaction.reply({
@@ -63,7 +63,7 @@ module.exports = {
                     .setColor(Colors.DarkGreen)
                     .setTitle(`📌 | Проверка на НСО`)
                     .setTimestamp()
-                    .setDescription(`**Игрок \`${player.nickname}\` не состоит в организации\n Последнее обновление данных: ${bot.fractions.dateOldInit.toLocaleDateString('ru-RU', {timeZone: 'Europe/Moscow'})} ${bot.fractions.dateOldInit.toLocaleTimeString('ru-RU', {timeZone: 'Europe/Moscow'})}}**`)
+                    .setDescription(`**Игрок \`${player.nickname}\` не состоит в организации\n Последнее обновление данных: ${bot.fractions.dateOldInit.toLocaleDateString('ru-RU', {timeZone: 'Europe/Moscow'})} ${bot.fractions.dateOldInit.toLocaleTimeString('ru-RU', {timeZone: 'Europe/Moscow'})}**`)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -137,7 +137,7 @@ module.exports = {
             let nickname = ""; // результативный никнейм.
             const splitedPreNickname = member?.nickname.split("]") || []; // разделяем по ] чтобы можно было отсеять среди дискорд формы - ник
             Array.from(splitedPreNickname[splitedPreNickname.length - 1]).map((letter) => {
-                // проходимся по всем символам никнейма. Начиная после тега ранга.
+                // Проходимся по всем символам никнейма. Начиная после тега ранга.
                 if (/^[a-zA-Z-_" "]+$/.test(letter)) {
                     // проверяем, является ли символ английском.
                     nickname += letter; // если да, то добавляем его в слово

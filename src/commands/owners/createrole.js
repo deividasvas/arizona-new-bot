@@ -1,14 +1,13 @@
 const {
     EmbedBuilder, ApplicationCommandOptionType, Colors,
 } = require("discord.js");
-const {rolesId, categories, channelsId} = require("../../configs/settings");
 const sendUserMessage = require("../../components/sendUserMessage");
 
 module.exports = {
     name: "createrole", // название команды
     descr: "Создать персональную роль", // описание команды
     showInSlashCommands: false, // показывать ли команду в slash командах
-    perms: () => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
     arguments: [{
         name: "владелец",
         description: "Владелец персональной роли которая будет создана",
@@ -26,7 +25,7 @@ module.exports = {
         required: true,
     },], // аргументы
 
-    async run({bot, interaction, args, guild, author}) {
+    async run({bot, interaction, args, guild, author, rolesId, channelsId, categories}) {
         const roleName = args[2]; // Название семьи
         const color = args[1]; // Цвет семьи
         // Человек для которого создаётся роль

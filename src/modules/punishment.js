@@ -1,5 +1,4 @@
 const { Colors, EmbedBuilder } = require("discord.js");
-const { scheduleJob } = require("node-schedule");
 const unban = require("../components/unban");
 const unmute = require("../components/unmute");
 const { channelsId } = require("../configs/settings");
@@ -19,21 +18,24 @@ module.exports = {
         const settings = [
             {
                 action: "ban", // Действие по отношению к которому будет идти слежка.
-                word: "блокировки", // Слово, которое будет использоваться в заголовке и описании эмбеда.
+                wordOnTitle: "блокировки", // Слово, которое будет использоваться в заголовке.
+                wordOnDescription: "Блокировка", // Слово, которое будет использоваться в описании. (С большой буквы и в именительном падеже)
                 func: unban, // Функция снятия наказания
-                logChannelId: channelsId.rolesAndBans, // Канал в который будет логироватся снятие наказания.
+                logChannelId: guildId => channelsId[guildId].rolesAndBans, // Канал в который будет логироватся снятие наказания.
             },
             {
                 action: "mute", // Действие по отношению к которому будет идти слежка.
-                word: "мута", // Слово, которое будет использоваться в заголовке и описании эмбеда.
+                wordOnTitle: "мута", // Слово, которое будет использоваться в заголовке.
+                wordOnDescription: "Мут", // Слово, которое будет использоваться в описании. (С большой буквы и в именительном падеже)
                 func: unmute, // Функция снятия наказания
-                logChannelId: channelsId.moderationLog, // Канал в который будет логироватся снятие наказания.
+                logChannelId: guildId => channelsId[guildId].moderationLog, // Канал в который будет логироватся снятие наказания.
             },
             {
                 action: "unsupport-block", // Действие по отношению к которому будет идти слежка.
-                word: "блокировки саппорта", // Слово, которое будет использоваться в заголовке и описании эмбеда.
+                wordOnTitle: "блокировки саппорта", // Слово, которое будет использоваться в заголовке.
+                wordOnDescription: "Блокировка саппорта", // Слово, которое будет использоваться в описании. (С большой буквы и в именительном падеже)
                 func: unSupportBlock, // Функция снятия наказания
-                logChannelId: channelsId.administrationCouncil, // Канал в который будет логироватся снятие наказания.
+                logChannelId: guildId => channelsId[guildId].administrationCouncil, // Канал в который будет логироватся снятие наказания.
             },
         ]
 
@@ -43,7 +45,7 @@ module.exports = {
             });
             for (const punish of punishs) {
                 const guild = bot.guilds.cache.get(punish.guildId);
-                const logChannel = guild.channels.cache.get(setting.logChannelId);
+                const logChannel = guild.channels.cache.get(setting.logChannelId(guild.id));
 
                 // Проверяем, прошло ли уже время когда нужно было снять наказание
                 if (punish.dateEnd > new Date()) {
@@ -55,13 +57,13 @@ module.exports = {
                     embeds: [
                         new EmbedBuilder()
                             .setColor(Colors.DarkGreen)
-                            .setTitle(`📌 | Система снятия ${setting.word}!`)
+                            .setTitle(`📌 | Система снятия ${setting.wordOnTitle}a!`)
                             .setAuthor({
                                 name: guild.name,
                                 iconURL: guild.iconURL(),
                             })
                             .setDescription(
-                                `**「📝」Выдавал: <@${punish.moderatorId}>\n「📌」Кому: <@${punish.userId}>\n 「📕」Причина: \`${punish.reason}\`\n「📛」${setting.word} снята!**`
+                                `**「📝」Выдавал: <@${punish.moderatorId}>\n「📌」Кому: <@${punish.userId}>\n 「📕」Причина: \`${punish.reason}\`\n「📛」${setting.wordOnDescription} снят!**`
                             )
                             .setTimestamp()
                             .setFooter({

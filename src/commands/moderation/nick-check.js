@@ -1,11 +1,9 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
-const settings = require("../../configs/settings");
-const {rolesId, channelsId} = require("../../configs/settings");
 const getUserProfile = require("../../components/getUserProfile");
 module.exports = {
     name: "nick-check", // название команды
     descr: "Проверить пользователя на привилегию иметь нестандартный шрифт", // описание команды
-    perms: () => [
+    perms: (rolesId) => [
         rolesId.discordMaster,
         rolesId.juniorDiscordMaster,
         rolesId.adviceAdministration,
@@ -23,7 +21,7 @@ module.exports = {
         },
     ], // аргументы
 
-    async run({bot, interaction, channel, args, developers, author, guild}) {
+    async run({bot, interaction, channel, args, rolesId, channelsId, guild}) {
         const userId = args[0];
         const { IsUserCanUseCustomFontInNickname } = await getUserProfile(userId, guild.id);
         const member = guild.members.cache.get(userId);

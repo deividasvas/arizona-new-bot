@@ -1,12 +1,11 @@
 const {
     EmbedBuilder, ApplicationCommandOptionType, Colors,
 } = require("discord.js");
-const {rolesId} = require("../../configs/settings");
 const fs = require("fs");
 module.exports = {
     name: "rolemember", // название команды
     descr: "Получение информации о том, сколько людей имеют роль", // описание команды
-    perms: () => [rolesId.discordMaster, rolesId.juniorDiscordMaster, rolesId.adviceAdministration, rolesId.curatorModeration], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster, rolesId.adviceAdministration, rolesId.curatorModeration], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [{
         name: "роль",

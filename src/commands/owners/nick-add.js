@@ -1,13 +1,11 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
-const settings = require("../../configs/settings");
-const {rolesId} = require("../../configs/settings");
 const getUserProfile = require("../../components/getUserProfile");
 const Profiles = require("../../models/Profiles");
 const sendUserMessage = require("../../components/sendUserMessage");
 module.exports = {
     name: "nick-add", // название команды
     descr: "Добавить пользователя в список людей которым доступно использование нестандартного шрифта", // описание команды
-    perms: () => [
+    perms: (rolesId) => [
         rolesId.discordMaster,
         rolesId.juniorDiscordMaster,
     ], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
@@ -21,7 +19,7 @@ module.exports = {
         },
     ], // аргументы
 
-    async run({bot, interaction, channel, args, developers, author, guild}) {
+    async run({bot, interaction, args, author, guild}) {
         const userId = args[0];
         const profile = await getUserProfile(userId, guild.id);
         if (profile.IsUserCanUseCustomFontInNickname) {

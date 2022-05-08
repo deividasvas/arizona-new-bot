@@ -1,25 +1,21 @@
 const {
     EmbedBuilder,
-    ApplicationCommandOptionType,
     Colors,
 } = require("discord.js");
-const settings = require("../../configs/settings");
-const {rolesId, channelsId} = require("../../configs/settings");
-const CommandsDisabled = require("../../models/CommandsDisabled");
 module.exports = {
     name: "rules", // название команды
     descr: "Обновить правила дискорд сервера", // описание команды
-    perms: () => [rolesId.discordMaster], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => [rolesId.discordMaster], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [], // аргументы
 
-    async run({bot, guild}) {
+    async run({bot, guild, channelsId}) {
         // канал правил где всё будет меняться
         const rulesChannel = guild.channels.cache.get(channelsId.rules);
         // получаем все сообщения в массиве от бота которые будем редактировать
         const messagesOfBot = [];
 
-        for(const [id, message] of Array.from((await rulesChannel.messages.fetch()).filter(message => message.author.id === bot.user.id)).reverse()){
+        for (const [id, message] of Array.from((await rulesChannel.messages.fetch()).filter(message => message.author.id === bot.user.id)).reverse()) {
             messagesOfBot.push(message);
         }
 

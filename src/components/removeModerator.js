@@ -9,7 +9,7 @@ const getModerInfo = require("./getModerInfo");
 */
 const removeModerator = async (bot, guildId, moderatorId) => {
   const guild = bot.guilds.cache.get(guildId);
-  const curatorsChannel = guild.channels.cache.get(channelsId.curators);
+  const curatorsChannel = guild.channels.cache.get(channelsId[guildId].curators);
   const moderator =
     guild.members.cache.get(moderatorId) ||
     (await guild.members.fetch(moderatorId));
@@ -35,7 +35,7 @@ const removeModerator = async (bot, guildId, moderatorId) => {
     (warnOrRebuke) => warnOrRebuke.group === "warn"
   );
   await curatorsChannel.send({
-    content: `<@&${rolesId.curatorModeration}>`,
+    content: `<@&${rolesId[guildId].curatorModeration}>`,
     embeds: [
       new EmbedBuilder()
         .setTitle(`\`Снятие модератора:\`**${moderator.displayName}**`)

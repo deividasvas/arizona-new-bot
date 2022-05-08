@@ -23,8 +23,6 @@ module.exports = class ExtendedClient extends Client {
             dateOldInit: null,
         };
         this.token = settings.token;
-        this.applicationId = settings.applicationId;
-        this.guildId = settings.surpriseGuild;
         this.prefix = settings.prefix;
         this.fullPermissionCommandsRolesId = settings.fullPermissionCommandsRolesId;
         this.whiteListRoles = settings.whiteListRoles;
@@ -62,27 +60,26 @@ module.exports = class ExtendedClient extends Client {
     async command() {
         // return;
         // ЗАПУСКАЕТСЯ В ready.js, потому что иначе бот не успевает прогрузиться.
-        const guild =
-            this.guilds.cache.get(this.guildId) ||
-            (await this.guilds.fetch(this.guildId)); // получаем дискорд сервер на котором будут запущены команды
-        for (const dir of fs.readdirSync("./src/commands/")) {
-            // инициализируем саму команду
-            const commands = fs
-                .readdirSync(`./src/commands/${dir}/`)
-                .filter((file) => file.endsWith(".js"));
-            for (let file of commands) {
-                let pull = require(`../commands/${dir}/${file}`);
-                if (pull.name) {
-                    this.commands.set(pull.name, {
-                        ...pull,
-                        category: dir,
-                    }); // устанавливаем инициализированную команду
+        for (const [id, guild] of this.guilds.cache) {
+            for (const dir of fs.readdirSync("./src/commands/")) {
+                // инициализируем саму команду
+                const commands = fs
+                    .readdirSync(`./src/commands/${dir}/`)
+                    .filter((file) => file.endsWith(".js"));
+                for (let file of commands) {
+                    let pull = require(`../commands/${dir}/${file}`);
+                    if (pull.name) {
+                        this.commands.set(pull.name, {
+                            ...pull,
+                            category: dir,
+                        }); // устанавливаем инициализированную команду
 
-                    // если данная команда не находится в архиве, то добавляем её в слэш команды
-                    if (!pull.archive) {
-                        await this.loadSlashCommand(pull, guild);
+                        // если данная команда не находится в архиве, то добавляем её в слэш команды
+                        if (!pull.archive) {
+                            await this.loadSlashCommand(pull, guild);
+                        }
+
                     }
-
                 }
             }
         }
@@ -111,7 +108,7 @@ module.exports = class ExtendedClient extends Client {
             permission: true,
         })); // создаём массив с правами
 
-        for (const whiteRoleID of this.fullPermissionCommandsRolesId) {
+        for (const whiteRoleID of this.fullPermissionCommandsRolesId[guild.id]) {
             // белый список ролей у которых есть полный доступ ко всем командам
             permissions.push({
                 type: ApplicationCommandPermissionType.Role,

@@ -1,4 +1,4 @@
-const { ActionRow } = require("@discordjs/builders");
+const {ActionRow} = require("discord.js");
 const {
   EmbedBuilder,
   ApplicationCommandOptionType,
@@ -9,11 +9,6 @@ const {
   ButtonBuilder,
 } = require("discord.js/node_modules/@discordjs/builders");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
-const {
-  rolesId,
-  channelsId,
-  whiteListRoles,
-} = require("../../configs/settings");
 const BansVotes = require("../../models/BansVotes");
 const timeChecker = require("../../components/timeChecker");
 const bans = new timeChecker("бан");
@@ -42,16 +37,18 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  perms: () => getAllRolesIdModers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => getAllRolesIdModers(rolesId), // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, author, guild, args, channel }) => {
+  run: async ({
+                bot, interaction, author, guild, args, rolesId, channelsId, whiteListRoles,
+              }) => {
     const userForBanId = args[0]
     const userForBan = guild.members.cache.get(userForBanId);
     const days = args[1];
     const reason = args[2];
 
     const roleInWhiteList = userForBan?.roles.cache.find((role) =>
-      whiteListRoles.includes(role.id)
+        whiteListRoles.includes(role.id)
     ); // проверяем, есть ли у человека роль которая находится в белом списке по отношению к выдачам наказаний.
     if (roleInWhiteList) {
       // если у человека есть роль из белого списка ролей, то отвечаем запросившему что у пользователя роль из белого списка
@@ -129,20 +126,20 @@ module.exports = {
     await interaction.reply({
       ephemeral: true,
       embeds: [
-        new EmbedBuilder()
-          .setAuthor({
-            name: `${interaction.guild.name} » Временая блокировка участника.`,
-            iconURL: interaction.guild.iconURL(),
-          })
-          .setDescription(
-            `**Вы успешно отправили заявление на блокировку пользователя <@${userForBanId}> на \`${days}\` дней по причине \`${reason}\`**`
-          )
-          .setColor(Colors.Red)
-          .setTimestamp()
-          .setFooter({
-            text: `Robo Hamster`,
-            iconURL: bot.user.displayAvatarURL(),
-          }),
+        await new EmbedBuilder()
+            .setAuthor({
+              name: `${interaction.guild.name} » Временая блокировка участника.`,
+              iconURL: interaction.guild.iconURL(),
+            })
+            .setDescription(
+                `**Вы успешно отправили заявление на блокировку пользователя <@${userForBanId}> на \`${days}\` дней по причине \`${reason}\`**`
+            )
+            .setColor(Colors.Red)
+            .setTimestamp()
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
       ],
     });
 

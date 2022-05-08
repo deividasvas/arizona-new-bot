@@ -1,12 +1,11 @@
 const { EmbedBuilder, Colors } = require("discord.js");
-const { rolesId } = require("../../configs/settings");
 
 module.exports = {
   name: "ping", // название команды
   descr: "Информация о работоспобности бота.", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // аргументы
-  perms: () => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   async run({ bot, interaction, guild }) {
     const createdTimestamp = new Date();

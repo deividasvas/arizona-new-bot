@@ -4,8 +4,6 @@ const {
     ApplicationCommandOptionType,
 } = require("discord.js");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
-const getModerInfo = require("../../components/getModerInfo");
-const {rolesId, channelsId, categories} = require("../../configs/settings");
 
 module.exports = {
     name: "delete-movie", // название команды
@@ -19,9 +17,9 @@ module.exports = {
             required: true,
         }
     ], // аргументы
-    perms: () => getAllRolesIdModers(), // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => getAllRolesIdModers(rolesId), // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-    run: async ({bot, interaction, author, guild, args, channel}) => {
+    run: async ({bot, interaction, categories, guild, args, channel}) => {
         const channelId = args[0];
         const channelForDelete = guild.channels.cache.get(channelId);
 

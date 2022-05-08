@@ -1,9 +1,4 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
-const convertMinutesToMs = require("../../components/convertMinutesToMs");
-const getAllrolesIdModers = require("../../components/getAllRolesIdModers");
-const sendUserMessage = require("../../components/sendUserMessage");
-const unmute = require("../../components/unmute");
-const {rolesId, channelsId} = require("../../configs/settings");
 const getModerInfo = require("../../components/getModerInfo");
 const setWarnsOrRebukes = require("../../components/setWarnsOrRebukes");
 
@@ -25,7 +20,7 @@ module.exports = {
             required: true,
         },
     ], // аргументы
-    perms: () => {
+    perms: (rolesId) => {
         return [
             rolesId.discordMaster,
             rolesId.juniorDiscordMaster,
@@ -34,7 +29,7 @@ module.exports = {
         ];
     }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-    run: async ({bot, interaction, author, guild, args}) => {
+    run: async ({bot, interaction, author, guild, args, rolesId, channelsId}) => {
         const moderator = guild.members.cache.get(args[0]) || await guild.members.fetch(args[0]);
         const reason = args[1];
         const {

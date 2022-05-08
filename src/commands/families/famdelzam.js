@@ -1,9 +1,8 @@
 const { ApplicationCommandOptionType, Colors } = require("discord.js");
-const { EmbedBuilder } = require("discord.js/node_modules/@discordjs/builders");
+const { EmbedBuilder } = require("discord.js");
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
-const { rolesId } = require("../../configs/settings");
 const Families = require("../../models/Families");
 
 module.exports = {
@@ -21,7 +20,7 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  async run({ bot, interaction, author, args, guild }) {
+  async run({ bot, interaction, author, args, guild, channelsId }) {
     const familyCandidateForRemoveOfDeputy =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const family = await Families.findOne({
@@ -81,7 +80,7 @@ module.exports = {
       // удаляем права заместителю на просмотр и отправку сообщений в канал.
     } catch (e) {}
     const logFamiliesChannel = guild.channels.cache.get(
-      settings.channelsId.famLogs
+      channelsId.famLogs
     ); // лог семей
     await Families.updateOne(
       {

@@ -1,10 +1,8 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
-const settings = require("../../configs/settings");
-const {rolesId} = require("../../configs/settings");
 module.exports = {
     name: "run", // название команды
     descr: "Запускает JavaScript код", // описание команды
-    perms: () => [rolesId.techSection], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => [rolesId.techSection], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [
         {
@@ -15,7 +13,7 @@ module.exports = {
         },
     ], // аргументы
 
-    run: async ({bot, interaction, channel, args, developers, author}) => {
+    run: async ({bot, interaction, channel, rolesId, args, developers, author, channelsId}) => {
 
         if (!developers.includes(author.user.id))
             return interaction.reply({
@@ -38,8 +36,8 @@ module.exports = {
             });
         const code = args[0];
         const testChannel =
-            bot.channels.cache.get(settings.channelsId.testRoom) ||
-            (await guild.channels.fetch(settings.channelsId.testRoom));
+            bot.channels.cache.get(channelsId.testRoom) ||
+            (await guild.channels.fetch(channelsId.testRoom));
         testChannel.send({
             content: `<@&${rolesId.techSection}>`,
             embeds: [

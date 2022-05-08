@@ -6,7 +6,6 @@ const {
   Colors,
 } = require("discord.js");
 const getAllRolesIdAdmins = require("../../components/getAllRolesIdAdmins");
-const { channelsId } = require("../../configs/settings");
 const { ApplicationCommandOptionType } = require("discord.js");
 module.exports = {
   name: "log", // название команды
@@ -34,34 +33,30 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  perms: () => {
-    return getAllRolesIdAdmins();
-  }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => {
+    return getAllRolesIdAdmins(rolesId);
+  }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, args, author, guild }) => {
+  run: async ({bot, interaction, args, author, guild, channelsId}) => {
     const nickname = args[0]; // ник на того кого кидают мониторингч
     const from = args[1]; // источник с которого узнали информацию
     const reason = args[2]; // причина по которой на него кидают мониторинг
-    const logMonitoringChannel = guild.channels.cache.find(
-      (channel) => channel.id === channelsId.logMonitoring
-    );
+    const logMonitoringChannel = guild.channels.cache.find((channel) => channel.id === channelsId.logMonitoring);
     logMonitoringChannel.send({
-      embeds: [
-        new EmbedBuilder()
+      embeds: [new EmbedBuilder()
           .setColor(Colors.Grey)
           .setTitle(`📌 | Лог Мониторинг`)
-          .addFields(
+          .addFields([
             {
               name: `🐹・Информация о запросе`,
               value: `>>> **「🧍」Запросил: <@${author.id}>\n「👱」Ник-Нейм: \`${nickname}\`\n「🏔」Источник: \`${from}\`\n「📄」Причина: \`${reason}\`**`,
               inline: true,
-            },
-            {
+            }, {
               name: `📌・Результат проверки`,
               value: `>>> **「🎸」Статус: \`В обработке\`\n「🔥」Проверил: \`Нет\`**`,
               inline: true,
             }
-          )
+          ])
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),
@@ -72,25 +67,25 @@ module.exports = {
           }),
       ],
       components: [
-        new ActionRowBuilder().addComponents(
+        new ActionRowBuilder().addComponents([
           new ButtonBuilder()
-            .setCustomId("logMonitoringYes")
-            .setLabel("Проверенно, что-то нашёл")
-            .setStyle(ButtonStyle.Success)
-            .setEmoji({
-              id: "886020016925990912",
-            })
-        ),
-        new ActionRowBuilder().addComponents(
-          new ButtonBuilder()
-            .setCustomId("logMonitoringNo")
-            .setLabel("Проверенно, ничего не нашёл")
-            .setStyle(ButtonStyle.Danger)
-            .setEmoji({
-              id: "886020016120672286",
-            })
-        ),
-        new ActionRowBuilder().addComponents(
+              .setCustomId("logMonitoringYes")
+              .setLabel("Проверенно, что-то нашёл")
+              .setStyle(ButtonStyle.Success)
+              .setEmoji({
+                id: "886020016925990912",
+              })
+        ]),
+        new ActionRowBuilder().addComponents([
+            new ButtonBuilder()
+                .setCustomId("logMonitoringNo")
+                .setLabel("Проверенно, ничего не нашёл")
+                .setStyle(ButtonStyle.Danger)
+                .setEmoji({
+                  id: "886020016120672286",
+                })
+        ]),
+        new ActionRowBuilder().addComponents([
           new ButtonBuilder()
             .setLabel(`Лог 📌 ${nickname}`)
             .setStyle(ButtonStyle.Link)
@@ -99,7 +94,7 @@ module.exports = {
                 .split(" ")
                 .join("_")}&server=10`
             )
-        ),
+        ]),
       ],
       content: `http://ulog.union-u.net/search.php?searchtext=${nickname
         .split(" ")

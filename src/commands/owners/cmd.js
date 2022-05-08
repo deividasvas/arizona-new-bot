@@ -3,23 +3,18 @@ const {
     ApplicationCommandOptionType,
     Colors,
 } = require("discord.js");
-const settings = require("../../configs/settings");
-const {rolesId} = require("../../configs/settings");
 const CommandsDisabled = require("../../models/CommandsDisabled");
 module.exports = {
     name: "cmd", // название команды
     descr: "Управление командами", // описание команды
-    perms: () => [rolesId.discordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => [rolesId.discordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
     showInSlashCommands: false, // показывать ли команду в slash командах
-    arguments: [
-        {
-            name: "действие",
-            description: "Действие которое Вы хотите произвести",
-            type: ApplicationCommandOptionType.String,
-            choices: [
-                {
-                    name: "restart",
-                    value: "restart",
+    arguments: [{
+        name: "действие",
+        description: "Действие которое Вы хотите произвести",
+        type: ApplicationCommandOptionType.String,
+        choices: [{
+            name: "restart", value: "restart",
                 },
                 {
                     name: "start",
@@ -41,11 +36,7 @@ module.exports = {
     ], // аргументы
 
     run: async ({
-                    bot,
-                    interaction,
-                    args,
-                    guild,
-                    author,
+                    bot, interaction, args, guild, author, rolesId, channelsId,
                 }) => {
         const action = args[0];
         const commandName = args[1];

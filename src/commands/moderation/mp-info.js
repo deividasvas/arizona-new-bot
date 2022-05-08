@@ -3,7 +3,6 @@ const {
 } = require("discord.js");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
-const {rolesId, channelsId, categories} = require("../../configs/settings");
 
 module.exports = {
     name: "mp-info", // название команды
@@ -11,7 +10,7 @@ module.exports = {
     showInSlashCommands: false, // показывать ли команду в slash командах
     archive: true, // находится ли команда в архиве
     arguments: [], // аргументы
-    perms: () => getAllRolesIdModers(), // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => getAllRolesIdModers(rolesId), // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
     run: async ({bot, interaction, author, guild, args}) => {
         interaction.reply({

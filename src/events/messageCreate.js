@@ -4,6 +4,7 @@ const {EmbedBuilder, Colors} = require("discord.js");
 const {prefix, developers} = require("../configs/settings");
 const parseIdFromMention = require("../components/parseIdFromMention");
 const handleErrors = require("../components/handleErrors");
+const settings = require("../configs/settings.js");
 module.exports = async (bot, message) => {
     if (message.channel.type === "DM" || message.author.bot) {
         return;
@@ -168,6 +169,12 @@ module.exports = async (bot, message) => {
             return await answer.edit(option);
         };
 
+        const rolesId = settings.rolesId[message.guild.id];
+        const channelsId = settings.channelsId[message.guild.id];
+        const whiteListRoles = settings.whiteListRoles[message.guild.id];
+        const categories = settings.categories[message.guild.id];
+        const fromPostToPostList = settings.fromPostToPostList[message.guild.id];
+
         return command
             .run({
                 interaction: {
@@ -175,6 +182,11 @@ module.exports = async (bot, message) => {
                 },
                 author: message.member,
                 guild: message.guild,
+                rolesId,
+                channelsId,
+                whiteListRoles,
+                categories,
+                fromPostToPostList,
                 bot,
                 channel: message.channel,
                 args,

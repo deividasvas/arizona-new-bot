@@ -1,5 +1,4 @@
 const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
-const { rolesId } = require("../../configs/settings");
 
 module.exports = {
   name: "setnick", // название команды
@@ -13,7 +12,7 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  perms: () => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, interaction, author, guild, args }) => {
     let nick = args[0];

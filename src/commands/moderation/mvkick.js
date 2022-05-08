@@ -26,7 +26,7 @@ module.exports = {
         type: ApplicationCommandOptionType.String,
         required: true,
     },], // аргументы
-    perms: () => getAllRolesIdModers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+    perms: (rolesId) => getAllRolesIdModers(rolesId), // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
     run: async ({bot, interaction, author, guild, args}) => {
         const userForVoiceKick = guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
@@ -109,12 +109,10 @@ module.exports = {
         });
         // выдаем недельные баллы и общие
         await setModerInfoParam(author.id, guild.id, "main", "balls", ({
-                                                                           balls,
-                                                                           coefficient
+                                                                           balls, coefficient
                                                                        }) => balls + settings.rates.kick * coefficient);
         await setModerInfoParam(author.id, guild.id, "week", "balls", ({
-                                                                           balls,
-                                                                           coefficient
+                                                                           balls, coefficient
                                                                        }) => balls + settings.rates.kick * coefficient);
         voiceKicks.addModeratorPunish(author.id, guild.id);
     },

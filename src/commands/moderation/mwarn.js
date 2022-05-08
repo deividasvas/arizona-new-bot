@@ -10,11 +10,8 @@ const removeModerator = require("../../components/removeModerator");
 const setModerInfoParam = require("../../components/setModerInfoParam");
 const setWarnsOrRebukes = require("../../components/setWarnsOrRebukes");
 const {
-  rolesId,
-  channelsId,
   maxCountWarns,
   maxCountRebukes,
-  fromPostToPostList,
 } = require("../../configs/settings");
 
 module.exports = {
@@ -35,14 +32,14 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  perms: () => [
+  perms: (rolesId) => [
     rolesId.discordMaster, // discord master
     rolesId.juniorDiscordMaster, // jr.discord master
     rolesId.adviceAdministration, // совет администрации дискорда
     rolesId.curatorModeration, // куратор модерации
   ], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, author, guild, args, channel }) => {
+  run: async ({ bot, interaction, author, guild, args, channel, fromPostToPostList }) => {
     const moderator =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const reason = args[1];

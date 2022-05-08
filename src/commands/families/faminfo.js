@@ -1,7 +1,6 @@
 const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const settings = require("../../configs/settings");
-const { rolesId } = require("../../configs/settings");
 const Families = require("../../models/Families");
 
 module.exports = {

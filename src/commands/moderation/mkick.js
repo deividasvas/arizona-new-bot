@@ -4,11 +4,6 @@ const kick = require("../../components/kick");
 const sendUserMessage = require("../../components/sendUserMessage");
 const setModerInfoParam = require("../../components/setModerInfoParam");
 const settings = require("../../configs/settings");
-const {
-  rolesId,
-  channelsId,
-  whiteListRoles,
-} = require("../../configs/settings");
 const getMinutesInMs = require("../../components/getMinutesInMs");
 const timeChecker = require("../../components/timeChecker");
 
@@ -28,20 +23,20 @@ module.exports = {
     {
       name: "причина",
       description:
-        "Причина по которой Вы хотите исключить пользователя из сервера",
+          "Причина по которой Вы хотите исключить пользователя из сервера",
       type: ApplicationCommandOptionType.String,
       required: true,
     },
   ], // аргументы
-  perms: () => getAllRolesIdModers(), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => getAllRolesIdModers(rolesId), // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, author, guild, args, channel }) => {
+  run: async ({bot, interaction, author, whiteListRoles, guild, args, channelsId}) => {
     const userForKick =
-      guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
+        guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const reason = args[1];
 
     const roleInWhiteList = userForKick.roles.cache.find((role) =>
-      whiteListRoles.includes(role.id)
+        whiteListRoles.includes(role.id)
     ); // проверяем, есть ли у человека роль которая находится в белом списке по отношению к выдачам наказаний.
     if (roleInWhiteList) {
       // если у человека есть роль из белого списка ролей, то отвечаем запросившему что у пользователя роль из белого списка
@@ -79,27 +74,27 @@ module.exports = {
             .setDescription(
               `**「📝」Исключил: <@${author.id}>\n「📕」Причина: \`${reason}\`**`
             )
-            .setTimestamp()
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
+              .setTimestamp()
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
         ],
       },
-      userForKick.id,
-      guild
+        userForKick.id,
+        guild
     ); // отправляем в лс пользователю сообщение об исключений
-    await kick(bot, guild.id, userForKick.id, author, reason); // исключаем пользователя из сервера
+    await kick(bot, guild.id, userForKick.id, author.id, reason); // исключаем пользователя из сервера
     const moderationLog = guild.channels.cache.get(channelsId.moderationLog);
     moderationLog.send({
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
-          .setTitle(`📌 | Система исключения пользователей.`)
-          .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL(),
-          })
+            .setColor(Colors.DarkGreen)
+            .setTitle(`📌 | Система исключения пользователей.`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
           .setDescription(
             `**「📝」Исключил: <@${author.id}> (${author.user.tag})\n「📌」Кого: <@${userForKick.id}> (${userForKick.user.tag})\n「📕」Причина: \`${reason}\`**`
           )
@@ -131,37 +126,7 @@ module.exports = {
           }),
       ],
     });
-    // выдаем недельные муты и общие
-    await setModerInfoParam(
-      author.id,
-      guild.id,
-      "main",
-      "kicks",
-      ({ kicks }) => kicks + 1
-    );
-    await setModerInfoParam(
-      author.id,
-      guild.id,
-      "week",
-      "kicks",
-      ({ kicks }) => kicks + 1
-    );
 
-    // выдаем недельные баллы и общие
-    await setModerInfoParam(
-      author.id,
-      guild.id,
-      "main",
-      "balls",
-      ({ balls, coefficient }) => balls + settings.rates.kick * coefficient
-    );
-    await setModerInfoParam(
-      author.id,
-      guild.id,
-      "week",
-      "balls",
-      ({ balls, coefficient }) => balls + settings.rates.kick * coefficient
-    );
     kicks.addModeratorPunish(author.id, guild.id);
   },
 };

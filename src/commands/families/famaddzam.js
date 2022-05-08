@@ -2,7 +2,6 @@ const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
-const { rolesId } = require("../../configs/settings");
 const Families = require("../../models/Families");
 
 module.exports = {
@@ -20,7 +19,7 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  async run({ bot, interaction, author, args, guild }){
+  async run({ bot, interaction, author, args, guild, channelsId }){
     const familyCandidateDeputy =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const family = await Families.findOne({
@@ -144,7 +143,7 @@ module.exports = {
     });
 
     const logFamiliesChannel = guild.channels.cache.get(
-      settings.channelsId.famLogs
+      channelsId.famLogs
     ); // лог семей
     logFamiliesChannel.send({
       embeds: [

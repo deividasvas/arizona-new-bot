@@ -65,9 +65,9 @@ class timeChecker {
         // Как только добавили ещё одно выданное наказание - смотрим сколько у него в итоге текущих наказаний.
         // Если их более 5, то логируем об этом в канал кураторов.
         if (currentModeratorInfo.count >= 5) {
-            const curatorsModerationChannel = guild.channels.cache.get(channelsId.curators);
+            const curatorsModerationChannel = guild.channels.cache.get(channelsId[guildId].curators);
             return curatorsModerationChannel.send({
-                content: `<@&${rolesId.curatorModeration}> <@&${rolesId.adviceAdministration}>`,
+                content: `<@&${rolesId[guildId].curatorModeration}> <@&${rolesId[guildId].adviceAdministration}>`,
                 embeds: [new EmbedBuilder()
                     .setColor(Colors.DarkGreen)
                     .setTitle(`📌 | Система безопасности`)

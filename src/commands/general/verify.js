@@ -1,22 +1,22 @@
 const { EmbedBuilder, Colors } = require("discord.js");
-const { rolesId } = require("../../configs/settings");
 
 module.exports = {
   name: "verify", // название команды
-  descr: "Получить роль 'Проверенный'", // описание команды
+  descr: "Получить/снять роль 'Проверенный'", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // аргументы
-  perms: () => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => [rolesId.everyone], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, author, args, guild }) => {
+  run: async ({ bot, interaction, author, args, guild, rolesId }) => {
     if (author.roles.cache.some((role) => rolesId.verify === role.id)) {
+      author.roles.remove(rolesId.verify);
       return interaction.reply({
         ephemeral: true,
         embeds: [
           new EmbedBuilder()
-            .setColor(`❌ | Ошибка!`)
-            .setTitle(`Ошибка!`)
-            .setDescription(`**У вас уже есть роль Проверенный 🔐**`)
+              .setColor(Colors.Green)
+              .setTitle(`📌 | Снятие роли`)
+            .setDescription(`**Вы успешно сняли роль <@&${rolesId.verify}>!**`)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -27,21 +27,15 @@ module.exports = {
     }
 
     interaction.reply({
-      ephemeral: true,
-      embeds: [
-        new EmbedBuilder()
-          .setColor(`Green`)
-          .setTitle(`Выдача роли`)
+      ephemeral: true, embeds: [new EmbedBuilder()
+          .setColor(Colors.Green)
+          .setTitle(`📌 | Выдача роли`)
           .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL(),
+            name: guild.name, iconURL: guild.iconURL(),
           })
-          .setDescription(
-            `\`${author.displayName}\`, Вы успешно получили роль <@&${rolesId.verify}>`
-          )
+          .setDescription(`\`${author.displayName}\`, Вы успешно получили роль <@&${rolesId.verify}>`)
           .setFooter({
-            text: `Robo Hamster`,
-            iconURL: `${bot.user.displayAvatarURL()}`,
+            text: `Robo Hamster`, iconURL: `${bot.user.displayAvatarURL()}`,
           })
           .setTimestamp(),
       ],

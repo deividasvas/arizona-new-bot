@@ -1,6 +1,5 @@
 const { EmbedBuilder, Colors } = require("discord.js");
 const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
-const { rolesId } = require("../../configs/settings");
 const Families = require("../../models/Families");
 
 module.exports = {
@@ -11,7 +10,7 @@ module.exports = {
   perms: () => {
     return getAllRolesIdFamilies(); // все айди семейных ролей
   }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
-  async run({ bot, interaction, channel, author, args, guild }) {
+  async run({ bot, interaction, channel, author, channelsId, rolesId, guild }) {
     const familyList = await Families.find();
     const familyRolesMap = familyList.map((r) => r.roleId); // Получаем название всех семей
     let userFamilysString = "";
