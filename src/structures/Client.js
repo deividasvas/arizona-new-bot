@@ -8,6 +8,7 @@ const settings = require("../configs/settings");
 const {SlashCommandBuilder} = require("@discordjs/builders");
 const path = require("path");
 const {default: mongoose} = require("mongoose");
+const {rolesId} = require("../configs/settings");
 
 module.exports = class ExtendedClient extends Client {
     constructor() {
@@ -101,7 +102,7 @@ module.exports = class ExtendedClient extends Client {
         buildCommand.setDescription(command.descr); // устанавливаем описание команды
         buildCommand.options = [...command.arguments]; // устанавливаем аргументы команды
         const permissions = await (
-            await command.perms(this)
+            await command.perms(rolesId[guild.id])
         ).map((roleID) => ({
             type: ApplicationCommandPermissionType.Role,
             id: roleID,

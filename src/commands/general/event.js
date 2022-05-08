@@ -5,11 +5,11 @@ module.exports = {
   descr: "Выдача/снятие роли Events's", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // аргументы
-  perms: (rolesId) => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => [rolesId.everyone], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
   run: async ({ bot, author, interaction, guild, rolesId, channelsId }) => {
     if (author.roles.cache.some((role) => rolesId.events === role.id)) {
-      author.roles.remove(rolesId.event);
+      author.roles.remove(rolesId.events);
       return interaction.reply({
         ephemeral: true,
         embeds: [
