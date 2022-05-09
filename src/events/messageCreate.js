@@ -9,6 +9,11 @@ module.exports = async (bot, message) => {
     if (message.channel.type === "DM" || message.author.bot) {
         return;
     }
+    const rolesId = settings.rolesId[message.guild.id];
+    const channelsId = settings.channelsId[message.guild.id];
+    const whiteListRoles = settings.whiteListRoles[message.guild.id];
+    const categories = settings.categories[message.guild.id];
+    const fromPostToPostList = settings.fromPostToPostList[message.guild.id];
     if (message.content.startsWith(bot.prefix)) {
         // НАСТРОЙКА СЛЭШ КОМАНД НАХОДИТСЯ В interactionCreate.js в условии command.isChatInputCommand()
         const splitedCommand = message.content
@@ -41,7 +46,8 @@ module.exports = async (bot, message) => {
                 .then((msg) => setTimeout(() => msg.delete(), 10000));
         }
 
-        const permissions = [...bot.fullPermissionCommandsRolesId, ...(await command.perms(bot)),]; // получаем все айдишники ролей которые могут запускать данную команду
+        // получаем все айдишники ролей которые могут запускать данную команду
+        const permissions = [...bot.fullPermissionCommandsRolesId[message.guild.id], ...(await command.perms(rolesId)),];
         if (!message.member?.roles.cache.some((role) => permissions.includes(role.id))) {
             // если у пользователя нет не одной роли которая может использовать данную команду, то отдаём отказ.
 
@@ -169,12 +175,6 @@ module.exports = async (bot, message) => {
             return await answer.edit(option);
         };
 
-        const rolesId = settings.rolesId[message.guild.id];
-        const channelsId = settings.channelsId[message.guild.id];
-        const whiteListRoles = settings.whiteListRoles[message.guild.id];
-        const categories = settings.categories[message.guild.id];
-        const fromPostToPostList = settings.fromPostToPostList[message.guild.id];
-
         return command
             .run({
                 interaction: {
@@ -202,5 +202,6 @@ module.exports = async (bot, message) => {
                 }, 2000);
             });
     }
+
     bot.modules.get("trigger").run(bot, message);
 };

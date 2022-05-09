@@ -9,7 +9,7 @@ module.exports = {
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [], // аргументы
 
-    async run({bot, guild, channelsId}) {
+    async run({bot, guild, channelsId, interaction}) {
         // канал правил где всё будет меняться
         const rulesChannel = guild.channels.cache.get(channelsId.rules);
         // получаем все сообщения в массиве от бота которые будем редактировать
@@ -297,5 +297,24 @@ module.exports = {
                 embeds: [rulesPunish]
             })
         }
+
+        interaction.reply({
+            ephemeral: true,
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle(`📌 | Обновление сообщения!`)
+                    .setColor(Colors.DarkGreen)
+                    .setDescription(`**Правила сервера успешно обновлены! Канал <#${channelsId.rules}>**`)
+                    .setTimestamp()
+                    .setAuthor({
+                        name: guild.name,
+                        iconURL: guild.iconURL(),
+                    })
+                    .setFooter({
+                        text: `Robo Hamster`,
+                        iconURL: bot.user.displayAvatarURL(),
+                    })
+            ]
+        });
     },
 };

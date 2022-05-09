@@ -1,7 +1,5 @@
 const {
-    Client,
-    Collection,
-    ApplicationCommandPermissionType,
+    Client, Collection, ApplicationCommandPermissionType, GatewayIntentBits,
 } = require("discord.js");
 const fs = require("fs");
 const settings = require("../configs/settings");
@@ -13,7 +11,7 @@ const {rolesId} = require("../configs/settings");
 module.exports = class ExtendedClient extends Client {
     constructor() {
         super({
-            intents: 32767,
+            intents: [GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageReactions, GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.Guilds, GatewayIntentBits.GuildBans, GatewayIntentBits.GuildEmojisAndStickers, GatewayIntentBits.GuildIntegrations, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildScheduledEvents, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildWebhooks, GatewayIntentBits.MessageContent]
         });
 
         this.commands = new Collection();
@@ -117,8 +115,8 @@ module.exports = class ExtendedClient extends Client {
                 permission: true,
             }); // добавляем роли из белого списка доступ к команде
         }
-
-        if (!permissions.find((perm) => perm.id === guild.roles.everyone.id)) {
+        // guild.roles.everyone
+        if (!permissions.find((perm) => perm.id === guild.id)) {
             // проверяем существует ли доступ для everyone у команды, если нет
             // то устанавливаем изначальное право для команды, что нельзя
             buildCommand.setDefaultPermission(false);

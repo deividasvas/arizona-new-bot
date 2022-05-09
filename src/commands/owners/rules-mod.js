@@ -10,7 +10,7 @@ module.exports = {
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [], // аргументы
 
-    async run({bot, guild, channelsId}) {
+    async run({bot, guild, channelsId, interaction}) {
         // канал правил где всё будет меняться
         const rulesChannel = guild.channels.cache.get(channelsId.moderation);
         // получаем все сообщения в массиве от бота которые будем редактировать
@@ -72,5 +72,24 @@ module.exports = {
         await rulesChannel.send({
             embeds: [rules3]
         }).then(msg => msg.pin())
+
+        interaction.reply({
+            ephemeral: true,
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle(`📌 | Обновление сообщения!`)
+                    .setColor(Colors.DarkGreen)
+                    .setDescription(`**Закреп для модерации был успешно обновлен! Канал <#${channelsId.moderation}>**`)
+                    .setTimestamp()
+                    .setAuthor({
+                        name: guild.name,
+                        iconURL: guild.iconURL(),
+                    })
+                    .setFooter({
+                        text: `Robo Hamster`,
+                        iconURL: bot.user.displayAvatarURL(),
+                    })
+            ]
+        });
     },
 };

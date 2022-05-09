@@ -70,11 +70,164 @@ const rolesId = {
     infoMaker: `948675243235475465`,
     // Chief news
     chiefInfoMaker: `948675243248062516`,
+    // Сотрудник SWAT
+    swat: `948675243172565001`,
+    // Сотрудник LSPD
+    lspd: `948675243185152051`,
+    // Сотрудник LVMPD
+    lvmpd: `948675243172565000`,
+    // Сотрудник RCSD
+    rcsd: `948675243172564999`,
+    // Сотрудник FBI
+    fbi: `948675243185152053`,
+    // Академист FBI
+    fbi_academy: `948675243185152052`,
   }
 };
 
 module.exports = {
+  // Айдишники ролей
   rolesId,
+
+  // Каналы в которые при входе создаётся приват.
+  channelsForCreatePrivate: (guildChannelsId, guildRolesId) => {
+    return [{
+      // Айди канала при заходе в который создаётся приват.
+      id: guildChannelsId.createPrivate,
+      // Эмодзи который будет указан в названии канала.
+      emoji: `👥`,
+      // Доступен ли канал всем пользователям
+      everyone: true,
+      // Настройки прав для обычных пользователей привата. (ВЛАДЕЛЕЦ И EVERYONE редактируются в createPrivate)
+      permissionsForUsers: [
+        {
+          id: guildRolesId.juniorDiscordMaster,
+          allow: ['ViewChannel', 'Connect', 'Speak', 'MuteMembers', 'MoveMembers', 'ManageChannels',],
+          deny: ['Administrator']
+        },
+      ]
+    },
+    {
+      // Айди канала при заходе в который создаётся приват.
+      id: guildChannelsId.createPatrolPrivate,
+      // Эмодзи который будет указан в названии канала.
+      emoji: `🚓`,
+      // Доступен ли канал всем пользователям
+      everyone: false,
+      // Настройки прав для обычных пользователей привата. (ВЛАДЕЛЕЦ И EVERYONE редактируются в createPrivate)
+      permissionsForUsers: [
+        {
+          id: guildRolesId.juniorDiscordMaster,
+          allow: ['ViewChannel', 'Connect', 'Speak', 'MuteMembers', 'MoveMembers', 'ManageChannels',],
+          deny: ['Administrator']
+        },
+        {
+          id: guildRolesId.swat,
+          allow: ['Speak', 'ViewChannel', 'Connect'],
+          deny: ['ManageChannels']
+        },
+        {
+          id: guildRolesId.lspd,
+          allow: ['Speak', 'ViewChannel', 'Connect'],
+          deny: ['ManageChannels']
+        },
+        {
+          id: guildRolesId.lvmpd,
+          allow: ['Speak', 'ViewChannel', 'Connect'],
+          deny: ['ManageChannels']
+        },
+        {
+          id: guildRolesId.rcsd,
+          allow: ['Speak', 'ViewChannel', 'Connect'],
+          deny: ['ManageChannels']
+        },
+        {
+          id: guildRolesId.fbi,
+          allow: ['Speak', 'ViewChannel', 'Connect'],
+          deny: ['ManageChannels']
+        },
+        {
+          id: guildRolesId.fbi_academy,
+          allow: ['Speak', 'ViewChannel', 'Connect'],
+          deny: ['ManageChannels']
+        },
+        {
+          id: guildRolesId.spectatorPolice,
+          allow: ['ViewChannel', 'Connect', 'Speak', 'MuteMembers', 'MoveMembers'],
+          deny: ['ManageChannels']
+        },
+        {
+          id: guildRolesId.spectatorState,
+          allow: ['ViewChannel', 'Connect', 'Speak', 'MuteMembers', 'MoveMembers'],
+          deny: ['ManageChannels']
+        },
+        {
+          id: guildRolesId.mainSpectatorsState,
+          allow: ['ViewChannel', 'Connect', 'Speak', 'MuteMembers', 'MoveMembers'],
+          deny: ['ManageChannels']
+        },
+      ]
+    },
+    {
+      // Айди канала при заходе в который создаётся приват.
+      id: guildChannelsId.createFilmPrivate,
+      // Эмодзи который будет указан в названии канала.
+      emoji: `🍿`,
+      // Доступен ли канал всем пользователям
+      everyone: true,
+      // Настройки прав для обычных пользователей привата. (ВЛАДЕЛЕЦ И EVERYONE редактируются в createPrivate)
+      permissionsForUsers: [
+        {
+          id: guildRolesId.juniorDiscordMaster,
+          allow: ['ViewChannel', 'Connect', 'Speak', 'MuteMembers', 'MoveMembers', 'ManageChannels',],
+          deny: ['Administrator']
+        },
+      ]
+    },
+    {
+      // Айди канала при заходе в который создаётся приват.
+      id: guildChannelsId.createAnimePrivate,
+      // Эмодзи который будет указан в названии канала.
+      emoji: `🥢`,
+      // Доступен ли канал всем пользователям
+      everyone: true,
+      // Настройки прав для обычных пользователей привата. (ВЛАДЕЛЕЦ И EVERYONE редактируются в createPrivate)
+      permissionsForUsers: [
+        {
+          id: guildRolesId.juniorDiscordMaster,
+          allow: ['ViewChannel', 'Connect', 'Speak', 'MuteMembers', 'MoveMembers', 'ManageChannels',],
+          deny: ['Administrator']
+        },
+      ]
+    },
+    {
+      // Айди канала при заходе в который создаётся приват.
+      id: guildChannelsId.createMafiaPrivate,
+      // Эмодзи который будет указан в названии канала.
+      emoji: `📍`,
+      // Доступен ли канал всем пользователям
+      everyone: true,
+      // Настройки прав для обычных пользователей привата. (ВЛАДЕЛЕЦ И EVERYONE редактируются в createPrivate)
+      permissionsForUsers: [
+        {
+          id: guildRolesId.juniorDiscordMaster,
+          allow: ['ViewChannel', 'Connect', 'Speak', 'MuteMembers', 'MoveMembers', 'ManageChannels',],
+          deny: ['Administrator']
+        },
+      ]
+    },
+  ]},
+  // Категории в которых находятся приваты
+  categoriesPrivatesId: categories => [
+    // Приватный блок
+    categories.privatesBlock,
+    // Фильмы/аниме
+    categories.movies,
+    // Блок мафии
+    categories.blockMafia,
+    // Патрули
+    categories.patrol,
+  ],
   channelsId: {
     "948675243025764404": {
       // теги-организации
@@ -129,8 +282,25 @@ module.exports = {
       managePrivate: `948675245601095722`,
       // 🔊-голосовые
       voices: `948675252697825375`,
+      // Патруль(канал создания привата патруля)
+      createPatrolPrivate: `948675249963139170`,
+      // Создать канал фильма
+      createFilmPrivate: `948675246016299021`,
+      // Создать канал Аниме
+      createAnimePrivate: `948675246016299022`,
+      // Создать комнату мафии
+      createMafiaPrivate: `948675245798211701`,
+      // управление
+      managePrivate: `948675245601095722`,
+      // первые шаги
+      firstSteps: `948675245043220483`,
+      // discord-info
+      discordInfo: `973281650546995200`,
+      // теги-организации
+      tagsFractions: `972849565873094696`
     },
   },
+
   // Категории
   categories: {
     "948675243025764404": {
@@ -146,6 +316,10 @@ module.exports = {
       peopleRoles: `948675243101265948`,
       // Приватный блок
       privatesBlock: `948675245601095721`,
+      // Блок мафии
+      blockMafia: `948675245798211698`,
+      // Автоматические каналы(патрули)
+      patrol: `948675249963139168`,
     }
   },
   saveError: {

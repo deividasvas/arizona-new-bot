@@ -10,7 +10,7 @@ module.exports = {
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [], // аргументы
 
-    async run({bot, guild, channelsId, rolesId}) {
+    async run({bot, guild, channelsId, rolesId, interaction}) {
         // канал запрос-ролей где мы будем всё менять
         const rolesRequestsChannel = guild.channels.cache.get(channelsId.requestRoles);
         // получаем все сообщения в массиве от бота которые будем редактировать
@@ -67,5 +67,24 @@ module.exports = {
                 ]
             })
         }
+
+        interaction.reply({
+            ephemeral: true,
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle(`📌 | Обновление сообщения!`)
+                    .setColor(Colors.DarkGreen)
+                    .setDescription(`**Эмбед в запросе-ролей был успешно обновлен! Канал <#${channelsId.requestRoles}>**`)
+                    .setTimestamp()
+                    .setAuthor({
+                        name: guild.name,
+                        iconURL: guild.iconURL(),
+                    })
+                    .setFooter({
+                        text: `Robo Hamster`,
+                        iconURL: bot.user.displayAvatarURL(),
+                    })
+            ]
+        });
     },
 }
