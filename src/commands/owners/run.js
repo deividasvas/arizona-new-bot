@@ -13,7 +13,7 @@ module.exports = {
         },
     ], // аргументы
 
-    run: async ({bot, interaction, channel, rolesId, args, developers, author, channelsId}) => {
+    run: async ({bot, interaction, channel, guild, rolesId, args, developers, author, channelsId}) => {
 
         if (!developers.includes(author.user.id))
             return interaction.reply({

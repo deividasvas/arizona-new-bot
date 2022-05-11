@@ -82,6 +82,10 @@ const rolesId = {
     fbi: `948675243185152053`,
     // Академист FBI
     fbi_academy: `948675243185152052`,
+    // ★. Роль, которая даёт доступ людям к рассмотрению анкет.
+    star: `973620618673131650`,
+    // Кандидат на собеседование
+    colloquyCandidate: `948675243025764407`
   }
 };
 
@@ -281,7 +285,7 @@ module.exports = {
       // управление приватом
       managePrivate: `948675245601095722`,
       // 🔊-голосовые
-      voices: `948675252697825375`,
+      voicesLog: `948675252697825375`,
       // Патруль(канал создания привата патруля)
       createPatrolPrivate: `948675249963139170`,
       // Создать канал фильма
@@ -297,7 +301,57 @@ module.exports = {
       // discord-info
       discordInfo: `973281650546995200`,
       // теги-организации
-      tagsFractions: `972849565873094696`
+      tagsFractions: `972849565873094696`,
+      // руководство гос
+      mainGovManagers: `948675247924727833`,
+      // главные следящие
+      mainManagersGovStructures: `948675247924727834`,
+      // лог выдачи предов
+      logGivesWarnsLeaders: `948675247924727835`,
+      // следящие гос
+      spectatorsStructures: `948675247924727836`,
+      // лог выдачи страйков
+      logGivesStrikesSpectators: `948675248205754378`,
+      // нововведения по структурам
+      updatesStructures: `948675248205754385`,
+      // еженедельный отчёт
+      everyWeekReport: `948675248205754386`,
+      // одобренные-анкеты
+      acceptedQuestionnaire: `948675248419651654`,
+      // отказанные-анкеты
+      dontAcceptedQuestionnaire: `948675248419651655`,
+      // отправка-анкет
+      sendQuestionnaire: `948675248419651656`,
+      // проверяющие-жалобы
+      checkersReportsAdmins: `948675248205754387`,
+      // анкеты на рассмотрение
+      questionnairesForCheck: `948675248419651657`,
+      // следящие-ЦА
+      spectatorGov: `948675248721625089`,
+      // следящие-МЮ
+      spectatorPolice: `948675249518571600`,
+      // следящие-МО
+      spectatorArmy: `948675250151903232`,
+      // следящие-МЗ
+      spectatorHealth: `948675250651021324`,
+      // следящие-СМИ
+      spectatorRadio: `948675251380822128`,
+      // совершенно секретно
+      verySecret: `973584583163514880`,
+      // сообщения
+      messagesLog: `948675252697825371`,
+      // Комната ожидания собеседования
+      waitingColloquy: `948675247924727831`,
+      // Собеседование 1
+      colloquy1: `948675247433977894`,
+      // Собеседование 2
+      colloquy2: `948675247433977895`,
+      // Собеседование 3
+      colloquy3: `948675247924727828`,
+      // Собеседование 4
+      colloquy4: `948675247924727829`,
+      // Собеседование 5
+      colloquy5: `948675247924727830`,
     },
   },
 
@@ -320,6 +374,14 @@ module.exports = {
       blockMafia: `948675245798211698`,
       // Автоматические каналы(патрули)
       patrol: `948675249963139168`,
+      // Администрация
+      administration: `948675244409901093`,
+      // Руководство сервера
+      managersServers: `948675244229533716`,
+      // Структура хелперства
+      helpers: `948675244841906236`,
+      // Стримы сюрпрайз
+      youtube: `948675252089667659`,
     }
   },
   saveError: {
@@ -472,4 +534,49 @@ module.exports = {
   },
   // максимальное количество заместителей в семье
   limitDeputyInFamilies: 5,
+  // Игнорируемые каналы при обновлении/удаление сообщения.
+  messagesIgnoredChannelsId: (guildChannelsId) => [
+    // дискорд мастера
+    guildChannelsId.discordMasters,
+    // руководство гос
+    guildChannelsId.mainGovManagers,
+    // главные следящие
+    guildChannelsId.mainManagersGovStructures,
+    // лог выдачи предов
+    guildChannelsId.logGivesWarnsLeaders,
+    // следящие гос
+    guildChannelsId.spectatorsStructures,
+    // лог выдачи страйков
+    guildChannelsId.logGivesStrikesSpectators,
+    // нововведение по структурам
+    guildChannelsId.updatesStructures,
+    // еженедельный отчёт
+    guildChannelsId.everyWeekReport,
+    // одобренные анкеты
+    guildChannelsId.acceptedQuestionnaire,
+    // отказанные анкеты
+    guildChannelsId.dontAcceptedQuestionnaire,
+    // отправка-анкет
+    guildChannelsId.sendQuestionnaire,
+    // проверяющие жалобы
+    guildChannelsId.checkersReportsAdmins,
+    // анкеты на рассмотрений
+    guildChannelsId.questionnairesForCheck,
+    // кураторская
+    guildChannelsId.curators,
+    // совет администрации дискорда
+    guildChannelsId.adviceAdministration,
+    // совершенно-секретно
+    guildChannelsId.verySecret
+  ],
+  messagesIgnoredCategoriesId: (guildCategoriesId) => [
+    // Администрация
+    guildCategoriesId.administration,
+    // Руководство сервера
+    guildCategoriesId.managersServers,
+    // Структура хелперства
+    guildCategoriesId.helpers,
+    // Стримы/видео ютуб
+    guildCategoriesId.youtube
+  ],
 };

@@ -5,7 +5,9 @@ const {prefix, developers} = require("../configs/settings");
 const parseIdFromMention = require("../components/parseIdFromMention");
 const handleErrors = require("../components/handleErrors");
 const settings = require("../configs/settings.js");
-module.exports = async (bot, message) => {
+
+// Функция для обработки команд
+const commandHandler = async (bot, message) => {
     if (message.channel.type === "DM" || message.author.bot) {
         return;
     }
@@ -48,7 +50,7 @@ module.exports = async (bot, message) => {
 
         // получаем все айдишники ролей которые могут запускать данную команду
         const permissions = [...bot.fullPermissionCommandsRolesId[message.guild.id], ...(await command.perms(rolesId)),];
-        if (!message.member?.roles.cache.some((role) => permissions.includes(role.id))) {
+        if (!message.member?.roles.cache.some((role) => permissions.includes(role.id)) && !message.member.permissions.has("Administrator")) {
             // если у пользователя нет не одной роли которая может использовать данную команду, то отдаём отказ.
 
             return message
@@ -153,7 +155,7 @@ module.exports = async (bot, message) => {
         // Пожалуйста, не меняйте, а следуйте тому что есть
 
         const reply = async (option) => {
-            // Функция для похожего поведения ответа как и в interaction
+            // Функция для похожего поведения ответа, как и в interaction
             // Сделано для того, чтобы не переписывать по 20 тысяч раз код на message и interaction.
             const answer = await message.reply(option);
             cache[message.id] = answer;
@@ -202,6 +204,19 @@ module.exports = async (bot, message) => {
                 }, 2000);
             });
     }
+}
 
+module.exports = async (bot, message) => {
+    // Айди каналов сервера
+    const channelsId = settings.channelsId[message.guild.id];
+    // Запускаем обработку команд
+    await commandHandler(bot, message);
+
+    // Если канал куда отправили сообщение это отправка-анкет, то передаём её в модуль
+    if(message.channel.id === channelsId.sendQuestionnaire){
+        bot.modules.get('anketa').run({ bot, message });
+    }
     bot.modules.get("trigger").run(bot, message);
+
+
 };

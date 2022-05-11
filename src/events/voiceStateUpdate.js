@@ -110,7 +110,7 @@ const privatesSystem = async (bot, guild, oldMember, newMember, guildChannelsId,
 
 const log = async (bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel) => {
     // Канал куда будут логироваться сообщения.
-    const logChannel = guild.channels.cache.get(guildChannelsId.voices);
+    const logChannel = guild.channels.cache.get(guildChannelsId.voicesLog);
     const oldStreaming = oldMember.streaming;
     const newStreaming = newMember.streaming;
     const embed = new EmbedBuilder()
@@ -311,6 +311,30 @@ const log = async (bot, guild, oldMember, newMember, guildChannelsId, guildRoles
     }
 }
 
+const giveRoleColloquy = async (bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel) => {
+    // Роль, которую будут выдавать.
+    const {colloquyCandidate: colloquyCandidateRoleId} = guildRolesId;
+    // Каналы собеседования(в том числе комната ожидания, результатов собеседования).
+    const colloquyChannelsId = [
+        guildChannelsId.waitingColloquy, // комната ожидания собеседования
+        guildChannelsId.colloquy1, // собеседование 1
+        guildChannelsId.colloquy2, // собеседование 2
+        guildChannelsId.colloquy3, // собеседование 3
+        guildChannelsId.colloquy4, // собеседование 4
+        guildChannelsId.colloquy5, // собеседование 5
+    ];
+    // Если текущего канала нет, но прошлый канал есть и он был каналом собеседования,
+    // то снимаем роль кандидат на собеседование
+    if (!actualChannel && colloquyChannelsId.includes(oldChannel?.id)) {
+        return newMember.member.roles.remove(colloquyCandidateRoleId);
+    }
+    // Если текущий канал есть, и он канал собеседования,
+    // то выдаём роль кандидата на собеседование
+    if(colloquyChannelsId.includes(actualChannel?.id) && !oldChannel){
+        return newMember.member.roles.add(colloquyCandidateRoleId);
+    }
+}
+
 module.exports = async (bot, oldMember, newMember) => {
     // Актуальный канал в котором сейчас находится пользователь. Может быть null
     const actualChannel = newMember.guild.channels.cache.get(newMember.channelId);
@@ -329,4 +353,6 @@ module.exports = async (bot, oldMember, newMember) => {
     privatesSystem(bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel)
     // Логируем действия
     log(bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel);
+    // Выдаем/снимаем роль кандидата на собеседование
+    giveRoleColloquy(bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel);
 }

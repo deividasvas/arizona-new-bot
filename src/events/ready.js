@@ -15,5 +15,7 @@ module.exports = async bot => {
     neactivesModule.run({ bot }); // запускаем модуль снятия неактивов
     const supportUpdatesModule = await bot.modules.get('supportUpdates');
     supportUpdatesModule.run({ bot });
+    const complaintsModeratorsModule = await bot.modules.get('complaintsModerators');
+    complaintsModeratorsModule.run({ bot });
     console.log(`\n[📌 | Ready]: Бот запущен. Авторизован как %s | Серверов: %d | Пользователей: %d | Каналов: %d | Команд: %d`, bot.user.tag, bot.guilds.cache.size, bot.users.cache.size, bot.channels.cache.size, bot.commands.size);
 }

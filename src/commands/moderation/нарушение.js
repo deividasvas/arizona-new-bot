@@ -139,16 +139,17 @@ module.exports = {
       content: `<@&${rolesId.mainSpectatorsState}> <@&${rolesId.spectatorState}> <@&${spectatorRoleId}>`,
       embeds: [
         new EmbedBuilder()
-          .setAuthor({
-            name: `📌 | Жалоба на руководство`,
-            iconURL: guild.iconURL(),
-          })
-          .addFields(
-            { name: `Пожаловался:`, value: `${author}`, inline: false },
-            { name: `Нарушитель:`, value: `<@${violatorId}>`, inline: false },
-            { name: `Обращение:`, value: `${textComplaint}`, inline: false },
-            { name: `Доказательства:`, value: `${proof}`, inline: false }
-          )
+            .setTitle(`📌 | Жалоба на руководство`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .addFields([
+              {name: `Пожаловался:`, value: `${author}`, inline: false},
+              {name: `Нарушитель:`, value: `<@${violatorId}>`, inline: false},
+              {name: `Обращение:`, value: `${textComplaint}`, inline: false},
+              {name: `Доказательства:`, value: `${proof}`, inline: false}
+            ])
           .setColor(Colors.Red)
           .setTimestamp()
           .setFooter({

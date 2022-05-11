@@ -30,8 +30,12 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
     await guild.bans.create(userForBan, {
         days,
         reason: `${reason} by ${provocateur.user.tag}`,
-    });
+    }).catch(() => {});
     dateEnd.setDate(dateEnd.getDate() + days);
+    await Punishment.deleteMany({
+        userId,
+        guildId,
+    });
     const newPunish = new Punishment({
         action: "ban",
         moderatorId: provocateur.id,
@@ -41,10 +45,6 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
         dateEnd,
     });
     await newPunish.save();
-    await Punishment.deleteMany({
-        userId,
-        guildId,
-    });
     await setModerInfoParam(
         provocateurId,
         guildId,
