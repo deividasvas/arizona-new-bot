@@ -34,15 +34,15 @@ module.exports = {
         const row = new ActionRowBuilder().addComponents(
             [
                 new ButtonBuilder()
-                    .setCustomId('add_roles_request')
+                    .setCustomId('addRolesRequest')
                     .setStyle(ButtonStyle.Success)
                     .setLabel(`Запросить роль фракции`),
                 new ButtonBuilder()
-                    .setCustomId('remove_roles_request')
+                    .setCustomId('removeRolesRequest')
                     .setStyle(ButtonStyle.Primary)
                     .setLabel(`Снять роль фракции`),
                 new ButtonBuilder()
-                    .setCustomId('add_remove_role_x')
+                    .setCustomId('addOrRemoveRoleX')
                     .setLabel(`Получить/снять роль X`)
                     .setStyle(ButtonStyle.Secondary),
             ]

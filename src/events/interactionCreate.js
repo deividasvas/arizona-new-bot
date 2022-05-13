@@ -9,11 +9,26 @@ module.exports = async (bot, interaction) => {
         // если это команда, то мы её обрабатываем
         const {commandName, commandId, guild, channelId} = interaction;
         const command = bot.commands.get(commandName);
-        if (!command) {
+        if (!bot.inited) {
             return interaction.reply({
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`🚫 | Ошибка!`)
                     .setDescription(`**Ожидайте, происходит инициализация бота...**`)
+                    .setColor(Colors.Red)
+                    .setTimestamp()
+                    .setFooter({
+                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    }),],
+            });
+        }
+        if(!command){
+            // Если бот инициализирован, и команды в слэшах нет, то её создание это парадокс.
+            // Поэтому, нужно её удалить + сказать что произошёл парадокс
+            await bot.deleteSlashCommand(interaction.commandId, guild);
+            return interaction.reply({
+                ephemeral: true, embeds: [await new EmbedBuilder()
+                    .setTitle(`🚫 | Упс!`)
+                    .setDescription(`**Произошёл некоторый парадокс. Команда была создана случайно. Повторите попытку с другой командой!**`)
                     .setColor(Colors.Red)
                     .setTimestamp()
                     .setFooter({

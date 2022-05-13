@@ -49,15 +49,15 @@ module.exports = {
         console.log(`[📌 | Fractions]: Информация о фракциях была успешно загружена!`)
     }, // Функция обновления информации о фракции
     async updateFractionInfo(fractionId) {
-        const url = `https://api.mint-plantation.ru/members.php?p=0&s=10&o=${fractionId}`;
+        const url = `https://arizona-rp-api.herokuapp.com/api/get-fraction-info?serverId=10&fractionId=${fractionId}`;
         const request = await axios.get(url, {
             headers: {
-                Authorization: `y3HJ6bGYK9TUCMvkHVmA`
+                token: "ArizonaSurprise10TopTheBotWrittingByDeividBrown"
             }
         }); // делаем запрос к API мятной плантации(одна из неофициальных API Arizona Games)
 
         // пытаемся найти уже существующий объект с организацией, если его нет, то создаём новый
-        const {data: {row: fractionMembers}} = request;
+        const {data: {members}} = request.data;
 
         // Объект с возможно существующей информацией о фракции
         let fraction = this.bot.fractions.data.find(fraction => fraction.id === fractionId);
@@ -65,14 +65,14 @@ module.exports = {
             // если объекта нет, то вставляем новый.
             this.bot.fractions.data.push({
                 id: Number(fractionId),
-                members: fractionMembers,
+                members: members,
                 tag: this.tags[fractionId],
-                online: fractionMembers.filter(member => member.isOnline).length
+                online: members.filter(member => member.isOnline).length
             });
         } else {
             // Если есть, то просто редактируем. (Изменения благодаря тому что это метод find автоматически введутся).
             fraction = {
-                id: fractionId, members: fractionMembers, tag: this.tags[fractionId],
+                id: fractionId, members, tag: this.tags[fractionId], online: members.filter(member => member.isOnline).length
             }
         }
     }, // Функция обновления информации о ВСЕХ организациях.

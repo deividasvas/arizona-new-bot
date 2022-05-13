@@ -26,6 +26,7 @@ module.exports = class ExtendedClient extends Client {
         this.fullPermissionCommandsRolesId = settings.fullPermissionCommandsRolesId;
         this.whiteListRoles = settings.whiteListRoles;
         this.typesArguments = settings.typesArguments;
+        this.inited = false; // используется в ready.js
         this.dateStart = new Date();
         this.login(this.token);
         this.module();

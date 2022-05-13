@@ -64,7 +64,7 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setDescription(
-                        `**「📝」Снял: ${author} (${author.id})\n「📌」Кому: <@${userForUnban.id}> (${userForUnban.tag})\n 「📕」Причина: \`${reason}\`\n**`
+                        `**「📝」Снял: ${author} (${author.id})\n「📌」Кому: ${userForUnban} (${userForUnban.tag})\n 「📕」Причина: \`${reason}\`\n**`
                     )
                     .setTimestamp()
                     .setFooter({

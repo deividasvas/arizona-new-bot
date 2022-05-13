@@ -1,8 +1,8 @@
 const Tickets = require('../models/Tickets');
 const {
-    supportSettings, rolesId: _rolesId, channelsId: _channelsId, categories: _categories, channelsId
+    supportSettings, rolesId: _rolesId, channelsId: _channelsId, categories: _categories
 } = require("../configs/settings");
-const {EmbedBuilder, Colors, ActionRowBuilder, ButtonBuilder, ButtonStyle} = require("discord.js");
+const {EmbedBuilder, Colors, ActionRowBuilder, ButtonBuilder, ButtonStyle, Collection} = require("discord.js");
 const createTicket = require("../components/createTicket");
 const getTicket = require("../components/getTicket");
 const setModerInfoParam = require("../components/setModerInfoParam");
@@ -11,7 +11,19 @@ const parseIdFromMention = require("../components/parseIdFromMention");
 const fs = require("fs");
 const path = require("path");
 const sendUserMessage = require("../components/sendUserMessage");
-
+// Коллекция КД для создания тикетов
+// Ключ - айди человека, а значение - дата конца.
+const createTicketIntervalCollection = new Collection();
+setInterval(() => {
+    // Каждые 5 секунд перебираем список людей у которых есть действующее КД.
+    // Если прошли 5 минут КД, то удаляем человека из списка.
+    createTicketIntervalCollection.map(((dateStart, userId) => {
+        const minutes = ((new Date()).getTime() - (new Date(dateStart)).getTime()) / 60000;
+        if (minutes >= 5) {
+            return createTicketIntervalCollection.delete(userId);
+        }
+    }));
+}, 5000);
 
 module.exports = {
     /*
@@ -187,9 +199,31 @@ module.exports = {
 
     },
     async createTicket({bot, interaction, guild, member, moderatorsRolesId, fullPermissionsRolesId, categoriesId}) {
+        if (createTicketIntervalCollection.has(member.id)) {
+            // Количество секунд через сколько можно будет написать новый тикет.
+            const dateEnd = new Date(createTicketIntervalCollection.get(member.id));
+            const minutes = Math.round((dateEnd - new Date()) / 60000);
+
+            interaction.reply({
+                ephemeral: true,
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle(`⏳ | Стой-стой!`)
+                        .setDescription(`**Полегче друг, у тебя действует интервал на создание тикетов. Написать новый тикет ты сможешь через \`${minutes}\` минут(у)**`)
+                        .setColor(Colors.Red)
+                        .setTimestamp()
+                        .setAuthor({
+                            name: guild.name, iconURL: guild.iconURL(),
+                        })
+                        .setFooter({
+                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                        })
+                ]
+            })
+            return;
+        }
         // ID тикета который будет установлен текущему.
         const newTicketId = (await Tickets.find({}).sort({$natural: -1}).limit(1))[0]?.ticketId + 1 || 1;
-
         // массив с правами на канал.
         const permissions = [];
 
@@ -297,6 +331,9 @@ module.exports = {
                     text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
                 })]
         })
+        const endDate = new Date();
+        endDate.setMinutes(endDate.getMinutes() + 5);
+        createTicketIntervalCollection.set(member.id, endDate); // ставим человеку КД на создание тикетов.
         return newTicketChannel.id;
     },
     async holdTicket({
@@ -673,7 +710,7 @@ module.exports = {
                 text: "Robo Hamster",
                 iconURL: bot.user.displayAvatarURL(),
             })
-        const logChannel = guild.channels.cache.get(channelsId[guild.id].ticketsLog);
+        const logChannel = guild.channels.cache.get(_channelsId[guild.id].ticketsLog);
         const ticketChannel = guild.channels.cache.get(ticketChannelId);
         switch (type) {
             case "create": {
@@ -728,6 +765,8 @@ module.exports = {
                 path.resolve(`./src/files/${ticketChannel.id}.txt`)
             ] : [],
         });
+        type === 'close' ? fs.unlinkSync(path.resolve(`./src/files/${ticketChannel.id}.txt`)) : null;
+
     },
     async run({bot, interaction}) {
         const guild = bot.guilds.cache.get(interaction.guildId);
@@ -746,7 +785,12 @@ module.exports = {
             {
                 customId: "create_ticket",
                 func: this.createTicket,
-                log: (ticketId) => this.logTicketAction("create", guild.id, bot, member, ticketId)
+                log: (ticketId) => {
+                    if (!ticketId) {
+                        return;
+                    }
+                    this.logTicketAction("create", guild.id, bot, member, ticketId);
+                }
             },
             {
                 customId: "hold_ticket",
@@ -776,8 +820,11 @@ module.exports = {
             }
         ]
 
+
+        // Ищем действие которое будем выполнять среди массива по айдишнику интеграции.
         const action = actions.find(action => action.customId === interaction.customId);
         if (action) {
+            // запускаем функцию, и в некоторых случаях она возвращает айди нового канала.
             const channelId = await action.func({
                 bot,
                 guild,
@@ -790,15 +837,11 @@ module.exports = {
                 fullPermissionsRolesId,
                 authorTicket
             });
+            // запускаем функцию логирования в лог-тикетов и передаём туда айдишник тикета.
             await action.log(channelId || interaction.channelId);
         }
     },
-    async ticketGoodJob({
-                            bot,
-                            guild,
-                            member,
-                            interaction
-                        }) {
+    async ticketGoodJob({bot, guild, member, interaction}) {
         const ticket = await getTicket(guild.id, interaction.channelId, parseIdFromMention(interaction.message.content));
         if (member.id !== ticket.authorId) {
             return interaction.reply({

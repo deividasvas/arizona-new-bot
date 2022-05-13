@@ -15,6 +15,7 @@ const ModeratorsSchema = new mongoose.Schema({
     balls: Number, // общие баллы
     coefficient: Number, // коэффицент Xn баллов.
     immunities: Number, // количество иммунитетов модератора. СТАВИТЬ МИНИМУМ 1, ИБО НА ЭТО УМНОЖАЕТСЯ КОЛИЧЕСТВО БАЛЛОВ ПРИ ВЫДАЧЕ НАКАЗАНИЯ!!!!
+    giveRoles: Number, // количество выданных ролей
   },
   week: { // недельная информация по выданным наказания модератора
     roles: Number, // количество снятых ролей
@@ -25,6 +26,7 @@ const ModeratorsSchema = new mongoose.Schema({
     goodAnswers: Number, // хорошие ответы в тикетах
     toxicAnswers: Number, // токсичные ответы в тикетах
     balls: Number, // недельные баллы
+    giveRoles: Number, // количество выданных ролей
   },
   warns: [ // выговоры / предупреждения
       {

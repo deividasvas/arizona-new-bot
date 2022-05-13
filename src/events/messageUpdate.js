@@ -23,6 +23,7 @@ const log = async (bot, oldMessage, newMessage) => {
     }
     const embed = new EmbedBuilder()
         .setColor(Colors.DarkGreen)
+        .setDescription(`${oldMessage.author} (${oldMessage.author.id}) обновил сообщение в канале ${oldMessage.channel} (${oldMessage.channel.id})`)
         .setTimestamp()
         .setAuthor({
             name: `${newMessage.member.user.tag} ${newMessage.member.user.username ? `(${newMessage.member.user.username})` : ''}`,

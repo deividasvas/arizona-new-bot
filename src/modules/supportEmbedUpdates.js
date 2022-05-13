@@ -1,6 +1,6 @@
 const {channelsId} = require("../configs/settings");
 const {EmbedBuilder, Colors, ButtonStyle, ButtonBuilder, ActionRowBuilder} = require("discord.js");
-const LogDataBase = require('../models/LogDataBase');
+const Tickets = require('../models/Tickets');
 const convertMinutesToMs = require("../components/convertMinutesToMs");
 module.exports = {
     /*
@@ -29,11 +29,12 @@ module.exports = {
             for (const [id, message] of Array.from((await supportChannel.messages.fetch()).filter(message => message.author.id === bot.user.id)).reverse()) {
                 messagesOfBot.push(message);
             }
-            const answers = (await LogDataBase.find({ action: `SupportClose`, })).length;
-
+            const oldTicketId = (await Tickets.find({
+                guildId: id,
+            }).sort({$natural: -1}).limit(1))[0]?.ticketId || 0;
             const embed = new EmbedBuilder()
                 .setTitle("***📨 Техническая поддержка!***")
-                .setDescription(`**Приветствуем! Вы попали в канал поддержки сервера \`${guild.name}\`**\n**Тут вы можете подать жалобу на модератора/игрока и спросить любой вопрос по нашему Discord'y.**\n\`\`\`fix\nSupport Rules!\n\`\`\`\`\`\`asciidoc\n9.1 :: Запрещается оскорбление пользователей/модераторов. - P3\n9.2 :: Запрещено рекламировать сторонние ресурсы (Искл.Arizona RP). - P6\n9.3 :: Запрещается явное или скрытое упоминание/оскорбление родных. - P6\n9.4 :: Запрещено оффтопить (вопросы не связанные с дискорд сервером и прочее). - блокировка саппорта - P9\n9.5 :: Запрещено писать в Support бредовые/неадекватные вопросы. - P9\n\`\`\`\n**Чтобы создать тикет, нажмите на кнопку 📨\nЗа все время мы обработали: ${answers} вопроса!**`)
+                .setDescription(`**Приветствуем! Вы попали в канал поддержки сервера \`${guild.name}\`**\n**Тут вы можете подать жалобу на модератора/игрока и спросить любой вопрос по нашему Discord'y.**\n\`\`\`fix\nSupport Rules!\n\`\`\`\`\`\`asciidoc\n9.1 :: Запрещается оскорбление пользователей/модераторов. - P3\n9.2 :: Запрещено рекламировать сторонние ресурсы (Искл.Arizona RP). - P6\n9.3 :: Запрещается явное или скрытое упоминание/оскорбление родных. - P6\n9.4 :: Запрещено оффтопить (вопросы не связанные с дискорд сервером и прочее). - блокировка саппорта - P9\n9.5 :: Запрещено писать в Support бредовые/неадекватные вопросы. - P9\n\`\`\`\n**Чтобы создать тикет, нажмите на кнопку 📨\nЗа все время мы обработали: ${oldTicketId} вопроса!**`)
                 .setImage('https://i.pinimg.com/originals/ed/6b/ff/ed6bff8acacfe3129c50523c36c54c37.gif')
                 .setColor(Colors.DarkGreen)
 

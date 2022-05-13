@@ -17,5 +17,7 @@ module.exports = async bot => {
     supportUpdatesModule.run({ bot });
     const complaintsModeratorsModule = await bot.modules.get('complaintsModerators');
     complaintsModeratorsModule.run({ bot });
+
+    bot.inited = true;
     console.log(`\n[📌 | Ready]: Бот запущен. Авторизован как %s | Серверов: %d | Пользователей: %d | Каналов: %d | Команд: %d`, bot.user.tag, bot.guilds.cache.size, bot.users.cache.size, bot.channels.cache.size, bot.commands.size);
 }

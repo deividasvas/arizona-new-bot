@@ -1,5 +1,6 @@
 const { EmbedBuilder, Colors } = require("discord.js");
 const getAllrolesIdAdmins = require("../components/getAllRolesIdAdmins");
+const {rolesId} = require("../configs/settings");
 
 module.exports = {
   /*
@@ -13,7 +14,7 @@ module.exports = {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
 
     if (
-      !user.roles.cache.find((role) => getAllrolesIdAdmins().includes(role.id))
+      !user.roles.cache.find((role) => getAllrolesIdAdmins(rolesId[guild.id]).includes(role.id))
     ) {
       // Проверяем, есть ли у человека нажавшего кнопку админские роли. Если нет, то отвечаем что нет доступа.
       return interaction.reply({
@@ -42,13 +43,13 @@ module.exports = {
           content: `${message.content}`,
           embeds: [
             new EmbedBuilder()
-              .setColor(Colors.DarkRed)
+              .setColor(Colors.DarkGreen)
               .setTitle(`📌 | Рассмотрено`)
-              .addFields(message.embeds[0].fields[0], {
+              .addFields([message.embeds[0].fields[0], {
                 name: `📌・Результат проверки`,
                 value: `>>> **「🎸」Статус: \`Найдены подозрительные действия\`\n「🔥」Проверил: ${user}**`,
                 inline: true,
-              })
+              }])
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -70,11 +71,11 @@ module.exports = {
             new EmbedBuilder()
               .setColor(Colors.DarkRed)
               .setTitle(`📌 | Рассмотрено`)
-              .addFields(message.embeds[0].fields[0], {
+              .addFields([message.embeds[0].fields[0], {
                 name: `📌・Результат проверки`,
                 value: `>>> **「🎸」Статус: \`Ничего не найдено\`\n「🔥」Проверил: ${user}**`,
                 inline: true,
-              })
+              }])
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),

@@ -17,13 +17,6 @@ const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 //     recaptchaToken: await getRecaptchaToken(),
 // }).then(req => req.data.accessToken);
 
-const getPlayer = async (nickname, serverId = 10) => {
-    const request = await axios.get(`https://api.vprikol.tech/find?server=${serverId}&nick=${nickname}&token=ZtSCU533I4tM7FDLhW8nnyT7rnTOEa1f`, {
-        validateStatus: () => true
-    });
-    return request.data;
-}
-
 module.exports = {
     name: "find", // название команды
     descr: "Найти базовую статистику игрока по его никнейму", // описание команды
@@ -42,7 +35,7 @@ module.exports = {
         }
     ], // аргументы
 
-    async run({bot, guild, channelsId, args, interaction}) {
+    async run({bot, guild, rolesId, args, interaction}) {
         const nickname = args[0];
 
         interaction.reply({
@@ -55,16 +48,17 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setDescription(
-                        `**Происходит процесс загрузки данных.\nВ среднем загрузка данных длится около 3-10 секунд.\nМожете пойти выпить кофе.**`
+                        `**Происходит процесс загрузки данных.\nВ среднем загрузка данных длится около 3-10 секунд.\nПока идёт загрузка можете сыграть в гляделки с одним из наших котиков.**`
                     )
                     .setTimestamp()
+                    .setImage("https://www.cats-british.ru/files/articles/pochemu_koshka_smotrit_v_glaza.jpg")
                     .setFooter({
                         text: `Robo Hamster`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],
         });
-        const request = await axios.get("https://arizona-rp-api.herokuapp.com/api/find-player?nickname=Deivid_Brown", {
+        const request = await axios.get(`https://arizona-rp-api.herokuapp.com/api/find-player?nickname=${nickname}`, {
             headers: {
                 token: "ArizonaSurprise10TopTheBotWrittingByDeividBrown"
             },
@@ -76,7 +70,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(
-                            `**Произошла ошибка. Текст ошибки: \`${player.errors[0]}\`**`
+                            `**${request.data.errors[0]}**`
                         )
                         .setColor(Colors.Red)
                         .setAuthor({

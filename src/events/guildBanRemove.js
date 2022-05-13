@@ -1,38 +1,40 @@
-const { MessageEmbed } = require("discord.js");
-const { logs } = require("../configs/settings")
+const {EmbedBuilder, Colors} = require("discord.js");
+const {channelsId} = require("../configs/settings")
+const unbanFunc = require("../components/unban");
 
-module.exports = async(bot, unban) => {
-    // const logChannel = unban.guild.channels.cache.get(logs.ban);
+module.exports = (bot, unban) => {
+    setTimeout(async () => {
+        const logChannel = unban.guild.channels.cache.get(channelsId[unban.guild.id].rolesAndBans);
+        const logs = await unban.guild.fetchAuditLogs({
+            before: null,
+            limit: 1,
+            type: 23
+        })
 
-    // if(!logChannel) return console.log('[Ошибка]: Канал для лога разбанов не был найден!')
-
-    // setTimeout(async () => {
-    //     const logs = await unban.guild.fetchAuditLogs({
-    //         befor: null,
-    //         limit: 1,
-    //         type: 22
-    //     })
-
-    //     if(!logs) return;
-
-    //     const banLog = logs.entries.find(e => e.target.id === unban.user.id)
-
-    //     if (new Date().getTime() - new Date((banLog.id / 4194304) + 1420070400000).getTime() > 3000) return;
-
-    //     logChannel.send({
-    //         embeds: [new MessageEmbed()
-    //             .setAuthor({
-    //                 name: `${unban.user.tag}`,
-    //                 iconURL: unban.user.displayAvatarURL()
-    //             })
-    //             .setTimestamp()
-    //             .setDescription(`**Разбанил: ${banLog.executor ?? '\`Не известно\`'}\nПользователь: \`${unban.user.tag} [${unban.user.id}]\`**`)
-    //             .setColor(`GREEN`)
-    //             .setFooter({
-    //                 text: `Robo Hamster`,
-    //                 iconURL: bot.user.displayAvatarURL()
-    //             })
-    //         ]
-    //     })
-    // }, 1000)
+        if (!logs) return;
+        const unbanLog = logs.entries.find(e => e.target.id === unban.user.id)
+        const reason = unbanLog.reason || "Не указана";
+        unbanFunc(bot, unban.guild.id, unbanLog.target.id, unbanLog.executor.id, reason)
+            .catch(() => {
+            });
+        await logChannel.send({
+            embeds: [
+                new EmbedBuilder()
+                    .setColor(Colors.DarkGreen)
+                    .setTitle(`📌 | Система снятия блокировки через ПКМ!`)
+                    .setAuthor({
+                        name: unban.guild.name,
+                        iconURL: unban.guild.iconURL(),
+                    })
+                    .setDescription(
+                        `**「📝」Снял: ${unbanLog.executor} (${unbanLog.executor.id})\n「📌」Кому: ${unbanLog.target} (${unbanLog.target.id})\n 「📕」Причина: \`${reason}\`\n**`
+                    )
+                    .setTimestamp()
+                    .setFooter({
+                        text: `Robo Hamster`,
+                        iconURL: bot.user.displayAvatarURL(),
+                    }),
+            ],
+        });
+    }, 5000);
 }

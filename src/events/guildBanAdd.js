@@ -28,7 +28,7 @@ module.exports = async(bot, banMember) => {
                         iconURL: banMember.guild.iconURL(),
                     })
                     .setDescription(
-                        `**「📝」Заблокировал: <@${banLog.executor.id}>\n「📌」Кого: <@${banLog.target.id}>\n「📅」Дней Бана: \`${60}\`\n「📕」Причина: \`${banLog.reason || "Блокировка через ПКМ"}\`**`
+                        `**「📝」Заблокировал: <@${banLog.executor.id}>\n「📌」Кого: <@${banLog.target.id}>\n「📅」Дней Бана: \`${60}\`\n「📕」Причина: \`${banLog.reason || "Не указана"}\`**`
                     )
                     .setTimestamp()
                     .setFooter({
