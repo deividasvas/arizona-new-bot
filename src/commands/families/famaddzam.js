@@ -132,7 +132,7 @@ module.exports = {
       guild.channels.cache.get(family.textChannelId) ||
       (await guild.channels.fetch(textChannelId));
 
-    textFamilyChannel.permissionOverwrites.create(familyCandidateDeputy.id, {
+    await textFamilyChannel.permissionOverwrites.create(familyCandidateDeputy.id, {
       ViewChannel: true,
       SendMessages: true,
       EmbedLinks: true,

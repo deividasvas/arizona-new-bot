@@ -221,6 +221,26 @@ module.exports = {
       ]
     },
   ]},
+  // Настройки саппорта
+  supportSettings: {
+    // Начало названия тикета
+    ticketNameStartsWith: "ticket",
+    // Айди ролей, которые будут отвечать на тикеты. (Пинг этих ролей происходит в тикете)
+    getModeratorsPermissionRolesId: (rolesId) => [
+        rolesId.moderator,
+        rolesId.juniorModerator,
+    ],
+    // Айди ролей, которые имеют ПОЛНЫЙ доступ к тикетам.
+    // Даже к тому, чтобы закрыть его не являясь отвечающим на него.
+    getFullPermissionRolesId: (rolesId) => [
+        rolesId.mainAdmin,
+        rolesId.deputyMainAdmin,
+        rolesId.curator,
+        rolesId.discordMaster,
+        rolesId.juniorModerator,
+        rolesId.adviceAdministration,
+    ],
+  },
   // Категории в которых находятся приваты
   categoriesPrivatesId: categories => [
     // Приватный блок
@@ -352,6 +372,8 @@ module.exports = {
       colloquy4: `948675247924727829`,
       // Собеседование 5
       colloquy5: `948675247924727830`,
+      // 📃-логи-тикетов
+      ticketsLog: `948675252697825378`,
     },
   },
 
@@ -382,6 +404,10 @@ module.exports = {
       helpers: `948675244841906236`,
       // Стримы сюрпрайз
       youtube: `948675252089667659`,
+      // Активные тикеты
+      activeTickets: `948675244065947657`,
+      // Тикеты на рассмотрении
+      holdTickets: `948675244065947655`,
     }
   },
   saveError: {

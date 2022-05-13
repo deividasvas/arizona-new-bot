@@ -17,12 +17,17 @@ const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 //     recaptchaToken: await getRecaptchaToken(),
 // }).then(req => req.data.accessToken);
 
+const getPlayer = async (nickname, serverId = 10) => {
+    const request = await axios.get(`https://api.vprikol.tech/find?server=${serverId}&nick=${nickname}&token=ZtSCU533I4tM7FDLhW8nnyT7rnTOEa1f`, {
+        validateStatus: () => true
+    });
+    return request.data;
+}
 
 module.exports = {
     name: "find", // название команды
     descr: "Найти базовую статистику игрока по его никнейму", // описание команды
-    archive: true,
-    // archive: true
+    archive: false,
     perms: (rolesId) => [
         ...getAllRolesIdAdmins(rolesId),
         ...getAllRolesIdModers(rolesId),
@@ -59,15 +64,19 @@ module.exports = {
                     }),
             ],
         });
-        const player = await getPlayer(nickname);
-        console.log(player);
-        if (player.message) {
+        const request = await axios.get("https://arizona-rp-api.herokuapp.com/api/find-player?nickname=Deivid_Brown", {
+            headers: {
+                token: "ArizonaSurprise10TopTheBotWrittingByDeividBrown"
+            },
+            validateStatus: () => true,
+        })
+        if (request.data.errors?.length) {
             return interaction.editReply({
                 embeds: [
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(
-                            `**Произошла ошибка. Текст ошибки: \`${player.message}\`**`
+                            `**Произошла ошибка. Текст ошибки: \`${player.errors[0]}\`**`
                         )
                         .setColor(Colors.Red)
                         .setAuthor({
@@ -81,12 +90,13 @@ module.exports = {
                 ]
             })
         }
+        const { isOnline, cash, bank, org, vip, work, rank, deposit, lvl } = (request.data).data;
         interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setAuthor({name: guild.name, iconURL: guild.iconURL()})
                     .setTitle(`Информация о пользователе - ${nickname}`)
-                    .setDescription(`\`\`\`asciidoc\n= Аккаунт =\`\`\`\n>>> **「💾」Никнейм: \`${nickname}\`\n「💎」Статус: \`${!player.isOnline ? "Не в сети" : "В игре"}\`\n「💰」Баланс: \`${player.cash}\`\n「🏦」Баланс в банке: \`${player.bank}\`\n「💶」Баланс депозита: \`${player.deposit}\`\n「👻」Уровень: \`${player.lvl}\`\n「🔰」VIP: \`${player.vip}\`\n「🛠」Работа: \`${player.work}\`\n「📕」Организация: \`${player.org ? player.org : "Отсутствует"}\`\n${player.rank ? `「💳」Ранг: \`${player.rank}\`` : ""}**`)
+                    .setDescription(`\`\`\`asciidoc\n= Аккаунт =\`\`\`\n>>> **「💾」Никнейм: \`${nickname}\`\n「💎」Статус: \`${!isOnline ? "Не в сети" : "В игре"}\`\n「💰」Баланс: \`${cash}\`\n「🏦」Баланс в банке: \`${bank}\`\n「💶」Баланс депозита: \`${deposit}\`\n「👻」Уровень: \`${lvl}\`\n「🔰」VIP: \`${vip}\`\n「🛠」Работа: \`${work}\`\n「📕」Организация: \`${org ? org : "Отсутствует"}\`\n${rank ? `「💳」Ранг: \`${rank}\`` : ""}**`)
                     // .setColor(Colors.Red)
                     .setColor(Colors.Purple)
                     .setFooter({

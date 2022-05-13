@@ -13,7 +13,7 @@ module.exports = async bot => {
     fractionsInfoModule.run({ bot }); // запускаем модуль подгрузки информации о фракциях.
     const neactivesModule = await bot.modules.get('neactives');
     neactivesModule.run({ bot }); // запускаем модуль снятия неактивов
-    const supportUpdatesModule = await bot.modules.get('supportUpdates');
+    const supportUpdatesModule = await bot.modules.get('supportEmbedUpdates');
     supportUpdatesModule.run({ bot });
     const complaintsModeratorsModule = await bot.modules.get('complaintsModerators');
     complaintsModeratorsModule.run({ bot });

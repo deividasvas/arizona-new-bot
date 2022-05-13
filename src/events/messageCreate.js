@@ -207,6 +207,9 @@ const commandHandler = async (bot, message) => {
 }
 
 module.exports = async (bot, message) => {
+    if(message.type === 'DM' || message.author.bot){
+        return;
+    }
     // Айди каналов сервера
     const channelsId = settings.channelsId[message.guild.id];
     // Запускаем обработку команд
