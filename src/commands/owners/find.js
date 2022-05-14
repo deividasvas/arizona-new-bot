@@ -84,15 +84,16 @@ module.exports = {
                 ]
             })
         }
-        const { isOnline, cash, bank, org, vip, work, rank, deposit, lvl } = (request.data).data;
+        const { isOnline, cash, bank, org, vip, work, rank, deposit, lvl, totalMoney } = (request.data).data;
+        const format = (number) => new Intl.NumberFormat('en-US').format(number)
         interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setAuthor({name: guild.name, iconURL: guild.iconURL()})
                     .setTitle(`Информация о пользователе - ${nickname}`)
-                    .setDescription(`\`\`\`asciidoc\n= Аккаунт =\`\`\`\n>>> **「💾」Никнейм: \`${nickname}\`\n「💎」Статус: \`${!isOnline ? "Не в сети" : "В игре"}\`\n「💰」Баланс: \`${cash}\`\n「🏦」Баланс в банке: \`${bank}\`\n「💶」Баланс депозита: \`${deposit}\`\n「👻」Уровень: \`${lvl}\`\n「🔰」VIP: \`${vip}\`\n「🛠」Работа: \`${work}\`\n「📕」Организация: \`${org ? org : "Отсутствует"}\`\n${rank ? `「💳」Ранг: \`${rank}\`` : ""}**`)
+                    .setDescription(`\`\`\`asciidoc\n= Аккаунт =\`\`\`\n>>> **「💾」Никнейм: \`${nickname}\`\n「💎」Статус: \`${!isOnline ? "Не в сети" : "В игре"}\`\n「💰」Баланс: \`${format(cash)}\`\n「🏦」Баланс в банке: \`${format(bank)}\`\n「💶」Баланс депозита: \`${format(deposit)}\`\n「🤑」Общее количество денег: \`${format(totalMoney)}\`\n「👻」Уровень: \`${lvl}\`\n「🔰」VIP: \`${vip}\`\n「🛠」Работа: \`${work}\`\n「📕」Организация: \`${org ? org : "Отсутствует"}\`\n${rank ? `「💳」Ранг: \`${rank}\`` : ""}**`)
                     // .setColor(Colors.Red)
-                    .setColor(Colors.Purple)
+                    .setColor(Colors.Red)
                     .setFooter({
                         text: `Robo Hamster`,
                         iconURL: bot.user.displayAvatarURL(),

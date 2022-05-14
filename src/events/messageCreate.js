@@ -13,7 +13,7 @@ const commandHandler = async (bot, message) => {
     }
     const rolesId = settings.rolesId[message.guild.id];
     const channelsId = settings.channelsId[message.guild.id];
-    const whiteListRoles = settings.whiteListRoles[message.guild.id];
+    const whiteListRoles = settings.whiteListRoles(rolesId);
     const categories = settings.categories[message.guild.id];
     const fromPostToPostList = settings.fromPostToPostList[message.guild.id];
     if (message.content.startsWith(bot.prefix)) {
@@ -49,10 +49,9 @@ const commandHandler = async (bot, message) => {
         }
 
         // получаем все айдишники ролей которые могут запускать данную команду
-        const permissions = [...bot.fullPermissionCommandsRolesId[message.guild.id], ...(await command.perms(rolesId)),];
+        const permissions = [...bot.fullPermissionCommandsRolesId(rolesId), ...(await command.perms(rolesId)),];
         if (!message.member?.roles.cache.some((role) => permissions.includes(role.id)) && !message.member.permissions.has("Administrator")) {
             // если у пользователя нет не одной роли которая может использовать данную команду, то отдаём отказ.
-
             return message
                 .reply({
                     embeds: [await new EmbedBuilder()

@@ -60,9 +60,9 @@ module.exports = async (bot, interaction) => {
         const channel = interaction.guild.channels.cache.get(channelId) || (await interaction.guild.channels.fetch(channelId));
         const rolesId = settings.rolesId[guild.id];
         const channelsId = settings.channelsId[guild.id];
-        const whiteListRoles = settings.whiteListRoles[guild.id];
+        const whiteListRoles = settings.whiteListRoles(rolesId);
         const categories = settings.categories[guild.id];
-        const fromPostToPostList = settings.fromPostToPostList[guild.id];
+        const fromPostToPostList = settings.fromPostToPostList(rolesId);
         return command
             .run({
                 interaction,

@@ -2,23 +2,24 @@ const {EmbedBuilder, Colors} = require("discord.js");
 const os = require('os');
 const Punishment = require('../../models/Punishment');
 module.exports = {
-  name: "ping", // название команды
-  descr: "Информация о работоспобности бота.", // описание команды
-  showInSlashCommands: true, // показывать ли команду в slash командах
-  arguments: [], // аргументы
-  perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
+    name: "ping", // название команды
+    descr: "Информация о работоспобности бота.", // описание команды
+    showInSlashCommands: true, // показывать ли команду в slash командах
+    arguments: [], // аргументы
+    perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster, rolesId.adviceAdministration], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  async run({bot, interaction, guild}) {
-    const createdTimestampDiscordApi = new Date();
-    const freeRam = os.freemem() / (1024 * 1024);
-    const totalRam = os.totalmem() / (1024 * 1024);
-    const ram = (totalRam - freeRam) / 1024;
-    const {dateStart} = bot;
+    async run({bot, interaction, guild}) {
+        const createdTimestampDiscordApi = new Date();
+        const freeRam = os.freemem() / (1024 * 1024);
+        const totalRam = os.totalmem() / (1024 * 1024);
+        const ram = (totalRam - freeRam) / 1024;
+        const {dateStart} = bot;
 
 
-    await interaction
+        await interaction
         .reply({
-          content: `Собираю информацию, ожидайте...`,
+            ephemeral: true,
+            content: `Собираю информацию, ожидайте...`,
         })
     const discordApiPing = new Date() - createdTimestampDiscordApi;
     const createdTimestampMongodb = new Date();

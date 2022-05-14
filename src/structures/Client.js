@@ -28,6 +28,7 @@ module.exports = class ExtendedClient extends Client {
         this.typesArguments = settings.typesArguments;
         this.inited = false; // используется в ready.js
         this.dateStart = new Date();
+        this.tagsFractions = settings.tagsFractions;
         this.login(this.token);
         this.module();
         this.events();
@@ -51,7 +52,7 @@ module.exports = class ExtendedClient extends Client {
                 let eventName = file.split(".js")[0];
 
                 this.on(eventName, event.bind(null, this));
-
+                // this.
                 loadEvents++;
             });
 
@@ -109,7 +110,7 @@ module.exports = class ExtendedClient extends Client {
             permission: true,
         })); // создаём массив с правами
 
-        for (const whiteRoleID of this.fullPermissionCommandsRolesId[guild.id]) {
+        for (const whiteRoleID of this.fullPermissionCommandsRolesId(rolesId[guild.id])) {
             // белый список ролей у которых есть полный доступ ко всем командам
             permissions.push({
                 type: ApplicationCommandPermissionType.Role,

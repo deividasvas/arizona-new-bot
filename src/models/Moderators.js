@@ -5,7 +5,7 @@ const ModeratorsSchema = new mongoose.Schema({
   userId: String, // Discord ID модератора
   guildId: String, // ID сервера на котором пользователь является модератором
   main: { // общая информация по выданным наказаниям модератора и некоторая информация по самому модератору
-    roles: Number, // количество снятых ролей
+    roles: Number, // количество отказанных/одобренных ролей
     tickets: Number, // количество отвеченных тикетов
     kicks: Number, // количество киков
     bans: Number, // количество баннов
@@ -15,10 +15,10 @@ const ModeratorsSchema = new mongoose.Schema({
     balls: Number, // общие баллы
     coefficient: Number, // коэффицент Xn баллов.
     immunities: Number, // количество иммунитетов модератора. СТАВИТЬ МИНИМУМ 1, ИБО НА ЭТО УМНОЖАЕТСЯ КОЛИЧЕСТВО БАЛЛОВ ПРИ ВЫДАЧЕ НАКАЗАНИЯ!!!!
-    giveRoles: Number, // количество выданных ролей
+    removedRole: Number, // количество выданных ролей
   },
   week: { // недельная информация по выданным наказания модератора
-    roles: Number, // количество снятых ролей
+    roles: Number, // количество отказанных/одобренных ролей
     tickets: Number, // количество отвеченных тикетов
     kicks: Number, // количество киков
     bans: Number, // количество баннов
@@ -26,7 +26,7 @@ const ModeratorsSchema = new mongoose.Schema({
     goodAnswers: Number, // хорошие ответы в тикетах
     toxicAnswers: Number, // токсичные ответы в тикетах
     balls: Number, // недельные баллы
-    giveRoles: Number, // количество выданных ролей
+    removedRole: Number, // количество снятых ролей
   },
   warns: [ // выговоры / предупреждения
       {

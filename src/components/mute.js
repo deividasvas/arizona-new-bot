@@ -68,7 +68,7 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
         guildId,
         "main",
         "balls",
-        ({balls, coefficient}) => balls + settings.rates.mute * coefficient
+        ({balls, coefficient}) => balls + (settings.rates.mute * coefficient)
     );
     await setModerInfoParam(
         provocateurId,

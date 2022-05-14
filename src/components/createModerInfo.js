@@ -30,7 +30,7 @@ const createModerInfo = async (userId, guildId) => {
         balls: 0, // баллы
         coefficient: 1, // коэффицент Xn баллов.
         immunities: 0, // количество иммунитетов модератора
-        giveRoles: 0, // количество выданных ролей
+        removedRole: 0, // количество снятых ролей
       },
       week: {
         // недельная информация по выданным наказания модератора
@@ -42,7 +42,7 @@ const createModerInfo = async (userId, guildId) => {
         goodAnswers: 0, // хорошие оценки за тикеты
         toxicAnswers: 0, // плохие оценки за тикеты
         balls: 0, // баллы
-        giveRoles: 0, // количество выданных ролей
+        removedRole: 0, // количество выданных ролей
       },
       warns: [], // выговоры / преды
       task: { // задание на снятие предупреждения
