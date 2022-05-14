@@ -9,6 +9,8 @@ const getAllRolesIdAdmins = require("../components/getAllRolesIdAdmins");
 const getAllRolesIdModers = require("../components/getAllRolesIdModers");
 const parseIdFromMention = require("../components/parseIdFromMention");
 const setModerInfoParam = require("../components/setModerInfoParam");
+const sendUserMessage = require("../components/sendUserMessage");
+const getPlayerGameInfo = require("../components/getPlayerGameInfo");
 
 const getFractionTagAndRoleIdByNickname = (bot, nickname, tags) => {
     for (const tag of Object.keys(tags)) {
@@ -23,6 +25,38 @@ const getFractionTagAndRoleIdByNickname = (bot, nickname, tags) => {
     }
     return null;
 }
+
+const log = async (emoji, description, { channelsId, guild, nickname, bot, rolesId }) => {
+    const curators = guild.channels.cache.get(channelsId.curators);
+    const player = await getPlayerGameInfo(nickname) || { org: null };
+    curators.send({
+        content: `<@&${rolesId.curatorModeration}>`,
+        embeds: [
+            await new EmbedBuilder()
+                .setTitle("⛔ | Внимание")
+                .setDescription(
+                    description
+                )
+                .addFields([
+                    {
+                        name: `Состоит в организации`,
+                        value: `${player.org ? `Да(${player.org})` : "Нет"}`,
+                    }
+                ])
+                .setColor(Colors.DarkRed)
+                .setTimestamp()
+                .setAuthor({
+                    name: guild.name,
+                    iconURL: guild.iconURL(),
+                })
+                .setFooter({
+                    text: `Robo Hamster`,
+                    iconURL: bot.user.displayAvatarURL(),
+                })
+        ]
+    })
+}
+
 
 // Коллекция с игроками у которых КД запроса ролей. Идёт 30 минут.
 const createRequestForRole = new Collection();
@@ -333,10 +367,34 @@ module.exports = {
         createRequestForRole.set(member.id, dateEnd);
     },
 
-    async requestGiveRole({interaction, bot, guild, rolesId, member}) {
+    async requestGiveRole({interaction, guild, rolesId, member, channelsId, bot}) {
         const {message} = interaction;
         const userId = parseIdFromMention(message.embeds[0].data.fields[0].value);
         let userForGiveRole = guild.members.cache.get(userId);
+
+        // По полям в эмбеде проверяем проверялась ли дополнительно информация об игроке
+        // на факт состояния в организации. Если нет, то сообщаем об этом в кураторскую.
+        if (message.embeds[0].fields.length <= 5) {
+            log(`⛔`,  `**Модератор ${member}(${member.id}) выдал роль игроку ${userForGiveRole}(${userForGiveRole.id}) не проверив его через кнопку! Ниже предоставлена информация об игроке**`, {
+                channelsId,
+                nickname: message.embeds[0].fields[1].value.split("]")[2].trim(),
+                rolesId,
+                guild,
+                bot,
+            });
+        }
+        console.log(message.embeds[0].fields[5]?.value)
+        console.log(message.embeds[0].fields[5]?.value.includes("Не состоит в организации"));
+
+        if(message.embeds[0].fields[5]?.value.includes("Не состоит в организации")){
+            log(`⛔`, `**Модератор ${member}(${member.id}) выдал роль игроку ${userForGiveRole}(${userForGiveRole.id}) который не находиться в организации по информации сайта! Ниже предоставлена информация об игроке**`, {
+                channelsId,
+                nickname: message.embeds[0].fields[1].value.split("]")[2].trim(),
+                rolesId,
+                guild,
+                bot,
+            });
+        }
 
         // Прежде чем выдать основную роль гос.организации - снимаем все остальные
         // чтобы не произошёл парадокс с 2мя и более ролями гос.организации.
@@ -348,7 +406,125 @@ module.exports = {
         // Выдаем необходимую роль + роль сотрудник гос.организации
         await userForGiveRole.roles.add([roleId, rolesId.stateEmployee]);
         message.delete();
-        interaction.channel.send({content: `\`[✅ | Одобрение]\` <@${member.id}> \`одобрил запрос от \`${userForGiveRole} \`(${userForGiveRole.id}) на выдачу роли \`<@&${roleId}>\`, с никнеймом ${userForGiveRole.displayName}\``});
+        interaction.channel.send({content: `\`[✅ | Одобрение]\` <@${member.id}> \`(${member.id}) одобрил запрос от \`${userForGiveRole} \`(${userForGiveRole.id}) на выдачу роли \`<@&${roleId}>\`, с никнеймом ${userForGiveRole.displayName}\``});
+        await sendUserMessage({
+            content: `\`[✅ | Одобрение]\` Модератор ${member} одобрил Ваш запрос на выдачу роли!.`
+        }, userForGiveRole.id, guild);
+    },
+    async requestDenyRole({bot, interaction, guild, member, channelsId, rolesId}) {
+        const {message} = interaction;
+        const userId = parseIdFromMention(message.embeds[0].data.fields[0].value);
+        let userForDenyRole = guild.members.cache.get(userId);
+        if (message.embeds[0].fields.length <= 5) {
+            log(`⛔`, `**Модератор ${member}(${member.id}) отказал запрос на выдачу роли игроку ${userForDenyRole}(${userForDenyRole.id}) не проверив его через кнопку! Ниже предоставлена информация об игроке**`, {
+                channelsId,
+                nickname: message.embeds[0].fields[1].value.split("]")[2].trim(),
+                rolesId,
+                guild,
+                bot,
+            });
+        }
+        await interaction.reply({
+            ephemeral: true,
+            content: `\`[⛔ | Отклонение]\` ${member}, укажите причину отклонения запроса на выдачу роли пользователю ${userForDenyRole}. У Вас одна минута!`
+        });
+        const messages = await interaction.channel.awaitMessages({
+            filter: (message) => message.author.id === member.id,
+            max: 1,
+            time: 60000
+        });
+        if (!messages.size) {
+            return;
+        }
+        const reasonMessage = messages.first();
+        const reason = reasonMessage.content;
+        await reasonMessage.delete();
+        interaction.channel.send({content: `\`[⛔ | Отклонение]\` <@${member.id}> \`(${member.id}) отклонил запрос от \`${userForDenyRole}\`(${userForDenyRole.id}), с никнеймом: ${userForDenyRole.displayName}. Причина: "${reason}"\``});
+        await sendUserMessage({
+            content: `\`[⛔ | Отклонение]\` Модератор <@${member.id}> отклонил Ваш запрос на выдачу роли. Причина: \`${reason}\``,
+        }, userForDenyRole.id, guild);
+        interaction.message.delete();
+    },
+    async requestCheckRole({interaction, bot, guild, member}) {
+        const date = new Date();
+        const oldEmbed = interaction.message.embeds[0];
+        interaction.reply({
+            ephemeral: false,
+            content: `${member}`,
+            embeds: [
+                new EmbedBuilder()
+                    .setColor(Colors.DarkGreen)
+                    .setTitle(`⌛ | Загрузка данных...`)
+                    .setAuthor({
+                        name: guild.name,
+                        iconURL: guild.iconURL(),
+                    })
+                    .setDescription(
+                        `**Происходит процесс загрузки данных.\nВ среднем загрузка данных длится около 3-10 секунд.\nПока идёт загрузка можете сыграть в гляделки с одним из наших котиков.**`
+                    )
+                    .setTimestamp()
+                    .setImage("https://www.cats-british.ru/files/articles/pochemu_koshka_smotrit_v_glaza.jpg")
+                    .setFooter({
+                        text: `Robo Hamster`,
+                        iconURL: bot.user.displayAvatarURL(),
+                    }),
+            ]
+        });
+        const player = await getPlayerGameInfo(oldEmbed.fields[1].value.split("]")[2].trim()) || { isOnline: false, org: null };
+        interaction.message.edit({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle(oldEmbed.title)
+                    .setColor(oldEmbed.color)
+                    .setAuthor(oldEmbed.author)
+                    .setFooter(oldEmbed.footer)
+                    .setTimestamp()
+                    .addFields([
+                        ...oldEmbed.fields.slice(0, 5),
+                        {
+                            name: `Статус`,
+                            value: `${player.org ? `Состоит в организации(${player.org})` : "Не состоит в организации"}`,
+                            inline: false,
+                        },
+                        {
+                            name: `В сети`,
+                            value: `${player.isOnline ? "Да" : "Нет"}`,
+                            inline: true,
+                        },
+                        {
+                            name: `Последнее обновление`,
+                            value: `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+                        }
+                    ])
+            ]
+        });
+        interaction.deleteReply();
+    },
+    async requestDelete({interaction, guild, member}) {
+        const {message} = interaction;
+        const userId = parseIdFromMention(message.embeds[0].data.fields[0].value);
+        let userForDenyRole = guild.members.cache.get(userId);
+
+        await interaction.reply({
+            ephemeral: true,
+            content: `\`[🗑️ | Удаление]\` ${member}, укажите причину удаления запроса на выдачу роли пользователю ${userForDenyRole}. У Вас одна минута!`
+        });
+        const messages = await interaction.channel.awaitMessages({
+            filter: (message) => message.author.id === member.id,
+            max: 1,
+            time: 60000
+        });
+        if (!messages.size) {
+            return;
+        }
+        const reasonMessage = messages.first();
+        const reason = reasonMessage.content;
+        await reasonMessage.delete();
+        interaction.channel.send({content: `\`[🗑️ | Удаление]\` <@${member.id}> \`(${member.id}) отклонил запрос от \`${userForDenyRole}\`(${userForDenyRole.id}), с никнеймом: ${userForDenyRole.displayName}. Причина: "${reason}"\``});
+        await sendUserMessage({
+            content: `\`[🗑️ | Удаление]\` Модератор <@${member.id}> удалил Ваш запрос на выдачу роли. Причина: \`${reason}\``,
+        }, userForDenyRole.id, guild);
+        interaction.message.delete();
     },
     async run({interaction, bot}) {
         // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
@@ -375,6 +551,21 @@ module.exports = {
             {
                 customId: `requestGiveRole`,
                 func: this.requestGiveRole,
+                perms,
+            },
+            {
+                customId: `requestDenyRole`,
+                func: this.requestDenyRole,
+                perms,
+            },
+            {
+                customId: `requestCheckRole`,
+                func: this.requestCheckRole,
+                perms,
+            },
+            {
+                customId: `requestDelete`,
+                func: this.requestDelete,
                 perms,
             }
         ]
@@ -416,7 +607,7 @@ module.exports = {
             });
 
             // Все кастомные айдишники за которые пополняется параметр `roles` в статистике модератора.
-            const customIdUpdatesRolesParam = ["requestGiveRole", "requestDenyRole", "requestCheckRole", "requestDelete"];
+            const customIdUpdatesRolesParam = ["requestGiveRole", "requestDenyRole", "requestDelete"];
             if (customIdUpdatesRolesParam.includes(interaction.customId)) {
                 await setModerInfoParam(member.id, guild.id, 'main', 'roles', ({ roles }) => roles + 1)
                 await setModerInfoParam(member.id, guild.id, 'week', 'roles', ({ roles }) => roles + 1)
