@@ -168,8 +168,6 @@ const channelsId = {
     infomakers: `948675246825828468`,
     // 🧲・Создать приват
     createPrivate: `972913317196746854`,
-    // управление приватом
-    managePrivate: `948675245601095722`,
     // 🔊-голосовые
     voicesLog: `948675252697825375`,
     // Патруль(канал создания привата патруля)
@@ -242,6 +240,10 @@ const channelsId = {
     ticketsLog: `948675252697825378`,
     // 💡║requests-for-roles
     requestsForGiveRole: `948675244065947648`,
+    // предложения-по-улучшениям
+    requestForUpdates: `948675245307469892`,
+    // updates
+    updates: `948675243826888771`,
   },
 };
 

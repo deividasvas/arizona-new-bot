@@ -80,7 +80,7 @@ module.exports = {
             })}`
           )
           .setDescription(
-            `>>> **Кол-во снятых ролей: \`${main.removedRole}[${week.removedRole}]\`\nКол-во выданных/отказанных ролей: \`${main.roles}[${week.roles}]\`\nКол-во тикетов: \`${main.tickets}[${week.tickets}]\`\nКол-во выданных банов \`${main.bans}[${week.bans}]\`\nКол-во выданных мутов \`${main.mutes}[${week.mutes}]\`\nКол-во хороших оценок \`${main.goodAnswers}[${week.goodAnswers}]\`\nКол-во плохих оценок \`${main.toxicAnswers}[${week.toxicAnswers}]\`\nКол-во киков: \`${main.kicks}[${week.kicks}]\`\n\nВыговоры: \`${countRebukes}\`\nПредупреждения: \`${countWarns}\`\nИммунитеты: \`${main.immunities}\`\nКоэффицент баллов: \`X${main.coefficient}\`**`
+            `>>> **Кол-во снятых ролей: \`${main.removedRole}[${week.removedRole}]\`\nКол-во выданных/отказанных ролей: \`${main.roles}[${week.roles}]\`\nКол-во тикетов: \`${main.tickets}[${week.tickets}]\`\nКол-во выданных банов: \`${main.bans}[${week.bans}]\`\nКол-во выданных мутов: \`${main.mutes}[${week.mutes}]\`\nКол-во хороших оценок: \`${main.goodAnswers}[${week.goodAnswers}]\`\nКол-во плохих оценок: \`${main.toxicAnswers}[${week.toxicAnswers}]\`\nКол-во киков: \`${main.kicks}[${week.kicks}]\`\n\nВыговоры: \`${countRebukes}\`\nПредупреждения: \`${countWarns}\`\nИммунитеты: \`${main.immunities}\`\nКоэффициент баллов: \`X${main.coefficient}\`**`
           )
           .setFooter({
             text: `Robo Hamster`,

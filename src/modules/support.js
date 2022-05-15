@@ -135,15 +135,11 @@ module.exports = {
                     .setColor(Colors.Orange)
                     .setTitle(`***Техническая поддержка ⚡️ ${guild.name}!***`)
                     .addFields([
+                        ...interaction.message.embeds[0].fields.slice(0, 2),
                         {
-                            name: `Ник пользователя:`,
-                            value: `\`${member.displayName || member.user.tag}\``,
-                            inline: true,
-                        }, {
-                            name: `ID Пользователя`, value: `\`${member.id}\``, inline: true,
-                        }, {
                             name: `Статус жалобы:`, value: `В обработке`,
-                        },])
+                        },
+                    ])
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -398,15 +394,11 @@ module.exports = {
                     .setColor(Colors.Orange)
                     .setTitle(`***Техническая поддержка ⚡️ ${guild.name}!***`)
                     .addFields([
+                        ...interaction.message.embeds[0].fields.slice(0, 2),
                         {
-                            name: `Ник пользователя:`,
-                            value: `\`${member.displayName || member.user.tag}\``,
-                            inline: true,
-                        }, {
-                            name: `ID Пользователя`, value: `\`${member.id}\``, inline: true,
-                        }, {
-                            name: `Статус жалобы:`, value: `На рассмотрений`,
-                        },])
+                            name: `Статус жалобы:`, value: `В рассмотрении`,
+                        },
+                    ])
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -590,15 +582,11 @@ module.exports = {
                     .setColor(Colors.Orange)
                     .setTitle(`***Техническая поддержка ⚡️ ${guild.name}!***`)
                     .addFields([
+                        ...interaction.message.embeds[0].fields.slice(0, 2),
                         {
-                            name: `Ник пользователя:`,
-                            value: `\`${member.displayName || member.user.tag}\``,
-                            inline: true,
-                        }, {
-                            name: `ID Пользователя`, value: `\`${member.id}\``, inline: true,
-                        }, {
                             name: `Статус жалобы:`, value: `Закрыто`,
-                        },])
+                        },
+                    ])
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -689,14 +677,14 @@ module.exports = {
             const dateCreateMsg = new Date(message.createdAt);
             return `${dateCreateMsg.getFullYear()}-${dateCreateMsg.getMonth() + 1}-${dateCreateMsg.getDate()} ${dateCreateMsg.getHours()}:${dateCreateMsg.getMinutes()}:${dateCreateMsg.getSeconds()} | ${message.author.tag} (${message.author.id}) | "${message.content}" | ${JSON.stringify(message.embeds)}`
         })
-        fs.writeFileSync(pathToFile, contentFile.join("\n"));
+        await fs.writeFileSync(pathToFile, contentFile.join("\n"));
         await sendUserMessage({
             content: `Ваш тикет №${ticket.ticketId} был закрыт. Ниже предоставлен полный диалог из тикета`,
             files: [
                 pathToFile,
             ]
         }, ticket.authorId, guild);
-        fs.unlinkSync(pathToFile);
+        await fs.unlinkSync(pathToFile);
     },
     async logTicketAction(type, guildId, bot, member, ticketChannelId) {
         const guild = bot.guilds.cache.get(guildId);
@@ -754,10 +742,10 @@ module.exports = {
                 const dateCreateMsg = new Date(message.createdAt);
                 return `${dateCreateMsg.getFullYear()}-${dateCreateMsg.getMonth() + 1}-${dateCreateMsg.getDate()} ${dateCreateMsg.getHours()}:${dateCreateMsg.getMinutes()}:${dateCreateMsg.getSeconds()} | ${message.author.tag} (${message.author.id}) | "${message.content}" | ${JSON.stringify(message.embeds)}`
             })
-            fs.writeFileSync(pathToFile, contentFile.join("\n"));
+            await fs.appendFileSync(pathToFile, contentFile.join("\n"));
         }
 
-        logChannel.send({
+        await logChannel.send({
             embeds: [
                 embed
             ],
@@ -765,8 +753,9 @@ module.exports = {
                 path.resolve(`./src/files/${ticketChannel.id}.txt`)
             ] : [],
         });
-        type === 'close' ? fs.unlinkSync(path.resolve(`./src/files/${ticketChannel.id}.txt`)) : null;
-
+        if(type === 'close'){
+            fs.unlinkSync(path.resolve(`./src/files/${ticketChannel.id}.txt`));
+        }
     },
     async run({bot, interaction}) {
         const guild = bot.guilds.cache.get(interaction.guildId);
