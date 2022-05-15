@@ -8,9 +8,7 @@ module.exports = {
   descr: "Количество участников семьи", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // аргументы
-  perms: () => {
-    return getAllRolesIdFamilies(); // все айди семейных ролей
-  }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   async run({ bot, guild, author, interaction, rolesId, channelsId }) {
     const family = await Families.findOne({

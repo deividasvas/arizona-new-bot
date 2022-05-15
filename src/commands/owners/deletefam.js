@@ -22,9 +22,9 @@ module.exports = {
   ], // аргументы
 
   async run({ bot, interaction, args, guild, author, rolesId, channelsId, categories}){
-    const familyRoleID = args[0]; // Семья
+    const familyRoleId = args[0]; // Семья
     const family = await Families.findOne({
-      roleId: familyRoleID,
+      roleId: familyRoleId,
     });
     if (!family) {
       return interaction.reply({
@@ -82,7 +82,7 @@ module.exports = {
       ],
     });
     await Families.deleteOne({
-      roleId: familyRoleID,
+      roleId: familyRoleId,
     });
     interaction.reply({
       ephemeral: true,
@@ -120,7 +120,6 @@ module.exports = {
               iconURL: bot.user.displayAvatarURL(),
             })
       ]
-    }, userId, guild);
-    await bot.reInitPermissionsForFamilies(); // ОБНОВЛЕНИЕ ПРАВ ДЛЯ ВСЕХ СЕМЕЙНЫХ КОМАНД, СДЕЛАНО ЧТОБ ПРАВА ПРИМЕНИЛИСЬ К НОВЫМ СЕМЬЯМ. НЕ ТРОГАТЬ!!!!!
+    }, family.ownerId, guild);
   },
 };

@@ -7,9 +7,7 @@ module.exports = {
   descr: "Покинуть семью", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [], // список аргументов
-  perms: () => {
-    return getAllRolesIdFamilies(); // все айди семейных ролей
-  }, // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
+  perms: (rolesId) => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
   async run({ bot, interaction, channel, author, channelsId, rolesId, guild }) {
     const familyList = await Families.find();
     const familyRolesMap = familyList.map((r) => r.roleId); // Получаем название всех семей

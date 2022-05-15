@@ -228,6 +228,24 @@ module.exports = {
     });
     await newFamily.save();
 
+    textChannel.send({
+      embeds: [
+        new EmbedBuilder()
+            .setTitle(`📌 | Начало истории!`)
+            .setDescription(`**Всех приветствую!\n Данный канал является каналом семьи \`${role.name}\`.\n В данном канале можно обсуждать любые темы которые не нарушают правила!\n Для владельцев и заместителей есть так-же дополнительные команды которые они могут узнать при помощи \`/famhelp\`.\nЖелаю вам удачи в продвижений! **`)
+            .setColor(Colors.DarkGreen)
+            .setTimestamp()
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            })
+      ]
+    }).then(msg => msg.pin())
+
     await sendUserMessage({
       embeds: [
         await new EmbedBuilder()
@@ -248,6 +266,5 @@ module.exports = {
       ]
     }, leaderFam.id, guild);
 
-    await bot.reInitPermissionsForFamilies(); // ОБНОВЛЕНИЕ ПРАВ ДЛЯ ВСЕХ СЕМЕЙНЫХ КОМАНД, СДЕЛАНО ЧТОБ ПРАВА ПРИМЕНИЛИСЬ К НОВЫМ СЕМЬЯМ. НЕ ТРОГАТЬ!!!!!
   },
 };

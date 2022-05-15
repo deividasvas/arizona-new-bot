@@ -201,13 +201,14 @@ module.exports = class ExtendedClient extends Client {
 
     async reInitPermissionsForFamilies() {
         // пере инициализация прав для семейных команд
-        const guild = this.guilds.cache.get(this.guildId);
-        fs.readdirSync(`./src/commands/families`).map(async (fileName) => {
-            const command = require(path.resolve(
-                `./src/commands/families/${fileName}`
-            ));
-            await this.loadSlashCommand(command, guild);
-        });
+        for (const [id, guild] of this.guilds.cache) {
+            fs.readdirSync(`./src/commands/families`).map(async (fileName) => {
+                const command = require(path.resolve(
+                    `./src/commands/families/${fileName}`
+                ));
+                await this.loadSlashCommand(command, guild);
+            });
+        }
     }
 
     async connectionDataBase() {
