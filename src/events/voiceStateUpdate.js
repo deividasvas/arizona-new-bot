@@ -85,7 +85,9 @@ const deletePrivate = async (guild, channelId) => {
     })
 }
 
-const privatesSystem = async (bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel) => {
+const privatesSystem = async ({
+                                  newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel
+                              }) => {
     // Каналы при входе в которые будет создаваться приват.
     const channelsForCreatePrivate = _channelsForCreatePrivate(guildChannelsId, guildRolesId);
 
@@ -108,7 +110,9 @@ const privatesSystem = async (bot, guild, oldMember, newMember, guildChannelsId,
     }
 }
 
-const log = async (bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel) => {
+const log = async ({
+                       bot, guild, oldMember, newMember, guildChannelsId, actualChannel, oldChannel
+                   }) => {
     // Канал куда будут логироваться сообщения.
     const logChannel = guild.channels.cache.get(guildChannelsId.voicesLog);
     const oldStreaming = oldMember.streaming;
@@ -311,12 +315,13 @@ const log = async (bot, guild, oldMember, newMember, guildChannelsId, guildRoles
     }
 }
 
-const giveRoleColloquy = async (bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel) => {
+const giveRoleColloquy = async ({
+                                    newMember, guildChannelsId, guildRolesId, actualChannel, oldChannel
+                                }) => {
     // Роль, которую будут выдавать.
     const {colloquyCandidate: colloquyCandidateRoleId} = guildRolesId;
     // Каналы собеседования(в том числе комната ожидания, результатов собеседования).
-    const colloquyChannelsId = [
-        guildChannelsId.waitingColloquy, // комната ожидания собеседования
+    const colloquyChannelsId = [guildChannelsId.waitingColloquy, // комната ожидания собеседования
         guildChannelsId.colloquy1, // собеседование 1
         guildChannelsId.colloquy2, // собеседование 2
         guildChannelsId.colloquy3, // собеседование 3
@@ -350,9 +355,16 @@ module.exports = async (bot, oldMember, newMember) => {
     const guildRolesId = rolesId[guild.id];
 
     // Запускаем систему приватов
-    privatesSystem(bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel)
+    await privatesSystem({
+        bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel
+    })
     // Логируем действия
-    log(bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel);
+    await log({
+        bot, guild, oldMember, newMember, guildChannelsId, actualChannel, oldChannel
+    });
     // Выдаем/снимаем роль кандидата на собеседование
-    giveRoleColloquy(bot, guild, oldMember, newMember, guildChannelsId, guildRolesId, guildCategories, actualChannel, oldChannel);
+    await giveRoleColloquy({
+        newMember, guildChannelsId, guildRolesId, actualChannel, oldChannel
+    });
+    await bot.modules.get(`coins`).run({bot, oldMember, newMember});
 }

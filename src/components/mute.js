@@ -68,14 +68,14 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
         guildId,
         "main",
         "balls",
-        ({balls, coefficient}) => balls + (settings.rates.mute * coefficient)
+        ({balls, coefficient, rates}) => balls + (rates.mute * coefficient)
     );
     await setModerInfoParam(
         provocateurId,
         guildId,
         "week",
         "balls",
-        ({balls, coefficient}) => balls + settings.rates.mute * coefficient
+        ({balls, coefficient, rates}) => balls + rates.mute * coefficient
     );
     const { task } = await getModerInfo(bot, guildId, provocateurId);
     // Обновляем модератору задание если у него оно активно

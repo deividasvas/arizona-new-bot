@@ -7,7 +7,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
-    name: "cleartickets", // название команды
+    name: "clear-tickets", // название команды
     descr: "Очистить корзину с тикетами", // описание команды
     showInSlashCommands: true, // показывать ли команду в slash командах
     arguments: [], // аргументы

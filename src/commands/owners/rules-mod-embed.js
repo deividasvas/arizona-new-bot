@@ -4,7 +4,7 @@ const {
     Colors,
 } = require("discord.js");
 module.exports = {
-    name: "rules-mod", // название команды
+    name: "rules-mod-embed", // название команды
     descr: "Обновить правила модерации", // описание команды
     perms: (rolesId) => [rolesId.discordMaster], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
     showInSlashCommands: false, // показывать ли команду в slash командах

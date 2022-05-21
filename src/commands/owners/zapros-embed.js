@@ -4,7 +4,7 @@ const {
     Colors, ActionRowBuilder, ButtonBuilder,
 } = require("discord.js");
 module.exports = {
-    name: "zapros", // название команды
+    name: "zapros-embed", // название команды
     descr: "Обновить эмбед в канале запрос-ролей", // описание команды
     perms: (rolesId) => [rolesId.discordMaster], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
     showInSlashCommands: false, // показывать ли команду в slash командах

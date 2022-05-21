@@ -32,7 +32,7 @@ module.exports = {
               "**● Discord Server - https://discord.gg/arz-surprise**\n" +
               "**● Discord Server Нелегалов - https://discord.gg/N5QKT9m**"
           )
-          .addFields(
+          .addFields([
             {
               name: `**⚄ Страница Главного Администратора:\nAleksandr_Rencov**`,
               value: `<https://vk.com/ren_c_c>`,
@@ -51,7 +51,7 @@ module.exports = {
               value: `<https://vk.com/kryhovyak7>`,
               inline: true,
             }
-          ),
+          ]),
       ],
     });
   },

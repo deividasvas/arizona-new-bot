@@ -8,7 +8,7 @@ const Families = require("../../models/Families");
 const sendUserMessage = require("../../components/sendUserMessage");
 
 module.exports = {
-  name: "createfam", // название команды
+  name: "create-fam", // название команды
   descr: "Создать семью", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
   perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду

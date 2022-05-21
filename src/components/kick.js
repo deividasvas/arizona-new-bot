@@ -58,14 +58,14 @@ const kick = async (bot, guildId, userId, provocateurId, reason) => {
         guildId,
         "main",
         "balls",
-        ({balls, coefficient}) => balls + settings.rates.kick * coefficient
+        ({balls, coefficient, rates}) => balls + rates.kick * coefficient
     );
     await setModerInfoParam(
         provocateur.id,
         guildId,
         "week",
         "balls",
-        ({balls, coefficient}) => balls + settings.rates.kick * coefficient
+        ({balls, coefficient, rates}) => balls + rates.kick * coefficient
     );
 };
 

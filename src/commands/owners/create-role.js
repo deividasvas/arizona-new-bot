@@ -4,7 +4,7 @@ const {
 const sendUserMessage = require("../../components/sendUserMessage");
 
 module.exports = {
-    name: "createrole", // название команды
+    name: "create-role", // название команды
     descr: "Создать персональную роль", // описание команды
     showInSlashCommands: false, // показывать ли команду в slash командах
     perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду

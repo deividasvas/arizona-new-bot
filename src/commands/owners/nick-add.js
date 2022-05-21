@@ -1,7 +1,8 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
-const getUserProfile = require("../../components/getUserProfile");
-const Profiles = require("../../models/Profiles");
 const sendUserMessage = require("../../components/sendUserMessage");
+const getCoinsProfile = require("../../components/getCoinsProfile");
+const CoinsUsers = require('../../models/CoinsUsers');
+const setUserCoinsParam = require("../../components/setUserCoinsParam");
 module.exports = {
     name: "nick-add", // название команды
     descr: "Добавить пользователя в список людей которым доступно использование нестандартного шрифта", // описание команды
@@ -21,7 +22,7 @@ module.exports = {
 
     async run({bot, interaction, args, author, guild}) {
         const userId = args[0];
-        const profile = await getUserProfile(userId, guild.id);
+        const profile = await getCoinsProfile(userId, guild.id);
         if (profile.IsUserCanUseCustomFontInNickname) {
             return interaction.reply({
                 ephemeral: true,
@@ -43,12 +44,7 @@ module.exports = {
                 ],
             });
         }
-        await Profiles.updateOne({
-            userId,
-            guildId: guild.id
-        }, {
-            IsUserCanUseCustomFontInNickname: true,
-        });
+        await setUserCoinsParam(userId, guild.id, `IsUserCanUseCustomFontInNickname`, true);
         interaction.reply({
             ephemeral: true,
             embeds: [

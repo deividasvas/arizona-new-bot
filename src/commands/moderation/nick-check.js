@@ -1,5 +1,5 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
-const getUserProfile = require("../../components/getUserProfile");
+const getCoinsProfile = require("../../components/getCoinsProfile");
 module.exports = {
     name: "nick-check", // название команды
     descr: "Проверить пользователя на привилегию иметь нестандартный шрифт", // описание команды
@@ -21,9 +21,9 @@ module.exports = {
         },
     ], // аргументы
 
-    async run({bot, interaction, channel, args, rolesId, channelsId, guild}) {
+    async run({bot, interaction, channel, args, channelsId, guild}) {
         const userId = args[0];
-        const { IsUserCanUseCustomFontInNickname } = await getUserProfile(userId, guild.id);
+        const { IsUserCanUseCustomFontInNickname } = await getCoinsProfile(userId, guild.id);
         const member = guild.members.cache.get(userId);
         interaction.reply({
             ephemeral: channel.id === channelsId.moderation,

@@ -10,6 +10,7 @@ module.exports = {
       Описание модуля
       Данный модуль создан для того чтобы снимать наказания когда приходит время.
     */
+    autoRun: false, // автоматический запуск модуля
     name: "punishment", // имя модуля
     acceptCustomsId: [], // модуль автоматически принимает эти айдишники interaction.customId
     run: async ({bot}) => {
@@ -37,13 +38,14 @@ module.exports = {
                 func: unSupportBlock, // Функция снятия наказания
                 logChannelId: guildId => channelsId[guildId].administrationCouncil, // Канал в который будет логироватся снятие наказания.
             },
+
         ]
 
         for (const setting of settings) {
-            const punishs = await Punishment.find({
+            const punishes = await Punishment.find({
                 action: setting.action
             });
-            for (const punish of punishs) {
+            for (const punish of punishes) {
                 const guild = bot.guilds.cache.get(punish.guildId);
                 const logChannel = guild.channels.cache.get(setting.logChannelId(guild.id));
 

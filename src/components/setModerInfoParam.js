@@ -1,5 +1,6 @@
 const Moderators = require("../models/Moderators");
 const createModerInfo = require("./createModerInfo");
+const {rates} = require("../configs/settings");
 
 // Функция изменения какого-то модерского параметра в статистике модератора.
 // Пример: setModerInfoParam(123, "main", "bans", ({ bans, cofficient }) => 10 * cofficient)
@@ -27,17 +28,23 @@ const setModerInfoParam = async (
   const obj = JSON.parse(JSON.stringify(moderator[type])); // копируем объект, чтоб удалить из него уже существующее значение
   delete obj[paramKey];
 
+  const value = typeof paramValueOrFunction === "function" ? await paramValueOrFunction({
+    ...moderator[type],
+    coefficient: moderator.main.coefficient,
+    neactive: moderator.neactive,
+    rates,
+  }) : paramValueOrFunction // paramValueOrFunction может быть либо функцией, либо числом, если это фича, то проверяем это и в случае чего активируем, в результате должно прийти число. Если это не фича, то вставляем как фичу
   await Moderators.updateOne({
         userId,
+        guildId,
       }, {
         $set: {
           [type]: {
-            ...obj, [paramKey]: typeof paramValueOrFunction === "function" ? await paramValueOrFunction({
-              ...moderator[type], coefficient: moderator.main.coefficient, neactive: moderator.neactive
-            }) : paramValueOrFunction, // paramValueOrFunction может быть либо функцией либо числом, если это фича, то проверяем это и в случае чего активируем, в результате должно прийти число. Если это не фича, то вставляем как фичу
+            ...obj,
+            [paramKey]: value,
           },
-        },
-    }
+        }
+      }
   ); // обновляем данные
   return true;
 };

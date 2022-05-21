@@ -66,14 +66,14 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
         guildId,
         "main",
         "balls",
-        ({balls, coefficient}) => balls + settings.rates.ban * coefficient
+        ({balls, coefficient, rates}) => balls + rates.ban * coefficient
     );
     await setModerInfoParam(
         provocateurId,
         guildId,
         "week",
         "balls",
-        ({balls, coefficient}) => balls + settings.rates.ban * coefficient
+        ({balls, coefficient, rates}) => balls + rates.ban * coefficient
     );
     const { task } = await getModerInfo(bot, guildId, provocateurId);
     // Обновляем модератору задание если у него оно активно

@@ -13,6 +13,7 @@ module.exports = {
     Описание модуля
     Данный модуль нужен для обработки кнопок команды bshop
   */
+  autoRun: false, // автоматический запуск модуля
   name: "bshop", // имя модуля
   acceptCustomsId: [
     "bshop_minus_rebuke",

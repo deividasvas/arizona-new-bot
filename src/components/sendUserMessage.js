@@ -13,6 +13,8 @@ const sendUserMessage = async (message, userId, guild) => {
   if (!member) {
     return null;
   }
+  const embeds = message.embeds || [];
+  const components = message.components || [];
   try {
     return await member.send(message);
   } catch (e) {
@@ -21,8 +23,8 @@ const sendUserMessage = async (message, userId, guild) => {
         (await guild.channels.fetch(settings.channelsId[guild.id].notifications));
     return notificationsChannel.send({
       content: `${member} ${message.content ? message.content : ""}`,
-      embeds: [...message.embeds],
-      components: [...message.components],
+      embeds,
+      components,
     });
   }
 };

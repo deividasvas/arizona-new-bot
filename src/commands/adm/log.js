@@ -70,7 +70,7 @@ module.exports = {
         new ActionRowBuilder().addComponents([
           new ButtonBuilder()
               .setCustomId("logMonitoringYes")
-              .setLabel("Проверенно, что-то нашёл")
+              .setLabel("Проверено, что-то нашёл")
               .setStyle(ButtonStyle.Success)
               .setEmoji({
                 id: "886020016925990912",
@@ -79,7 +79,7 @@ module.exports = {
         new ActionRowBuilder().addComponents([
             new ButtonBuilder()
                 .setCustomId("logMonitoringNo")
-                .setLabel("Проверенно, ничего не нашёл")
+                .setLabel("Проверено, ничего не нашёл")
                 .setStyle(ButtonStyle.Danger)
                 .setEmoji({
                   id: "886020016120672286",

@@ -30,6 +30,7 @@ module.exports = {
       Описание модуля
       Данный модуль создан для того, чтобы обрабатывать тикеты.
     */
+    autoRun: false, // автоматический запуск модуля
     name: "support", // имя модуля
     acceptCustomsId: [
         "create_ticket",

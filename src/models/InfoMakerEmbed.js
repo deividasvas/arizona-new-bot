@@ -22,4 +22,4 @@ const InfoMakerEmbed = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("infomakerembeds", InfoMakerEmbed);
+module.exports = mongoose.model("infomaker-embeds", InfoMakerEmbed);

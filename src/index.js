@@ -6,4 +6,4 @@ const errorHandle = (err) => handleErrors(err, bot);
 process.on('uncaughtException', errorHandle);
 process.on('unhandledRejection', errorHandle)
 process.on('unhandledRejection', errorHandle);
-module.exports = { bot };
+module.exports = bot;

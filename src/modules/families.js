@@ -8,6 +8,7 @@ module.exports = {
     faminvite есть срок, это два часа, после двух часов оно не работает, данный модуль смотрит прошло ли 2 часа, и если
     прошло, то отправляет что уже прошло 2 часа, и нужно по новой отправить приглашение.
   */
+  autoRun: false, // автоматический запуск модуля
   name: "families", // имя модуля
   acceptCustomsId: ["famYes", "famNo"], // модуль автоматически принимает эти айдишники interaction.customId
   run: async ({ bot, interaction, guild, message }) => {

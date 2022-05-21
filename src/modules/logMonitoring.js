@@ -8,6 +8,7 @@ module.exports = {
     Данный модуль создан для поддержки системы лога мониторинга. Создан для того, чтобы при нажатии кнопок
     принятия или отказа определённого мониторинга выдавался определённый ответ.
   */
+  autoRun: false, // автоматический запуск модуля
   name: "logMonitoring", // имя модуля
   acceptCustomsId: ["logMonitoringYes", "logMonitoringNo"], // модуль автоматически принимает эти айдишники interaction.customId
   run: async ({ bot, interaction, member: user, guild, message }) => {

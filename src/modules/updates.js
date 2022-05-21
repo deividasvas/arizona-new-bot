@@ -8,6 +8,7 @@ module.exports = {
       Описание модуля
       Данный модуль создан для того, чтобы обрабатывать запросы от баг трекера.
     */
+    autoRun: false, // автоматический запуск модуля
     name: "updates", // имя модуля
     acceptCustomsId: [
         "createBugReport",

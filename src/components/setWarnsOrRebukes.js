@@ -22,7 +22,7 @@ const setWarnsOrRebukes = async (userId, guildId, func) => {
 
   await Moderators.updateOne(
     {
-      discordId: userId,
+      userId,
       guildId,
     },
     {

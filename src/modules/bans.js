@@ -13,6 +13,7 @@ module.exports = {
       Описание модуля
       Данный модуль создан для того, чтобы обработать кнопки эмбедов банов у модераторов.
     */
+    autoRun: false, // автоматический запуск модуля
     name: "bans", // имя модуля
     acceptCustomsId: ["banYes", "banNo"], // модуль автоматически принимает эти айдишники interaction.customId
     async banUser(bot, interaction, userId, days, reason, moderatorId) {

@@ -7,4 +7,4 @@ const CommandsDisabledSchema = new mongoose.Schema({
     commandCategory: String,
 });
 
-module.exports = new mongoose.model("commandsDisabled", CommandsDisabledSchema) // семейная коллекция.
+module.exports = new mongoose.model("commands-disabled", CommandsDisabledSchema) // семейная коллекция.

@@ -8,7 +8,8 @@ module.exports = {
   */
   name: "trigger", // имя модуля
   acceptCustomsId: [], // модуль автоматически принимает эти айдишники interaction.customId
-  run: async (bot, message) => {
+  autoRun: false, // автоматический запуск модуля
+  run: async ({bot, message}) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
     if (
       message.channel.id === channelsId[message.guild.id].welcome

@@ -7,16 +7,12 @@ module.exports = async bot => {
     }
     // await bot.deleteAllSlashCommands();
     await bot.command();
-    const punishmentModule = await bot.modules.get("punishment");
-    punishmentModule.run({ bot }); // запускаем снятие наказания тем у кого прошёл срок наказания.
-    const fractionsInfoModule = await bot.modules.get('fractionsInfo');
-    fractionsInfoModule.run({ bot }); // запускаем модуль подгрузки информации о фракциях.
-    const neactivesModule = await bot.modules.get('neactives');
-    neactivesModule.run({ bot }); // запускаем модуль снятия неактивов
-    const supportUpdatesModule = await bot.modules.get('supportEmbedUpdates');
-    supportUpdatesModule.run({ bot });
-    const complaintsModeratorsModule = await bot.modules.get('complaintsModerators');
-    complaintsModeratorsModule.run({ bot });
+    for(const [moduleName, module] of bot.modules){
+        // Если в модуле установлено автоматически его запускать при старте бота, то запускаем.
+        if(module.autoRun){
+            module.run({ bot });
+        }
+    }
 
     bot.inited = true;
     console.log(`\n[📌 | Ready]: Бот запущен. Авторизован как %s | Серверов: %d | Пользователей: %d | Каналов: %d | Команд: %d`, bot.user.tag, bot.guilds.cache.size, bot.users.cache.size, bot.channels.cache.size, bot.commands.size);

@@ -7,6 +7,7 @@ module.exports = {
       Описание модуля
       Данный модуль создан для обработки анкет.
     */
+    autoRun: false, // автоматический запуск модуля
     name: "anketa", // имя модуля
     acceptCustomsId: ["anketa-accept", "anketa-deny", "anketa-delete"], // модуль автоматически принимает эти айдишники interaction.customId
     // Айди ролей которые могут взаимодействовать с ролями
