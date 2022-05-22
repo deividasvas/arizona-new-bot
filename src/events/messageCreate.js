@@ -145,6 +145,11 @@ const commandHandler = async (bot, message) => {
 								text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
 							})
 					]
+				}).then((msg) => {
+					setTimeout(() => {
+						message.delete();
+						msg.delete();
+					}, 10000);
 				});
 			}
 			if (argument.choices) {
@@ -172,6 +177,11 @@ const commandHandler = async (bot, message) => {
 									text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
 								})
 						]
+					}).then((msg) => {
+						setTimeout(() => {
+							message.delete();
+							msg.delete();
+						}, 10000);
 					});
 				}
 			}

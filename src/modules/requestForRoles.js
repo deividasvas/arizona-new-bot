@@ -57,12 +57,12 @@ setInterval(() => {
   // Каждые 5 секунд перебираем список людей у которых есть действующее КД.
   // Если прошли 30 минут КД, то удаляем человека из списка.
   createRequestForRole.map((
-    (dateStart, userId) => {
+    (dateEnd, userId) => {
       const minutes = (
         (
           new Date()
         ).getTime() - (
-          new Date(dateStart)
+          new Date(dateEnd)
         ).getTime()
       ) / 60000;
       if (minutes >= 30) {

@@ -15,6 +15,8 @@ const createCoinsProfile = async (userId, guildId) => {
             dateActivate: new Date(),
             activate: false,
         },
+        depositCoins: 0,
+        isDepositActive: false,
     })
     await profile.save();
 }

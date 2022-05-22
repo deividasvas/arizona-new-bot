@@ -43,7 +43,7 @@ module.exports = {
                 .addComponents(
                     [
                         new ButtonBuilder()
-                            .setCustomId('create_ticket')
+                            .setCustomId('createTicket')
                             .setEmoji({
                                 name: `📨`,
                             })

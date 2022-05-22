@@ -3,7 +3,7 @@ const os = require('os');
 const Punishment = require('../../models/Punishment');
 module.exports = {
     name: "ping", // название команды
-    descr: "Информация о работоспобности бота.", // описание команды
+    descr: "Информация о работоспособности бота.", // описание команды
     showInSlashCommands: true, // показывать ли команду в slash командах
     arguments: [], // аргументы
     perms: (rolesId) => [rolesId.discordMaster, rolesId.juniorDiscordMaster, rolesId.adviceAdministration], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду

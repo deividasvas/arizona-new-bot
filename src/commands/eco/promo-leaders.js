@@ -33,13 +33,15 @@ module.exports = {
 			})
 		}
 
-		const promocodes = (
-			await Promocodes.find({
-				guildId: guild.id
-			})
-		).sort((promocodeA, promocodeB) => {
-			return promocodeB.use - promocodeA.use;
-		}).slice(0, 10);
+		const promocodes =
+			(
+				await Promocodes.find({
+						guildId: guild.id
+					}
+				).sort((promocodeA, promocodeB) => {
+					return promocodeB.use - promocodeA.use;
+				})
+			).slice(0, 10);
 
 		const answer = promocodes.map((promocode, index) => {
 			return `${index + 1} | ${promocode.name} | <@${promocode.authorId}> | ${Math.floor(promocode.use)}`;
@@ -47,7 +49,7 @@ module.exports = {
 		interaction.reply({
 			embeds: [
 				new EmbedBuilder()
-					.setTitle(`💰 | Промокоды лидеры`)
+					.setTitle(`💰 | Топ 10 промокодов лидеров`)
 					.setColor(Colors.DarkGreen)
 					.setDescription(`**\`Индекс | Имя | Владелец | Кол-во использований\`\n${answer.join('\n')}**`)
 					.setAuthor({

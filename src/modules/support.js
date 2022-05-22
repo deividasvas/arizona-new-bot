@@ -33,12 +33,12 @@ module.exports = {
     autoRun: false, // автоматический запуск модуля
     name: "support", // имя модуля
     acceptCustomsId: [
-        "create_ticket",
-        "close_ticket",
-        "hold_ticket",
-        "open_ticket",
-        "ticket-good-job",
-        "ticket-bad-job"
+        "createTicket",
+        "closeTicket",
+        "holdTicket",
+        "openTicket",
+        "ticketGoodJob",
+        "ticketBadJob"
     ], // модуль автоматически принимает эти айдишники interaction.customId
     async openTicket({
                          bot,
@@ -152,7 +152,7 @@ module.exports = {
                 new ActionRowBuilder()
                     .addComponents([
                         new ButtonBuilder()
-                            .setCustomId('close_ticket')
+                            .setCustomId('closeTicket')
                             .setStyle(ButtonStyle.Primary)
                             .setEmoji({
                                 name: `🔒`
@@ -160,7 +160,7 @@ module.exports = {
                             .setDisabled(true)
                             .setLabel(`Закрыть`),
                         new ButtonBuilder()
-                            .setCustomId('hold_ticket')
+                            .setCustomId('holdTicket')
                             .setStyle(ButtonStyle.Primary)
                             .setDisabled(false)
                             .setEmoji({
@@ -168,7 +168,7 @@ module.exports = {
                             })
                             .setLabel(`Обработать`),
                         new ButtonBuilder()
-                            .setCustomId('open_ticket')
+                            .setCustomId('openTicket')
                             .setStyle(ButtonStyle.Primary)
                             .setDisabled(true)
                             .setEmoji({
@@ -292,7 +292,7 @@ module.exports = {
                     })], components: [new ActionRowBuilder()
                 .addComponents([
                     new ButtonBuilder()
-                        .setCustomId('close_ticket')
+                        .setCustomId('closeTicket')
                         .setStyle(ButtonStyle.Primary)
                         .setDisabled(true)
                         .setEmoji({
@@ -300,14 +300,14 @@ module.exports = {
                         })
                         .setLabel(`Закрыть`),
                     new ButtonBuilder()
-                        .setCustomId('hold_ticket')
+                        .setCustomId('holdTicket')
                         .setStyle(ButtonStyle.Primary)
                         .setEmoji({
                             name: `🔐`
                         })
                         .setLabel(`Обработать`),
                     new ButtonBuilder()
-                        .setCustomId('open_ticket')
+                        .setCustomId('openTicket')
                         .setStyle(ButtonStyle.Primary)
                         .setEmoji({
                             name: `🔓`
@@ -411,7 +411,7 @@ module.exports = {
                 new ActionRowBuilder()
                     .addComponents([
                         new ButtonBuilder()
-                            .setCustomId('close_ticket')
+                            .setCustomId('closeTicket')
                             .setStyle(ButtonStyle.Primary)
                             .setEmoji({
                                 name: `🔒`
@@ -419,7 +419,7 @@ module.exports = {
                             .setDisabled(false)
                             .setLabel(`Закрыть`),
                         new ButtonBuilder()
-                            .setCustomId('hold_ticket')
+                            .setCustomId('holdTicket')
                             .setStyle(ButtonStyle.Primary)
                             .setDisabled(true)
                             .setEmoji({
@@ -427,7 +427,7 @@ module.exports = {
                             })
                             .setLabel(`Обработать`),
                         new ButtonBuilder()
-                            .setCustomId('open_ticket')
+                            .setCustomId('openTicket')
                             .setStyle(ButtonStyle.Primary)
                             .setDisabled(false)
                             .setEmoji({
@@ -599,7 +599,7 @@ module.exports = {
                 new ActionRowBuilder()
                     .addComponents([
                         new ButtonBuilder()
-                            .setCustomId('close_ticket')
+                            .setCustomId('closeTicket')
                             .setStyle(ButtonStyle.Primary)
                             .setEmoji({
                                 name: `🔒`
@@ -607,7 +607,7 @@ module.exports = {
                             .setDisabled(true)
                             .setLabel(`Закрыть`),
                         new ButtonBuilder()
-                            .setCustomId('hold_ticket')
+                            .setCustomId('holdTicket')
                             .setStyle(ButtonStyle.Primary)
                             .setDisabled(true)
                             .setEmoji({
@@ -615,7 +615,7 @@ module.exports = {
                             })
                             .setLabel(`Обработать`),
                         new ButtonBuilder()
-                            .setCustomId('open_ticket')
+                            .setCustomId('openTicket')
                             .setStyle(ButtonStyle.Primary)
                             .setDisabled(true)
                             .setEmoji({
@@ -773,7 +773,7 @@ module.exports = {
 
         const actions = [
             {
-                customId: "create_ticket",
+                customId: "createTicket",
                 func: this.createTicket,
                 log: (ticketId) => {
                     if (!ticketId) {
@@ -783,28 +783,28 @@ module.exports = {
                 }
             },
             {
-                customId: "hold_ticket",
+                customId: "holdTicket",
                 func: this.holdTicket,
                 log: () => this.logTicketAction("hold", guild.id, bot, member, interaction.channelId)
             },
             {
-                customId: "open_ticket",
+                customId: "openTicket",
                 func: this.openTicket,
                 log: () => this.logTicketAction("open", guild.id, bot, member, interaction.channelId)
 
             },
             {
-                customId: "close_ticket",
+                customId: "closeTicket",
                 func: this.closeTicket,
                 log: () => this.logTicketAction("close", guild.id, bot, member, interaction.channelId)
             },
             {
-                customId: "ticket-good-job",
+                customId: "ticketGoodJob",
                 func: this.ticketGoodJob,
                 log: () => this.logTicketAction("good-job", guild.id, bot, member, interaction.channelId)
             },
             {
-                customId: "ticket-bad-job",
+                customId: "ticketBadJob",
                 func: this.ticketBadJob,
                 log: () => this.logTicketAction("bad-job", guild.id, bot, member, interaction.channelId)
             }

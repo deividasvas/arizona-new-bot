@@ -14,6 +14,8 @@ const CoinsUsersSchema = new mongoose.Schema({
         dateActivate: Date,
         activate: Boolean,
     }, // промокод который ввёл пользователь
+    depositCoins: Number, // количество денег на депозите
+    isDepositActive: Boolean, // активен депозит или нет
 });
 
 module.exports = mongoose.model("coins-users", CoinsUsersSchema);

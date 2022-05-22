@@ -47,8 +47,10 @@ module.exports = {
 			})
 		}
 
+		// Пользователь, которому будет идти перевод.
 		const member = guild.members.cache.get(args[0]);
 		const money = Number(args[1]);
+		// Если этот пользователь это вводящий команду, то ошибку отдаём.
 		if (member.id === author.id) {
 			return interaction.reply({
 				ephemeral: true,
@@ -69,6 +71,7 @@ module.exports = {
 			});
 		}
 
+		// Если сумма перевода ниже минимальной, то выдаём ошибку.
 		if (money < 0.001) {
 			return interaction.reply({
 				ephemeral: true,
@@ -89,7 +92,9 @@ module.exports = {
 			});
 		}
 
+		// Профиль вводящего команду.
 		const profile = await getCoinsProfile(author.id, guild.id);
+		// Если монет в профиле меньше чем переводиться, то выдаём ошибку.
 		if (profile.coins < money) {
 			return interaction.reply({
 				ephemeral: true,
@@ -110,6 +115,7 @@ module.exports = {
 			});
 		}
 
+		// Если текущий перевод превысит лимит переводов за день на одного человека, то выдаём ошибку.
 		if((profile.paidOfDay + money) > maxPaidOfDay){
 			return interaction.reply({
 				ephemeral: true,
@@ -130,6 +136,7 @@ module.exports = {
 			});
 		}
 
+		// Если человек достиг максимальной суммы переводов за день, то выдаем ошибку.
 		if (profile.paidOfDay >= maxPaidOfDay) {
 			return interaction.reply({
 				ephemeral: true,
@@ -158,18 +165,22 @@ module.exports = {
 				) / 100
 			) * commissionPercent
 		);
+		// Сумма, которая будет переводиться(С учётом комиссий).
 		const sum = money - commission;
 
+		// Добавляем деньги(с учётом комиссий) пользователю которому пришёл перевод.
 		await setUserCoinsParam(member.id, guild.id, 'coins', ({ coins }) => {
 			return (
 				coins + sum
 			).toFixed(4);
 		});
+		// Отнимаем деньги у того кто перевёл(без учета комиссий)
 		await setUserCoinsParam(author.id, guild.id, 'coins', ({ coins }) => {
 			return (
 				coins - money
 			).toFixed(4);
 		});
+		// Добавляем пользователю который перевёл деньги эту сумму к сегодня переведённым деньгам.
 		await setUserCoinsParam(author.id, guild.id, 'paidOfDay', ({ paidOfDay }) => {
 			return paidOfDay + money;
 		});
@@ -179,7 +190,7 @@ module.exports = {
 				new EmbedBuilder()
 					.setTitle(`💰 | Передача денег!`)
 					.setColor(Colors.DarkGreen)
-					.setDescription(`**Вы передали пользователю ${member} - \`${sum.toFixed(3)}\` монет.\n5% от общей суммы были отняты комиссией!**`)
+					.setDescription(`**Вы передали пользователю ${member} - \`${sum.toFixed(4)}\` монет.\n\`${commissionPercent}%\` от общей суммы были отняты комиссией!**`)
 					.setAuthor({
 						name: guild.name,
 						iconURL: guild.iconURL()
@@ -191,6 +202,7 @@ module.exports = {
 			]
 		})
 
+		// Отправляем пользователю которому пришли деньги - уведомление.
 		const memberProfile = await getCoinsProfile(member.id, guild.id);
 		await sendUserMessage({
 			embeds: [
@@ -209,6 +221,7 @@ module.exports = {
 			]
 		}, member.id, guild);
 
+		// Логируем процесс перевода денег в канал лог-surprisecoins
 		const logCoinsChannel = guild.channels.cache.get(channelsId.logCoins);
 		const date = new Date();
 		logCoinsChannel.send({
