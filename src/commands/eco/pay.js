@@ -185,6 +185,10 @@ module.exports = {
 			return paidOfDay + money;
 		});
 
+		// Устанавливаем дату последнего перевода обоим.
+		await setUserCoinsParam(author.id, guild.id, 'lastDateTransfer', new Date());
+		await setUserCoinsParam(member.id, guild.id, 'lastDateTransfer', new Date());
+
 		interaction.reply({
 			embeds: [
 				new EmbedBuilder()

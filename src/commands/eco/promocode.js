@@ -64,7 +64,8 @@ module.exports = {
 		}
 
 		const profile = await getCoinsProfile(author.id, guild.id);
-		if (profile.promocode.activate) {
+		// Если переменная с промокодом уже существует, то выдаём ошибку.
+		if (profile.promocode) {
 			return interaction.reply({
 				embeds: [
 					await new EmbedBuilder()
@@ -146,11 +147,7 @@ module.exports = {
 		await setUserCoinsParam(author.id, guild.id, 'coins', ({ coins }) => (
 			coins + sumCoins
 		).toFixed(4));
-		await setUserCoinsParam(author.id, guild.id, 'promocode', {
-			name: promocodeName,
-			dateActivate: new Date(),
-			activate: true
-		});
+		await setUserCoinsParam(author.id, guild.id, 'promocode', promocodeName);
 
 		interaction.reply({
 			embeds: [

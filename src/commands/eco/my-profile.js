@@ -85,7 +85,7 @@ module.exports = {
 					.setThumbnail(`${member.user.displayAvatarURL({
 						format: "png", size: 2048, dynamic: true
 					})}`)
-					.setDescription(`>>> **Количество Coins: \`${coins}\`\nИспользовать нестандартный шрифт: \`${IsUserCanUseCustomFontInNickname ? "Можно" : "Нельзя"}\`\nКоличество платформ: \`${platforms}\`\nПромокод: \`${promocode.activate ? promocode.name : "Не активировался"}\`\nСтатус депозита: \`${isDepositActive ? "Активен" : "Отключен"}\`\nДенег на депозите: \`${depositCoins.toFixed(4)}\`**`)
+					.setDescription(`>>> **Количество Coins: \`${coins}\`\nИспользовать нестандартный шрифт: \`${IsUserCanUseCustomFontInNickname ? "Можно" : "Нельзя"}\`\nКоличество платформ: \`${platforms}\`\nПромокод: \`${promocode ? promocode : "Не активировался"}\`\nСтатус депозита: \`${isDepositActive ? "Активен" : "Отключен"}\`\nДенег на депозите: \`${depositCoins.toFixed(4)}\`**`)
 					.setFooter({
 						text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
 					})

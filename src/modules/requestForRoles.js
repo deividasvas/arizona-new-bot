@@ -98,7 +98,8 @@ module.exports = {
           })
       ]
     })
-  }, async addOrRemoveRoleX({ bot, interaction, member, rolesId, guild }) {
+  },
+  async addOrRemoveRoleX({ bot, interaction, member, rolesId, guild }) {
     if (member.roles.cache.has(rolesId.x)) {
       member.roles.remove(rolesId.x);
       return interaction.reply({

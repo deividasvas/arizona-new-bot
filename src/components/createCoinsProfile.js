@@ -8,15 +8,14 @@ const createCoinsProfile = async (userId, guildId) => {
         coins: 0,
         IsUserCanUseCustomFontInNickname: false,
         platforms: 0,
-        lastDateTransfer: new Date(),
+        lastDateTransfer: null,
         paidOfDay: 0,
-        promocode: {
-            name: "",
-            dateActivate: new Date(),
-            activate: false,
-        },
+        promocode: null,
         depositCoins: 0,
         isDepositActive: false,
+        lastDateDayDepositInteraction: null,
+        lastDateWeekDepositInteraction: null,
+        lastDateDayRefillDeposit: null,
     })
     await profile.save();
 }

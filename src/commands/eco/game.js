@@ -330,7 +330,6 @@ module.exports = {
 
 		if (!cooldown.has(author.id)) {
 			const countGamesTheUser = countGames.get(author.id) || 0;
-			console.log(countGamesTheUser);
 			countGames.set(author.id, countGamesTheUser + 1);
 		}
 
