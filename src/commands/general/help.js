@@ -23,7 +23,7 @@ module.exports = {
                 .map((command) => `/${command.name} - \`${command.descr}\``)
                 .join("\n")}**`
             )
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             
             .setFooter({

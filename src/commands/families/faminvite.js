@@ -10,6 +10,7 @@ const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const getTwoHourInMs = require("../../components/getTwoHourInMs");
 const sendUserMessage = require("../../components/sendUserMessage");
 const Families = require("../../models/Families");
+const getAllRolesIdAdmins = require('../../components/getAllRolesIdAdmins')
 
 module.exports = {
   name: "faminvite", // название команды
@@ -25,7 +26,7 @@ module.exports = {
     },
   ], // аргументы
 
-  async run({ bot, interaction, args, guild, author, channelsId }) {
+  async run({ bot, interaction, args, guild, author, channelsId, rolesId }) {
     let candidate = guild.members.cache.get(args[0]);
     const allFamilies = await Families.find();
     let family = await Families.findOne({
@@ -52,7 +53,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Вы не являетесь лидером/заместителем семьи!**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -68,7 +69,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Вы не можете пригласить самого себя в семью!**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -76,10 +77,33 @@ module.exports = {
         ],
       });
     }
-    const familiesIDs = allFamilies.map((family) => family.id);
+
+    const allAdminsRolesId = getAllRolesIdAdmins(rolesId);
+    // Если у человека имеются админские роли, то выдаем ему ошибку.
+    if(candidate.roles.cache.some(role => allAdminsRolesId.includes(role.id))){
+      return interaction.reply({
+        ephemeral: true,
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`❌ | Ошибка!`)
+            .setDescription(`**${candidate} является администратором!\nРуководство сервера запретило администрации находиться в семьях!**`)
+            .setColor(Colors.Blue)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL(),
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL(),
+            }),
+        ],
+      });
+    }
+
+    const familiesRolesId = allFamilies.map((family) => family.id);
     const roles = candidate.roles.cache.values();
     let countFamsOfCandidate = roles.reduce((total, current) =>
-      familiesIDs.includes(current.id) ? total + 1 : total
+      familiesRolesId.includes(current.id) ? total + 1 : total
     ); // количество семей в которых состоит пользователь
 
     if (countFamsOfCandidate >= 2) {
@@ -90,7 +114,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**${candidate} уже состоит в двух семьях**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -110,7 +134,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**${candidate} уже состоит в Вашей семье**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -131,7 +155,7 @@ module.exports = {
           .setDescription(
             `Вы успешно отправили приглашение ${candidate} на вступлению в Вашу семью`
           )
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setFooter({
             text: `Robo Hamster`,
@@ -162,7 +186,7 @@ module.exports = {
                       settings.limitDeputyInFamilies
                   }]\`\`\n「📕」Дополнительно: \`У Вас есть два часа на рассмотрение предложения\`**`
               )
-              .setColor(Colors.DarkGreen)
+              .setColor(Colors.Blue)
               .setTimestamp()
               .setFooter({
                 text: `Robo Hamster`,
@@ -221,7 +245,7 @@ module.exports = {
                 .setDescription(
                     `**Вы успешно отклонили приглашение в семью \`\`${role.name}\`\`**`
                 )
-                .setColor(Colors.Red)
+                .setColor(Colors.Blue)
                 .setTimestamp()
                 .setAuthor({
                   name: guild.name,
@@ -241,7 +265,7 @@ module.exports = {
                     .setDescription(
                         `**${candidate} отклонил ваше приглашение в семью**`
                     )
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setAuthor({
                       name: guild.name,
@@ -267,7 +291,7 @@ module.exports = {
             .setDescription(
               `**Вы успешно приняли приглашение в семью \`\`${role.name}\`\`**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
               name: guild.name,
@@ -287,7 +311,7 @@ module.exports = {
               .setDescription(
                 `**${candidate} успешно принял ваше приглашение на вступление в семью**`
               )
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
               .setTimestamp()
               .setAuthor({
                 name: guild.name,
@@ -312,7 +336,7 @@ module.exports = {
       logChannel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Приглашение в семью!`)
             .setAuthor({
               name: guild.name,

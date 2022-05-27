@@ -88,7 +88,7 @@ module.exports = {
         await new EmbedBuilder()
           .setTitle("📌 | Снятие ролей!")
           .setDescription(`**Вы успешно сняли с себя все роли организации!**`)
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setAuthor({
             name: guild.name, iconURL: guild.iconURL()
@@ -107,7 +107,7 @@ module.exports = {
           await new EmbedBuilder()
             .setTitle("📌 | Снятие ролей!")
             .setDescription(`**Вы успешно сняли с себя роль <@&${rolesId.x}>!**`)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
               name: guild.name, iconURL: guild.iconURL()
@@ -125,7 +125,7 @@ module.exports = {
         await new EmbedBuilder()
           .setTitle("📌 | Выдача ролей!")
           .setDescription(`**Вы успешно выдали себе роль <@&${rolesId.x}>!**`)
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setAuthor({
             name: guild.name, iconURL: guild.iconURL()
@@ -149,7 +149,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`⏳ | Стой-стой!`)
             .setDescription(`**Полегче друг, у тебя действует интервал на запрос ролей. По новой запросить роль ты сможешь через \`${minutes}\` минут(у)**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
               name: guild.name, iconURL: guild.iconURL()
@@ -183,7 +183,7 @@ module.exports = {
             .setFooter({
               text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
             })
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
         ]
       })
     }
@@ -204,7 +204,7 @@ module.exports = {
             .setFooter({
               text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
             })
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
         ]
       })
     }
@@ -224,7 +224,7 @@ module.exports = {
             .setFooter({
               text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
             })
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
         ]
       })
     }
@@ -250,7 +250,7 @@ module.exports = {
               inline: true
             }
           ])
-          .setColor(Colors.Red)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setAuthor({
             name: guild.name, iconURL: guild.iconURL()
@@ -295,7 +295,7 @@ module.exports = {
       ephemeral: true, embeds: [
         new EmbedBuilder()
           .setTitle("📨 | Новый запрос роли!")
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setAuthor({
             name: guild.name, iconURL: guild.iconURL()
@@ -347,7 +347,7 @@ module.exports = {
           .setTitle(`✅ | Одобрение`)
           .setAuthor({ name: member.displayName, iconURL: member.user.displayAvatarURL() })
           .setDescription(`<@${member.id}> (${member.id}) одобрил запрос от ${userForGiveRole} (${userForGiveRole.id})`)
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setFooter({ text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL() })
           .addFields([
@@ -365,7 +365,7 @@ module.exports = {
           .setTitle(`✅ | Одобрение`)
           .setAuthor({ name: member.displayName, iconURL: member.user.displayAvatarURL() })
           .setDescription(`Модератор ${member} (${member.displayName}) одобрил Ваш запрос на выдачу роли!.`)
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setFooter({ text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL() })
       ]
@@ -444,7 +444,7 @@ module.exports = {
     interaction.reply({
       ephemeral: false, content: `${member}`, embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`⌛ | Загрузка данных...`)
           .setAuthor({
             name: guild.name, iconURL: guild.iconURL()
@@ -567,7 +567,7 @@ module.exports = {
             .setFooter({
               text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
             })
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
         ]
       })
     }
@@ -598,7 +598,7 @@ module.exports = {
           .setFooter({
             text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
           })
-          .setColor(Colors.Red)
+          .setColor(Colors.Blue)
           .setDescription(`**Привет!\n Ты не так давно запрашивал роль в организацию!\n Так вот, модератору для проверки того есть ли ты в организации нужна твоя статистика!\n Сделай скриншот статистики через команду \`/stats\`.\n Как только введёшь эту команду и откроется меню со статистикой - введи команду \`/time\` и нажми на кнопку F8.\n После этого у тебя по пути \`C:\\Users\\[имя пользователя]\\Documents\\GTA San Andreas User Files\\SAMP\\screens\` появиться файл \`sa-mp-номер.png\`.\n Отправь этот файл в этот чат модератору и тебе выдадут роль!**`)
       ]
     }, userId, guild);
@@ -606,7 +606,7 @@ module.exports = {
       ephemeral: true, embeds: [
         new EmbedBuilder()
           .setTitle("📨 | Сообщение отправлено!")
-          .setColor(Colors.Red)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setDescription(`**Пользователю <@${userId}> было отправлено сообщение об просьбе отправить Вам в личные сообщения статистику игрока! Не забудьте открыть личные сообщения если они закрыты!чы **`)
           .setAuthor({
@@ -664,7 +664,7 @@ module.exports = {
               .setFooter({
                 text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
               })
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
           ]
         })
       }

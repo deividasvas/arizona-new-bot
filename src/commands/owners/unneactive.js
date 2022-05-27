@@ -31,7 +31,7 @@ module.exports = {
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**У модератора нет неактива**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -51,7 +51,7 @@ module.exports = {
         const neactiveLogChannel = guild.channels.cache.get(channelsId.neactiveLog)
         neactiveLogChannel.send({
             embeds: [new EmbedBuilder()
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setTitle(`📌 | Снятие неактива`)
                 .setTimestamp()
                 .setDescription(`**「📝」Выдавал: <@${neactive.givedId}>\n「😭」Кому: ${moderator}\n「📕」 Причина неактива: ${neactive.reason}\n「😱」 Причина снятия неактива: ${reason}\n「📅」Неактив снят**`)
@@ -64,7 +64,7 @@ module.exports = {
         })
         interaction.reply({
             ephemeral: channel.id !== channelsId.curators, embeds: [new EmbedBuilder()
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setTitle(`📌 | Снятие неактива`)
                 .setTimestamp()
                 .setDescription(`**Вы успешно сняли неактив модератору ${moderator} по причине ${reason}**`)

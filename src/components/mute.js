@@ -95,7 +95,7 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
         moderationLog.send({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Система снятия мута!`)
                     .setAuthor({
                         name: guild.name,
@@ -116,7 +116,7 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
             {
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(Colors.DarkGreen)
+                        .setColor(Colors.Blue)
                         .setTitle(`📌 | Система снятия мута!`)
                         .setAuthor({
                             name: guild.name,

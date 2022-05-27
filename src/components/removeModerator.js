@@ -46,7 +46,7 @@ const removeModerator = async (bot, guildId, moderatorId) => {
         .setDescription(
           `**Сняли: <@${moderatorId}>[\`${moderatorId}\`]\n\`\`\`\n[ Статистика модератора до снятия ]\`\`\`\n>>> Снятые роли: \`${roles}\`\nОтвеченые тикеты: \`${tickets}\`\nЗабанено пользователей: \`${bans}\`\nКикнуто пользователей: \`${kicks}\`\nЗамучено пользователей: \`${mutes}\`\nКоличество хороших оценок: \`${goodAnswers}\`\nКоличество плохих оценок: \`${toxicAnswers}\`\nКоличество баллов: \`${balls}\`\nМножитель баллов: \`${coefficient}\`\nВыговоров: \`${rebukes.length}\`\nПредупреждений: \`${warns.length}\`\nИммунитетов: \`${immunities}\`**`
         )
-        .setColor(Colors.Red)
+        .setColor(Colors.Blue)
         .setFooter({
           text: `Robo Hamster`,
           iconURL: bot.user.displayAvatarURL(),

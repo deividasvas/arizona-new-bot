@@ -43,7 +43,7 @@ module.exports = {
                       rolesId.techSection
                   }>**`
               )
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -62,7 +62,7 @@ module.exports = {
       ephemeral: channelsId.moderation !== channel.id, // если это модерский, то для всех, если не модерский, то только для чела который отправил команду
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkRed)
+          .setColor(Colors.Blue)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),

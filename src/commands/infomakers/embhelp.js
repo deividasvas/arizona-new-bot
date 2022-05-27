@@ -12,7 +12,7 @@ module.exports = {
     interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | Очистка эмбеда`)
           .setDescription(
             `\`Команды для модерации: /embsetup, /embfield, /embsend - отправить.\``

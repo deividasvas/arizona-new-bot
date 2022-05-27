@@ -36,7 +36,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Вы не состоите ни в одной из семей.**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -65,7 +65,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setDescription(`**Вы вышли из семьи \`${userFamilys[0]}.\`**`)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,
@@ -82,7 +82,7 @@ module.exports = {
         .setDescription(
           `**${userFamilysString}\nВведите номер семьи которую вы хотите покинуть.\nЕсли хотите выйти из данного меню, введите \`-\`**`
         )
-        .setColor(Colors.DarkGreen)
+        .setColor(Colors.Blue)
         .setTimestamp()
         .setFooter({
           text: `Robo Hamster`,
@@ -123,7 +123,7 @@ module.exports = {
             new EmbedBuilder()
               .setTitle(`❌ | Ошибка!`)
               .setDescription(`**Некорректное значение!**`)
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
               .setFooter({
                 text: `Robo Hamster`,
                 iconURL: bot.user.displayAvatarURL(),
@@ -156,7 +156,7 @@ module.exports = {
             .setDescription(
               `**Вы вышли из семьи \`${userFamilys[selectedFamily]}.\`**`
             )
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,

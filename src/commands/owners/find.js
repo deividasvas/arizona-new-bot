@@ -5,6 +5,7 @@ const {
 const Captcha = require('2captcha');
 const axios = require("axios");
 const getAllRolesIdAdmins = require("../../components/getAllRolesIdAdmins");
+const api = require('../../api/index');
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 
 // const getRecaptchaToken = () => solver.recaptcha("6LdLWdMaAAAAAJI4L3Dp3iV7eB7qerf8p-YyzLoD", "https://arizona-rp.com").then(req => req.data)
@@ -41,7 +42,7 @@ module.exports = {
         interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`⌛ | Загрузка данных...`)
                     .setAuthor({
                         name: guild.name,
@@ -58,21 +59,16 @@ module.exports = {
                     }),
             ],
         });
-        const request = await axios.get(`https://arizona-rp-api.herokuapp.com/api/find-player?nickname=${nickname}`, {
-            headers: {
-                token: "ArizonaSurprise10TopTheBotWrittingByDeividBrown"
-            },
-            validateStatus: () => true,
-        })
-        if (request.data.errors?.length) {
+        const request = await api.findPlayer(nickname);
+        if (request.data.error) {
             return interaction.editReply({
                 embeds: [
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(
-                            `**${request.data.errors[0]}**`
+                            `**${request.data.error}**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -84,16 +80,16 @@ module.exports = {
                 ]
             })
         }
-        const { isOnline, cash, bank, org, vip, work, rank, deposit, lvl, totalMoney } = (request.data).data;
+        const { isOnline, cash, bank, org, vip, work, rank, deposit, lvl, totalMoney } = request.data;
         const format = (number) => new Intl.NumberFormat('en-US').format(number)
         interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setAuthor({name: guild.name, iconURL: guild.iconURL()})
                     .setTitle(`Информация о пользователе - ${nickname}`)
-                    .setDescription(`\`\`\`asciidoc\n= Аккаунт =\`\`\`\n>>> **「💾」Никнейм: \`${nickname}\`\n「💎」Статус: \`${!isOnline ? "Не в сети" : "В игре"}\`\n「💰」Баланс: \`${format(cash)}\`\n「🏦」Баланс в банке: \`${format(bank)}\`\n「💶」Баланс депозита: \`${format(deposit)}\`\n「🤑」Общее количество денег: \`${format(totalMoney)}\`\n「👻」Уровень: \`${lvl}\`\n「🔰」VIP: \`${vip}\`\n「🛠」Работа: \`${work}\`\n「📕」Организация: \`${org ? org : "Отсутствует"}\`\n${rank ? `「💳」Ранг: \`${rank}\`` : ""}**`)
-                    // .setColor(Colors.Red)
-                    .setColor(Colors.Red)
+                    .setDescription(`\`\`\`asciidoc\n= Аккаунт =\`\`\`\n>>> **「💾」Никнейм: \`${nickname}\`\n「💎」Статус: \`${!isOnline ? "Не в сети" : "В игре"}\`\n「💰」Баланс: \`${format(cash)}$\`\n「🏦」Баланс в банке: \`${format(bank)}$\`\n「💶」Баланс депозита: \`${format(deposit)}$\`\n「🤑」Общее количество денег: \`${format(totalMoney)}$\`\n「👻」Уровень: \`${lvl}\`\n「🔰」VIP: \`${vip}\`\n「🛠」Работа: \`${work}\`\n「📕」Организация: \`${org ? org : "Отсутствует"}\`\n${rank ? `「💳」Ранг: \`${rank}\`` : ""}**`)
+                    // .setColor(Colors.Blue)
+                    .setColor(Colors.Blue)
                     .setFooter({
                         text: `Robo Hamster`,
                         iconURL: bot.user.displayAvatarURL(),

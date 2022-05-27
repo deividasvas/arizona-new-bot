@@ -1,7 +1,7 @@
 const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const getCoinsProfile = require("../../components/getCoinsProfile");
 const setUserCoinsParam = require("../../components/setUserCoinsParam");
-const { maxPaidOfDay, commissionPercent } = require("../../configs/settings");
+const { coinsRates: { maxPaidOfDay, commissionPercent } } = require("../../configs/settings");
 const sendUserMessage = require("../../components/sendUserMessage");
 
 module.exports = {
@@ -34,7 +34,7 @@ module.exports = {
 						.setDescription(
 							`**Данная команда доступна только в канале <#${channelsId.coins}>!**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -58,7 +58,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setTitle(`❌ | Ошибка!`)
 						.setDescription(`**Самому себе нельзя перевести деньги!**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -79,7 +79,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setTitle(`❌ | Ошибка!`)
 						.setDescription(`**Минимальная сумма перевода 0.001!**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -102,7 +102,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setTitle(`❌ | Ошибка!`)
 						.setDescription(`**У Вас нет такого количество монет!**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -123,7 +123,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setTitle(`📝 | Стой-стой!`)
 						.setDescription(`**Полегче друг, твой перевод который ты хочешь осуществить превышает лимит переводов в день - \`${maxPaidOfDay}\`! Снизь немного сумму и всё должно быть в порядке!**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -144,7 +144,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setTitle(`📝 | Стой-стой!`)
 						.setDescription(`**Полегче друг, на сегодня хватит переводов. Ты достиг максимального количество которое можно переводить другим пользователям - \`${maxPaidOfDay}\`!**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -193,7 +193,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setTitle(`💰 | Передача денег!`)
-					.setColor(Colors.DarkGreen)
+					.setColor(Colors.Blue)
 					.setDescription(`**Вы передали пользователю ${member} - \`${sum.toFixed(4)}\` монет.\n\`${commissionPercent}%\` от общей суммы были отняты комиссией!**`)
 					.setAuthor({
 						name: guild.name,
@@ -212,7 +212,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setTitle(`💰 | Звук денег!`)
-					.setColor(Colors.DarkGreen)
+					.setColor(Colors.Blue)
 					.setDescription(`**Пользователь ${author}(${author.displayName}) перевёл Вам \`${sum}\` монет. Ваш счёт теперь: \`${memberProfile.coins}\`!**`)
 					.setAuthor({
 						name: guild.name,
@@ -232,7 +232,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setTitle(`💰 | Перевод денег!`)
-					.setColor(Colors.DarkGreen)
+					.setColor(Colors.Blue)
 					.setDescription(`**Отправитель: <@${author.id}>(${author.id})\nПолучатель: <@${member.id}>(${member.id})\nСумма: \`${money.toFixed(3)}\`$\nКомиссия: \`${commission.toFixed(3)}(${commissionPercent}%)\`**`)
 					.setAuthor({
 						name: guild.name,

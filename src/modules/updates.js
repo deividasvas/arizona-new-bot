@@ -50,7 +50,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**Длина текста превышает 1000 символов!**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -117,7 +117,7 @@ module.exports = {
             ephemeral: true,
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`🤔 | А это идея!`)
                     .setTimestamp()
                     .setDescription(`**Слушай, а задумка то интересная. Передал её тех.отделу этого дискорд сервера. Как только будут новости - обязательно тебе сообщу!**`)
@@ -131,7 +131,7 @@ module.exports = {
         await sendUserMessage({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`👍 | Твоя идея класс!`)
                     .setTimestamp()
                     .setDescription(`**Привет! Если ты помнишь, ты писал предложение по улучшению дискорд сервера \`${guild.name}\`. Так, вот, могу обрадовать! Твоя идея понравилась администрации дискорда! Ниже предоставлена информация!**`)
@@ -160,7 +160,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`👍 | Предложение одобрено!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .addFields([
                             {
                                 name: "Автор предложения",
@@ -415,7 +415,7 @@ module.exports = {
                         new EmbedBuilder()
                             .setTitle(`❌ | Ошибка!`)
                             .setDescription(`**У Вас не хватает прав!**`)
-                            .setColor(Colors.Red)
+                            .setColor(Colors.Blue)
                             .setAuthor({
                                 name: guild.name,
                                 iconURL: guild.iconURL(),

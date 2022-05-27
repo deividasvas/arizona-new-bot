@@ -15,7 +15,7 @@ module.exports = async (bot, interaction) => {
 					await new EmbedBuilder()
 						.setTitle(`🚫 | Ошибка!`)
 						.setDescription(`**Ожидайте, происходит инициализация бота...**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setTimestamp()
 						.setFooter({
 							text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
@@ -32,7 +32,7 @@ module.exports = async (bot, interaction) => {
 					await new EmbedBuilder()
 						.setTitle(`🚫 | Упс!`)
 						.setDescription(`**Произошёл некоторый парадокс. Команда была создана случайно. Повторите попытку с другой командой!**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setTimestamp()
 						.setFooter({
 							text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()

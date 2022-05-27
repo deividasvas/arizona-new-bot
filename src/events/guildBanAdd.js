@@ -22,7 +22,7 @@ module.exports = async(bot, banMember) => {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Система блокировки через ПКМ!`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: banMember.guild.name,
                         iconURL: banMember.guild.iconURL(),

@@ -33,7 +33,7 @@ module.exports = {
                             },
                         ]
                     )
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                 ]
             })

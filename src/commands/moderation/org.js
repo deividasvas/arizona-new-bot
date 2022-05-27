@@ -23,7 +23,7 @@ module.exports = {
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**Данные об организациях на данный момент не прогружены до конца. Ожидайте конца загрузки данных.\nОбычно, этот процесс занимает около 2 минут.**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -37,7 +37,7 @@ module.exports = {
         const getEmbed = player => {
             if (player.isPlayerInFraction) {
                 return new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Проверка на НСО`)
                     .setDescription(`**Последнее обновление данных: ${bot.fractions.dateOldInit.toLocaleDateString('ru-RU', {timeZone: 'Europe/Moscow'})} ${bot.fractions.dateOldInit.toLocaleTimeString('ru-RU', {timeZone: 'Europe/Moscow'})}**`)
                     .addFields([{
@@ -60,7 +60,7 @@ module.exports = {
                     })
             } else {
                 return new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Проверка на НСО`)
                     .setTimestamp()
                     .setDescription(`**Игрок \`${player.nickname}\` не состоит в организации\n Последнее обновление данных: ${bot.fractions.dateOldInit.toLocaleDateString('ru-RU', {timeZone: 'Europe/Moscow'})} ${bot.fractions.dateOldInit.toLocaleTimeString('ru-RU', {timeZone: 'Europe/Moscow'})}**`)

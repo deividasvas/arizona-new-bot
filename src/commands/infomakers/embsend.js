@@ -24,7 +24,7 @@ module.exports = {
             .setDescription(
               `**Вы не инициализировали эмбед. (Для каждого пользователя свой эмбед)**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -104,7 +104,7 @@ module.exports = {
               .setDescription(
                 `**Упс.. Что-то пошло не так. Скорее всего, Вы что-то не так указали**`
               )
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),

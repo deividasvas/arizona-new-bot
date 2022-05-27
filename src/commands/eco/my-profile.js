@@ -25,7 +25,7 @@ module.exports = {
 						.setDescription(
 							`**Данная команда доступна только в канале <#${channelsId.coins}>!**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -58,7 +58,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setTitle(`❌ | Ошибка!`)
 						.setDescription(`**Профиля других пользователей можно смотреть только от должности <@&${rolesId.juniorDiscordMaster}> и выше!**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -77,7 +77,7 @@ module.exports = {
 			ephemeral: false,
 			embeds: [
 				new EmbedBuilder()
-					.setColor(Colors.DarkRed)
+					.setColor(Colors.Blue)
 					.setAuthor({
 						name: guild.name, iconURL: guild.iconURL()
 					})

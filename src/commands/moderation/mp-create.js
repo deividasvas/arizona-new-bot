@@ -68,7 +68,7 @@ module.exports = {
         });
         channelManagers.send({
             embeds: [new EmbedBuilder()
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setTitle("**Управление Мероприятием**")
                 .setDescription("**Подождите, идет загрузка сообщения**")
                 .setAuthor({

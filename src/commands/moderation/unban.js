@@ -39,7 +39,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**${userForUnban} не заблокирован**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -57,7 +57,7 @@ module.exports = {
         moderationLog.send({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Система снятия блокировки!`)
                     .setAuthor({
                         name: guild.name,
@@ -78,7 +78,7 @@ module.exports = {
             ephemeral: true,
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Система снятия блокировки!`)
                     .setAuthor({
                         name: guild.name,

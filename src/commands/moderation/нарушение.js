@@ -83,7 +83,7 @@ module.exports = {
                 ", "
               )}**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -106,7 +106,7 @@ module.exports = {
             .setDescription(
               `Суть жалобы должна быть не менее 5 символов, и не более 1300 символов`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -150,7 +150,7 @@ module.exports = {
               {name: `Обращение:`, value: `${textComplaint}`, inline: false},
               {name: `Доказательства:`, value: `${proof}`, inline: false}
             ])
-          .setColor(Colors.Red)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setFooter({
             text: `Robo Hamster`,
@@ -162,7 +162,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.Red)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | Жалоба на руководство`)
           .setAuthor({
             name: guild.name,

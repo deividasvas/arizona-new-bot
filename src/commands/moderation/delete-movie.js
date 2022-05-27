@@ -28,7 +28,7 @@ module.exports = {
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**Канала не существует на сервере!**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -44,7 +44,7 @@ module.exports = {
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**Канал ${channelForDelete} невозможно удалить при помощи данной команды!**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -66,7 +66,7 @@ module.exports = {
                     .setDescription(
                         `**Вы успешно удалили канал \`${channel.name}\`**`
                     )
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setFooter({
                         text: `Robo Hamster`,

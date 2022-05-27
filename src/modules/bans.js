@@ -29,7 +29,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Система блокировки пользователей!`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: interaction.guild.name,
                         iconURL: interaction.guild.iconURL(),
@@ -49,7 +49,7 @@ module.exports = {
                 content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(Colors.DarkGreen)
+                        .setColor(Colors.Blue)
                         .setTitle(`📌 | Вам выдали блокировку!`)
                         .setAuthor({
                             name: interaction.guild.name,
@@ -85,7 +85,7 @@ module.exports = {
                         .setDescription(
                             `**Вы не являетесь модератором. Если это не так, то обратитесь к <@&${rolesId[guild.id].techSection}>**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -149,7 +149,7 @@ module.exports = {
                         .setDescription(
                             `**Пользователь ${userForBanId} был успешно заблокирован на \`${days}\` по причине \`${reason}\` по голосованию модераторов. Запросил: ${moderatorSender.id}**`
                         )
-                        .setColor(Colors.DarkGreen)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -174,7 +174,7 @@ module.exports = {
                         .setDescription(
                             `**Пользователь ${userForBanId} был отказан от блокировки по голосованию модераторов. Запросил: ${moderatorSender.id}**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -213,7 +213,7 @@ module.exports = {
                             .setDescription(
                                 `**Администратор ${user} одобрил блокировку пользователя <@${userForBanId}>\n\n\`Отправил\`: ${moderatorSender}\n\`Пользователь\`: <@${userForBanId}>\n\`Причина блокировки\`: ${reason}**`
                             )
-                            .setColor(Colors.DarkGreen)
+                            .setColor(Colors.Blue)
                             .setAuthor({
                                 name: guild.name,
                                 iconURL: guild.iconURL(),
@@ -238,7 +238,7 @@ module.exports = {
                             .setDescription(
                                 `**Администратор ${user} отклонил блокировку пользователя <@${userForBanId}>\n\n\`Отправил\`: ${moderatorSender}\n\`Пользователь\`: <@${userForBanId}>\n\`Причина блокировки\`: ${reason}**`
                             )
-                            .setColor(Colors.Red)
+                            .setColor(Colors.Blue)
                             .setAuthor({
                                 name: guild.name,
                                 iconURL: guild.iconURL(),

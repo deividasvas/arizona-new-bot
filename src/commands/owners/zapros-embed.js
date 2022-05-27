@@ -21,7 +21,7 @@ module.exports = {
         }
 
         const embed = new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Информация о получении ролей`)
             .setTimestamp()
             .setDescription(`**Теги организаций можно посмотреть в канале <#${channelsId.rolesForms}>**\n\n**Чтобы запросить роль, нажмите на кнопку \`запрос роли фракции\` и ожидайте одобрения от <@&${rolesId.juniorModerator}> и <@&${rolesId.moderator}>**\n**У гетто и мафий свой дискорд сервер!**\n[нелегалы](https://discord.gg/Je97Bh4)`)
@@ -73,7 +73,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Обновление сообщения!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Эмбед в запросе-ролей был успешно обновлен! Канал <#${channelsId.requestRoles}>**`)
                     .setTimestamp()
                     .setAuthor({

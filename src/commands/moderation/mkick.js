@@ -48,7 +48,7 @@ module.exports = {
               .setDescription(
                   `**Пользователя ${userForKick} невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
               )
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -65,7 +65,7 @@ module.exports = {
         content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Вы были исключены из сервера!`)
             .setAuthor({
               name: guild.name,
@@ -89,7 +89,7 @@ module.exports = {
     moderationLog.send({
       embeds: [
         new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Система исключения пользователей.`)
             .setAuthor({
               name: guild.name,
@@ -110,7 +110,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | Система исключения пользователей.`)
           .setAuthor({
             name: guild.name,

@@ -1,7 +1,6 @@
 const CoinsUsers = require("../models/CoinsUsers");
 const getCoinsProfile = require("./getCoinsProfile");
-const {coinsCoefficient, coinsRates} = require("../configs/settings");
-
+const {coinsRates: {coinsCoefficient}, coinsRates } = require("../configs/settings");
 // Функция изменения какого либо параметра в статистике пользователя в койнах.
 
 const setUserCoinsParam = async (

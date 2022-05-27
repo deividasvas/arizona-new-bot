@@ -96,7 +96,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Удаление field'a`)
             .setDescription(`**Вы успешно удалили под \`\`${idField}\`\` ID**`)
             .setAuthor({
@@ -115,7 +115,7 @@ module.exports = {
       const keyQuestionMessage = await channel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Ключ`)
             .setDescription(`**Введите заголовок field'a**`)
             .setAuthor({
@@ -140,7 +140,7 @@ module.exports = {
       const valueQuestionMessage = await channel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Значение`)
             .setDescription(`**Введите значение field'a**`)
             .setAuthor({
@@ -184,7 +184,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Добавление field'a`)
             .setDescription(
               `**Вы успешно добавили field.\n Ключ: \`${key}\`\ \n Значение: \`${value}\`**`
@@ -204,7 +204,7 @@ module.exports = {
       const keyQuestionMessage = await channel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Ключ`)
             .setDescription(`**Введите новый заголовок field'a**`)
             .setAuthor({
@@ -229,7 +229,7 @@ module.exports = {
       const valueQuestionMessage = await channel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Значение`)
             .setDescription(`**Введите новое значение field'a**`)
             .setAuthor({
@@ -281,7 +281,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Редактирование field'a`)
             .setDescription(
               `**Вы успешно изменили значение field'a под \`${idField}\` ID.\n Новый заголовок: ${key.content}\n Новое значение: ${value.content}**`

@@ -60,7 +60,7 @@ module.exports = {
             .setDescription(
               `**Пользователя <@${userForBanId}> невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -96,7 +96,7 @@ module.exports = {
             value: `>>> \`Отправитель:\` ${author}\n\`Нарушитель:\` <@${userForBanId}>\n\`Дней блокировки:\` ${days}\n\`Причина:\` ${reason}\n\n\`За\`: 0\n\`\`Против\`\`: 0`,
             inline: false,
           }])
-          .setColor(Colors.Red)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setFooter({
             text: `Robo Hamster`,
@@ -134,7 +134,7 @@ module.exports = {
             .setDescription(
                 `**Вы успешно отправили заявление на блокировку пользователя <@${userForBanId}> на \`${days}\` дней по причине \`${reason}\`**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,

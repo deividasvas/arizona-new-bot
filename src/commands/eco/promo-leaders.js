@@ -20,7 +20,7 @@ module.exports = {
 						.setDescription(
 							`**Данная команда доступна только в канале <#${channelsId.coins}>!**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -50,7 +50,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setTitle(`💰 | Топ 10 промокодов лидеров`)
-					.setColor(Colors.DarkGreen)
+					.setColor(Colors.Blue)
 					.setDescription(`**\`Индекс | Имя | Владелец | Кол-во использований\`\n${answer.join('\n')}**`)
 					.setAuthor({
 						name: guild.name,

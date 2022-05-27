@@ -1,7 +1,7 @@
 const { ApplicationCommandOptionType, EmbedBuilder, Colors } = require("discord.js");
 const CoinsUsers = require('../../models/CoinsUsers');
 const setUserCoinsParam = require("../../components/setUserCoinsParam");
-const { channelsId } = require("../../configs/settings");
+const { channelsId } = require('../../configs/settings')
 
 const choices = [
 	{
@@ -59,7 +59,7 @@ module.exports = {
 		rolesId.discordMaster,
 		rolesId.juniorDiscordMaster
 	], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
-	run: async ({ bot, interaction, guild, args }) => {
+	run: async ({ bot, interaction, guild, args, channelsId }) => {
 		const member = guild.members.cache.get(args[0]) ||
 			await guild.members.cache.fetch(args[0])
 
@@ -74,7 +74,7 @@ module.exports = {
 					await new EmbedBuilder()
 						.setTitle(`❌ | Ошибка!`)
 						.setDescription(`**Пользователь ${member} не был найден в базе данных!**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name, iconURL: guild.iconURL()
 						})

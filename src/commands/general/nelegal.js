@@ -18,7 +18,7 @@ module.exports = {
                 name: `${author.user.tag}`,
                 iconURL: author.displayAvatarURL()
             })
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setDescription("**Чтобы перейти в Discord канал нелегалок , нажмите кнопку ниже!**")
           .setTimestamp()
           .setAuthor({

@@ -58,7 +58,7 @@ module.exports = {
             .setDescription(
               `**${moderator} не является модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}>**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -94,7 +94,7 @@ module.exports = {
         content: `${author} ${moderator}`,
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Использование иммунитета!`)
             .setAuthor({
               name: guild.name,
@@ -114,7 +114,7 @@ module.exports = {
         ephemeral: true,
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Использование иммунитета!`)
             .setAuthor({
               name: guild.name,
@@ -220,7 +220,7 @@ module.exports = {
         content: `${author} ${moderator}`,
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Система выдачи выговоров!`)
             .setAuthor({
               name: guild.name,
@@ -276,7 +276,7 @@ module.exports = {
       content: `${author} ${moderator}`,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | Система выдачи выговоров!`)
           .setAuthor({
             name: guild.name,
@@ -300,7 +300,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | Система выдачи выговоров!`)
           .setAuthor({
             name: guild.name,

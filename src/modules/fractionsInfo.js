@@ -2,6 +2,7 @@ const {EmbedBuilder, Colors} = require("discord.js");
 const axios = require("axios");
 const getMinutesInMs = require("../components/getMinutesInMs");
 const {channelsId} = require("../configs/settings");
+const api = require('../api/index');
 
 module.exports = {
     /*
@@ -50,15 +51,9 @@ module.exports = {
         console.log(`[📌 | Fractions]: Информация о фракциях была успешно загружена!`)
     }, // Функция обновления информации о фракции
     async updateFractionInfo(fractionId) {
-        const url = `https://arizona-rp-api.herokuapp.com/api/get-fraction-info?serverId=10&fractionId=${fractionId}`;
-        const request = await axios.get(url, {
-            headers: {
-                token: "ArizonaSurprise10TopTheBotWrittingByDeividBrown"
-            }
-        }); // делаем запрос к API мятной плантации(одна из неофициальных API Arizona Games)
-
+        const request = await api.getFractionInfo(fractionId, 10);
         // пытаемся найти уже существующий объект с организацией, если его нет, то создаём новый
-        const {data: {members}} = request.data;
+        const {members} = request.data;
 
         // Объект с возможно существующей информацией о фракции
         let fraction = this.bot.fractions.data.find(fraction => fraction.id === fractionId);
@@ -66,7 +61,7 @@ module.exports = {
             // если объекта нет, то вставляем новый.
             this.bot.fractions.data.push({
                 id: Number(fractionId),
-                members: members,
+                members,
                 tag: this.tags[fractionId],
                 online: members.filter(member => member.isOnline).length
             });
@@ -95,10 +90,9 @@ module.exports = {
         for (const [id, guild] of this.bot.guilds.cache) {
             const onlineFractionChannel = this.bot.channels.cache.get(channelsId[id].onlineFraction)
             const messageEmbed = new EmbedBuilder()
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setTitle(`📌 | Онлайн фракции`)
                 .setTimestamp()
-                .setColor(Colors.DarkGreen)
                 .setFooter({
                     text: `Robo Hamster`, iconURL: this.bot.user.displayAvatarURL(),
                 })

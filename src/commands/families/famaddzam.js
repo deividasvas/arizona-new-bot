@@ -30,7 +30,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Вы не являетесь владельцем семьи**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -50,7 +50,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**${familyCandidateDeputy} уже является заместителем в семье**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -72,7 +72,7 @@ module.exports = {
             .setDescription(
               `**Максимальное количество заместителей семьи - ${settings.limitDeputyInFamilies} человек*`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -156,7 +156,7 @@ module.exports = {
               familyCandidateDeputy.id
             }]\`**`
           )
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setAuthor({
             name: guild.name,
@@ -177,7 +177,7 @@ module.exports = {
           .setDescription(
             `**Вы успешно назначили ${familyCandidateDeputy} на заместителя семьи <@&${family.roleId}>**`
           )
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTimestamp()
           .setAuthor({
             name: guild.name,
@@ -197,7 +197,7 @@ module.exports = {
             .setDescription(
               `**Вы были успешно назначены на должность заместителя семьи \`\`${role.name}\`\`**`
             )
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
               name: guild.name,

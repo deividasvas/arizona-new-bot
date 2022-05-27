@@ -36,7 +36,7 @@ const log = async (bot, message) => {
     }
 
     const embed = new EmbedBuilder()
-        .setColor(Colors.DarkGreen)
+        .setColor(Colors.Blue)
         .setTimestamp()
         .setDescription(`${message.author} (${message.author.id}) удалил сообщение в канале ${message.channel} (${message.channel.id})`)
         .setAuthor({

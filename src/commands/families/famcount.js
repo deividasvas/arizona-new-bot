@@ -37,7 +37,7 @@ module.exports = {
             .setDescription(
               `**Вы не являетесь владельцем или заместителем семьи**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -67,7 +67,7 @@ module.exports = {
                     guild.roles.cache.get(family.roleId).members.size
                 }\`**`
             )
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
               name: guild.name,

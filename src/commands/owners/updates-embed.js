@@ -67,7 +67,7 @@ module.exports = {
             ephemeral: true,
             embeds: [new EmbedBuilder()
                 .setTitle(`📌 | Обновление сообщения!`)
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setDescription(`**Эмбед в канале <#${channelsId.requestForUpdates}> успешно обновлен**`)
                 .setTimestamp()
                 .setAuthor({

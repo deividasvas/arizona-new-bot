@@ -20,7 +20,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setTitle(`📌 | Первые шаги!`)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setDescription(`**Добро пожаловать на дискорд игрового сервера:
 \`Arizona RolePlay | Surprise | 185.169.134.109:7777\`
 
@@ -63,7 +63,7 @@ module.exports = {
             ephemeral: true,
             embeds: [new EmbedBuilder()
                 .setTitle(`📌 | Обновление сообщения!`)
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setDescription(`**Эмбед в канале <#${channelsId.firstSteps}> успешно обновлен**`)
                 .setTimestamp()
                 .setAuthor({

@@ -30,7 +30,7 @@ module.exports = {
             embeds: [
                 await new EmbedBuilder()
                     .setTitle(`Пользователь: \`${member.displayName}\``)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name,
                         iconURL: guild.iconURL(),

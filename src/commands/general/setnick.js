@@ -26,7 +26,7 @@ module.exports = {
             .setDescription(
               `**Никнейм не может быть меньше одного и больше 32 символов!**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
               name: guild.name,
@@ -47,7 +47,7 @@ module.exports = {
         new EmbedBuilder()
           .setTitle(`📌 | Смена никнейма!`)
           .setDescription(`**Вы успешно сменили никнейм на \`${nick}\`!**`)
-          .setColor(`DarkGreen`)
+          .setColor(`Red`)
           .setTimestamp()
           .setAuthor({
             name: guild.name,

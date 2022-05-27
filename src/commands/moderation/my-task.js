@@ -25,7 +25,7 @@ module.exports = {
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**Просмотр чужих заданий возможно минимально от должности <@&${rolesAllowListForCheckOther[rolesAllowListForCheckOther.length - 1]}>**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -55,7 +55,7 @@ module.exports = {
                                 rolesId.techSection
                             }>**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -77,7 +77,7 @@ module.exports = {
                         await new EmbedBuilder()
                             .setTitle(`❌ | Ошибка!`)
                             .setDescription(`**Вы не имеете предупреждений**`)
-                            .setColor(Colors.Red)
+                            .setColor(Colors.Blue)
                             .setAuthor({
                                 name: guild.name, iconURL: guild.iconURL(),
                             })
@@ -93,7 +93,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**Модератор не имеет предупреждений**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name, iconURL: guild.iconURL(),
                         })
@@ -110,7 +110,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**Задание не выдано. Обратитесь к кураторам модерации и выше**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name, iconURL: guild.iconURL(),
                         })
@@ -138,7 +138,7 @@ module.exports = {
                 content: `<@${warn.initiatorId}> <@${author.id}>`,
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(Colors.DarkGreen)
+                        .setColor(Colors.Blue)
                         .setTitle(`📌 | Снятие предупреждения!`)
                         .setAuthor({
                             name: guild.name,
@@ -158,7 +158,7 @@ module.exports = {
                 ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setTitle(
                             `📌 | Снятие предупреждения!`
                         )
@@ -180,7 +180,7 @@ module.exports = {
             ephemeral: true,
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setTitle(
                         `📌 | Для снятия предупреждения нужно:`
                     )

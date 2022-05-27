@@ -58,7 +58,7 @@ module.exports = {
                 logChannel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(Colors.DarkGreen)
+                            .setColor(Colors.Blue)
                             .setTitle(`📌 | Система снятия ${setting.wordOnTitle}a!`)
                             .setAuthor({
                                 name: guild.name,

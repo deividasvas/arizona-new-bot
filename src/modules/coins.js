@@ -1,11 +1,13 @@
 const setUserCoinsParam = require('../components/setUserCoinsParam')
 const convertMinutesToMs = require('../components/convertMinutesToMs')
 const CoinsUsers = require('../models/CoinsUsers')
-const { channelsId, rolesId, rolesDepositCoefficient } = require('../configs/settings')
+const { channelsId, rolesId, coinsRates: { rolesDepositCoefficient } } = require('../configs/settings')
 const { EmbedBuilder, Colors } = require('discord.js')
 const fs = require('fs')
 const path = require('path')
-const coinsSettings = require('../configs/surprisecoins.json')
+
+// Путь до файла coins.json. Начинается от корневого файла.
+const pathToConfig = path.resolve('./configs/coins.json');
 
 module.exports = {
   /*
@@ -39,6 +41,7 @@ module.exports = {
     }
     return true
   },
+
   async restartPays (bot) {
     // Обнуляем всем пользователям количество переданных монет.
     await CoinsUsers.updateMany({}, {
@@ -70,6 +73,7 @@ module.exports = {
       })
     }
   },
+
   async restartDeposits (bot) {
     // Перебираем все сервера
     for (const [guildId, guild] of bot.guilds.cache) {
@@ -79,8 +83,7 @@ module.exports = {
       const rolesIdDepositCoefficient = await rolesDepositCoefficient(guildRolesId)
       // Получаем всех пользователей на данном сервере у которых активен депозит.
       const allUsersWithActiveDeposit = await CoinsUsers.find({
-        guildId,
-        isDepositActive: true
+        guildId, isDepositActive: true
       })
 
       for (const user of allUsersWithActiveDeposit) {
@@ -123,7 +126,7 @@ module.exports = {
       }
 
       const logCoinsChannel = guild.channels.cache.get(guildChannelsId.logCoins)
-      const date = new Date();
+      const date = new Date()
       logCoinsChannel.send({
         embeds: [
           new EmbedBuilder()
@@ -166,38 +169,52 @@ module.exports = {
       }
     }, convertMinutesToMs(1))
     setInterval(async () => {
-      const coinsSettings = require('../configs/surprisecoins.json')
-      const { lastDateRestartCoins: _lastDateRestartCoins, lastHourUpdateDeposit } = coinsSettings
-      const lastDateRestartCoins = new Date(_lastDateRestartCoins)
+      // Базовые настройки с датами обновления данных.
+      const coinsSettings = require(pathToConfig)
+      const {
+        lastDateRestartCoins: _lastDateRestartCoins, lastDateUpdateDeposit: _lastDateUpdateDeposit
+      } = coinsSettings
+      // Последняя дата перезапуска переведенных монет за день.
+      const lastDateRestartPaysCoins = new Date(_lastDateRestartCoins)
       const date = new Date()
-      // Если день последнего обновления данных не совпадает с текущим днём, то перезапускаем платежи.
-      if (date.getDate() !== lastDateRestartCoins.getDate()) {
+      // Если день последнего обновления переведенных монет за день не совпадает с текущим днём, то перезапускаем платежи.
+      if (date.getDate() !== lastDateRestartPaysCoins.getDate()) {
+        // Перезапускаем платежи.
         await this.restartPays(bot)
-        const date = new Date()
-        await fs.writeFileSync(path.resolve(`./src/configs/surprisecoins.json`), JSON.stringify({
+        // Обновляем данные в конфиге чтобы потом всё нормально работало.
+        await fs.writeFileSync(path.resolve(pathToConfig), JSON.stringify({
           ...coinsSettings,
           lastDateRestartCoins: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
         }))
-        delete require.cache[path.resolve('./src/configs/surprisecoins.json')]
+        // Удаляем из кэша файл с койнами чтобы при новом require была актуальная дата обновления.
+        delete require.cache[pathToConfig]
       }
 
-      const hours = date.getHours()
-      if ((
-        hours === 24 || hours === 12
-      ) && hours !== lastHourUpdateDeposit)
+      // Последняя дата обновления депозита.
+      const lastDateUpdateDeposit = new Date(_lastDateUpdateDeposit)
+      // Часы на данный момент.
+      const actualDateHours = date.getHours()
+      // Если часы сейчас это 0 или 12, и при этом, в этот час не обновлялся уже депозит, то обновляем его.
+      if (
+        (
+          actualDateHours === 0 || actualDateHours === 12
+        ) && actualDateHours !== lastDateUpdateDeposit.getHours()
+      )
       {
+        // Перезапускаем депозит.
         await this.restartDeposits(bot)
-        await fs.writeFileSync(path.resolve(`./src/configs/surprisecoins.json`), JSON.stringify({
+        // Редактируем конфиг.
+        await fs.writeFileSync(path.resolve(pathToConfig), JSON.stringify({
           ...coinsSettings,
-          lastHourUpdateDeposit: hours
+          lastDateUpdateDeposit: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
         }))
       }
 
-    }, 1000)
+    }, convertMinutesToMs(1))
     this.initial = true
   },
 
-  async run ({ bot, message, interaction, newMember, oldMember }) {
+  async run ({ bot, message, interaction }) {
     if (!this.initial) {
       this.init({ bot })
     }
@@ -208,10 +225,15 @@ module.exports = {
     if (message) {
       return await setUserCoinsParam(member.id, guild.id, 'coins', ({ coins, coefficient, rates, platforms }) => {
         const num = (
-          coins + (
-            rates.message * platforms || rates.message
+          coins + rates.message + (
+            (
+              (
+                rates.message * platforms
+              ) || 0
+            )
           )
         ) * coefficient
+
         return num.toFixed(4)
       })
     }

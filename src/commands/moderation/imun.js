@@ -42,7 +42,7 @@ module.exports = {
             .setDescription(
               `**${member} не является модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -64,7 +64,7 @@ module.exports = {
             .setDescription(
               `**Максимальное количество иммунитетов которое может быть у модератора - \`${immunities}\`**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -85,7 +85,7 @@ module.exports = {
       content: `${author} ${moderator}`,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | Система выдачи иммунитетов!`)
           .setAuthor({
             name: guild.name,
@@ -105,7 +105,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | Система выдачи иммунитетов!`)
           .setAuthor({
             name: guild.name,

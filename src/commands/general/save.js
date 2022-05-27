@@ -46,7 +46,7 @@ module.exports = {
               inline: false,
             }
           )
-          .setColor(Colors.Red)
+          .setColor(Colors.Blue)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),

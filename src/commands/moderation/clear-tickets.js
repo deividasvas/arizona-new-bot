@@ -24,7 +24,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle("📌 | Очистка корзины!")
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription("**Вы уверены что хотите очистить корзину?**")
                     .setTimestamp()
                     .setAuthor({
@@ -69,7 +69,7 @@ module.exports = {
                     embeds: [
                         new EmbedBuilder()
                             .setTitle("📌 | Очистка корзины!")
-                            .setColor(Colors.DarkGreen)
+                            .setColor(Colors.Blue)
                             .setDescription(`**Корзина успешно очищена!\nЗапросил: ${author}**`)
                             .setTimestamp()
                             .setAuthor({

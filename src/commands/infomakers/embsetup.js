@@ -83,7 +83,7 @@ module.exports = {
             .setDescription(
               `**Данную команду можно использовать только в канале <#${channelsId.infomakers}>**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -106,7 +106,7 @@ module.exports = {
             .setDescription(
               `**${leaderFam} уже является лидером или заместителем семьи \`${familyName}\`**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -157,7 +157,7 @@ module.exports = {
             await new EmbedBuilder()
                 .setTitle(`❌ | Ошибка!`)
                 .setDescription(`**Вы указали более 256 символов для заголовка**`)
-                .setColor(Colors.Red)
+                .setColor(Colors.Blue)
                 .setAuthor({
                   name: guild.name,
                   iconURL: guild.iconURL(),
@@ -182,7 +182,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение заголовка`)
             .setDescription(`**Вы успешно изменили заголовок на \`${value}\`**`)
             .setAuthor({
@@ -205,7 +205,7 @@ module.exports = {
             new EmbedBuilder()
               .setTitle(`❌ | Ошибка!`)
               .setDescription(`**Вы указали более 4096 символов для описания**`)
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -230,7 +230,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение описание`)
             .setDescription(`**Вы успешно изменили описание на \`${value}\`**`)
             .setAuthor({
@@ -253,7 +253,7 @@ module.exports = {
             new EmbedBuilder()
               .setTitle(`❌ | Ошибка!`)
               .setDescription(`**Цвет должен начинатся с #. Пример: #FFF**`)
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -278,7 +278,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение цвета`)
             .setDescription(`**Вы успешно изменили цвет на \`${value}\`**`)
             .setAuthor({
@@ -303,7 +303,7 @@ module.exports = {
               .setDescription(
                 `**Невалидное значение. Используйте \`включено\` или \`-\`**`
               )
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -328,7 +328,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение даты`)
             .setDescription(`**Вы успешно включили/выключили показ даты**`)
             .setAuthor({
@@ -355,7 +355,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение картинки`)
             .setDescription(`**Вы успешно изменили URL картинки на \`${value}\`**`)
             .setAuthor({
@@ -377,7 +377,7 @@ module.exports = {
             new EmbedBuilder()
               .setTitle(`❌ | Ошибка!`)
               .setDescription(`**Вы указали более 2048 символов для подписи**`)
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -401,7 +401,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение подписи`)
             .setDescription(`**Вы успешно изменили подпись на \`${value}\`**`)
             .setAuthor({
@@ -428,7 +428,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение подписи`)
             .setDescription(
               `**Вы успешно изменили URL картинки автора подписи на \`${value}\`**`
@@ -457,7 +457,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение заголовка 'Author'`)
             .setDescription(
               `**Вы успешно изменили заголовок 'Author' на \`${value}\`**`
@@ -486,7 +486,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение заголовка 'Author'`)
             .setDescription(
               `**Вы успешно изменили URL изображение заголовки 'Author' на \`${value}\`**`
@@ -515,7 +515,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение URL изображение заголовка 'Author'`)
             .setDescription(
               `**Вы успешно изменили URL изображение заголовки 'Author' на \`${value}\`**`
@@ -544,7 +544,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTitle(`📌 | Изменение ссылки в заголовке`)
             .setDescription(
               `**Вы успешно изменили ссылку в заголовке на \`${value}\`**`

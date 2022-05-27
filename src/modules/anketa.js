@@ -49,7 +49,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle("📌 | Новая анкета!!")
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setAuthor({
                         name: guild.name,
@@ -72,7 +72,7 @@ module.exports = {
         acceptedQuestionnaireChannel.send({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle("✅ | Анкета одобрена!")
                     .setTimestamp()
                     .setAuthor({
@@ -103,7 +103,7 @@ module.exports = {
             ephemeral: true,
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle("⏰ | Необходимо Ваш ответ!")
                     .setTimestamp()
                     .setAuthor({
@@ -166,7 +166,7 @@ module.exports = {
             ephemeral: true,
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle("⏰ | Необходимо Ваш ответ!")
                     .setTimestamp()
                     .setAuthor({
@@ -238,7 +238,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**У Вас нет доступа к данной функции.**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),

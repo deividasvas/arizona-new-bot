@@ -60,7 +60,7 @@ module.exports = {
 					await new EmbedBuilder()
 						.setTitle(`❌ | Ошибка!`)
 						.setDescription(`**Команда \`${commandName}\` находится в архиве. Взаимодействие возможно только через код путём изменения свойства \`archive\` на \`false\`/\`true\`**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -82,7 +82,7 @@ module.exports = {
 						.setDescription(
 							`**Вы ввели неправильное действие. Доступные действия: start, stop, restart, reloadSlash**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -108,7 +108,7 @@ module.exports = {
 				ephemeral: true,
 				embeds: [
 					new EmbedBuilder()
-						.setColor(Colors.DarkGreen)
+						.setColor(Colors.Blue)
 						.setTitle(`📌 | Система управления командами!`)
 						.setAuthor({
 							name: guild.name,
@@ -135,7 +135,7 @@ module.exports = {
 						await new EmbedBuilder()
 							.setTitle(`❌ | Ошибка!`)
 							.setDescription(`**Команда \`${commandName}\` не отключена**`)
-							.setColor(Colors.Red)
+							.setColor(Colors.Blue)
 							.setAuthor({
 								name: guild.name,
 								iconURL: guild.iconURL()
@@ -163,7 +163,7 @@ module.exports = {
 					await new EmbedBuilder()
 						.setTitle(`📌 | Запуск команды`)
 						.setDescription(`**Команда \`${commandName}\` успешно запущена**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -186,7 +186,7 @@ module.exports = {
 							.setDescription(
 								`**Команда \`${commandName}\` находится в состояний - отключена**`
 							)
-							.setColor(Colors.Red)
+							.setColor(Colors.Blue)
 							.setAuthor({
 								name: guild.name,
 								iconURL: guild.iconURL()
@@ -209,7 +209,7 @@ module.exports = {
 							.setDescription(
 								`**Команды \`${commandName}\` не существует!**`
 							)
-							.setColor(Colors.Red)
+							.setColor(Colors.Blue)
 							.setAuthor({
 								name: guild.name,
 								iconURL: guild.iconURL()
@@ -237,7 +237,7 @@ module.exports = {
 					await new EmbedBuilder()
 						.setTitle(`📌 | Выключение команды`)
 						.setDescription(`**Команда \`${commandName}\` успешно выключена**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -257,7 +257,7 @@ module.exports = {
 					await new EmbedBuilder()
 						.setTitle(`📌 | Перезапуск команд`)
 						.setDescription(`**Сейчас произойдёт перезапуск ВСЕХ слэш команд!**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()

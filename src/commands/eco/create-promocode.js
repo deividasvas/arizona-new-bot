@@ -26,7 +26,7 @@ module.exports = {
 						.setDescription(
 							`**Данная команда доступна только в канале <#${channelsId.coins}>!**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -51,7 +51,7 @@ module.exports = {
 						.setDescription(
 							`**Промокод должен начинаться с # и в нём должны содержаться только английские символы!**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -79,7 +79,7 @@ module.exports = {
 						.setDescription(
 							`**Промокод \`${name}\` уже существует на этом сервере!**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -104,7 +104,7 @@ module.exports = {
 						.setDescription(
 							`**У Вас уже существует промокод!**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -129,7 +129,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setTitle(`💰 | Промокод создан!`)
-					.setColor(Colors.DarkGreen)
+					.setColor(Colors.Blue)
 					.setDescription(`**Вы успешно создали прокомод - \`${promoName}\`. Чтобы узнать подробности использования промокода - введите команду \`/promo-info\`**`)
 					.setAuthor({
 						name: guild.name,
@@ -148,7 +148,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setTitle(`💰 | Создание промокода!`)
-					.setColor(Colors.DarkGreen)
+					.setColor(Colors.Blue)
 					.setAuthor({
 						name: guild.name,
 						iconURL: guild.iconURL()

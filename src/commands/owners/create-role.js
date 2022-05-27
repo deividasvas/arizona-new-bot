@@ -43,7 +43,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Была создана персональная роль`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setAuthor({
                         name: guild.name,
@@ -68,7 +68,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Успешно!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setDescription(`**Вы успешно создали персональную роль ${role} для пользователя ${member}**`)
                     .setAuthor({
@@ -88,7 +88,7 @@ module.exports = {
                     .setDescription(
                         `**Администратор ${author} создал для Вас персональную роль под названием \`${roleName}\`**`
                     )
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setAuthor({
                         name: guild.name,

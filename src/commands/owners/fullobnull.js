@@ -14,7 +14,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle("📌 | Обнуление недельных баллов!")
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription("**Вы уверены что хотите ОБНУЛИТЬ недельные баллы модераторам?**")
                     .setTimestamp()
                     .setAuthor({
@@ -70,7 +70,7 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("📌 | Обнуление недельных баллов!")
-                        .setColor(Colors.DarkGreen)
+                        .setColor(Colors.Blue)
                         .setDescription(`**Баллы были успешно обнулены!**`)
                         .setTimestamp()
                         .setAuthor({

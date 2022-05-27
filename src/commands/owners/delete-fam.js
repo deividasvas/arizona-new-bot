@@ -33,7 +33,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Данной семьи не существует**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -90,7 +90,7 @@ module.exports = {
         new EmbedBuilder()
           .setTitle(`📌 | Удаление семьи!`)
           .setDescription(`**Вы успешно удалили семью \`\`${role.name}\`\`**`)
-          .setColor(Colors.Red)
+          .setColor(Colors.Blue)
           .setTimestamp()
             .setAuthor({
               name: guild.name,
@@ -109,7 +109,7 @@ module.exports = {
             .setDescription(
                 `**Администратор ${author} удалил Вашу семью под названием \`${role.name}\`**`
             )
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
               name: guild.name,

@@ -33,7 +33,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Напишите новое название для привата. У Вас одна минута.**`)
                     .setTimestamp()
                     .setAuthor({
@@ -63,7 +63,7 @@ module.exports = {
                         .setDescription(
                             `**Название привата не может превышать 32 символов!**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -83,7 +83,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Вы успешно изменили название привата!\nБыло: \`${oldNameChannel}\`\nСтало: \`${answer.content}\`**`)
                     .setTimestamp()
                     .setAuthor({
@@ -105,7 +105,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Напишите максимальное количество пользователей в канале для привата. У Вас одна минута.**`)
                     .setTimestamp()
                     .setAuthor({
@@ -135,7 +135,7 @@ module.exports = {
                         .setDescription(
                             `**Параметр должен быть числом!**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -156,7 +156,7 @@ module.exports = {
                         .setDescription(
                             `**Число должно быть не более 99 и не менее 2**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -175,7 +175,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Вы успешно изменили количество максимальных людей в привате!\nБыло: \`${oldUserLimit}\`\nСтало: \`${answer.content}\`**`)
                     .setTimestamp()
                     .setAuthor({
@@ -218,7 +218,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Вы успешно выключили/включили возможность людям видеть канал!**`)
                     .setTimestamp()
                     .setAuthor({
@@ -260,7 +260,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Вы успешно выключили/включили возможность людям заходить в канал!**`)
                     .setTimestamp()
                     .setAuthor({
@@ -282,7 +282,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Пинганите пользователя которому будет дан доступ к привату. У Вас одна минута.**`)
                     .setTimestamp()
                     .setAuthor({
@@ -312,7 +312,7 @@ module.exports = {
                         .setDescription(
                             `**Вы не упомянули пользователя.**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -338,7 +338,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Вы успешно дали доступ ${userMember} к Вашему привату!**`)
                     .setTimestamp()
                     .setAuthor({
@@ -360,7 +360,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Пинганите пользователя которому будет убран доступ к привату. У Вас одна минута.**`)
                     .setTimestamp()
                     .setAuthor({
@@ -390,7 +390,7 @@ module.exports = {
                         .setDescription(
                             `**Вы не упомянули пользователя.**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -412,7 +412,7 @@ module.exports = {
                         .setDescription(
                             `**Пользователь не находится в Вашем привате!**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -432,7 +432,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Пользователь ${userMember} успешно исключен из Вашего привата!**`)
                     .setTimestamp()
                     .setAuthor({
@@ -454,7 +454,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Настройка привата!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Приват был успешно удалён!**`)
                     .setTimestamp()
                     .setAuthor({
@@ -520,7 +520,7 @@ module.exports = {
                         .setDescription(
                             `**Вы не находитесь в голосовом канале!**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -543,7 +543,7 @@ module.exports = {
                         .setDescription(
                             `**Канал в котором Вы находитесь не является приватом!**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -571,7 +571,7 @@ module.exports = {
                         .setDescription(
                             `**Вы не являетесь владельцем привата в котором находитесь!**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),

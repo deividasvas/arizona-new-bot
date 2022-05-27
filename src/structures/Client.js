@@ -1,5 +1,5 @@
 const {
-    Client, Collection, ApplicationCommandPermissionType, GatewayIntentBits,
+    Client, Collection, ApplicationCommandPermissionType, GatewayIntentBits, Partials
 } = require("discord.js");
 const fs = require("fs");
 const settings = require("../configs/settings");
@@ -11,8 +11,10 @@ const {rolesId} = require("../configs/settings");
 module.exports = class ExtendedClient extends Client {
     constructor() {
         super({
-            intents: [GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageReactions, GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.Guilds, GatewayIntentBits.GuildBans, GatewayIntentBits.GuildEmojisAndStickers, GatewayIntentBits.GuildIntegrations, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildScheduledEvents, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildWebhooks, GatewayIntentBits.MessageContent]
+            intents: [GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageReactions, GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.Guilds, GatewayIntentBits.GuildBans, GatewayIntentBits.GuildEmojisAndStickers, GatewayIntentBits.GuildIntegrations, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildScheduledEvents, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildWebhooks, GatewayIntentBits.MessageContent],
+            partials: [Partials.Reaction, Partials.Message, Partials.Channel]
         });
+
 
         this.commands = new Collection();
         this.modules = new Collection();
@@ -45,7 +47,7 @@ module.exports = class ExtendedClient extends Client {
 
     async events() {
         let loadEvents = 0;
-        fs.readdirSync("./src/events/")
+        fs.readdirSync("./events/")
             .filter((name) => name.endsWith(".js"))
             .forEach((file) => {
                 let event = require(`../events/${file}`);
@@ -60,13 +62,12 @@ module.exports = class ExtendedClient extends Client {
     }
 
     async command() {
-        // return;
         // ЗАПУСКАЕТСЯ В ready.js, потому что иначе бот не успевает прогрузиться.
         for (const [id, guild] of this.guilds.cache) {
-            for (const dir of fs.readdirSync("./src/commands/")) {
+            for (const dir of fs.readdirSync("./commands/")) {
                 // инициализируем саму команду
                 const commands = fs
-                    .readdirSync(`./src/commands/${dir}/`)
+                    .readdirSync(`./commands/${dir}/`)
                     .filter((file) => file.endsWith(".js"));
                 for (let file of commands) {
                     let pull = require(`../commands/${dir}/${file}`);
@@ -184,7 +185,7 @@ module.exports = class ExtendedClient extends Client {
     }
 
     async module() {
-        fs.readdirSync(`./src/modules/`)
+        fs.readdirSync(`./modules/`)
             .filter((name) => name.endsWith(".js"))
             .forEach((module) => {
                 const pullModule = require(`../modules/${module}`);

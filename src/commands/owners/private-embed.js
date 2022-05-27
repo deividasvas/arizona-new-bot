@@ -22,7 +22,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setTitle(`📌 | Измените настройки для вашего временного голосового канала!`)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -106,7 +106,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Обновление сообщения!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Эмбед в канале <#${channelsId.managePrivate}> успешно обновлен**`)
                     .setTimestamp()
                     .setAuthor({

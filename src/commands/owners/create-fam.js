@@ -64,7 +64,7 @@ module.exports = {
               .setDescription(
                   `**${leaderFam} уже является лидером или заместителем семьи \`${familyName}\`**`
               )
-              .setColor(Colors.Red)
+              .setColor(Colors.Blue)
               .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -87,7 +87,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Семья \`${checking.name}\` уже существует!**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -123,7 +123,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | Создание семьи`)
           .setDescription(
             `**Название: \`${familyName}\`\nВладелец семьи: ${leaderFam}\n**`
@@ -144,7 +144,7 @@ module.exports = {
     logChannel.send({
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | Создание семьи`)
           .setDescription(
             `**「📝」Название: \`${familyName}\`\n「📌」Владелец семьи: ${leaderFam}\n「👪」Семью создал Администратор: \`${author.user.tag}\`**`
@@ -233,7 +233,7 @@ module.exports = {
         new EmbedBuilder()
             .setTitle(`📌 | Начало истории!`)
             .setDescription(`**Всех приветствую!\n Данный канал является каналом семьи \`${role.name}\`.\n В данном канале можно обсуждать любые темы которые не нарушают правила!\n Для владельцев и заместителей есть так-же дополнительные команды которые они могут узнать при помощи \`/famhelp\`.\nЖелаю вам удачи в продвижений! **`)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
               name: guild.name,
@@ -253,7 +253,7 @@ module.exports = {
             .setDescription(
                 `**Администратор ${author} создал для Вас семью под названием \`${familyName}\`**`
             )
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
               name: guild.name,

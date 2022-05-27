@@ -55,7 +55,7 @@ module.exports = {
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**У Вас не достаточно доступа!**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -74,7 +74,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**Тикет уже находиться в обработке!**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name, iconURL: guild.iconURL(),
                         })
@@ -92,7 +92,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**Вы не можете отказаться от рассмотрения потому, что, Вы не брали данный тикет!**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name, iconURL: guild.iconURL(),
                         })
@@ -184,7 +184,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle(`📌 | Успешно!`)
                     .setDescription(`**Вы успешно отказались от рассмотрения тикета!**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -207,7 +207,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(`⏳ | Стой-стой!`)
                         .setDescription(`**Полегче друг, у тебя действует интервал на создание тикетов. Написать новый тикет ты сможешь через \`${minutes}\` минут(у)**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setTimestamp()
                         .setAuthor({
                             name: guild.name, iconURL: guild.iconURL(),
@@ -320,7 +320,7 @@ module.exports = {
             ephemeral: true, embeds: [new EmbedBuilder()
                 .setTitle(`📌 | Создание тикета`)
                 .setDescription(`**Ваш тикет был успешно создан! Вы можете задать вопрос в этом канале <#${newTicketChannel.id}> **`)
-                .setColor(Colors.Red)
+                .setColor(Colors.Blue)
                 .setAuthor({
                     name: guild.name, iconURL: guild.iconURL(),
                 })
@@ -348,7 +348,7 @@ module.exports = {
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**У Вас не достаточно доступа!**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -368,7 +368,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**Тикет уже находиться в рассмотрений другим модератором!**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name, iconURL: guild.iconURL(),
                         })
@@ -458,7 +458,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle(`📌 | Успешно!`)
                     .setDescription(`**Вы успешно взялись за тикет!**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -483,7 +483,7 @@ module.exports = {
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**У Вас не достаточно доступа!**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -500,7 +500,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**Вы не можете закрыть тикет потому, что, Вы не взяли его изначально!**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name, iconURL: guild.iconURL(),
                         })
@@ -662,7 +662,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle(`📌 | Успешно!`)
                     .setDescription(`**Вы успешно закрыли тикет!**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -690,7 +690,7 @@ module.exports = {
     async logTicketAction(type, guildId, bot, member, ticketChannelId) {
         const guild = bot.guilds.cache.get(guildId);
         const embed = new EmbedBuilder()
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setAuthor({
                 name: guild.name,
                 iconURL: guild.iconURL(),
@@ -840,7 +840,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**Вы не являетесь автором тикета!**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name, iconURL: guild.iconURL(),
                         })
@@ -897,7 +897,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle(`📌 | Положительная оценка!`)
                     .setDescription(`**Вы поставили модератору <@${ticket.moderatorId}> положительную оценку!**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -931,7 +931,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**Вы не являетесь автором тикета!**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name, iconURL: guild.iconURL(),
                         })
@@ -1003,7 +1003,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle(`📌 | Отрицательная оценка!`)
                     .setDescription(`**Вы поставили модератору <@${ticket.moderatorId}> отрицательную оценку!**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })

@@ -53,7 +53,7 @@ module.exports = {
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**${moderator} не является модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}>**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -68,7 +68,7 @@ module.exports = {
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**${moderator} не имеет предупреждений**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -89,7 +89,7 @@ module.exports = {
                 ephemeral: channel.id !== channelsId.curators,
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(Colors.DarkGreen)
+                        .setColor(Colors.Blue)
                         .setTitle(`📌 | Вы успешно обновили задание на`)
                         .setTimestamp()
                         .setDescription(`>>> **Муты: \`${mutes}\`\nКики: \`${kicks}\`\nБаны: \`${bans}\`\nТикеты: \`${tickets}\`**`)
@@ -108,7 +108,7 @@ module.exports = {
             ephemeral: channel.id !== channelsId.curators,
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Вы успешно выдали задание`)
                     .setTimestamp()
                     .setDescription(`>>> **Муты: \`${mutes}\`\nКики: \`${kicks}\`\nБаны: \`${bans}\`\nТикеты: \`${tickets}\`**`)

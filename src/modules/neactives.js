@@ -24,7 +24,7 @@ module.exports = {
             const guild = bot.guilds.cache.get(moderator.guildId);
             const moderatorMember = guild.members.cache.get(moderator.userId);
             const embed = new EmbedBuilder()
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setTitle(`📌 | Конец неактива!`)
                 .setTimestamp()
                 .setDescription(`**「📝」Выдавал: <@${moderatorMember.id}>\n「😭」Кому: <@${moderator.userId}>\n「📕」Причина: \`${neactive.reason}\`\n「📅」Неактив снят**`)

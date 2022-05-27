@@ -69,7 +69,7 @@ class timeChecker {
             return curatorsModerationChannel.send({
                 content: `<@&${rolesId[guildId].curatorModeration}> <@&${rolesId[guildId].adviceAdministration}>`,
                 embeds: [new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Система безопасности`)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),

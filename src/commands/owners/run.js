@@ -22,7 +22,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**Вам недоступна данная команда**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setTimestamp()
                         .setAuthor({
                             name: guild.name,
@@ -46,7 +46,7 @@ module.exports = {
                     .setDescription(
                         `**Отправлено с ${channel} \`[${channel.id}]\`\nОтправил: ${author} \`[${author.user.id}]\`\n\nКод:\n\`\`\`js\n${code}\`\`\`**`
                     )
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setAuthor({
                         name: guild.name,
@@ -65,7 +65,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle("📌 | Оповещение об использовании команды run!")
                     .setDescription(`**JavaScript выражение было успешно запущено!**`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setAuthor({
                         name: guild.name,

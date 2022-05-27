@@ -2,6 +2,7 @@ const { EmbedBuilder, Colors } = require("discord.js");
 // Функция обработки ошибок.
 const handleErrors = (err, bot, { message, command, isCommandError = false, } = {}) => {
     console.log(err);
+    console.log(err.stack);
     if(!bot?.guilds){
         return;
     }
@@ -20,7 +21,7 @@ const handleErrors = (err, bot, { message, command, isCommandError = false, } = 
                         iconURL: bot.user.displayAvatarURL()
                     })
                     .setDescription(`**「💻」Тип ошибки: \`${err.name}\`**\n\n\`\`\`xl\n${err.stack}\`\`\``)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
             ]
         })

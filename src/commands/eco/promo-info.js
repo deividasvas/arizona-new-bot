@@ -20,7 +20,7 @@ module.exports = {
 						.setDescription(
 							`**Данная команда доступна только в канале <#${channelsId.coins}>!**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -37,7 +37,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setTitle(`💰 | Информация по промокодам`)
-					.setColor(Colors.DarkGreen)
+					.setColor(Colors.Blue)
 					.setDescription(`**Система промокодов подразумевает собой создание промокода каким-то человеком и дальнейшее его использование новичками или другими людьми.\nЧтобы создать промокод необходимо ввести команду \`/create-promocode #название\` (Можно иметь только один промокод).\n Как только промокод создан - его могут использовать другие люди которые ещё не активировали промокод с помощью команды - \`/promocode\`.\nВ качестве награды выдается некоторое количество монет которые формируются по следующей формуле: \`уровень владельца * 0,1\`(Максимальный уровень который будет считаться - \`${promocodeMaxJuniperBotLevel}\`).\n Автор промокода при вводе его промокода так-же получает сумму равную \`${coinsOfActivatePromocode}\`**`)
 					.setAuthor({
 						name: guild.name,

@@ -118,7 +118,7 @@ const log = async ({
     const oldStreaming = oldMember.streaming;
     const newStreaming = newMember.streaming;
     const embed = new EmbedBuilder()
-        .setColor(Colors.DarkGreen)
+        .setColor(Colors.Blue)
         .setTimestamp()
         .setAuthor({
             name: `${newMember.member.user.tag} ${newMember.member.user.username ? `(${newMember.member.user.username})` : ''}`,

@@ -29,7 +29,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Данной семьи не существует**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -49,7 +49,7 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
           .setTitle(`📌 | Информация о семье!`)
-          .setColor(Colors.Red)
+          .setColor(Colors.Blue)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL(),

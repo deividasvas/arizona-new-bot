@@ -45,7 +45,7 @@ module.exports = {
             .setDescription(
               `**Вы не являетесь владельцем или заместителем семьи**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -60,7 +60,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**Невозможно исключить самого себя из семьи**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -81,7 +81,7 @@ module.exports = {
             .setDescription(
               `**${familyCandidateForKick} не состоит в Вашей семье**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),

@@ -96,7 +96,7 @@ module.exports = {
             .setDescription(
               `**${member} не является модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}>**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -125,7 +125,7 @@ module.exports = {
                     member.id
                 }>\nБыло: \`${main[typeStatistic]}\`\nСтало: \`${newCount}\`**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setFooter({
               text: `Robo Hamster`,

@@ -43,7 +43,7 @@ module.exports = {
             .setDescription(
               `**Вы не являетесь модератором. Если это не так, то обратитесь к технической поддержке Вашего сервера**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -96,7 +96,7 @@ module.exports = {
             content: `${user}`,
             embeds: [
               new EmbedBuilder()
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setTitle(`📌 | Снятие выговора`)
                 .setAuthor({
                   name: guild.name,
@@ -199,7 +199,7 @@ module.exports = {
             content: `${user}`,
             embeds: [
               new EmbedBuilder()
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setTitle(`📌 | Выдача иммунитета`)
                 .setAuthor({
                   name: guild.name,
@@ -286,7 +286,7 @@ module.exports = {
               name: guild.name,
               iconURL: guild.iconURL(),
             })
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setFooter({
               text: `Robo Hamster`,
               iconURL: bot.user.displayAvatarURL(),
@@ -304,7 +304,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(`**${filterResult.text}**`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -332,7 +332,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | ${service.name}!`)
           .setAuthor({
             name: guild.name,
@@ -354,7 +354,7 @@ module.exports = {
       content: `<@&${rolesId[guildId].adviceAdministration}> <@&${rolesId[guildId].juniorDiscordMaster}>`,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.DarkGreen)
+          .setColor(Colors.Blue)
           .setTitle(`📌 | Система покупок!`)
           .setAuthor({
             name: guild.name,

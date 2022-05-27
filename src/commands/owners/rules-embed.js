@@ -3,7 +3,7 @@ const {
     Colors,
 } = require("discord.js");
 module.exports = {
-    name: "rules", // название команды
+    name: "rules-embed", // название команды
     descr: "Обновить правила дискорд сервера", // описание команды
     perms: (rolesId) => [rolesId.discordMaster], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
     showInSlashCommands: false, // показывать ли команду в slash командах
@@ -21,7 +21,7 @@ module.exports = {
 
         let rules1 = new EmbedBuilder()
             .setTitle(`\`Общие правила канала Discord\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -48,7 +48,7 @@ module.exports = {
         // Аккаунты на нашем Discord сервере
         let rules2 = new EmbedBuilder()
             .setTitle(`\`Аккаунты на нашем Discord сервере\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -71,7 +71,7 @@ module.exports = {
         // Ник-неймы
         let rules3 = new EmbedBuilder()
             .setTitle(`\`Ник-неймы\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -94,7 +94,7 @@ module.exports = {
         // Текстовые каналы
         let rules4 = new EmbedBuilder()
             .setTitle(`\`Ник-неймы\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -117,7 +117,7 @@ module.exports = {
         // Голосовые каналы
         let rules5 = new EmbedBuilder()
             .setTitle(`\`Голосовые каналы\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -140,7 +140,7 @@ module.exports = {
         // Положение модерации Discord
         let rules6 = new EmbedBuilder()
             .setTitle(`\`Положение модерации Discord\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -163,7 +163,7 @@ module.exports = {
         // Правила валют на сервере Discord
         let rules7 = new EmbedBuilder()
             .setTitle(`\`Правила валют на сервере Discord\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -186,7 +186,7 @@ module.exports = {
         // Музыкальные каналы
         let rules8 = new EmbedBuilder()
             .setTitle(`\`Музыкальные каналы\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -209,7 +209,7 @@ module.exports = {
         // Support
         let rules9 = new EmbedBuilder()
             .setTitle(`\`Support\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -232,7 +232,7 @@ module.exports = {
         // Фильмы/Аниме
         let rules10 = new EmbedBuilder()
             .setTitle(`\`Система Фильмы/Аниме\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -255,7 +255,7 @@ module.exports = {
         let rules11 = new EmbedBuilder()
             .setTitle(`\`SurprisePay на сайте\``)
             .setDescription(`**\`11.1\` - На систему SurprisePay, распространяются правила и наказания дискорда.\n\`11.2\` - Запрещено клонирование/копиривание своих/чужих лотов - \`P11-P12\`\n\`11.3\` - Запрещено массовое заполонение системы бессмысленнами лотами \`P11 - P12\`**`)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -277,7 +277,7 @@ module.exports = {
         // Наказание
         let rulesPunish = new EmbedBuilder()
             .setTitle(`\`Наказания\``)
-            .setColor(Colors.DarkGreen)
+            .setColor(Colors.Blue)
             .setTimestamp()
             .setAuthor({
                 name: guild.name,
@@ -303,7 +303,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Обновление сообщения!`)
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setDescription(`**Правила сервера успешно обновлены! Канал <#${channelsId.rules}>**`)
                     .setTimestamp()
                     .setAuthor({

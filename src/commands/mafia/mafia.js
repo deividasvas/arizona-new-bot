@@ -18,7 +18,7 @@ module.exports = {
                         .setDescription(
                             `**Вы успешно сняли роль <@&${rolesId.mafia}>!**`
                         )
-                        .setColor(Colors.DarkGreen)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -40,7 +40,7 @@ module.exports = {
                     .setDescription(
                         `**Вы успешно получили роль <@&${rolesId.mafia}>!**`
                     )
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name,
                         iconURL: guild.iconURL(),

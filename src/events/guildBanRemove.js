@@ -20,7 +20,7 @@ module.exports = (bot, unban) => {
         await logChannel.send({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Система снятия блокировки через ПКМ!`)
                     .setAuthor({
                         name: unban.guild.name,

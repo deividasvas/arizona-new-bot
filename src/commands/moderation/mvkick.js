@@ -39,7 +39,7 @@ module.exports = {
                 ephemeral: true, embeds: [new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**Пользователя ${userForVoiceKick} невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -53,7 +53,7 @@ module.exports = {
                 ephemeral: true, embeds: [new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
                     .setDescription(`**Пользователь ${userForVoiceKick} не находится в голосовом канале.**`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),
                     })
@@ -67,7 +67,7 @@ module.exports = {
         await sendUserMessage({
             content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
             embeds: [new EmbedBuilder()
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setTitle(`📌 | Вы были исключены из голосового канала!`)
                 .setAuthor({
                     name: guild.name, iconURL: guild.iconURL(),
@@ -82,7 +82,7 @@ module.exports = {
         const moderationLog = guild.channels.cache.get(channelsId.moderationLog);
         moderationLog.send({
             embeds: [new EmbedBuilder()
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setTitle(`📌 | Система исключения пользователей из голосового канала.`)
                 .setAuthor({
                     name: guild.name, iconURL: guild.iconURL(),
@@ -96,7 +96,7 @@ module.exports = {
 
         interaction.reply({
             ephemeral: true, embeds: [new EmbedBuilder()
-                .setColor(Colors.DarkGreen)
+                .setColor(Colors.Blue)
                 .setTitle(`📌 | Система исключения пользователей из голосового канала.`)
                 .setAuthor({
                     name: guild.name, iconURL: guild.iconURL(),

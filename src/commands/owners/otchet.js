@@ -37,7 +37,7 @@ module.exports = {
             embeds: [
                 await new EmbedBuilder()
                     .setTitle("📌 | Отчётность по модераторам")
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setAuthor({
                         name: guild.name, iconURL: guild.iconURL(),

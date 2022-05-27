@@ -17,7 +17,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`📌 | Информация по МП`)
-                    .setColor(Colors.Red)
+                    .setColor(Colors.Blue)
                     .addFields(
                         {
                             name: `**Инструкция по использованию**`,

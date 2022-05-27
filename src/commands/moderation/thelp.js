@@ -15,7 +15,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle("📌 | Команды!")
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setAuthor({
                         name: guild.name,

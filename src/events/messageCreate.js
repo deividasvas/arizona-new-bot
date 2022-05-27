@@ -105,7 +105,7 @@ const commandHandler = async (bot, message) => {
 									.map((choice) => choice.value)
 									.join(" | ")})` : ""}`)
 								.join("\n")}\`\`\``)
-							.setColor(Colors.DarkGreen)
+							.setColor(Colors.Blue)
 							.setTimestamp()
 							.setFooter({
 								text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
@@ -134,8 +134,8 @@ const commandHandler = async (bot, message) => {
 					embeds: [
 						await new EmbedBuilder()
 							.setTitle(`🚫 | Ошибка!`)
-							.setDescription(`**Вы неверно указали аргумент \`${argument.name}\`. Необходимо следующее значение: \`${typeArgument.value}\`**`)
-							.setColor(Colors.DarkGreen)
+							.setDescription(`**Вы неверно указали аргумент \`${argument.name}\`.\nНеобходимо следующее значение: \`${typeArgument.value}\`**`)
+							.setColor(Colors.Blue)
 							.setAuthor({
 								name: message.guild.name, iconURL: message.guild.iconURL()
 							})
@@ -166,8 +166,8 @@ const commandHandler = async (bot, message) => {
 						embeds: [
 							await new EmbedBuilder()
 								.setTitle(`🚫 | Ошибка!`)
-								.setDescription(`**Вы указали невалидное значение для аргумента \`${argument.name}\`. Валидные значения: \`${argument.choices.map(choice => choice.value).join(", ")}\`. Ваше значение: \`${argumentValue}\`**`)
-								.setColor(Colors.DarkGreen)
+								.setDescription(`**Вы указали невалидное значение для аргумента \`${argument.name}\`.\nВалидные значения: \`${argument.choices.map(choice => choice.value).join(", ")}\`.\nВаше значение: \`${argumentValue}\`**`)
+								.setColor(Colors.Blue)
 								.setAuthor({
 									name: message.guild.name, iconURL: message.guild.iconURL()
 								})
@@ -211,6 +211,10 @@ const commandHandler = async (bot, message) => {
 			const answer = await message.reply(option);
 			cache[message.id] = answer;
 			setTimeout(() => {
+				// Если это канал койнов, то не удаляем сообщение
+				if(answer.channelId === channelsId.coins){
+					return;
+				}
 				message.delete();
 				answer.delete();
 				delete cache[message.id];
@@ -272,4 +276,5 @@ module.exports = async (bot, message) => {
 	}
 	bot.modules.get("trigger").run({ bot, message });
 	bot.modules.get("coins").run({ bot, message });
+	bot.modules.get("autoModeration").run({ bot, message });
 };

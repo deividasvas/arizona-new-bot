@@ -44,7 +44,7 @@ const supportBlock = async (bot, guildId, userId, provocateur, days, reason) => 
         logChannel.send({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Система снятия саппорт блока!`)
                     .setAuthor({
                         name: guild.name,
@@ -65,7 +65,7 @@ const supportBlock = async (bot, guildId, userId, provocateur, days, reason) => 
             {
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(Colors.DarkGreen)
+                        .setColor(Colors.Blue)
                         .setTitle(`📌 | Система снятия саппорт блока!`)
                         .setAuthor({
                             name: guild.name,

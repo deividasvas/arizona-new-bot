@@ -93,7 +93,7 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
         bansLogsChannel.send({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Система автоматической разблокировки!`)
                     .setAuthor({
                         name: guild.name,

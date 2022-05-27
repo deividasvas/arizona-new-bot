@@ -24,7 +24,7 @@ module.exports = {
             .setDescription(
               `**Уже прошло более 2 часов с момента отправки приглашения. Попросите отправить новое приглашение**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),

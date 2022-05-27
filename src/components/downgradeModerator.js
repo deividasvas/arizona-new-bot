@@ -23,7 +23,7 @@ const downgradeModerator = async (
     content: `<@${provocateurId}> <@${moderatorId}>`,
     embeds: [
       new EmbedBuilder()
-        .setColor(Colors.DarkGreen)
+        .setColor(Colors.Blue)
         .setTitle(`📌 | Система понижения!`)
         .setAuthor({
           name: guild.name,

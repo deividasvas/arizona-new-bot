@@ -3,6 +3,8 @@
 /tmp
 /out-tsc
 
+#^14.0.0-dev.1651493371-4ba0f56
+
 # Runtime data
 pids
 *.pid

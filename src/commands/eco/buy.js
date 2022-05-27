@@ -33,7 +33,7 @@ module.exports = {
 						.setDescription(
 							`**Данная команда доступна только в канале <#${channelsId.coins}>!**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -58,7 +58,7 @@ module.exports = {
 								.setDescription(
 									`**Вы достигли максимального количества платформ - \`${profile.platforms}\`**`
 								)
-								.setColor(Colors.Red)
+								.setColor(Colors.Blue)
 								.setAuthor({
 									name: guild.name,
 									iconURL: guild.iconURL()
@@ -79,7 +79,7 @@ module.exports = {
 								.setDescription(
 									`**У Вас недостаточно монет!\n Необходимо: \`${platformPrice}\`.\n У Вас есть: \`${profile.coins}\`**`
 								)
-								.setColor(Colors.Red)
+								.setColor(Colors.Blue)
 								.setAuthor({
 									name: guild.name,
 									iconURL: guild.iconURL()
@@ -103,7 +103,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setTitle(`💰 | Успешная покупка!`)
-							.setColor(Colors.DarkGreen)
+							.setColor(Colors.Blue)
 							.setDescription(`**Вы успешно приобрели \`1\` платформу! Теперь у Вас \`${profile.platforms + 1}\` платформ!**`)
 							.setAuthor({
 								name: guild.name,

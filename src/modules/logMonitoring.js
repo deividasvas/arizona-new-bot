@@ -24,7 +24,7 @@ module.exports = {
           await new EmbedBuilder()
               .setTitle(`🚫 | Ошибка!`)
               .setDescription(`**Вы не являетесь администратором!**`)
-              .setColor(Colors.DarkGreen)
+              .setColor(Colors.Blue)
               .setTimestamp()
               .setAuthor({
                 name: guild.name,
@@ -44,7 +44,7 @@ module.exports = {
           content: `${message.content}`,
           embeds: [
             new EmbedBuilder()
-              .setColor(Colors.DarkGreen)
+              .setColor(Colors.Blue)
               .setTitle(`📌 | Рассмотрено`)
               .addFields([message.embeds[0].fields[0], {
                 name: `📌・Результат проверки`,

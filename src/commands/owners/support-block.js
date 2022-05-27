@@ -43,7 +43,7 @@ module.exports = {
                     await new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
                         .setDescription(`**У пользователя ${userForSupportBlock} уже есть блокировка саппорта. Если это не так, то обратитесь к <@&${rolesId.techSection}>**`)
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -93,7 +93,7 @@ module.exports = {
             {
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(Colors.DarkGreen)
+                        .setColor(Colors.Blue)
                         .setTitle('📌 | Система выдачи Support Block!')
                         .setAuthor({
                             name: guild.name,
@@ -117,7 +117,7 @@ module.exports = {
             logChannel.send({
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(Colors.DarkGreen)
+                        .setColor(Colors.Blue)
                         .setTitle(`📌 | Система снятия блокировки саппорта!`)
                         .setAuthor({
                             name: guild.name,
@@ -139,7 +139,7 @@ module.exports = {
             ephemeral: true,
             embeds: [
                 new EmbedBuilder()
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTitle(`📌 | Система снятия блокировки саппорта!`)
                     .setAuthor({
                         name: guild.name,

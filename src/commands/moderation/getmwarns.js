@@ -46,7 +46,7 @@ module.exports = {
                 ]
               }>**`
             )
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
@@ -79,7 +79,7 @@ module.exports = {
       ephemeral: true,
       embeds: [
         new EmbedBuilder()
-          .setColor(Colors.Red)
+          .setColor(Colors.Blue)
           .setTitle(
             args[0]
               ? `📌 | Статистика выговоров \`${moderator.displayName}\``

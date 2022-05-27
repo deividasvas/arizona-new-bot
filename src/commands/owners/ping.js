@@ -30,7 +30,7 @@ module.exports = {
       embeds: [new EmbedBuilder()
           .setTitle(`📌 | Информация`)
           .setDescription(`**Discord Ping: \`${discordApiPing} ms\`\nBot ping: \`${bot.ws.ping} ms\`\nMongodb Ping: \`${mongodbApiPing}ms\`\nRAM: \`${ram.toFixed(2)}MB\`\nПоследний запуск: \`${dateStart.getFullYear()}-${dateStart.getMonth() + 1}-${dateStart.getDate()} ${dateStart.getHours()}:${dateStart.getMinutes()}:${dateStart.getSeconds()}\`\nNode JS Version: \`${process.version}\`\nPlatform system: \`${os.platform()}\`**`)
-              .setColor(Colors.DarkGreen)
+              .setColor(Colors.Blue)
               .setTimestamp()
               .setAuthor({
                 name: guild.name,

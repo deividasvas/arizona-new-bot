@@ -32,7 +32,7 @@ module.exports = {
                         .setDescription(
                             `**<@${userId}> уже имеет привилегию использовать нестандартный шрифт в нике.**`
                         )
-                        .setColor(Colors.Red)
+                        .setColor(Colors.Blue)
                         .setAuthor({
                             name: guild.name,
                             iconURL: guild.iconURL(),
@@ -53,7 +53,7 @@ module.exports = {
                     .setDescription(
                         `**Пользователь <@${userId}>, был добавлен в базу данных нестандартных шрифтов в нике**`
                     )
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setAuthor({
                         name: guild.name,
@@ -72,7 +72,7 @@ module.exports = {
                     .setDescription(
                         `**Администратор ${author} дал Вам право использовать нестандартный шрифт в никнейме**`
                     )
-                    .setColor(Colors.DarkGreen)
+                    .setColor(Colors.Blue)
                     .setTimestamp()
                     .setAuthor({
                         name: guild.name,

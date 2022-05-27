@@ -19,7 +19,7 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
             .setTitle(`📌 | Помощь по семейным командам`)
-            .setColor(Colors.Red)
+            .setColor(Colors.Blue)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),

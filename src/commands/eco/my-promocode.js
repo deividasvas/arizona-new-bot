@@ -25,7 +25,7 @@ module.exports = {
 						.setDescription(
 							`**Данная команда доступна только в канале <#${channelsId.coins}>!**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -53,7 +53,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setTitle(`❌ | Ошибка!`)
 						.setDescription(`**Промокоды других пользователей можно смотреть только от должности <@&${rolesId.juniorDiscordMaster}> и выше!**`)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -81,7 +81,7 @@ module.exports = {
 						.setDescription(
 							`**Не существует промокода владельцем которого Вы являетесь! Создайте его с помощью команды \`/create-promocode\`**`
 						)
-						.setColor(Colors.Red)
+						.setColor(Colors.Blue)
 						.setAuthor({
 							name: guild.name,
 							iconURL: guild.iconURL()
@@ -98,7 +98,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setTitle(`💰 | ${promocode.name}`)
-					.setColor(Colors.DarkGreen)
+					.setColor(Colors.Blue)
 					.setDescription(`>>> **Название промокода: \`${promocode.name}\`\nВладелец: <@${promocode.authorId}>\nИспользований: \`${promocode.use}\`**`)
 					.setAuthor({
 						name: guild.name,
