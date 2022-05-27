@@ -285,7 +285,9 @@ const channelsId = {
     // логи-пользователей
     logUsers: `948675252697825372`,
     // automoderation-logs
-    autoModeration: `948675252697825370`
+    autoModeration: `948675252697825370`,
+    // лог-ролей
+    logRoles: `948675244065947651`
   }
 }
 
