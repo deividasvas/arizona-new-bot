@@ -3,6 +3,7 @@ const sendUserMessage = require("../../components/sendUserMessage");
 const getCoinsProfile = require("../../components/getCoinsProfile");
 const CoinsUsers = require('../../models/CoinsUsers');
 const setUserCoinsParam = require("../../components/setUserCoinsParam");
+const isActiveNickCustomFont = require('../../components/isActiveSendEmojiAndStickersFromOtherServers')
 module.exports = {
     name: "nick-add", // название команды
     descr: "Добавить пользователя в список людей которым доступно использование нестандартного шрифта", // описание команды
@@ -22,8 +23,7 @@ module.exports = {
 
     async run({bot, interaction, args, author, guild}) {
         const userId = args[0];
-        const profile = await getCoinsProfile(userId, guild.id);
-        if (profile.IsUserCanUseCustomFontInNickname) {
+        if (await isActiveNickCustomFont(userId, guild.id)) {
             return interaction.reply({
                 ephemeral: true,
                 embeds: [
@@ -44,14 +44,19 @@ module.exports = {
                 ],
             });
         }
-        await setUserCoinsParam(userId, guild.id, `IsUserCanUseCustomFontInNickname`, true);
+        // Устанавливаем дату конца срока использования нестандартного шрифта
+        const dateEnd = new Date();
+        dateEnd.setDate(dateEnd.getDate() + 30);
+        await setUserCoinsParam(author.id, guild.id, 'customFontInNicknameSettings', {
+            dateEnd,
+        });
         interaction.reply({
             ephemeral: true,
             embeds: [
                 await new EmbedBuilder()
                     .setTitle("📌 | Добавление в базу данных!")
                     .setDescription(
-                        `**Пользователь <@${userId}>, был добавлен в базу данных нестандартных шрифтов в нике**`
+                        `**Пользователь <@${userId}>, был добавлен в базу данных нестандартных шрифтов в нике на месяц!**`
                     )
                     .setColor(Colors.Blue)
                     .setTimestamp()
@@ -70,7 +75,7 @@ module.exports = {
                 await new EmbedBuilder()
                     .setTitle("📌 | Новые возможности!")
                     .setDescription(
-                        `**Администратор ${author} дал Вам право использовать нестандартный шрифт в никнейме**`
+                        `**Администратор ${author} дал Вам право использовать нестандартный шрифт в никнейме на 1 месяц!**`
                     )
                     .setColor(Colors.Blue)
                     .setTimestamp()

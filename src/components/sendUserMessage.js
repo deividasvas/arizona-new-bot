@@ -1,4 +1,4 @@
-const settings = require("../configs/settings");
+const settings = require('../configs/settings')
 
 /*
       Функция отправки сообщения пользователям в лс.
@@ -9,24 +9,31 @@ const settings = require("../configs/settings");
     */
 
 const sendUserMessage = async (message, userId, guild) => {
-  const member = guild.members.cache.get(userId);
+  const member = guild.members.cache.get(userId)
   if (!member) {
-    return null;
+    return null
   }
-  const embeds = message.embeds || [];
-  const components = message.components || [];
+  const embeds = message.embeds || []
+  const components = message.components || []
   try {
-    return await member.send(message);
+    return await member.send({
+      content: message.content,
+      embeds,
+      components
+    })
   } catch (e) {
     const notificationsChannel =
-        guild.channels.cache.get(settings.channelsId[guild.id].notifications) ||
-        (await guild.channels.fetch(settings.channelsId[guild.id].notifications));
+      guild.channels.cache.get(settings.channelsId[guild.id].notifications) ||
+      (
+        await guild.channels.fetch(settings.channelsId[guild.id].notifications)
+      )
+    
     return notificationsChannel.send({
-      content: `${member} ${message.content ? message.content : ""}`,
+      content: `${member} ${message.content ? message.content : ''}`,
       embeds,
-      components,
-    });
+      components
+    })
   }
-};
+}
 
-module.exports = sendUserMessage;
+module.exports = sendUserMessage

@@ -73,27 +73,6 @@ module.exports = {
 			});
 		}
 
-		if (!["start", "stop", "restart", "reloadSlash"].includes(action)) {
-			return interaction.reply({
-				ephemeral: true,
-				embeds: [
-					await new EmbedBuilder()
-						.setTitle(`❌ | Ошибка!`)
-						.setDescription(
-							`**Вы ввели неправильное действие. Доступные действия: start, stop, restart, reloadSlash**`
-						)
-						.setColor(Colors.Blue)
-						.setAuthor({
-							name: guild.name,
-							iconURL: guild.iconURL()
-						})
-						.setFooter({
-							text: `Robo Hamster`,
-							iconURL: bot.user.displayAvatarURL()
-						})
-				]
-			});
-		}
 
 
 		if (action === "restart") {

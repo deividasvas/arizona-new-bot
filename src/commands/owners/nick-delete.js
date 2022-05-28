@@ -2,6 +2,7 @@ const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js
 const sendUserMessage = require("../../components/sendUserMessage");
 const getCoinsProfile = require("../../components/getCoinsProfile");
 const setUserCoinsParam = require("../../components/setUserCoinsParam");
+const isActiveNickCustomFont = require('../../components/isActiveSendEmojiAndStickersFromOtherServers')
 module.exports = {
     name: "nick-delete", // название команды
     descr: "Убрать пользователя из списка людей которым доступно использование нестандартного шрифта", // описание команды
@@ -21,8 +22,7 @@ module.exports = {
 
     async run({bot, interaction, args, author, guild}) {
         const userId = args[0];
-        const profile = await getCoinsProfile(userId, author.id)
-        if (!profile.IsUserCanUseCustomFontInNickname) {
+        if (!(await isActiveNickCustomFont(userId, guild.id))) {
             return interaction.reply({
                 ephemeral: true,
                 embeds: [
@@ -43,7 +43,7 @@ module.exports = {
                 ],
             });
         }
-        await setUserCoinsParam(userId, guild.id, `IsUserCanUseCustomFontInNickname`, false);
+        await setUserCoinsParam(author.id, guild.id, 'customFontInNicknameSettings', null);
         interaction.reply({
             ephemeral: true,
             embeds: [

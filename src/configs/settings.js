@@ -790,6 +790,12 @@ const coinsRates = {
   maxSumForRefillDeposit: 100,
   // Максимальный уровень который будет считаться в промокодах.
   promocodeMaxJuniperBotLevel: 100,
+  // Цена на нестандартный шрифт.
+  customFontPrice: 10,
+  // Цена на возможность отправлять эмодзи, стикеры в #welcome. (на месяц)
+  customEmojiAndStickersPrice: 10,
+  // Цена на один уровень /rank
+  oneLevelRankPrice: 5,
   // Коэффициент ролей по отношению к депозиту.
   rolesDepositCoefficient: async (rolesId) => {
     return [
@@ -909,7 +915,7 @@ module.exports = {
   rates: {
     // Расценка за один бан
     ban: 1,
-    // Расценка за одну выданную/снятую роль
+    // Расценка за одну выданную/отказанную роль
     role: 0.45 / 4,
     // Расценка за один отвеченный тикет
     ticket: 0.55,

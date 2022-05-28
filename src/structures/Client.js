@@ -145,6 +145,7 @@ module.exports = class ExtendedClient extends Client {
                 description: argument.description,
                 type: argument.type,
                 required: argument.required,
+                choices: argument.choices
             }));
 
             const newArguments = commandInfoGuild.options.map(argument => ({
@@ -152,6 +153,7 @@ module.exports = class ExtendedClient extends Client {
                 description: argument.description,
                 type: argument.type,
                 required: argument.required,
+                choices: argument.choices
             }));
 
             if (JSON.stringify(actualArguments) !== JSON.stringify(newArguments)) {

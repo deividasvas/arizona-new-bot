@@ -5,7 +5,8 @@ const CoinsUsersSchema = new mongoose.Schema({
     guildId: String, // айди сервера, где находится пользователь
     userId: String, // айди пользователя
     coins: Number, // количество монет +
-    IsUserCanUseCustomFontInNickname: Boolean, // может ли этот пользователь использовать нестандартный шрифт
+    sendEmojiAndStickersFromOtherServers: Schema.Types.Mixed, // возможность отправлять стикеры и эмодзи с других серверов
+    isActiveCustomFontInNickname: Boolean, // возможность использовать нестандартный шрифт.
     platforms: Number, // количество платформ +
     lastDateTransfer: Schema.Types.Mixed, // дата последнего перевода. Date или null
     paidOfDay: Number, // количество денег которое передано за последний день +

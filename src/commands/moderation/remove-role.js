@@ -2,6 +2,7 @@ const { EmbedBuilder, ApplicationCommandOptionType, Colors, MessageMentions } = 
 const getAllRolesIdModers = require('../../components/getAllRolesIdModers')
 const getAllRolesIdState = require('../../components/getAllRolesIdState')
 const sendUserMessage = require('../../components/sendUserMessage')
+const setModerInfoParam = require('../../components/setModerInfoParam')
 
 module.exports = {
   name: 'remove-role', // название команды
@@ -13,7 +14,9 @@ module.exports = {
       description: 'Пользователь которому Вы хотите снять роль',
       type: ApplicationCommandOptionType.User,
       required: true
-    }, {
+    },
+
+    {
       name: 'причина',
       description: 'Причина по которой Вы хотите снять ему роль',
       type: ApplicationCommandOptionType.String,
@@ -103,6 +106,24 @@ module.exports = {
             iconURL: bot.user.displayAvatarURL()
           })
       ]
-    }, user.id, guild);
+    }, user.id, guild)
+
+    // Выдаем баллы и снятые роли в модерскую статистику.
+
+    await setModerInfoParam(author.id, guild.id, 'main', 'removedRole', ({ removedRole }) => {
+      return removedRole + 1;
+    })
+
+    await setModerInfoParam(author.id, guild.id, 'week', 'removedRole', ({ removedRole }) => {
+      return removedRole + 1;
+    })
+
+    await setModerInfoParam(author.id, guild.id, 'main', 'balls', ({ balls, rates }) => {
+      return balls + rates.removeRole;
+    })
+
+    await setModerInfoParam(author.id, guild.id, 'week', 'balls', ({ balls, rates }) => {
+      return balls + rates.removeRole;
+    })
   }
 }
