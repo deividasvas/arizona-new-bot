@@ -1,19 +1,27 @@
-const {MessageEmbed, Colors, EmbedBuilder} = require("discord.js");
+const {AuditLogEvent, Colors, EmbedBuilder} = require("discord.js");
 const {logs, channelsId} = require("../configs/settings")
 const ban = require("../components/ban");
+const Punishment = require('../models/Punishment');
 
 module.exports = async(bot, banMember) => {
     setTimeout(async () => {
         const logs = await banMember.guild.fetchAuditLogs({
             before: null,
             limit: 1,
-            type: 22
+            type: AuditLogEvent.MemberBanAdd
         })
 
         if(!logs) return;
 
         const banLog = logs.entries.find(e => e.target.id === banMember.user.id)
         if (new Date().getTime() - new Date((banLog.id / 4194304) + 1420070400000).getTime() > 3000) return;
+        if(Punishment.findOne({
+            guildId: banMember.guild.id,
+            userId: banMember.id
+        })){
+            // Если пользователь в бане в БД, то ничего не делаем.
+            return;
+        }
         await ban(bot, banMember.guild.id, banLog.target.id, banLog.executor.id, 60, banLog.reason || "Блокировка через ПКМ");
         const bansLogsChannel = banMember.guild.channels.cache.get(
             channelsId[banMember.guild.id].rolesAndBans

@@ -40,7 +40,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(
-              `**${member} не является модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}**`
+              `**${moderator} не является модератором. Если это не так, то обратитесь к <@&${rolesId.techSection}**`
             )
             .setColor(Colors.Blue)
             .setAuthor({

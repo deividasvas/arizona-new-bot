@@ -20,7 +20,7 @@ const createModerInfo = async (userId, guildId) => {
       guildId,
       main: {
         // общая информация по выданным наказаниям модератора
-        roles: 0, // роли
+        roles: 0, // выданные/отказанные роли
         tickets: 0, // тикеты
         kicks: 0, // кики
         bans: 0, // баны
@@ -34,7 +34,7 @@ const createModerInfo = async (userId, guildId) => {
       },
       week: {
         // недельная информация по выданным наказания модератора
-        roles: 0,
+        roles: 0, // выданные/отказанные роли
         tickets: 0, // тикеты
         kicks: 0, // кики
         bans: 0, // баны

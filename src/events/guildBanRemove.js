@@ -1,4 +1,4 @@
-const {EmbedBuilder, Colors} = require("discord.js");
+const {EmbedBuilder, Colors, AuditLogEvent} = require("discord.js");
 const {channelsId} = require("../configs/settings")
 const unbanFunc = require("../components/unban");
 
@@ -8,7 +8,7 @@ module.exports = (bot, unban) => {
         const logs = await unban.guild.fetchAuditLogs({
             before: null,
             limit: 1,
-            type: 23
+            type: AuditLogEvent.MemberBanRemove
         })
 
         if (!logs) return;

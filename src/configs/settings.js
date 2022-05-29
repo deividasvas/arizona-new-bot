@@ -10,6 +10,8 @@ const rolesId = {
     supportBlock: `948675243248062522`,
     // Технический отдел
     techSection: `948675243248062523`,
+    // Legendary Surprise
+    legendarySurprise: `948675243118055465`,
     // Discord Master
     discordMaster: `948675243327770678`,
     // Jr. Discord Master
@@ -145,7 +147,9 @@ const rolesId = {
     // Турист
     tourist: `948675243038363707`,
     // V.I.P
-    vip: `978383751732166657`
+    vip: `978383751732166657`,
+    // Легендарный ОЛД Surpris'a
+    legendaryOldSurprise: `948675243235475457`,
   }
 }
 const channelsId = {
