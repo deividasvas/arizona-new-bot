@@ -22,6 +22,7 @@ const getAutoModerationConfig = () => {
       allBadWords: [],
       whiteListLinks: [],
       ignoredChannelsId: [],
+      maxMat: 3,
       allowedRolesId: [],
       ignoredCategoriesId: [],
     }

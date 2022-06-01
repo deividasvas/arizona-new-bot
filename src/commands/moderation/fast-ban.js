@@ -7,8 +7,6 @@ const {
   ButtonBuilder
 } = require('discord.js')
 const getAllRolesIdModers = require('../../components/getAllRolesIdModers')
-const BansVotes = require('../../models/BansVotes')
-const timeChecker = require('../../components/timeChecker')
 const sendUserMessage = require('../../components/sendUserMessage')
 
 const cooldownBans = new Collection()
@@ -67,18 +65,14 @@ module.exports = {
     const reason = args[2]
     const proof = args[3]
 
-    const roleInWhiteList = userForBan?.roles.cache.find((role) =>
-      whiteListRoles.includes(role.id)
-    ) // проверяем, есть ли у человека роль которая находится в белом списке по отношению к выдачам наказаний.
-    if (roleInWhiteList) {
-      // если у человека есть роль из белого списка ролей, то отвечаем запросившему что у пользователя роль из белого списка
+    if (cooldownBans.has(author.id)) {
       return interaction.reply({
         ephemeral: true,
         embeds: [
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(
-              `**Пользователя <@${userForBanId}> невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
+              `**Блокировать людей быстрой блокировкой можно раз в 30 минут! У Вас ещё не прошёл этот срок.**`
             )
             .setColor(Colors.Blue)
             .setAuthor({
@@ -93,14 +87,18 @@ module.exports = {
       })
     }
 
-    if (cooldownBans.has(author.id)) {
+    const roleInWhiteList = userForBan?.roles.cache.find((role) =>
+      whiteListRoles.includes(role.id)
+    ) // проверяем, есть ли у человека роль которая находится в белом списке по отношению к выдачам наказаний.
+    if (roleInWhiteList) {
+      // если у человека есть роль из белого списка ролей, то отвечаем запросившему что у пользователя роль из белого списка
       return interaction.reply({
         ephemeral: true,
         embeds: [
           new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(
-              `**Блокировать людей быстрой блокировкой можно раз в 30 минут! У Вас ещё не прошёл этот срок.**`
+              `**Пользователя <@${userForBanId}> невозможно наказать потому, что, у него есть роль <@&${roleInWhiteList.id}> которая находится в белом списке.**`
             )
             .setColor(Colors.Blue)
             .setAuthor({
@@ -173,13 +171,12 @@ module.exports = {
       userForBanId,
       interaction.guild
     )
-    await userForBan.ban({
-      days,
-      reason
+    await guild.bans.create(userForBanId, {
+      reason: `${reason} by ${author.displayName}`
     })
 
     const bansLogsChannel = interaction.guild.channels.cache.get(
-      channelsId[interaction.guild.id].rolesAndBans
+      channelsId.rolesAndBans
     ) // канал куда отправляются логи банов
     await bansLogsChannel.send({
       embeds: [
@@ -196,7 +193,7 @@ module.exports = {
             iconURL: guild.iconURL()
           })
           .setDescription(
-            `**Вы успешно заблокировали пользователя ${userForBanId} на \`${days}\` дней. Причина: \`${reason}\`**`
+            `**Вы успешно заблокировали пользователя <@${userForBanId}> на \`${days}\` дней. Причина: \`${reason}\`\n\n\`P.S. Ваш бан передан напрямую руководству модерации!\`**`
           )
           .setColor(Colors.Blue)
           .setTimestamp()
@@ -207,6 +204,6 @@ module.exports = {
       ]
     })
 
-    cooldownBans.set(author.id, new Date());
+    cooldownBans.set(author.id, new Date())
   }
 }

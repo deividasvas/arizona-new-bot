@@ -1,11 +1,13 @@
 const {EmbedBuilder, Colors, AuditLogEvent} = require("discord.js");
-const {channelsId} = require("../configs/settings")
+const {channelsId: _channelsId} = require("../configs/settings")
 const unbanFunc = require("../components/unban");
 
 module.exports = (bot, unban) => {
+    const { guild } = unban;
+    const channelsId = _channelsId[guild.id]
     setTimeout(async () => {
-        const logChannel = unban.guild.channels.cache.get(channelsId[unban.guild.id].rolesAndBans);
-        const logs = await unban.guild.fetchAuditLogs({
+        const logChannel = guild.channels.cache.get(channelsId.rolesAndBans);
+        const logs = await  guild.fetchAuditLogs({
             before: null,
             limit: 1,
             type: AuditLogEvent.MemberBanRemove
@@ -13,7 +15,13 @@ module.exports = (bot, unban) => {
 
         if (!logs) return;
         const unbanLog = logs.entries.find(e => e.target.id === unban.user.id)
-        const reason = unbanLog.reason || "Не указана";
+        const executorMember = guild.members.cache.get(unbanLog.executor.id);
+        // Если снял бан бот, то ничего не делаем.
+        if(executorMember.user.bot){
+            return;
+        }
+
+        const reason = unbanLog?.reason || "Не указана";
         unbanFunc(bot, unban.guild.id, unbanLog.target.id, unbanLog.executor.id, reason)
             .catch(() => {
             });

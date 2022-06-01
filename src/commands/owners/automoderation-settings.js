@@ -3,7 +3,7 @@ const {
   Colors, ApplicationCommandOptionType
 } = require('discord.js')
 const getAutoModerationConfig = require('../../components/getAutoModerationConfig')
-const setAutoModerationConfigParam = require('../../components/setAutoModerationConfigParam');
+const setAutoModerationConfigParam = require('../../components/setAutoModerationConfigParam')
 
 module.exports = {
   name: 'automoderation-settings', // название команды
@@ -21,6 +21,10 @@ module.exports = {
         {
           name: `Получить настройки`,
           value: `getSettings`
+        },
+        {
+          name: `Изменить максимальное количество матов`,
+          value: `maxMat`
         },
         {
           name: `Изменить интервал на отправку сообщений`,
@@ -77,7 +81,7 @@ module.exports = {
         {
           name: `Удалить роль из белого списка ролей`,
           value: `remove-allowedRolesId`
-        },
+        }
       ],
       type: ApplicationCommandOptionType.String,
       required: true
@@ -86,7 +90,7 @@ module.exports = {
       name: `значение`,
       description: `Значение которое Вы хотите применить к Н-ому ключу`,
       type: ApplicationCommandOptionType.String,
-      required: false,
+      required: false
     }
   ], // аргументы
 
@@ -103,11 +107,14 @@ module.exports = {
       whiteListLinks,
       ignoredChannelsId,
       allowedRolesId,
-      ignoredCategoriesId
+      ignoredCategoriesId,
+      maxMat
     } = getAutoModerationConfig()
     const parseSecond = (sec) => {
       return sec / 1000 + ' секунд'
     }
+
+    // Эмбед при получении настроек
     if (action === 'getSettings') {
       return interaction.reply({
         ephemeral: true,
@@ -164,14 +171,21 @@ module.exports = {
               {
                 name: `Белый список ролей:`,
                 value: allowedRolesId.map((id) => `<@&${id}>`).join(', ') || 'Отсутствует'
+              },
+              {
+                name: `Максимальное количество матов:`,
+                value: `${maxMat} мат(ов) и более`
               }
             ])
+        ],
+        files: [
+          './configs/automoderation.json'
         ]
-      });
+      })
     }
 
     // Установка параметров для других значений.
-    setAutoModerationConfigParam(args[0], args[1]);
+    setAutoModerationConfigParam(args[0], args[1])
     interaction.reply({
       ephemeral: true,
       embeds: [
@@ -183,11 +197,11 @@ module.exports = {
           )
           .setAuthor({
             name: guild.name,
-            iconURL: guild.iconURL(),
+            iconURL: guild.iconURL()
           })
           .setFooter({
             text: `Robo Hamster`,
-            iconURL: bot.user.displayAvatarURL(),
+            iconURL: bot.user.displayAvatarURL()
           })
       ]
     })

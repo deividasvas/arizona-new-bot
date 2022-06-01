@@ -14,7 +14,7 @@ function chunked(toChunk) {
 const log = async (bot, message) => {
     if (message.channel.type === "DM") return;
     // Если автор сообщения бот, то ничего не делаем
-    if (message.author.bot) {
+    if (message.author?.bot) {
         return;
     }
 
