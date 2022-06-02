@@ -225,6 +225,7 @@ module.exports = {
       roleId: role.id,
       voiceChannelId: voiceChannel.id,
       textChannelId: textChannel.id,
+      familyPass: null
     });
     await newFamily.save();
 

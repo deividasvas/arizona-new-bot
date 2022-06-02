@@ -17,6 +17,7 @@ const createCoinsProfile = async (userId, guildId) => {
         lastDateDayDepositInteraction: null,
         lastDateWeekDepositInteraction: null,
         lastDateDayRefillDeposit: null,
+        userPass: null
     })
     await profile.save();
 }

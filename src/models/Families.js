@@ -7,6 +7,9 @@ const FamilySchema = new mongoose.Schema({
     roleId: String,
     voiceChannelId: String,
     textChannelId: String,
+    familyPass: {
+        dateEnd: Date,
+    }
 });
 
 module.exports = new mongoose.model("families", FamilySchema) // семейная коллекция.

@@ -800,6 +800,13 @@ const coinsRates = {
   customEmojiAndStickersPrice: 10,
   // Цена на один уровень /rank
   oneLevelRankPrice: 5,
+  // Цена family pass в месяц
+  famPassMonthPrise: 75,
+  // Цена пользовательской подписки
+  userPassPrice: {
+    month: 50,
+    week: 20
+  },
   // Коэффициент ролей по отношению к депозиту.
   rolesDepositCoefficient: async (rolesId) => {
     return [

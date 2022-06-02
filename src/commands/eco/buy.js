@@ -1,8 +1,10 @@
-const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require('discord.js')
-const getCoinsProfile = require('../../components/getCoinsProfile')
-const setUserCoinsParam = require('../../components/setUserCoinsParam')
-const { coinsRates, maxCountPlatforms, rates } = require('../../configs/settings')
-const isActiveNickCustomFont = require('../../components/isActiveSendEmojiAndStickersFromOtherServers')
+const { EmbedBuilder, ApplicationCommandOptionType, Colors, Embed } = require('discord.js');
+const getCoinsProfile = require('../../components/getCoinsProfile');
+const setUserCoinsParam = require('../../components/setUserCoinsParam');
+const UserCoins = require('../../models/CoinsUsers');
+const familyModel = require('../../models/Families');
+const { coinsRates, maxCountPlatforms, rates } = require('../../configs/settings');
+const isActiveNickCustomFont = require('../../components/isActiveSendEmojiAndStickersFromOtherServers');
 
 module.exports = {
   name: 'buy', // название команды
@@ -29,6 +31,14 @@ module.exports = {
         {
           name: `Уровни /rank | ${coinsRates.oneLevelRankPrice} монет за 1 уровень`,
           value: `oneLevelRank`
+        },
+        {
+          name: `Surprise family pass | ${coinsRates.famPassMonthPrise} монет (в месяц)`,
+          value: `famPass`
+        },
+        {
+          name: `Surprise pass | ${coinsRates.userPassPrice.week} SC в неделю | ${coinsRates.userPassPrice.month} SC в месяц`,
+          value: `userPass`
         }
       ],
       required: true
@@ -38,6 +48,22 @@ module.exports = {
       type: ApplicationCommandOptionType.Number,
       description: `Количество уровней которое Вы хотите себе приобрести | ${coinsRates.oneLevelRankPrice} монет за 1 уровень | Максимум 25 уровней`,
       required: false
+    },
+    {
+      name: `Срок подписки Surprise Pass`,
+      type: ApplicationCommandOptionType.String,
+      description: `Время на которое вы покупаете подписку.`,
+      required: false,
+      choices: [
+        {
+          name: `Неделя`,
+          value: `WeekPass`
+        },
+        {
+          name: `Месяц`,
+          value: `MonthPass`
+        }
+      ]
     }
   ], // аргументы
   perms: (rolesId) => [rolesId.everyone], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
@@ -67,6 +93,9 @@ module.exports = {
 
     const type = args[0]
     const profile = await getCoinsProfile(author.id, guild.id)
+    const leaderFam = await familyModel({
+      ownerId: author.id
+    });
 
     if (type === 'platform') {
       if (profile.platforms >= maxCountPlatforms) {
@@ -331,6 +360,195 @@ module.exports = {
             })
         ]
       })
+    }
+    if(type == 'famPass') {
+      if(!leaderFam) {
+        return interaction.reply({
+          embeds: [
+            await new EmbedBuilder()
+              .setTitle(`❌ | Ошибка!`)
+              .setDescription(
+                `**Купить данное улучшение может только лидер семьи!**`
+              )
+              .setColor(Colors.Blue)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL()
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL()
+              })
+          ]
+        })
+      }
+
+      if(profile.coins < coinsRates.famPassMonthPrise) {
+        return interaction.reply({
+          embeds: [
+            await new EmbedBuilder()
+              .setTitle(`❌ | Ошибка!`)
+              .setDescription(
+                `**У вас недостаточно монет для покупки данной подписки!\n Необходимо: \`${coinsRates.famPassMonthPrise}\` монет.\n У Вас есть: \`${profile.coins.toFixed(3)}\` монет.**`
+              )
+              .setColor(Colors.Blue)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL()
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL()
+              })
+          ]
+        })
+      }
+
+      const dateEnd = new Date();
+      dateEnd.setMonth(dateEnd.getMonth() + 1);
+
+      await familyModel.findOneAndUpdate({
+        ownerId: author.id
+      }, {
+        familyPass: {
+          dateEnd,
+        }
+      })
+
+      await setUserCoinsParam(author.id, guild.id, `coins`, ({ coins }) => (
+        coins - coinsRates.famPassMonthPrise
+      ).toFixed(4));
+
+      interaction.reply({
+        embeds: [
+          await new EmbedBuilder()
+          .setTitle(`💰 | Успешная покупка!`)
+          .setColor(Colors.Blue)
+          .setDescription(`**вы успешно приобрели подписку "Family Pass" сроком на 1 месяц!\nПосле покупки у вас осталось: ${profile.coins} монет!**`)
+          .setAuthor({
+            name: guild.name,
+            iconURL: guild.iconURL()
+          })
+          .setFooter({
+            text: `Robo Hamster`,
+            iconURL: bot.user.displayAvatarURL()
+          })
+        ]
+      })
+    }
+
+    if(type == 'userPass') {
+      const passType = args[2];
+
+      if(passType == 'WeekPass') {
+        if(profile.coins < coinsRates.userPassPrice.week) {
+          return interaction.reply({
+            embeds: [
+              await new EmbedBuilder()
+              .setTitle(`❌ | Ошибка!`)
+              .setDescription(
+                `**У вас недостаточно монет для покупки данной подписки!\n Необходимо: \`${coinsRates.userPassPrice.week}\` монет.\n У Вас есть: \`${profile.coins.toFixed(3)}\` монет.**`
+              )
+              .setColor(Colors.Blue)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL()
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL()
+              })
+            ]
+          })
+        }
+
+        const dateEnd = new Date();
+        dateEnd.setDate(dateEnd.getDay() + 7);
+  
+        await setUserCoinsParam(author.id, guild.id, `coins`, ({ coins }) => (
+          coins - coinsRates.userPassPrice.week
+        ).toFixed(4));
+
+        await UserCoins.findOneAndUpdate({
+          userId: author.id
+        }, {
+          userPass: {
+            dateEnd,
+          }
+        })
+
+        await interaction.reply({
+          embeds: [
+            await new EmbedBuilder()
+            .setTitle(`💰 | Успешная покупка!`)
+            .setColor(Colors.Blue)
+            .setDescription(`**Вы успешно приобрели подписку \`Surprise Pass\` на 1 неделю! Обратитесь в канал <#${channelsId.support}> для получения уровня.**`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL()
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL()
+            })
+          ]
+        })
+      }
+
+      if(passType == 'MonthPass') {
+        if(profile.coins < coinsRates.userPassPrice.month) {
+          return interaction.reply({
+            embeds: [
+              await new EmbedBuilder()
+              .setTitle(`❌ | Ошибка!`)
+              .setDescription(
+                `**У вас недостаточно монет для покупки данной подписки!\n Необходимо: \`${coinsRates.userPassPrice.month}\` монет.\n У Вас есть: \`${profile.coins.toFixed(3)}\` монет.**`
+              )
+              .setColor(Colors.Blue)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL()
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL()
+              })
+            ]
+          })
+        }
+
+        const dateEnd = new Date();
+        dateEnd.setMonth(dateEnd.getMonth() + 1);
+  
+        await setUserCoinsParam(author.id, guild.id, `coins`, ({ coins }) => (
+          coins - coinsRates.userPassPrice.month
+        ).toFixed(4));
+
+        await UserCoins.findOneAndUpdate({
+          userId: author.id
+        }, {
+          userPass: {
+            dateEnd,
+          }
+        })
+
+        await interaction.reply({
+          embeds: [
+            await new EmbedBuilder()
+            .setTitle(`💰 | Успешная покупка!`)
+            .setColor(Colors.Blue)
+            .setDescription(`**Вы успешно приобрели подписку \`Surprise Pass\` на 1 месяц! Обратитесь в канал <#${channelsId.support}> для получения уровня.**`)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL()
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL()
+            })
+          ]
+        })
+      }
     }
   }
 }
