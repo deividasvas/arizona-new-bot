@@ -45,36 +45,7 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
         dateEnd,
     });
     await newPunish.save();
-    await setModerInfoParam(
-        provocateurId,
-        guildId,
-        "main",
-        "bans",
-        ({bans}) => bans + 1
-    );
-    await setModerInfoParam(
-        provocateurId,
-        guildId,
-        "week",
-        "bans",
-        ({bans}) => bans + 1
-    );
 
-    // выдаем недельные баллы и общие
-    await setModerInfoParam(
-        provocateurId,
-        guildId,
-        "main",
-        "balls",
-        ({balls, coefficient, rates}) => balls + rates.ban * coefficient
-    );
-    await setModerInfoParam(
-        provocateurId,
-        guildId,
-        "week",
-        "balls",
-        ({balls, coefficient, rates}) => balls + rates.ban * coefficient
-    );
     const { task } = await getModerInfo(bot, guildId, provocateurId);
     // Обновляем модератору задание если у него оно активно
     if (task.status === 'active') {

@@ -29,18 +29,12 @@ function sendLogs (name, user, message, originalMessage, channel, image) {
   embed.setThumbnail(user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }))
   embed.addFields([
     {
-      name: `\`Пользователь:\``,
-      value: `<@${user.id}>`
-    },
-    {
-      name: `\`ID:\``,
-      value: `\`${user.id}\``
-    },
-    {
-      name: `\`Канал:\``,
-      value: `<#${originalMessage.channel.id}>`
-    },
-    {
+      name: `\`Пользователь:\``, value: `<@${user.id}>`
+    }, {
+      name: `\`ID:\``, value: `\`${user.id}\``
+    }, {
+      name: `\`Канал:\``, value: `<#${originalMessage.channel.id}>`
+    }, {
       name: `\`Дата и время нарушения:\``,
       value: `\`${date.toLocaleDateString('ru-RU', { timeZone: 'Europe/Moscow' })} ${date.toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' })} \``
     }
@@ -80,7 +74,8 @@ module.exports = {
       maxMentions,
       maxEmojis,
       cooldownDuplicate,
-      cooldownMessage
+      cooldownMessage,
+      maxMat
     } = getAutoModerationConfig()
     const channelsId = _channelsId[guild.id]
     const autoModerationLogChannel = guild.channels.cache.get(channelsId.autoModeration)
@@ -128,10 +123,16 @@ module.exports = {
     }
 
     // Проверка на запрещённые слова внутри контента сообщения.
-    const blackWordsInMessage = message.content.split(/(\s+)/).filter(function (e) { return e.trim().length > 0 })
+    // Переданный в matchAll массив преобразуется в регулярное выражение которое находит все маты, затем, просто прокидываем
+    // под методом .map, чтобы взять нужные нам данные.
+    const blackWordsInMessage = (
+      [...message.content.matchAll(allBadWords.join('|'))]
+    )
+      .map((matchElement) => matchElement[0])
 
-    if (blackWordsInMessage.some(word => allBadWords.includes(word.toLowerCase()))) {
-      sendLogs('Запрещённые слова', message.author, message.content, message, autoModerationLogChannel, null)
+    // Если количество матов ровняется или больше допустимого, то кидаем в логи.
+    if (blackWordsInMessage.length >= maxMat) {
+      sendLogs(`Количество матов более ${maxMat}`, message.author, message.content, message, autoModerationLogChannel, null)
       return message.delete()
     }
 

@@ -943,5 +943,7 @@ module.exports = {
   limitDeputyInFamilies: 5,
   // Игнорируемые каналы при обновлении/удаление сообщения.
   messagesIgnoredChannelsId,
-  messagesIgnoredCategoriesId
+  messagesIgnoredCategoriesId,
+  // Коэффициент на который умножается сумма баллов за выдачу быстрого бана.
+  fastBanCoefficient: 4,
 }

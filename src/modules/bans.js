@@ -7,6 +7,7 @@ const {rolesId, channelsId} = require("../configs/settings");
 const BansVotes = require("../models/BansVotes");
 const fs = require("fs");
 const path = require("path");
+const setModerInfoParam = require('../components/setModerInfoParam')
 
 module.exports = {
     /*
@@ -67,6 +68,36 @@ module.exports = {
             },
             userId,
             interaction.guild
+        );
+        await setModerInfoParam(
+          moderatorId,
+          guildId,
+          "main",
+          "bans",
+          ({bans}) => bans + 1
+        );
+        await setModerInfoParam(
+          moderatorId,
+          guildId,
+          "week",
+          "bans",
+          ({bans}) => bans + 1
+        );
+
+        // выдаем недельные баллы и общие
+        await setModerInfoParam(
+          moderatorId,
+          guildId,
+          "main",
+          "balls",
+          ({balls, coefficient, rates}) => balls + rates.ban * coefficient
+        );
+        await setModerInfoParam(
+          moderatorId,
+          guildId,
+          "week",
+          "balls",
+          ({balls, coefficient, rates}) => balls + rates.ban * coefficient
         );
         await ban(bot, interaction.guildId, userId, moderatorId, days, reason);
     },

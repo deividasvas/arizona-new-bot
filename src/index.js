@@ -1,5 +1,6 @@
 const ExtendedClient = require("./structures/Client");
 const handleErrors = require('./components/handleErrors');
+const unban = require('./components/unban')
 const bot = new ExtendedClient();
 
 // Обработка ошибок.
