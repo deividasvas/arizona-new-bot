@@ -1,6 +1,6 @@
 const {Colors, EmbedBuilder} = require("discord.js");
 const {scheduleJob} = require("node-schedule");
-const {categories: _categories, channelsId: _channelsId, categoriesPrivatesId} = require("../configs/settings");
+const {getGuildCategoriesId, getGuildChannelsId, categoriesPrivatesId} = require("../configs/settings");
 const Privates = require('../models/Privates');
 const convertMinutesToMs = require("../components/convertMinutesToMs");
 
@@ -508,8 +508,8 @@ module.exports = {
             }
         ];
         const guild = bot.guilds.cache.get(interaction.guildId);
-        const channelsId = _channelsId[guild.id];
-        const categories = _categories[guild.id];
+        const channelsId = getGuildChannelsId(guild.id);
+        const categories = getGuildCategoriesId(guild.id);
         const categoriesPrivate = categoriesPrivatesId(categories);
         if (!member.voice.channel) {
             return interaction.reply({

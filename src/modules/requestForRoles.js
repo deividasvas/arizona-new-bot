@@ -1,5 +1,5 @@
 const {
-  rolesId: _rolesId, channelsId: _channelsId, categories: _categories
+  getGuildChannelsId, getGuildCategoriesId, getGuildRolesId
 } = require('../configs/settings')
 const getAllRolesIdState = require('../components/getAllRolesIdState')
 const { EmbedBuilder, Colors, ActionRowBuilder, ButtonStyle, ButtonBuilder, Collection } = require('discord.js')
@@ -639,9 +639,9 @@ module.exports = {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
     const guild = bot.guilds.cache.get(interaction.guildId)
     const member = interaction.member
-    const rolesId = _rolesId[guild.id]
-    const channelsId = _channelsId[guild.id]
-    const categoriesId = _categories[guild.id]
+    const rolesId = getGuildRolesId(guild.id)
+    const channelsId = getGuildChannelsId(guild.id)
+    const categoriesId = getGuildCategoriesId(guild.id)
     // Права к кнопкам в канале request-for-roles.
     const perms = getAllRolesIdModers(rolesId)
     const actions = [

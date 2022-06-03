@@ -1,4 +1,4 @@
-const { channelsId } = require("../configs/settings");
+const { getGuildChannelsId } = require("../configs/settings");
 
 module.exports = {
   /*
@@ -11,8 +11,9 @@ module.exports = {
   autoRun: false, // автоматический запуск модуля
   run: async ({bot, message}) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
+    const channelsId = getGuildChannelsId(message.guild.id);
     if (
-      message.channel.id === channelsId[message.guild.id].welcome
+      message.channel.id === channelsId.welcome
     ) {
       const triger = ["роль", "дайте роль"];
       if (triger.includes(message.content.toLowerCase())) {

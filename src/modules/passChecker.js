@@ -11,6 +11,7 @@ module.exports = {
   name: 'pass', // имя модуля
   acceptCustomsId: [], // модуль автоматически принимает эти айдишники interaction.customId
   run: async ({ bot }) => {
+    return; // не забудь это убрать
     setInterval(async () => {
       for (const [id, guild] of bot.guilds.cache) {
         const settings = [

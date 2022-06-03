@@ -1,6 +1,6 @@
 const {EmbedBuilder, Colors, ActionRowBuilder, ButtonBuilder, ButtonStyle} = require("discord.js");
 const getAllRolesIDAdmins = require("../components/getAllRolesIdAdmins");
-const {channelsId, rolesId} = require("../configs/settings");
+const {getGuildChannelsId, getGuildRolesId} = require("../configs/settings");
 
 module.exports = {
     /*
@@ -9,12 +9,12 @@ module.exports = {
     */
     autoRun: false, // автоматический запуск модуля
     name: "anketa", // имя модуля
-    acceptCustomsId: ["anketa-accept", "anketa-deny", "anketa-delete"], // модуль автоматически принимает эти айдишники interaction.customId
-    // Айди ролей которые могут взаимодействовать с ролями
+    acceptCustomsId: ["anketaAccept", "anketaDeny", "anketaDelete"], // модуль автоматически принимает эти айдишники interaction.customId
+    // Айди ролей которые могут взаимодействовать с анкетами
     rolesIdAllow: (rolesId) => [
-        rolesId.mainSpectatorsState,
-        rolesId.spectatorState,
-        rolesId.star,
+        rolesId.mainSpectatorsState, // руководство гос
+        rolesId.spectatorState, // следящий гос
+        rolesId.star, // звездочка роль
     ],
     // Функция отправки анкеты
     async sendQuestionnaire({bot, guild, message}) {
@@ -23,21 +23,21 @@ module.exports = {
         const channelQuestionnaire = guild.channels.cache.get(guildChannelsId.questionnairesForCheck);
         const row = new ActionRowBuilder().addComponents([
             new ButtonBuilder()
-                .setCustomId("anketa-accept")
+                .setCustomId("anketaAccept")
                 .setEmoji({
                     name: "✅"
                 })
                 .setStyle(ButtonStyle.Success)
                 .setLabel("Одобрить"),
             new ButtonBuilder()
-                .setCustomId("anketa-deny")
+                .setCustomId("anketaDeny")
                 .setEmoji({
                     name: "⛔"
                 })
                 .setStyle(ButtonStyle.Danger)
                 .setLabel("Отказать"),
             new ButtonBuilder()
-                .setCustomId("anketa-delete")
+                .setCustomId("anketaDelete")
                 .setEmoji({
                     name: "🇩"
                 })
@@ -225,12 +225,22 @@ module.exports = {
     },
     async run({bot, message, interaction}) {
         // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
+        // Сервер на котором идёт взаимодействие с анкетой.
         const guild = message.guild || bot.guilds.cache.get(interaction.guildId);
-        const rolesIdAllow = this.rolesIdAllow(rolesId[guild.id]);
-        if (message.channel.id === channelsId[guild.id].sendQuestionnaire) {
+        // Все айди ролей на сервере.
+        const rolesId = getGuildRolesId(guild.id);
+        // Все айди каналов на сервере.
+        const channelsId = getGuildChannelsId(guild.id);
+
+        // Айди ролей которым разрешено пользоваться функциями данного модуля.
+        const rolesIdAllow = this.rolesIdAllow(rolesId);
+        // Если этот канал это отправка анкет, то удаляем сообщение и перенаправляем его в обработчик отправки анкет.
+        if (message.channel.id === channelsId.sendQuestionnaire) {
             await message.delete();
             return this.sendQuestionnaire({bot, guild, message});
         }
+
+        // Если у пользователя нет ролей для взаимодействия с одобрением/отказом/удалением анкет, то выдаём ему ошибку
         if (!interaction.member.roles.cache.some(role => rolesIdAllow.includes(role.id))) {
             return interaction.reply({
                 ephemeral: true,
@@ -251,14 +261,15 @@ module.exports = {
             });
         }
 
+        // Обработчики под их айдишники
         switch (interaction.customId) {
-            case "anketa-accept": {
+            case "anketaAccept": {
                 return this.acceptQuestionnaire({bot, guild, interaction});
             }
-            case "anketa-deny": {
+            case "anketaDeny": {
                 return this.denyQuestionnaire({bot, guild, interaction})
             }
-            case "anketa-delete": {
+            case "anketaDelete": {
                 return this.deleteQuestionnaire({bot, guild, interaction})
             }
         }

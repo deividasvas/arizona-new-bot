@@ -1,4 +1,4 @@
-const {channelsId: _channelsId, rolesId: _rolesId, categories: _categories, rolesId} = require("../configs/settings");
+const {getGuildRolesId, getGuildChannelsId, getGuildCategoriesId} = require("../configs/settings");
 const {EmbedBuilder, Colors, ActionRowBuilder, ButtonBuilder, ButtonStyle} = require("discord.js");
 const sendUserMessage = require("../components/sendUserMessage");
 const parseIdFromMention = require("../components/parseIdFromMention");
@@ -396,9 +396,9 @@ module.exports = {
         ]
         const action = actions.find(action => action.customId === interaction.customId);
         const guild = bot.guilds.cache.get(interaction.guildId);
-        const rolesId = _rolesId[guild.id];
-        const channelsId = _channelsId[guild.id];
-        const categoriesId = _categories[guild.id];
+        const rolesId = getGuildRolesId(guild.id);
+        const channelsId = getGuildChannelsId(guild.id);
+        const categoriesId = getGuildCategoriesId(guild.id);
 
         // Ниже описаны кастом айдишники и массив с ролями которым можно их использовать. Настройка прав короче.
         const customsIdWithDeffience = ["acceptBug", "denyBug", "deleteBug"];

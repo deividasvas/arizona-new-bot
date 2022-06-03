@@ -1,7 +1,7 @@
 const { Colors, EmbedBuilder } = require("discord.js");
 const unban = require("../components/unban");
 const unmute = require("../components/unmute");
-const { channelsId } = require("../configs/settings");
+const { getGuildChannelsId } = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 const unSupportBlock = require("../components/unSupportBlock");
 
@@ -15,28 +15,27 @@ module.exports = {
     acceptCustomsId: [], // модуль автоматически принимает эти айдишники interaction.customId
     run: async ({bot}) => {
         // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
-
         const settings = [
             {
                 action: "ban", // Действие по отношению к которому будет идти слежка.
                 wordOnTitle: "блокировки", // Слово, которое будет использоваться в заголовке.
                 wordOnDescription: "Блокировка", // Слово, которое будет использоваться в описании. (С большой буквы и в именительном падеже)
                 func: unban, // Функция снятия наказания
-                logChannelId: guildId => channelsId[guildId].rolesAndBans, // Канал в который будет логироватся снятие наказания.
+                logChannelId: guildId => getGuildChannelsId(guildId).rolesAndBans, // Канал в который будет логироватся снятие наказания.
             },
             {
                 action: "mute", // Действие по отношению к которому будет идти слежка.
                 wordOnTitle: "мута", // Слово, которое будет использоваться в заголовке.
                 wordOnDescription: "Мут", // Слово, которое будет использоваться в описании. (С большой буквы и в именительном падеже)
                 func: unmute, // Функция снятия наказания
-                logChannelId: guildId => channelsId[guildId].moderationLog, // Канал в который будет логироватся снятие наказания.
+                logChannelId: guildId => getGuildChannelsId(guildId).moderationLog, // Канал в который будет логироватся снятие наказания.
             },
             {
                 action: "unsupport-block", // Действие по отношению к которому будет идти слежка.
                 wordOnTitle: "блокировки саппорта", // Слово, которое будет использоваться в заголовке.
                 wordOnDescription: "Блокировка саппорта", // Слово, которое будет использоваться в описании. (С большой буквы и в именительном падеже)
                 func: unSupportBlock, // Функция снятия наказания
-                logChannelId: guildId => channelsId[guildId].administrationCouncil, // Канал в который будет логироватся снятие наказания.
+                logChannelId: guildId => getGuildChannelsId(guildId).administrationCouncil, // Канал в который будет логироватся снятие наказания.
             },
 
         ]

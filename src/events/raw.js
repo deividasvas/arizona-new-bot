@@ -1,5 +1,5 @@
 const getAllRolesIdModers = require('../components/getAllRolesIdModers')
-const { rolesId: _rolesId, channelsId: _channelsId } = require('../configs/settings')
+const { getGuildRolesId, getGuildChannelsId } = require('../configs/settings')
 const { EmbedBuilder, Colors } = require('discord.js')
 
 // Функция, которая превращает сообщение в чанк по 1000 символов в каждом.
@@ -27,9 +27,10 @@ module.exports = async (bot, raw) => {
     return
   }
 
+  // Переменные прямо из запроса из дискорда в стиле змейки.
   const { guild_id: guildId, emoji, channel_id: channelId, message_id: messageId } = raw.d
-  const rolesId = _rolesId[guildId]
-  const channelsId = _channelsId[guildId]
+  const rolesId = getGuildRolesId(guildId);
+  const channelsId = getGuildChannelsId(guildId);
 
   // Сервер на котором происходит действие.
   const guild = bot.guilds.cache.get(guildId)

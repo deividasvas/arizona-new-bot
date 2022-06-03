@@ -1,5 +1,5 @@
 const {EmbedBuilder, Colors} = require("discord.js");
-const {rolesId, channelsId} = require("../configs/settings");
+const {getGuildRolesId, getGuildChannelsId} = require("../configs/settings");
 const axios = require("axios");
 const {load} = require("cheerio");
 const {getReportsList} = require("../components/getReportsList");
