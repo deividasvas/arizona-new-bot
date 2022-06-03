@@ -3,10 +3,10 @@ const {
 } = require('discord.js')
 const fs = require('fs')
 const settings = require('../configs/settings')
+const { getGuildRolesId } = settings;
 const { SlashCommandBuilder } = require('discord.js')
 const path = require('path')
 const { default: mongoose } = require('mongoose')
-const { rolesId } = require('../configs/settings')
 const VkBot = require('node-vk-bot-api')
 
 module.exports = class ExtendedClient extends Client {
@@ -117,21 +117,23 @@ module.exports = class ExtendedClient extends Client {
     buildCommand.setName(command.name) // устанавливаем название команде
     buildCommand.setDescription(command.descr) // устанавливаем описание команды
     buildCommand.options = [...command.arguments] // устанавливаем аргументы команды
+    const rolesId = getGuildRolesId(guild.id); // айди ролей на сервере
+
     const permissions = await (
-      await command.perms(rolesId[guild.id])
-    ).map((roleID) => (
+      await command.perms(rolesId)
+    ).map((roleId) => (
       {
         type: ApplicationCommandPermissionType.Role,
-        id: roleID,
+        id: roleId,
         permission: true
       }
     )) // создаём массив с правами
 
-    for (const whiteRoleID of this.fullPermissionCommandsRolesId(rolesId[guild.id])) {
+    for (const whiteRoleId of this.fullPermissionCommandsRolesId(rolesId)) {
       // белый список ролей у которых есть полный доступ ко всем командам
       permissions.push({
         type: ApplicationCommandPermissionType.Role,
-        id: whiteRoleID,
+        id: whiteRoleId,
         permission: true
       }) // добавляем роли из белого списка доступ к команде
     }
@@ -177,6 +179,7 @@ module.exports = class ExtendedClient extends Client {
       ))
 
       if (JSON.stringify(actualArguments) !== JSON.stringify(newArguments)) {
+        console.log(buildCommand.name)
         await commandInfoGuild.setOptions(buildCommand.options) // устанавливаем аргументы для команды
         console.log(`[📌 | ${buildCommand.name}]: Были успешно изменены аргументы!`)
       }

@@ -1,5 +1,5 @@
 const {Colors} = require("discord.js");
-const {EmbedBuilder} = require("discord.js/node_modules/@discordjs/builders");
+const {EmbedBuilder} = require("discord.js");
 const {scheduleJob} = require("node-schedule");
 const {rolesId, channelsId} = require("../configs/settings");
 const Punishment = require("../models/Punishment");

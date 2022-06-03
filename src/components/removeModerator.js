@@ -1,5 +1,5 @@
 const { Colors } = require("discord.js");
-const { EmbedBuilder } = require("discord.js/node_modules/@discordjs/builders");
+const { EmbedBuilder } = require("discord.js");
 const { channelsId, rolesId } = require("../configs/settings");
 const Moderators = require("../models/Moderators");
 const getModerInfo = require("./getModerInfo");

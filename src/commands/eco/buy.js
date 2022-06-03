@@ -37,7 +37,7 @@ module.exports = {
           value: `famPass`
         },
         {
-          name: `Surprise pass | ${coinsRates.userPassPrice.week} SC в неделю | ${coinsRates.userPassPrice.month} SC в месяц`,
+          name: `Surprise person Pass | ${coinsRates.userPassPrice.month} SC в месяц`,
           value: `userPass`
         }
       ],
@@ -49,22 +49,6 @@ module.exports = {
       description: `Количество уровней которое Вы хотите себе приобрести | ${coinsRates.oneLevelRankPrice} монет за 1 уровень | Максимум 25 уровней`,
       required: false
     },
-    {
-      name: `Срок подписки Surprise Pass`,
-      type: ApplicationCommandOptionType.String,
-      description: `Время на которое вы покупаете подписку.`,
-      required: false,
-      choices: [
-        {
-          name: `Неделя`,
-          value: `WeekPass`
-        },
-        {
-          name: `Месяц`,
-          value: `MonthPass`
-        }
-      ]
-    }
   ], // аргументы
   perms: (rolesId) => [rolesId.everyone], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
