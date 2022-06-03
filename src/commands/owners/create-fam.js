@@ -220,6 +220,7 @@ module.exports = {
       parent: categories.fams,
     });
     const newFamily = new Families({
+      guildId: guild.id,
       ownerId: leaderFam.id,
       deputies: [],
       roleId: role.id,

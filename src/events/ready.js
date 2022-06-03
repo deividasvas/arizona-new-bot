@@ -1,3 +1,5 @@
+const passTimer = require("../components/passTimer");
+
 module.exports = async bot => {
     bot.user.setActivity({ name: 'за Аrizona 🌺 Surprise', type: 'WATCHING', status: 'online' }) // * Активность
     await bot.guilds.fetch();
