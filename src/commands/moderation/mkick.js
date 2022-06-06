@@ -6,7 +6,9 @@ const setModerInfoParam = require("../../components/setModerInfoParam");
 const settings = require("../../configs/settings");
 const getMinutesInMs = require("../../components/getMinutesInMs");
 const timeChecker = require("../../components/timeChecker");
+const log = require('../../components/log');
 
+// Таймер на кики
 const kicks = new timeChecker('кик');
 
 module.exports = {
@@ -66,13 +68,13 @@ module.exports = {
         embeds: [
           new EmbedBuilder()
             .setColor(Colors.Blue)
-            .setTitle(`📌 | Вы были исключены из сервера!`)
+            .setTitle(`📌 | Вы были исключены с сервера!`)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL(),
             })
             .setDescription(
-              `**「📝」Исключил: <@${author.id}>\n「📕」Причина: \`${reason}\`**`
+              `**「📝」Исключил: <@${author.id}> (${author.user.tag})\n「📕」Причина: \`${reason}\`**`
             )
               .setTimestamp()
               .setFooter({
@@ -127,6 +129,8 @@ module.exports = {
       ],
     });
 
+
+    // Добавляем модератора в таймер киков.
     kicks.addModeratorPunish(author.id, guild.id);
   },
 };

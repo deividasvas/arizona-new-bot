@@ -125,7 +125,7 @@ module.exports = {
         })
       }
 
-      const logCoinsChannel = guild.channels.cache.get(guildChannelsId.logCoins)
+      const logCoinsChannel = guild.channels.cache.get(channelsId.logCoins)
       const date = new Date()
       logCoinsChannel.send({
         embeds: [

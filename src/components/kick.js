@@ -1,8 +1,8 @@
-const LogDataBase = require('../models/LogDataBase');
-const setModerInfoParam = require("../components/setModerInfoParam");
+const setModerInfoParam = require("./setModerInfoParam");
 const settings = require("../configs/settings");
 const getModerInfo = require("./getModerInfo");
 const updateModeratorTask = require("./updateModeratorTask");
+const log = require('./log');
 
 // Функция кикает с сервера.
 const kick = async (bot, guildId, userId, provocateurId, reason) => {
@@ -12,18 +12,17 @@ const kick = async (bot, guildId, userId, provocateurId, reason) => {
         guild.members.cache.get(userId) || (await guild.members.fetch(userId));
     member.kick(`${reason} by ${provocateur.user.tag}`);
 
-    new LogDataBase({
-        guildId, // ID сервера
+    // Логируем кик в базу данных.
+    log(1, {
+        guildId: guild.id, // ID сервера
         discordId: userId, // ID упомянутого участника
-        discordTag: member.tag, // Tag упомянутого участника
+        discordTag: member.user.tag, // Tag упомянутого участника
         discordNick: member.displayName, // Серверный ник упомянутого участника
-        moderatorId: provocateur.id, // ID автора сообщения
-        moderatorTag: provocateur.tag, // Tag автора сообщения
+        moderatorId: provocateurId, // ID автора сообщения
+        moderatorTag: provocateur.user.tag, // Tag автора сообщения
         moderatorNick: provocateur.displayName, // Серверный ник автора сообщения
-        action: 1, // Номер действия
-        time: new Date(), // Время выдачи наказания
-        reason, // Причина
-    }).save(); // Сохраняем кик в базу данных
+        reason,
+    });
     // выдаем недельные муты и общие
 
     const {task} = await getModerInfo(bot, guildId, provocateurId);

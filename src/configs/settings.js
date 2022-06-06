@@ -825,14 +825,14 @@ const coinsRates = {
       [rolesId.legendary, 0.1], // Легендарный
       ...(
         (
-          await getAllRolesIdModers()
+          await getAllRolesIdModers(rolesId)
         ).map((moderRoleId) => {
           return [moderRoleId, 0.03] // Все модерские роли
         })
       ),
       ...(
         (
-          await getAllRolesIdFamilies()
+          await getAllRolesIdFamilies(rolesId)
         ).map((familyRoleId) => {
           return [familyRoleId, 0.03] // Все семейные роли
         })

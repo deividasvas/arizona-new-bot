@@ -96,9 +96,6 @@ module.exports = {
             )
         ]),
       ],
-      content: `http://ulog.union-u.net/search.php?searchtext=${nickname
-        .split(" ")
-        .join("_")}&server=15`,
     });
     interaction.reply({
       ephemeral: true,

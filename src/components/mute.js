@@ -1,7 +1,7 @@
 const {Colors} = require("discord.js");
 const {EmbedBuilder} = require("discord.js");
 const {scheduleJob} = require("node-schedule");
-const {rolesId, channelsId} = require("../configs/settings");
+const {getGuildRolesId, getGuildChannelsId} = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 const convertMinutesToMs = require("./convertMinutesToMs");
 const sendUserMessage = require("./sendUserMessage");
@@ -11,9 +11,14 @@ const setModerInfoParam = require("../components/setModerInfoParam");
 const settings = require("../configs/settings");
 const getModerInfo = require("./getModerInfo");
 const updateModeratorTask = require("./updateModeratorTask");
+const log = require('./log');
+
 
 // Функция мутит пользователей.
 const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
+    const rolesId = getGuildRolesId(guildId);
+    const channelsId = getGuildChannelsId(guildId);
+
     const punish = await Punishment.findOne({
         userId,
     });
@@ -33,10 +38,23 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
     member.timeout(
         convertMinutesToMs(minutes),
         `${reason} by ${provocateur.user.tag}`
-    );
+    ); // выдаём мут человеку системно
+    // Логируем мут в базу данных.
+    log(2, {
+        guildId: guild.id, // ID сервера
+        discordId: userId, // ID упомянутого участника
+        discordTag: member.user.tag, // Tag упомянутого участника
+        discordNick: member.displayName, // Серверный ник упомянутого участника
+        moderatorId: provocateurId, // ID автора сообщения
+        moderatorTag: provocateur.user.tag, // Tag автора сообщения
+        moderatorNick: provocateur.displayName, // Серверный ник автора сообщения
+        reason,
+    });
+    // Выдаём мут пользователю дополнительно при помощи роли чтоб другие могли это видеть.
     member.roles.add(rolesId.muted);
     const dateEnd = new Date();
     dateEnd.setMinutes(dateEnd.getMinutes() + minutes);
+    // Логируем текущее наказание в базу данных.
     const newPunish = new Punishment({
         action: "mute",
         moderatorId: provocateurId,
@@ -87,9 +105,10 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
             mutes: task.mutes - 1 <= 0 ? 0 : task.mutes - 1
         })
     }
-
+    console.log(dateEnd);
     scheduleJob(`${guildId}-${userId}-mute-${reason}`, dateEnd, () => {
-        unmute(bot, userId, "-"); // ставим отслеживание на мут до определённое времени конца наказания.
+        console.log(`unmuteeeee`)
+        unmute(bot, guildId, userId, "-"); // ставим отслеживание на мут до определённое времени конца наказания.
         const guild = bot.guilds.cache.get(guildId);
         const moderationLog = guild.channels.cache.get(channelsId.moderationLog); // канал куда отправляем сообщение о снятии мута
         moderationLog.send({
@@ -137,18 +156,7 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
         );
         // снимаем мут как приходит время
     });
-    new LogDataBase({
-        guildId, // ID сервера
-        discordId: userId, // ID упомянутого участника
-        discordTag: member.tag, // Tag упомянутого участника
-        discordNick: member.displayName, // Серверный ник упомянутого участника
-        moderatorId: provocateur.id, // ID автора сообщения
-        moderatorTag: provocateur.tag, // Tag автора сообщения
-        moderatorNick: provocateur.displayName, // Серверный ник автора сообщения
-        action: 2, // Номер действия
-        time: new Date(), // Время выдачи наказания
-        reason, // Причина
-    }).save(); // Сохраняем кик в базу данных
+
     return true;
 };
 

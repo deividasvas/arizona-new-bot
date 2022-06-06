@@ -10,7 +10,7 @@ module.exports = {
       Описание модуля
       Данный модуль создан для того чтобы снимать наказания когда приходит время.
     */
-    autoRun: false, // автоматический запуск модуля
+    autoRun: true, // автоматический запуск модуля
     name: "punishment", // имя модуля
     acceptCustomsId: [], // модуль автоматически принимает эти айдишники interaction.customId
     run: async ({bot}) => {
@@ -73,6 +73,33 @@ module.exports = {
                             }),
                     ],
                 });
+
+                if(punish.action !== 'ban'){
+                    await sendUserMessage(
+                      {
+                          embeds: [
+                              new EmbedBuilder()
+                                .setColor(Colors.Blue)
+                                .setTitle(`📌 | Система снятия ${settin.wordOnTitle}!`)
+                                .setAuthor({
+                                    name: guild.name,
+                                    iconURL: guild.iconURL(),
+                                })
+                                .setDescription(
+                                  `**「📝」Выдавал: <@${punish.authorId}>\n「📕」Причина: \`${punish.reason}\`\n「📛」${setting.wordOnDescription} снят!**`
+                                )
+                                .setTimestamp()
+                                .setFooter({
+                                    text: `Robo Hamster`,
+                                    iconURL: bot.user.displayAvatarURL(),
+                                }),
+                          ],
+                      },
+                      punish.userId,
+                      guild
+                    );
+                }
+
                 return setting.func(bot, punish.guildId, punish.userId, '-', "Автоматически снятие наказаний")
             }
         }

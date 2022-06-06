@@ -1,9 +1,11 @@
-const { rolesId } = require("../configs/settings");
+const { getGuildRolesId } = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 const {cancelJob} = require("node-schedule");
 
 // Функция снятие мута пользователю
-const unmute = async (bot, guildId, userId, provocateur = "-") => {
+const unmute = async (bot, guildId, userId, provocateur = "-", reason) => {
+  const rolesId = getGuildRolesId(guildId);
+
   const punish = await Punishment.findOne({
     userId,
     guildId,
@@ -22,9 +24,33 @@ const unmute = async (bot, guildId, userId, provocateur = "-") => {
       ? `Снятие мута by System`
       : `Снятие мута через команду by ${provocateur.user.tag}`
   ); // снимаем ему мут.
-  await member.roles.remove([rolesId[punish.guildId].muted]); // удаляем роль `Muted`
+  await member.roles.remove([rolesId.muted]); // удаляем роль `Muted`
   cancelJob(`${guildId}-${userId}-mute-${punish.reason}`); // отменяем автоматическое снятие наказания через модуль punishment.js
   punish.remove(); // удаляем наказания из бд
+
+  await sendUserMessage(
+    {
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.Blue)
+          .setTitle(`📌 | Система снятия мута!`)
+          .setAuthor({
+            name: guild.name,
+            iconURL: guild.iconURL(),
+          })
+          .setDescription(
+            `**「📝」Снял: <@${provocatorMember.id}> (${provocatorMember.user.tag})\n「📕」Причина: \`${reason}\`\n**`
+          )
+          .setTimestamp()
+          .setFooter({
+            text: `Robo Hamster`,
+            iconURL: bot.user.displayAvatarURL(),
+          }),
+      ],
+    },
+    member.id,
+    guild
+  );
   return true;
 };
 
