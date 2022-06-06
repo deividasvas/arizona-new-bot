@@ -1,18 +1,25 @@
-// Функция, которая возвращает действие по числу.
 const mongoose = require("mongoose");
 
+// Коллекция в которой хранятся логи пользователей.
 const LogDataBase = new mongoose.Schema({
     guildId: String,
     discordId: String,
     discordTag: String,
     discordNick: String,
-    moderatorId: String,
-    moderatorTag: String,
-    moderatorNick: String,
-    action: {
+    moderatorId: {
         type: String,
-        default: "0"
+        default: 'Не указано'
     },
+    moderatorTag: {
+        type: String,
+        default: 'Не указано'
+    },
+    moderatorNick: {
+        type: String,
+        default: 'Не указано'
+    },
+    actionId: Number,
+    actionName: String,
     time: {
         type: Date,
     },

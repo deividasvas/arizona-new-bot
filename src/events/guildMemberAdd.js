@@ -1,5 +1,5 @@
 const Punishment = require('../models/Punishment')
-const { rolesId: _rolesId, channelsId: _channelsId } = require('../configs/settings')
+const { getGuildRolesId, getGuildChannelsId } = require('../configs/settings')
 const { EmbedBuilder, Colors } = require('discord.js')
 let levelHigh = 0
 module.exports = async (bot, member) => {
@@ -7,8 +7,8 @@ module.exports = async (bot, member) => {
     guildId: member.guildId, userId: member.id, action: 'mute'
   })
   const { guild } = member
-  const rolesId = _rolesId[guild.id]
-  const channelsId = _channelsId[guild.id]
+  const rolesId = getGuildRolesId(guild.id)
+  const channelsId = getGuildChannelsId(guild.id)
   if (muteTheMember) {
     member.roles.add(rolesId.muted, `Обход мута`)
   }

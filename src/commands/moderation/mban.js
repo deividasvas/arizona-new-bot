@@ -7,7 +7,7 @@ const {
 } = require("discord.js");
 const {
   ButtonBuilder,
-} = require("discord.js/node_modules/@discordjs/builders");
+} = require("discord.js");
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const BansVotes = require("../../models/BansVotes");
 const timeChecker = require("../../components/timeChecker");

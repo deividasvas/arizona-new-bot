@@ -1,4 +1,4 @@
-const { channelsId: _channelsId, rolesId: _rolesId } = require('../configs/settings')
+const { getGuildRolesId, getGuildChannelsId } = require('../configs/settings')
 const { EmbedBuilder, Colors, AuditLogEvent } = require('discord.js')
 const getAllRolesIdModers = require('../components/getAllRolesIdModers')
 const getAllRolesIdAdmins = require('../components/getAllRolesIdAdmins')
@@ -9,7 +9,7 @@ const getModerInfo = require('../components/getModerInfo')
 
 const logAction = async (bot, oldMember, newMember) => {
   const { guild } = newMember
-  const channelsId = _channelsId[guild.id]
+  const channelsId = getGuildChannelsId(guild.id)
 
   const logRolesAndBansChannel = guild.channels.cache.get(channelsId.rolesAndBans)
   const logUsersChannel = guild.channels.cache.get(channelsId.logUsers)
@@ -166,8 +166,8 @@ const logAction = async (bot, oldMember, newMember) => {
 
 const securityLog = async (bot, oldMember, newMember) => {
   const { guild } = newMember
-  const rolesId = _rolesId[guild.id]
-  const channelsId = _channelsId[guild.id]
+  const rolesId = getGuildRolesId(guild.id)
+  const channelsId = getGuildChannelsId(guild.id)
   if (oldMember._roles.length === newMember._roles.length) return // Если с ролями нет взаимодействий, то пропускаем.
   if (newMember.user.bot) return // Бот не принимается!
 

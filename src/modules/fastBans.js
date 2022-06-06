@@ -1,7 +1,7 @@
 const { EmbedBuilder, Colors, Attachment } = require('discord.js')
 const parseUserIdFromMention = require('../components/parseIdFromMention')
 const sendUserMessage = require('../components/sendUserMessage')
-const { rolesId: _rolesId, fastBanCoefficient } = require('../configs/settings')
+const { getGuildRolesId, fastBanCoefficient } = require('../configs/settings')
 const setModerInfoParam = require('../components/setModerInfoParam')
 
 module.exports = {
@@ -55,7 +55,7 @@ module.exports = {
   },
   async run ({ bot, interaction, member }) {
     const guild = bot.guilds.cache.get(interaction.guildId)
-    const rolesId = _rolesId[guild.id]
+    const rolesId = getGuildRolesId(guild.id)
 
     // Если у пользователя нет не одно из ролей руководства модерации, то пишем что недостаточно прав.
     if (!member.roles.cache.some(role => [

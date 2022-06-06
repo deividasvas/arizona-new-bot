@@ -1,10 +1,10 @@
 const {EmbedBuilder, Colors, AuditLogEvent} = require("discord.js");
-const {channelsId: _channelsId} = require("../configs/settings")
+const {getGuildChannelsId} = require("../configs/settings")
 const unbanFunc = require("../components/unban");
 
 module.exports = (bot, unban) => {
     const { guild } = unban;
-    const channelsId = _channelsId[guild.id]
+    const channelsId = getGuildChannelsId(guild.id)
     setTimeout(async () => {
         const logChannel = guild.channels.cache.get(channelsId.rolesAndBans);
         const logs = await  guild.fetchAuditLogs({

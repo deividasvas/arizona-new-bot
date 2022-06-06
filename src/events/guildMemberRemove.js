@@ -1,8 +1,8 @@
-const { rolesId: _rolesId, channelsId: _channelsId } = require('../configs/settings')
+const { getGuildChannelsId } = require('../configs/settings')
 const { EmbedBuilder, Colors } = require('discord.js')
 module.exports = async (bot, member) => {
   const { guild } = member
-  const channelsId = _channelsId[guild.id]
+  const channelsId = getGuildChannelsId(guild.id);
   const channelLog = guild.channels.cache.get(channelsId.joinsAndExits)
 
   const rolesList = []

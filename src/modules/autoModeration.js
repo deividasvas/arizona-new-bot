@@ -1,4 +1,4 @@
-const { channelsId: _channelsId } = require('../configs/settings')
+const { getGuildChannelsId } = require('../configs/settings')
 const getAutoModerationConfig = require('../components/getAutoModerationConfig')
 const { EmbedBuilder, Colors } = require('discord.js')
 
@@ -77,7 +77,7 @@ module.exports = {
       cooldownMessage,
       maxMat
     } = getAutoModerationConfig()
-    const channelsId = _channelsId[guild.id]
+    const channelsId = getGuildChannelsId(guild.id);
     const autoModerationLogChannel = guild.channels.cache.get(channelsId.autoModeration)
 
     if (ignoredChannelsId.includes(message.channel.id)) {

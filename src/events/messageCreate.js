@@ -4,18 +4,24 @@ const { EmbedBuilder, Colors } = require("discord.js");
 const { prefix, developers } = require("../configs/settings");
 const parseIdFromMention = require("../components/parseIdFromMention");
 const handleErrors = require("../components/handleErrors");
-const settings = require("../configs/settings.js");
+const { getGuildRolesId, getGuildChannelsId, getGuildCategoriesId, fromPostToPostList: getFromPostToPostList, whiteListRoles: getWhiteListRoles } = require("../configs/settings.js");
 
 // Функция для обработки команд
 const commandHandler = async (bot, message) => {
+	// Если это сообщение в ЛС или автор сообщения бот, то ничего не делаем.
 	if (message.channel.type === "DM" || message.author.bot) {
 		return;
 	}
-	const rolesId = settings.rolesId[message.guild.id];
-	const channelsId = settings.channelsId[message.guild.id];
-	const whiteListRoles = settings.whiteListRoles(rolesId);
-	const categories = settings.categories[message.guild.id];
-	const fromPostToPostList = settings.fromPostToPostList[message.guild.id];
+	// Все айдишники ролей на сервере.
+	const rolesId = getGuildRolesId(message.guild.id);
+	// Все айдишники каналов на сервере.
+	const channelsId = getGuildChannelsId(message.guild.id);
+	// Список белых ролей которые могут любые команды использовать.
+	const whiteListRoles = getWhiteListRoles(rolesId);
+	// Все айдишники категорий на сервере.
+	const categoriesId = getGuildCategoriesId(message.guild.id);
+	// Массив с постами с должностями с какой на какую понижают.
+	const fromPostToPostList = getFromPostToPostList(message.guild.id);
 	if (message.content.startsWith(bot.prefix)) {
 		// НАСТРОЙКА СЛЭШ КОМАНД НАХОДИТСЯ В interactionCreate.js в условии command.isChatInputCommand()
 		const splitedCommand = message.content
@@ -242,7 +248,7 @@ const commandHandler = async (bot, message) => {
 				rolesId,
 				channelsId,
 				whiteListRoles,
-				categories,
+				categories: categoriesId,
 				fromPostToPostList,
 				bot,
 				channel: message.channel,
@@ -265,8 +271,8 @@ module.exports = async (bot, message) => {
 	if (message.type === 'DM' || message.author.bot) {
 		return;
 	}
-	// Айди каналов сервера
-	const channelsId = settings.channelsId[message.guild.id];
+	// Все айдишники каналов на сервере.
+	const channelsId = getGuildChannelsId(message.guild.id);
 	// Запускаем обработку команд
 	await commandHandler(bot, message);
 
@@ -274,6 +280,8 @@ module.exports = async (bot, message) => {
 	if (message.channel.id === channelsId.sendQuestionnaire) {
 		bot.modules.get('anketa').run({ bot, message });
 	}
+
+	// Запускаем дополнительных модули для всяких проверок,
 	bot.modules.get("trigger").run({ bot, message });
 	bot.modules.get("coins").run({ bot, message });
 	bot.modules.get("autoModeration").run({ bot, message });

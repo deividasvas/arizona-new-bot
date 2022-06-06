@@ -1,5 +1,5 @@
 const {AuditLogEvent, Colors, EmbedBuilder} = require("discord.js");
-const {logs, channelsId} = require("../configs/settings")
+const {logs, getGuildChannelsId} = require("../configs/settings")
 const ban = require("../components/ban");
 const Punishment = require('../models/Punishment');
 
@@ -22,9 +22,10 @@ module.exports = async(bot, banMember) => {
             // Если пользователь в бане в БД, то ничего не делаем.
             return;
         }
+        const channelsId = getGuildChannelsId(banMember.guild.id);
         await ban(bot, banMember.guild.id, banLog.target.id, banLog.executor.id, 60, banLog.reason || "Блокировка через ПКМ");
         const bansLogsChannel = banMember.guild.channels.cache.get(
-            channelsId[banMember.guild.id].rolesAndBans
+            channelsId.rolesAndBans
         ); // канал куда отправляются логи банов
         await bansLogsChannel.send({
             embeds: [

@@ -7,7 +7,7 @@
 
 const {channelsId, rolesId} = require("../configs/settings");
 const {EmbedBuilder, Colors} = require("discord.js");
-const {bot} = require("../index");
+const bot = require("../index");
 const getMinutesInMs = require("./getMinutesInMs");
 
 class timeChecker {

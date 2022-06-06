@@ -1,6 +1,6 @@
 const { EmbedBuilder, Colors } = require("discord.js");
-const getAllrolesIdAdmins = require("../components/getAllRolesIdAdmins");
-const {rolesId} = require("../configs/settings");
+const getAllRolesIdAdmins = require("../components/getAllRolesIdAdmins");
+const {getGuildRolesId} = require("../configs/settings");
 
 module.exports = {
   /*
@@ -13,9 +13,9 @@ module.exports = {
   acceptCustomsId: ["logMonitoringYes", "logMonitoringNo"], // модуль автоматически принимает эти айдишники interaction.customId
   run: async ({ bot, interaction, member: user, guild, message }) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
-
+    const rolesId = getGuildRolesId(guild.id);
     if (
-      !user.roles.cache.find((role) => getAllrolesIdAdmins(rolesId[guild.id]).includes(role.id))
+      !user.roles.cache.find((role) => getAllRolesIdAdmins(rolesId).includes(role.id))
     ) {
       // Проверяем, есть ли у человека нажавшего кнопку админские роли. Если нет, то отвечаем что нет доступа.
       return interaction.reply({

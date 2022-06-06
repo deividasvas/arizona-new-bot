@@ -3,9 +3,9 @@ const getModerInfo = require("../components/getModerInfo");
 const setModerInfoParam = require("../components/setModerInfoParam");
 const setWarnsOrRebukes = require("../components/setWarnsOrRebukes");
 const {
-  rolesId,
-  channelsId,
   maxCountImmunities,
+  getGuildChannelsId,
+  getGuildRolesId
 } = require("../configs/settings");
 
 module.exports = {
@@ -16,18 +16,20 @@ module.exports = {
   autoRun: false, // автоматический запуск модуля
   name: "bshop", // имя модуля
   acceptCustomsId: [
-    "bshop_minus_rebuke",
-    "bshop_10level",
-    "bshop_20level",
-    "bshop_30level",
-    "bshop_imun",
-    "bshop_x2balls",
-    "bshop_x3balls",
-    "bshop_role",
+    "bshopMinusRebuke",
+    "bshop10level",
+    "bshop20level",
+    "bshop30level",
+    "bshopImun",
+    "bshopX2balls",
+    "bshopX3balls",
+    "bshopRole",
   ], // модуль автоматически принимает эти айдишники interaction.customId
   run: async ({ bot, interaction, user, guild: _guild, message }) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
     const { customId } = interaction;
+    const channelsId = getGuildChannelsId(guild.id);
+    const rolesId = getGuildRolesId(guild.id);
     const { main, error, warns, week, guildId } = await getModerInfo(
       bot,
       _guild?.id,
@@ -60,7 +62,7 @@ module.exports = {
     const services = [
       {
         name: `Снятие выговора`, // название услуги (с большой буквы)
-        customId: "bshop_minus_rebuke", // customId который будет равен тому же что в кнопке в bshop
+        customId: "bshopMinusRebuke", // customId который будет равен тому же что в кнопке в bshop
         requiredBalls: 100, // необходимое количество баллов для покупки услуги
         filter({ warns }) {
           const rebukes = warns.filter(
@@ -90,7 +92,7 @@ module.exports = {
         }, // выполнение логики услуги. НЕ ПИСАТЬ ЗДЕСЬ ЭМБЕДЫ И ТОМУ ПОДОБНОЕ ОФОРМЛЕНИЕ
         answer() {
           const punishModeratorsLog = guild.channels.cache.get(
-            channelsId[guildId].punishModeratorsLog
+            channelsId.punishModeratorsLog
           );
           punishModeratorsLog.send({
             content: `${user}`,
@@ -120,7 +122,7 @@ module.exports = {
       },
       {
         name: `Купить 10 лвл (rank)`, // название услуги (с большой буквы)
-        customId: "bshop_10level", // customId который будет равен тому же что в кнопке в bshop
+        customId: "bshop10level", // customId который будет равен тому же что в кнопке в bshop
         requiredBalls: 150, // необходимое количество баллов для покупки услуги
         filter() {
           return {
@@ -136,7 +138,7 @@ module.exports = {
       },
       {
         name: `Купить 20 лвл (rank)`, // название услуги (с большой буквы)
-        customId: "bshop_20level", // customId который будет равен тому же что в кнопке в bshop
+        customId: "bshop20level", // customId который будет равен тому же что в кнопке в bshop
         requiredBalls: 280, // необходимое количество баллов для покупки услуги
         filter() {
           return {
@@ -152,7 +154,7 @@ module.exports = {
       },
       {
         name: `Купить 30 лвл (rank)`, // название услуги (с большой буквы)
-        customId: "bshop_30level", // customId который будет равен тому же что в кнопке в bshop
+        customId: "bshop30level", // customId который будет равен тому же что в кнопке в bshop
         requiredBalls: 400, // необходимое количество баллов для покупки услуги
         filter() {
           return {
@@ -168,7 +170,7 @@ module.exports = {
       },
       {
         name: `Получить иммунитет`, // название услуги (с большой буквы)
-        customId: "bshop_imun", // customId который будет равен тому же что в кнопке в bshop
+        customId: "bshopImun", // customId который будет равен тому же что в кнопке в bshop
         requiredBalls: 120, // необходимое количество баллов для покупки услуги
         filter({ main: { immunities } }) {
           if (immunities >= maxCountImmunities) {
@@ -193,7 +195,7 @@ module.exports = {
         }, // выполнение логики услуги. НЕ ПИСАТЬ ЗДЕСЬ ЭМБЕДЫ И ТОМУ ПОДОБНОЕ ОФОРМЛЕНИЕ
         answer() {
           const punishModeratorsLog = guild.channels.cache.get(
-            channelsId[guildId].punishModeratorsLog
+            channelsId.punishModeratorsLog
           );
           punishModeratorsLog.send({
             content: `${user}`,
@@ -222,7 +224,7 @@ module.exports = {
       },
       {
         name: `Купить x2 Баллы`, // название услуги (с большой буквы)
-        customId: "bshop_x2balls", // customId который будет равен тому же что в кнопке в bshop
+        customId: "bshopX2balls", // customId который будет равен тому же что в кнопке в bshop
         requiredBalls: 250, // необходимое количество баллов для покупки услуги
         filter() {
           return {
@@ -238,7 +240,7 @@ module.exports = {
       },
       {
         name: `Купить x3 Баллы`, // название услуги (с большой буквы)
-        customId: "bshop_x3balls", // customId который будет равен тому же что в кнопке в bshop
+        customId: "bshopX3balls", // customId который будет равен тому же что в кнопке в bshop
         requiredBalls: 500, // необходимое количество баллов для покупки услуги
         filter() {
           return {
@@ -254,7 +256,7 @@ module.exports = {
       },
       {
         name: `Купить персональную роль на две недели `, // название услуги (с большой буквы)
-        customId: "bshop_role", // customId который будет равен тому же что в кнопке в bshop
+        customId: "bshopRole", // customId который будет равен тому же что в кнопке в bshop
         requiredBalls: 250, // необходимое количество баллов для покупки услуги
         filter() {
           return {
@@ -348,10 +350,10 @@ module.exports = {
     });
     // так-же, нужно отправить лог об этой покупке в канал лог-покупок-модераторов
     const logBuysModerators = guild.channels.cache.get(
-      channelsId[guildId].logBuysModerators
+      channelsId.logBuysModerators
     );
     logBuysModerators.send({
-      content: `<@&${rolesId[guildId].adviceAdministration}> <@&${rolesId[guildId].juniorDiscordMaster}>`,
+      content: `<@&${rolesId.adviceAdministration}> <@&${rolesId.juniorDiscordMaster}>`,
       embeds: [
         new EmbedBuilder()
           .setColor(Colors.Blue)

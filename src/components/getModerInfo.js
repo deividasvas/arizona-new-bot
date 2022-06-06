@@ -1,7 +1,7 @@
 const Moderators = require("../models/Moderators");
 const createModerInfo = require("./createModerInfo");
 const getAllRolesIdModers = require("./getAllRolesIdModers");
-const {rolesId} = require("../configs/settings");
+const {getGuildRolesId} = require("../configs/settings");
 
 // Функция запрашивает и отдаёт модерскую статистику.
 const getModerInfo = async (bot, guildId, userId) => {
@@ -11,10 +11,12 @@ const getModerInfo = async (bot, guildId, userId) => {
     guildId,
   });
 
+  const rolesId = getGuildRolesId(guildId);
+
   // Проверка на то, является ли человек модератором
   const guild = bot.guilds.cache.get(guildId || moderator.guildId);
   const member = guild.members.cache.get(userId) || await guild.members.fetch(userId);
-  const allRolesIdModers = getAllRolesIdModers(rolesId[guildId]);
+  const allRolesIdModers = getAllRolesIdModers(rolesId);
   if (!member.roles.cache.some((role) => allRolesIdModers.includes(role.id))) {
     // проверяем является ли пользователь модератором, если нет, то кидаем ошибку.
     return {

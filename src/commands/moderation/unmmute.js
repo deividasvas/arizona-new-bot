@@ -50,7 +50,8 @@ module.exports = {
         ],
       });
     }
-    unmute(bot, userForUnmute.id, author.id, reason);
+
+    unmute(bot, guild.id, userForUnmute.id, author.id, reason);
 
     const moderationLog = guild.channels.cache.get(channelsId.moderationLog); // канал куда отправляем сообщение о снятии мута
     moderationLog.send({
@@ -73,29 +74,6 @@ module.exports = {
       ],
     }); // отправляем в этот канал сообщение о снятии мута
 
-    await sendUserMessage(
-        {
-          embeds: [
-            new EmbedBuilder()
-                .setColor(Colors.Blue)
-                .setTitle(`📌 | Система снятия мута!`)
-                .setAuthor({
-                  name: guild.name,
-                  iconURL: guild.iconURL(),
-                })
-                .setDescription(
-                    `**「📝」Снял: <@${author.id}> (${author.user.tag})\n「📕」Причина: \`${reason}\`\n**`
-                )
-                .setTimestamp()
-                .setFooter({
-                  text: `Robo Hamster`,
-                  iconURL: bot.user.displayAvatarURL(),
-                }),
-          ],
-        },
-        userForUnmute.id,
-        guild
-    );
     interaction.reply({
       ephemeral: true,
       embeds: [

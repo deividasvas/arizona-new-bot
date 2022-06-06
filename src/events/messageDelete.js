@@ -1,4 +1,4 @@
-const {channelsId, categories, messagesIgnoredChannelsId, messagesIgnoredCategoriesId} = require("../configs/settings");
+const {getGuildChannelsId, getGuildCategoriesId, messagesIgnoredChannelsId, messagesIgnoredCategoriesId} = require("../configs/settings");
 const {EmbedBuilder, Colors} = require("discord.js");
 
 // Функция, которая превращает строку в чанк
@@ -19,8 +19,8 @@ const log = async (bot, message) => {
     }
 
     // Айдишники каналов сервера
-    const guildChannelsId = channelsId[message.guild.id];
-    const guildCategoriesId = categories[message.guild.id];
+    const guildChannelsId = getGuildChannelsId(message.guild.id);
+    const guildCategoriesId = getGuildCategoriesId(message.guild.id);
 
     // Канал куда всё логируется
     const channelLog = bot.channels.cache.get(guildChannelsId.messagesLog);

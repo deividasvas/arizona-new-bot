@@ -33,7 +33,7 @@ module.exports = {
       required: true,
     },
   ], // аргументы
-  perms: () => [
+  perms: (rolesId) => [
     rolesId.discordMaster, // discord master
     rolesId.juniorDiscordMaster, // jr.discord master
     rolesId.adviceAdministration, // совет администрации дискорда

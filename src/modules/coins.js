@@ -1,7 +1,7 @@
 const setUserCoinsParam = require('../components/setUserCoinsParam')
 const convertMinutesToMs = require('../components/convertMinutesToMs')
 const CoinsUsers = require('../models/CoinsUsers')
-const { channelsId, rolesId, coinsRates: { rolesDepositCoefficient } } = require('../configs/settings')
+const { getGuildChannelsId, getGuildRolesId, coinsRates: { rolesDepositCoefficient } } = require('../configs/settings')
 const { EmbedBuilder, Colors } = require('discord.js')
 const fs = require('fs')
 const path = require('path')
@@ -49,7 +49,7 @@ module.exports = {
     })
     for (const [id, guild] of bot.guilds.cache) {
       const date = new Date()
-      const { logCoins } = channelsId[id]
+      const { logCoins } = getGuildChannelsId(id);
       const logCoinsChannel = guild.channels.cache.get(logCoins)
       logCoinsChannel.send({
         embeds: [
@@ -77,10 +77,10 @@ module.exports = {
   async restartDeposits (bot) {
     // Перебираем все сервера
     for (const [guildId, guild] of bot.guilds.cache) {
-      const guildRolesId = rolesId[guildId]
-      const guildChannelsId = channelsId[guildId]
+      const rolesId = getGuildRolesId(guildId);
+      const channelsId = getGuildChannelsId(guildId);
       // Получаем все роли на данном сервере у которых есть коэффициент
-      const rolesIdDepositCoefficient = await rolesDepositCoefficient(guildRolesId)
+      const rolesIdDepositCoefficient = await rolesDepositCoefficient(rolesId)
       // Получаем всех пользователей на данном сервере у которых активен депозит.
       const allUsersWithActiveDeposit = await CoinsUsers.find({
         guildId, isDepositActive: true
@@ -125,7 +125,7 @@ module.exports = {
         })
       }
 
-      const logCoinsChannel = guild.channels.cache.get(guildChannelsId.logCoins)
+      const logCoinsChannel = guild.channels.cache.get(channelsId.logCoins)
       const date = new Date()
       logCoinsChannel.send({
         embeds: [

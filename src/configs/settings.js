@@ -1,7 +1,7 @@
 const { ApplicationCommandOptionType, MessageMentions } = require('discord.js')
 const getAllRolesIdFamilies = require('../components/getAllRolesIdFamilies')
 const getAllRolesIdModers = require('../components/getAllRolesIdModers')
-const rolesId = {
+const _rolesId = {
   // айдишники ролей
   '948675243025764404': {
     // Игрок мафии
@@ -152,7 +152,7 @@ const rolesId = {
     legendaryOldSurprise: `948675243235475457`,
   }
 }
-const channelsId = {
+const _channelsId = {
   '948675243025764404': {
     // теги-организации
     rolesForms: `972849565873094696`,
@@ -456,7 +456,7 @@ const categoriesPrivatesId = categories => [
   categories.patrol
 ]
 
-const categories = {
+const _categories = {
   '948675243025764404': {
     // Семейные роли
     fams: '948675246016299023',
@@ -825,14 +825,14 @@ const coinsRates = {
       [rolesId.legendary, 0.1], // Легендарный
       ...(
         (
-          await getAllRolesIdModers()
+          await getAllRolesIdModers(rolesId)
         ).map((moderRoleId) => {
           return [moderRoleId, 0.03] // Все модерские роли
         })
       ),
       ...(
         (
-          await getAllRolesIdFamilies()
+          await getAllRolesIdFamilies(rolesId)
         ).map((familyRoleId) => {
           return [familyRoleId, 0.03] // Все семейные роли
         })
@@ -876,8 +876,19 @@ const coinsRates = {
 }
 
 module.exports = {
-  // Айдишники ролей
-  rolesId,
+  // Функция для получения всех айди ролей сервера
+  getGuildRolesId(guildId){
+    return _rolesId[guildId];
+  },
+  // Функция для получения всех айди каналов сервера
+  getGuildChannelsId(guildId){
+    return _channelsId[guildId];
+  },
+  // Функция для получения всех айди категорий сервера
+  getGuildCategoriesId(guildId){
+    return _categories[guildId];
+  },
+
 
   // Каналы в которые при входе создаётся приват.
   channelsForCreatePrivate,
@@ -885,13 +896,9 @@ module.exports = {
   supportSettings,
   // Категории в которых находятся приваты
   categoriesPrivatesId,
-  // Айдишники каналов
-  channelsId,
   // Теги организации
   tagsFractions,
 
-  // Категории
-  categories,
   developers: [
     '316154352760782849', // * Yuri Lance
     '904648434949169203', // * Deivid Brown

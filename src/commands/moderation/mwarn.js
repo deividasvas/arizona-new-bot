@@ -81,6 +81,10 @@ module.exports = {
       (warnOrRebuke) => warnOrRebuke.group === "rebuke"
     );
 
+    log(3, {
+
+    })
+
     if (immunities >= 1 && warns.length + 1 >= maxCountWarns) {
       // проверяем, есть ли у человека один или больше иммунитет, и если выдать это предупреждение, то автомачетиски выдастся ли выговор
 
