@@ -482,6 +482,8 @@ module.exports = {
           dateEnd
         });
 
+        await setUserCoinsParam(author.id, guild.id, 'isActiveCustomFontInNickname', true)
+
         await UserCoins.findOneAndUpdate({
           userId: author.id
         }, {
@@ -561,6 +563,8 @@ module.exports = {
       await setUserCoinsParam(author.id, guild.id, 'sendEmojiAndStickersFromOtherServers', {
         dateEnd
       });
+
+      await setUserCoinsParam(author.id, guild.id, 'isActiveCustomFontInNickname', true)
 
       await UserCoins.findOneAndUpdate({
         userId: author.id

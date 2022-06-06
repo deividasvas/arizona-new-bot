@@ -60,7 +60,8 @@ module.exports = {
             
                             await pass.updateOne({
                                 userPass: null,
-                                sendEmojiAndStickersFromOtherServers: null
+                                sendEmojiAndStickersFromOtherServers: null,
+                                isActiveCustomFontInNickname: false
                             })
             
                             const adviceAdministrationChannel = guild.channels.cache.get(channelsId.administrationCouncil);
