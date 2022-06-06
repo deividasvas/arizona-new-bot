@@ -1,6 +1,5 @@
 const { EmbedBuilder, Colors } = require("discord.js");
 const getAllRolesIDAdmins = require("../components/getAllRolesIdAdmins");
-const passTimer = require("../components/passTimer");
 
 module.exports = {
   /*
@@ -11,7 +10,7 @@ module.exports = {
   name: "pass", // имя модуля
   acceptCustomsId: [], // модуль автоматически принимает эти айдишники interaction.customId
   run: async ({ bot }) => {
-        setInterval(() => {
+        setInterval(async() => {
             for(const [id, guild] of bot.guilds.cache) {
                 const settings = [
                     {
@@ -24,14 +23,14 @@ module.exports = {
             
                 for(const setting of settings) {
                     if(setting.type == 'family') {
-                        const fam = await Families.find({
+                        const fam = await Families.find({ // Ищем семью с подпиской в базе данных
                             familyPass
                         })
             
-                        for(const FamiliesPass of fam) {
-                            if (FamiliesPass.familyPass.dateEnd > new Date()) continue; // Если подписка не окончена - выходим
+                        for(const pass of fam) {
+                            if (pass.familyPass.dateEnd > new Date()) continue; // Если подписка не окончена - выходим
             
-                            await FamiliesPass.updateOne({
+                            await pass.updateOne({
                                 familyPass: null
                             })
             
@@ -41,7 +40,7 @@ module.exports = {
                                 embeds: [
                                     await new EmbedBuilder()
                                     .setTitle(`✏️ | Семейная подписка`)
-                                    .setDescription(`**У семьи , владельцем которой является <@${FamiliesPass.ownerId}> закончилась подписка "Family Pass".**`)
+                                    .setDescription(`**У семьи , владельцем которой является <@${el.id}> закончилась подписка "Family Pass".**`)
                                     .setColor(Colors.Blue)
                                     .setTimestamp()
                                     .setFooter({
@@ -56,10 +55,10 @@ module.exports = {
                     if(setting.type == 'user') {
                         const user = await getCoinsProfile(el.id, id)
             
-                        for(const SurpriseUserPass of user) {
-                            if(SurpriseUserPass.userPass.dateEnd > new Date()) continue; // Если подписка не закончилась - выходим
+                        for(const pass of user) {
+                            if(pass.userPass.dateEnd > new Date()) continue; // Если подписка не закончилась - выходим
             
-                            await SurpriseUserPass.updateOne({
+                            await pass.updateOne({
                                 userPass: null
                             })
             

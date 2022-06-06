@@ -61,7 +61,7 @@ module.exports = class ExtendedClient extends Client {
 
   async events () {
     let loadEvents = 0
-    fs.readdirSync('./events/')
+    fs.readdirSync('./src/events/')
       .filter((name) => name.endsWith('.js'))
       .forEach((file) => {
         let event = require(`../events/${file}`)
@@ -78,10 +78,10 @@ module.exports = class ExtendedClient extends Client {
   async command () {
     // ЗАПУСКАЕТСЯ В ready.js, потому что иначе бот не успевает прогрузиться.
     for (const [id, guild] of this.guilds.cache) {
-      for (const dir of fs.readdirSync('./commands/')) {
+      for (const dir of fs.readdirSync('./src/commands/')) {
         // инициализируем саму команду
         const commands = fs
-          .readdirSync(`./commands/${dir}/`)
+          .readdirSync(`./src/commands/${dir}/`)
           .filter((file) => file.endsWith('.js'))
         for (let file of commands) {
           let pull = require(`../commands/${dir}/${file}`)
@@ -207,7 +207,7 @@ module.exports = class ExtendedClient extends Client {
   }
 
   async module () {
-    fs.readdirSync(`./modules/`)
+    fs.readdirSync(`./src/modules/`)
       .filter((name) => name.endsWith('.js'))
       .forEach((module) => {
         const pullModule = require(`../modules/${module}`)

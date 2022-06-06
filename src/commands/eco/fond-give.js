@@ -4,12 +4,12 @@ const path = require('path');
 const setUserCoinsParam = require("../../components/setUserCoinsParam");
 const pathToConfig = path.resolve('./configs/coins.json');
 module.exports = {
-  name: "give-fond", // название команды
+  name: "fadd", // название команды
   descr: "Вложить монеты в фонд Surprise", // описание команды
   showInSlashCommands: true, // показывать ли команду в slash командах
   arguments: [
       {
-        name: 'Монеты',
+        name: 'монеты',
         description: 'Количество монет, которое вы хотите вложить',
         type: ApplicationCommandOptionType.Number,
       }
