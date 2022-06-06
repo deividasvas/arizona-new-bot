@@ -478,6 +478,10 @@ module.exports = {
           coins - coinsRates.userPassPrice.week
         ).toFixed(4));
 
+        await setUserCoinsParam(author.id, guild.id, 'sendEmojiAndStickersFromOtherServers', {
+          dateEnd
+        });
+
         await UserCoins.findOneAndUpdate({
           userId: author.id
         }, {
@@ -553,6 +557,10 @@ module.exports = {
       await setUserCoinsParam(author.id, guild.id, `coins`, ({ coins }) => (
         coins - coinsRates.userPassPrice.month
       ).toFixed(4));
+
+      await setUserCoinsParam(author.id, guild.id, 'sendEmojiAndStickersFromOtherServers', {
+        dateEnd
+      });
 
       await UserCoins.findOneAndUpdate({
         userId: author.id

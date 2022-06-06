@@ -59,7 +59,8 @@ module.exports = {
                             if(pass.userPass.dateEnd > new Date()) continue; // Если подписка не закончилась - выходим
             
                             await pass.updateOne({
-                                userPass: null
+                                userPass: null,
+                                sendEmojiAndStickersFromOtherServers: null
                             })
             
                             const adviceAdministrationChannel = guild.channels.cache.get(channelsId.administrationCouncil);
