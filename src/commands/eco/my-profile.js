@@ -80,7 +80,8 @@ module.exports = {
       platforms,
       sendEmojiAndStickersFromOtherServers,
       isDepositActive,
-      depositCoins
+      depositCoins,
+      userPass
     } = await getCoinsProfile(member.id, guild.id)
     // Количество дней которое можно отправлять стикеры и эмодзи с других серверов.
     const days = (convertMsToDays(new Date(sendEmojiAndStickersFromOtherServers?.dateEnd) - new Date()).toFixed(1));
@@ -96,7 +97,7 @@ module.exports = {
           .setThumbnail(`${member.user.displayAvatarURL({
             format: 'png', size: 2048, dynamic: true
           })}`)
-          .setDescription(`>>> **Количество Coins: \`${coins}\`\nИспользовать нестандартный шрифт: \`${isActiveCustomFontInNickname ? `Можно` : 'Нельзя'}\`\nВозможность отправлять стикеры/эмодзи с других серверов: \`${await isActiveSendEmojiAndStickersFromOtherServers(author.id, guild.id) ? `Присутствует (Ещё ${days} дней)` : `Отсутствует`}\`\nКоличество платформ: \`${platforms}\`\nПромокод: \`${promocode ? promocode : 'Не активировался'}\`\nСтатус депозита: \`${isDepositActive ? 'Активен' : 'Отключен'}\`\nДенег на депозите: \`${depositCoins.toFixed(4)}\`**`)
+          .setDescription(`>>> **Количество Coins: \`${coins}\`\nИспользовать нестандартный шрифт: \`${isActiveCustomFontInNickname ? `Можно` : 'Нельзя'}\`\nВозможность отправлять стикеры/эмодзи с других серверов: \`${await isActiveSendEmojiAndStickersFromOtherServers(author.id, guild.id) ? `Присутствует (Ещё ${days} дней)` : `Отсутствует`}\`\nКоличество платформ: \`${platforms}\`\nПромокод: \`${promocode ? promocode : 'Не активировался'}\`\nСтатус депозита: \`${isDepositActive ? 'Активен' : 'Отключен'}\`\nДенег на депозите: \`${depositCoins.toFixed(4)}\`\nПодписка: \`${userPass ? 'Surprise User Pass' : 'Нет'}\`**`)
           .setFooter({
             text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
           })
