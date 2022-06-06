@@ -149,6 +149,13 @@ module.exports = {
     // Количество уровней которое будет выдано пользователю за активацию промокода.
     const sumLevel = Math.ceil(level * coinsOfActivatePromocode || coinsOfActivatePromocode)
 
+    // Проверяем , имеет ли пользователь подписку
+    if(profile.userPass) {
+      await setUserCoinsParam(author.id, guild.id, 'coins', ({ coins }) => (
+        coins + 0.55
+      ).toFixed(4))
+    }
+
     // Выдаем награду пользователю за использование промокода
     await setUserCoinsParam(author.id, guild.id, 'coins', ({ coins }) => (
       coins + sumCoins

@@ -1,6 +1,8 @@
 const { ApplicationCommandOptionType, MessageMentions } = require('discord.js')
 const getAllRolesIdFamilies = require('../components/getAllRolesIdFamilies')
 const getAllRolesIdModers = require('../components/getAllRolesIdModers')
+const CoinsUsers = require('../models/CoinsUsers')
+const Families = require('../models/Families')
 const _rolesId = {
   // айдишники ролей
   '948675243025764404': {
@@ -759,6 +761,32 @@ const combinationsRockPaperScissors = [
 //   { 'text': 'В каком месяце Conor стал спец.админом?', 'answers': ['январь', '01', '1'] }
 // ]
 
+const checkFamilyPass = async() => {
+  const family = await Families.find();
+
+  const hasPass = family.filter(families => families.familyPass) // Фильтруем семьи с подпиской
+
+  hasPass.map(fam => {
+    return {
+      owner: fam.ownerId,
+      role: fam.roleId
+    } // Возвращаем обьект с данными
+  })
+}
+
+const checkUserPass = () => {
+  const user = await CoinsUsers.find();
+
+  const hasPass = user.filter(users => users.userPass) // Фильтруем пользователей с подпиской
+
+  hasPass.map(member => {
+    return {
+      owner: member.ownerId,
+      role: member.roleId
+    } // Возвращаем обьект с данными
+  })
+}
+
 const coinsRates = {
   // Расценок за одно написанное сообщение в койнах
   message: 0.001,
@@ -807,34 +835,117 @@ const coinsRates = {
     month: 50,
     week: 20
   },
+
   // Коэффициент ролей по отношению к депозиту.
   rolesDepositCoefficient: async (rolesId) => {
     return [
-      [rolesId.visitor, 0.015], // Приезжий
-      [rolesId.niceGuest, 0.015], // Приятный гость
-      [rolesId.seasoned, 0.015], // Бывалый
-      [rolesId.inhabitant, 0.015], // Житель
-      [rolesId.experienced, 0.015], // Опытный
-      [rolesId.activist, 0.03], // Активист
-      [rolesId.thinker, 0.03], // Мыслитель
-      [rolesId.vip, 0.05], // V.I.P
-      [rolesId.newcomersHope, 0.05], // Надежда новичков
-      [rolesId.dearMember, 0.05], // Уважаемый участник
-      [rolesId.dearPersonality, 0.07], // Многоуважаемая личность
-      [rolesId.veteran, 0.07], // Ветеран
-      [rolesId.legendary, 0.1], // Легендарный
+      {
+        type: 'role',
+        id: rolesId.visitor,
+        coefficient: 0.015
+      }, // Приезжий
+      {
+        type: 'role',
+        id: rolesId.niceGuest,
+        coefficient: 0.015
+      }, // Приятный гость
+      {
+        type: 'role',
+        id: rolesId.seasoned,
+        coefficient: 0.015
+      }, // Бывалый
+      {
+        type: 'role',
+        id: rolesId.inhabitant,
+        coefficient: 0.015
+      }, // Житель
+      {
+        type: 'role',
+        id: rolesId.experienced,
+        coefficient: 0.015
+      }, // Опытный
+      {
+        type: 'role',
+        id: rolesId.activist,
+        coefficient: 0.03
+      }, // Активист
+      {
+        type: 'role',
+        id: rolesId.thinker,
+        coefficient: 0.03
+      }, // Мыслитель
+      {
+        type: 'role',
+        id: rolesId.vip,
+        coefficient: 0.05
+      }, // V.I.P
+      {
+        type: 'role',
+        id: rolesId.newcomersHope,
+        coefficient: 0.05
+      }, // Надежда новичков
+      {
+        type: 'role',
+        id: rolesId.dearMember,
+        coefficient: 0.05
+      }, // Уважаемый участник
+      {
+        type: 'role',
+        id: rolesId.dearPersonality,
+        coefficient: 0.07
+      }, // Многоуважаемая личность
+      {
+        type: 'role',
+        id: rolesId.veteran,
+        coefficient: 0.07
+      }, // Ветеран
+      {
+        type: 'role',
+        id: rolesId.legendary,
+        coefficient: 0.1
+      }, // Легендарный
       ...(
         (
           await getAllRolesIdModers(rolesId)
         ).map((moderRoleId) => {
-          return [moderRoleId, 0.03] // Все модерские роли
+          return {
+            type: 'role',
+            id: moderRoleId,
+            coefficient: 0.03
+          } // Все модерские роли
         })
       ),
       ...(
         (
           await getAllRolesIdFamilies(rolesId)
         ).map((familyRoleId) => {
-          return [familyRoleId, 0.03] // Все семейные роли
+          return {
+            type: 'role',
+            id: familyRoleId,
+            coefficient: 0.03 
+          } // Все семейные роли
+        })
+      ),
+      ...(
+        (
+          await checkFamilyPass()
+        ).map((familyWithPass) => {
+          return {
+            type: 'role',
+            id: familyWithPass.roleId,
+            coefficient: 0.03 
+          } // Роли семей с подпиской
+        })
+      ),
+      ...(
+        (
+          await checkUserPass()
+        ).map((userWithPass) => {
+          return {
+            type: 'user',
+            id: userWithPass.userId,
+            coefficient: 0.03 
+          } // Пользователи с подпиской
         })
       )
     ]

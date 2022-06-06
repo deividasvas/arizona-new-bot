@@ -407,12 +407,15 @@ module.exports = {
         coins - coinsRates.famPassMonthPrise
       ).toFixed(4));
 
-      interaction.reply({
+      const famChannel = guild.channels.cache.get(leaderFam.textChannelId)
+
+      famChannel.reply({
+        content: `<@&${leaderFam.roleId}>`,
         embeds: [
           await new EmbedBuilder()
-          .setTitle(`💰 | Успешная покупка!`)
-          .setColor(Colors.Blue)
-          .setDescription(`**вы успешно приобрели подписку "Family Pass" сроком на 1 месяц!\nПосле покупки у вас осталось: ${profile.coins} монет!**`)
+          .setTitle(`🎀 | Family Pass!`)
+          .setColor(Colors.DarkVividPink)
+          .setDescription(`**Теперь ваша семья подписчик "Surprise Family Pass"!\n\`\`\`asciidoc\n= Возможности =\n\`\`\`\n**1. Повышенный процент депозита для всех членов семьи\n2. Доступ к команде по просмотру всех участников семьи**`)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL()
@@ -426,6 +429,27 @@ module.exports = {
     }
 
     if(type == 'weekPass') {
+        if(profile.userPass) {
+          return nteraction.reply({
+            embeds: [
+              await new EmbedBuilder()
+              .setTitle(`❌ | Ошибка!`)
+              .setDescription(
+                `**У вас уже есть подписка, которая закончится ${profile.userPass.dateEnd.toLocaleString('ru-RU')}**`
+              )
+              .setColor(Colors.Blue)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL()
+              })
+              .setFooter({
+                text: `Robo Hamster`,
+                iconURL: bot.user.displayAvatarURL()
+              })
+            ]
+          })
+        }
+
         if(profile.coins < coinsRates.userPassPrice.week) {
           return interaction.reply({
             embeds: [
@@ -481,6 +505,27 @@ module.exports = {
     }
 
     if(type == 'monthPass') {
+      if(profile.userPass) {
+        return nteraction.reply({
+          embeds: [
+            await new EmbedBuilder()
+            .setTitle(`❌ | Ошибка!`)
+            .setDescription(
+              `**У вас уже есть подписка, которая закончится ${profile.userPass.dateEnd.toLocaleString('ru-RU')}**`
+            )
+            .setColor(Colors.Blue)
+            .setAuthor({
+              name: guild.name,
+              iconURL: guild.iconURL()
+            })
+            .setFooter({
+              text: `Robo Hamster`,
+              iconURL: bot.user.displayAvatarURL()
+            })
+          ]
+        })
+      }
+
       if(profile.coins < coinsRates.userPassPrice.month) {
         return interaction.reply({
           embeds: [
