@@ -3,6 +3,8 @@ const convertMinutesToMs = require("../../components/convertMinutesToMs");
 const getAllrolesIdModers = require("../../components/getAllRolesIdModers");
 const sendUserMessage = require("../../components/sendUserMessage");
 const unmute = require("../../components/unmute");
+const log = require("../../components/log");
+const Punishment = require("../../models/Punishment");
 
 module.exports = {
   name: "unmmute", // название команды
@@ -51,7 +53,23 @@ module.exports = {
       });
     }
 
-    unmute(bot, guild.id, userForUnmute.id, author.id, reason);
+    const punish = await Punishment.findOne({
+      userId: userForUnmute.id,
+      guildId: guild.id,
+      action: "mute",
+    }); // получаем наказание мут пользователя из бд
+
+    await unmute(bot, guild.id, userForUnmute.id, author, reason);
+    await log(8, {
+      guildId: guild.id, // ID сервера
+      discordId: userForUnmute.id, // ID упомянутого участника
+      discordTag: userForUnmute.user.tag, // Tag упомянутого участника
+      discordNick: userForUnmute.displayName, // Серверный ник упомянутого участника
+      moderatorId: author.id, // ID автора сообщения
+      moderatorTag: author.user.tag, // Tag автора сообщения
+      moderatorNick: author.displayName, // Серверный ник автора сообщения
+      reason,
+    });
 
     const moderationLog = guild.channels.cache.get(channelsId.moderationLog); // канал куда отправляем сообщение о снятии мута
     moderationLog.send({
@@ -73,6 +91,30 @@ module.exports = {
           }),
       ],
     }); // отправляем в этот канал сообщение о снятии мута
+
+    await sendUserMessage(
+        {
+          embeds: [
+            new EmbedBuilder()
+                .setColor(Colors.Blue)
+                .setTitle(`📌 | Система снятия мута!`)
+                .setAuthor({
+                  name: guild.name,
+                  iconURL: guild.iconURL(),
+                })
+                .setDescription(
+                    `**「📝」Выдавал: <@${punish.moderatorId}>\n「📕」Причина: \`${punish.reason}\`\n「📛」Мут снят!**`
+                )
+                .setTimestamp()
+                .setFooter({
+                  text: `Robo Hamster`,
+                  iconURL: bot.user.displayAvatarURL(),
+                }),
+          ],
+        },
+        punish.userId,
+        guild
+    );
 
     interaction.reply({
       ephemeral: true,

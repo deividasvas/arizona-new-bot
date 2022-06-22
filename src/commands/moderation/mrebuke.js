@@ -9,11 +9,10 @@ const removeModerator = require("../../components/removeModerator");
 const setModerInfoParam = require("../../components/setModerInfoParam");
 const setWarnsOrRebukes = require("../../components/setWarnsOrRebukes");
 const {
-  rolesId,
-  channelsId,
   maxCountRebukes,
   fromPostToPostList,
 } = require("../../configs/settings");
+const log = require("../../components/log");
 
 module.exports = {
   name: "mrebuke", // название команды
@@ -40,7 +39,7 @@ module.exports = {
     rolesId.curatorModeration, // куратор модерации
   ], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, author, guild, args, channel }) => {
+  run: async ({ bot, interaction, author, guild, args, rolesId, channelsId }) => {
     const moderator =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const reason = args[1];
@@ -70,6 +69,7 @@ module.exports = {
         ],
       });
     }
+
     const { immunities } = main;
     const punishModeratorsLogChannel = guild.channels.cache.get(
       channelsId.punishModeratorsLog
@@ -78,6 +78,17 @@ module.exports = {
     const rebukes = listWarnsAndRebukes.filter(
       (warnOrRebuke) => warnOrRebuke.group === "rebuke"
     );
+
+    log(5, {
+      guildId: guild.id, // ID сервера
+      discordId: moderator.id, // ID упомянутого участника
+      discordTag: moderator.user.tag, // Tag упомянутого участника
+      discordNick: moderator.displayName, // Серверный ник упомянутого участника
+      moderatorId: author.id, // ID автора сообщения
+      moderatorTag: author.user.tag, // Tag автора сообщения
+      moderatorNick: author.displayName, // Серверный ник автора сообщения
+      reason,
+    })
 
     if (immunities >= 1) {
       // проверяем, есть ли у человека один или больше иммунитет, если есть, то снимаем его вместо выговора

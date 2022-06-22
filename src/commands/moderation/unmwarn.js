@@ -1,6 +1,7 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
 const getModerInfo = require("../../components/getModerInfo");
 const setWarnsOrRebukes = require("../../components/setWarnsOrRebukes");
+const log = require("../../components/log");
 
 module.exports = {
     name: "unmwarn", // название команды
@@ -35,8 +36,8 @@ module.exports = {
         const {
             error,
             warns: listWarnsAndRebukes,
-            main,
         } = await getModerInfo(bot, guild.id, moderator.id);
+
         if (error === "THE_NOT_MODERATOR") {
             return interaction.reply({
                 ephemeral: true,
@@ -58,6 +59,7 @@ module.exports = {
                 ],
             });
         }
+
         const punishModeratorsLogChannel = guild.channels.cache.get(
             channelsId.punishModeratorsLog
         );
@@ -91,6 +93,17 @@ module.exports = {
             const newWarns = warns.slice(1); // 0 предупреждение убирается, потому, что, счёт идёт с 1
             const newRebukes = warnOrRebukes.filter(warnOrRebuke => warnOrRebuke.group === 'group');
             return [...newRebukes, ...newWarns];
+        })
+
+        log(9, {
+            guildId: guild.id, // ID сервера
+            discordId: moderator.id, // ID упомянутого участника
+            discordTag: moderator.user.tag, // Tag упомянутого участника
+            discordNick: moderator.displayName, // Серверный ник упомянутого участника
+            moderatorId: author.id, // ID автора сообщения
+            moderatorTag: author.user.tag, // Tag автора сообщения
+            moderatorNick: author.displayName, // Серверный ник автора сообщения
+            reason,
         })
 
         punishModeratorsLogChannel.send({

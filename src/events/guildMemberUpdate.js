@@ -175,8 +175,6 @@ const securityLog = async (bot, oldMember, newMember) => {
   const allLogRoles = [
     // Все модерские роли
     ...getAllRolesIdModers(rolesId),
-    // Все админские роли
-    ...getAllRolesIdAdmins(rolesId),
     // Все семейные роли
     ...await getAllRolesIdFamilies(rolesId),
     // Легендарный олд сюрпрайза
@@ -244,6 +242,7 @@ const securityLog = async (bot, oldMember, newMember) => {
 
     // Если снятая роль это младший модератор, то вероятнее всего это сняли модератора, поэтому нужно удалить ему статистику
     if (role.id === rolesId.juniorModerator) {
+      // console.log(await getModerInfo(bot, guild.id, newMember.id));
       const {
         main: {
           roles,

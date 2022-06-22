@@ -1,5 +1,5 @@
 const {
-  Client, Collection, ApplicationCommandPermissionType, GatewayIntentBits, Partials
+  Client, Collection, ApplicationCommandPermissionType, GatewayIntentBits, Partials, PermissionFlagsBits
 } = require('discord.js')
 const fs = require('fs')
 const settings = require('../configs/settings')
@@ -31,6 +31,8 @@ module.exports = class ExtendedClient extends Client {
     this.inited = false // используется в ready.js
     this.dateStart = new Date()
     this.tagsFractions = settings.tagsFractions
+    // Путь до корневой директории проекта
+    this.mainPathProject = path.join(__dirname, '../')
     this.authVkBot().then(() => {
       this.sendConferenceDiscordMastersMessage = text => this.vk.sendMessage(2000000001, text)
     });
@@ -61,7 +63,7 @@ module.exports = class ExtendedClient extends Client {
 
   async events () {
     let loadEvents = 0
-    fs.readdirSync('./events/')
+    fs.readdirSync(path.join(this.mainPathProject, 'events'))
       .filter((name) => name.endsWith('.js'))
       .forEach((file) => {
         let event = require(`../events/${file}`)
@@ -78,10 +80,10 @@ module.exports = class ExtendedClient extends Client {
   async command () {
     // ЗАПУСКАЕТСЯ В ready.js, потому что иначе бот не успевает прогрузиться.
     for (const [id, guild] of this.guilds.cache) {
-      for (const dir of fs.readdirSync('./commands/')) {
+      for (const dir of fs.readdirSync(path.join(this.mainPathProject, 'commands'))) {
         // инициализируем саму команду
         const commands = fs
-          .readdirSync(`./commands/${dir}/`)
+          .readdirSync(path.join(this.mainPathProject, `commands/${dir}`))
           .filter((file) => file.endsWith('.js'))
         for (let file of commands) {
           let pull = require(`../commands/${dir}/${file}`)
@@ -138,13 +140,11 @@ module.exports = class ExtendedClient extends Client {
       }) // добавляем роли из белого списка доступ к команде
     }
     // guild.roles.everyone
+    buildCommand.setDMPermission(false);
     if (!permissions.find((perm) => perm.id === guild.id)) {
       // проверяем существует ли доступ для everyone у команды, если нет
       // то устанавливаем изначальное право для команды, что нельзя
-      buildCommand.setDefaultPermission(false)
-    } else {
-      // если существует, то ставим что можно
-      buildCommand.setDefaultPermission(true)
+      buildCommand.setDefaultMemberPermissions(0)
     }
 
     const commandInfoGuild = guild.commands.cache.find(
@@ -210,7 +210,7 @@ module.exports = class ExtendedClient extends Client {
   }
 
   async module () {
-    fs.readdirSync(`./modules/`)
+    fs.readdirSync(path.join(this.mainPathProject, 'modules'))
       .filter((name) => name.endsWith('.js'))
       .forEach((module) => {
         const pullModule = require(`../modules/${module}`)
@@ -228,10 +228,8 @@ module.exports = class ExtendedClient extends Client {
   async reInitPermissionsForFamilies () {
     // пере инициализация прав для семейных команд
     for (const [id, guild] of this.guilds.cache) {
-      fs.readdirSync(`./src/commands/families`).map(async (fileName) => {
-        const command = require(path.resolve(
-          `./src/commands/families/${fileName}`
-        ))
+      fs.readdirSync(path.join(this.mainPathProject, '/commands/families')).map(async (fileName) => {
+        const command = require(`../commands/families/${fileName}`)
         await this.loadSlashCommand(command, guild)
       })
     }

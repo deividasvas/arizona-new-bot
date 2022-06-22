@@ -1,5 +1,6 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
 const unban = require("../../components/unban");
+const log = require("../../components/log");
 
 module.exports = {
     name: "unban", // название команды
@@ -52,6 +53,17 @@ module.exports = {
             });
         }
         await unban(bot, guild.id, userForUnban.id, author, reason);
+
+        await log(7, {
+            guildId: guild.id, // ID сервера
+            discordId: userForUnban.id, // ID упомянутого участника
+            discordTag: userForUnban.tag, // Tag упомянутого участника
+            discordNick: userForUnban.tag, // Серверный ник упомянутого участника
+            moderatorId: author.id, // ID автора сообщения
+            moderatorTag: author.user.tag, // Tag автора сообщения
+            moderatorNick: author.displayName, // Серверный ник автора сообщения
+            reason,
+        })
 
         const moderationLog = guild.channels.cache.get(channelsId.rolesAndBans); // канал куда отправляем сообщение о снятии бана
         moderationLog.send({

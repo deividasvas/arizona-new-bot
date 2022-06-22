@@ -35,7 +35,7 @@ module.exports = {
       name: 'модуль',
       description: 'Модуль с которым Вы производите действие',
       type: ApplicationCommandOptionType.String,
-      choices: fs.readdirSync(path.resolve('./modules')).map(moduleName => moduleName.split('.js')[0]).map((moduleName) => {
+      choices: fs.readdirSync(path.join(__dirname, '../../', 'modules')).map(moduleName => moduleName.split('.js')[0]).map((moduleName) => {
         return {
           name: moduleName,
           value: moduleName
