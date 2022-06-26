@@ -40,23 +40,19 @@ const getActionNameById = (numAction) => {
   // Request-For-Roles
   if (numAction === 30) return 'RequestAddRole'
   if (numAction === 31) return 'RequestRemoveRole'
-  if (numAction === 32) return 'RequestNotSuccessRole'
+  if (numAction === 32) return 'RequestDeleteRole'
   // Bug Report
   if (numAction === 33) return 'BugSuccess'
   if (numAction === 34) return 'BugNotSuccess'
   if (numAction === 35) return 'BugDelete'
   // Bshop
-  if (numAction === 36) return 'BshopMinusPred'
-  if (numAction === 37) return 'BshopImun'
-  if (numAction === 38) return 'Bshop10levelPlus'
-  if (numAction === 39) return 'Bshopx2Balls'
-  if (numAction === 40) return 'Bshopx3Balls'
+  if (numAction === 36) return 'BshopBuy'
   // Moderation
-  if (numAction === 41) return 'AddModerator'
-  if (numAction === 42) return 'RemoveModerator'
+  if (numAction === 37) return 'AddModerator'
+  if (numAction === 38) return 'RemoveModerator'
   // Private
-  if (numAction === 43) return 'CreatePrivate'
-  if (numAction === 44) return 'DeletePrivate'
+  if (numAction === 39) return 'CreatePrivate'
+  if (numAction === 40) return 'DeletePrivate'
 }
 
 // Функция для логирования действий

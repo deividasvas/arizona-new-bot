@@ -20,6 +20,11 @@ module.exports = async (bot, role) => {
     nameRole: role.name,
   })
 
+
+  if(member.bot){
+    return;
+  }
+
   // Если пользователь имеет админку, то просто оповещаем в конференцию ДМов в ВК что создалась роль.
   if (isUserAllowEditServer(member)) {
     return bot.sendConferenceDiscordMastersMessage(`[Создание роли] Администратор ${member.displayName} [${member.id}] создал роль ${role.name}`)

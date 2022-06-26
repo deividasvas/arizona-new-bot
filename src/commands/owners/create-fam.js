@@ -166,7 +166,8 @@ module.exports = {
         })
 
         // Создание голосового канала
-        const voiceChannel = await guild.channels.create(`${familyName}`, {
+        const voiceChannel = await guild.channels.create({
+            name: `${familyName}`,
             type: ChannelType.GuildVoice,
             permissionOverwrites: [
                 {
@@ -196,7 +197,8 @@ module.exports = {
         })
 
         // Создание текстового канала
-        const textChannel = await guild.channels.create(`${familyName}`, {
+        const textChannel = await guild.channels.create({
+            name: `${familyName}`,
             type: ChannelType.GuildText,
             permissionOverwrites: [
                 {

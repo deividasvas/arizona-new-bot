@@ -6,6 +6,7 @@ const getAllRolesIdFamilies = require('../components/getAllRolesIdFamilies')
 const createModerInfo = require('../components/createModerInfo')
 const Moderators = require('../models/Moderators')
 const getModerInfo = require('../components/getModerInfo')
+const log = require("../components/log");
 
 const logAction = async (bot, oldMember, newMember) => {
   const { guild } = newMember
@@ -208,6 +209,12 @@ const securityLog = async (bot, oldMember, newMember) => {
 
     // Если выданная роль это младший модератор, то вероятнее всего это поставили модератора, поэтому нужно сделать ему статистику
     if (role.id === rolesId.juniorModerator) {
+      log(37, {
+        guildId: guild.id, // ID сервера
+        discordId: newMember.id, // ID упомянутого участника
+        discordTag: newMember.user.tag, // Tag упомянутого участника
+        discordNick: newMember.displayName, // Серверный ник упомянутого участника
+      });
       await createModerInfo(newMember.id, guild.id)
     }
 
@@ -266,6 +273,13 @@ const securityLog = async (bot, oldMember, newMember) => {
         guildId: guild.id,
         userId: newMember.id
       })
+      log(38, {
+        guildId: guild.id, // ID сервера
+        discordId: newMember.id, // ID упомянутого участника
+        discordTag: newMember.user.tag, // Tag упомянутого участника
+        discordNick: newMember.displayName, // Серверный ник упомянутого участника
+      });
+
       const curatorsChannel = guild.channels.cache.get(channelsId.curators)
       curatorsChannel.send({
         embeds: [

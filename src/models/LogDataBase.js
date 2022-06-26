@@ -3,9 +3,18 @@ const mongoose = require("mongoose");
 // Коллекция в которой хранятся логи пользователей.
 const LogDataBase = new mongoose.Schema({
     guildId: String,
-    discordId: String,
-    discordTag: String,
-    discordNick: String,
+    discordId: {
+        type: String,
+        default: 'Не указано'
+    },
+    discordTag: {
+        type: String,
+        default: 'Не указано'
+    },
+    discordNick: {
+        type: String,
+        default: 'Не указано'
+    },
     moderatorId: {
         type: String,
         default: 'Не указано'
@@ -54,10 +63,6 @@ const LogDataBase = new mongoose.Schema({
     value: {
         type: String,
         default: 'Не указано',
-    },
-    serverId: {
-        type: String,
-        default: "Не указано"
     },
 })
 

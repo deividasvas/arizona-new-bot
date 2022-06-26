@@ -556,13 +556,13 @@ module.exports = {
             })
         }
 
-        const private = await Privates.findOne({
+        const privateFromDataBase = await Privates.findOne({
             guildId: guild.id,
             userId: interaction.member.id,
             channelId: member.voice.channel.id
         });
 
-        if (!private) {
+        if (!privateFromDataBase) {
             return interaction.reply({
                 ephemeral: true,
                 embeds: [

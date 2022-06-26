@@ -2,6 +2,7 @@ const {getGuildRolesId, getGuildChannelsId, getGuildCategoriesId} = require("../
 const {EmbedBuilder, Colors, ActionRowBuilder, ButtonBuilder, ButtonStyle} = require("discord.js");
 const sendUserMessage = require("../components/sendUserMessage");
 const parseIdFromMention = require("../components/parseIdFromMention");
+const log = require("../components/log");
 
 module.exports = {
     /*
@@ -125,6 +126,7 @@ module.exports = {
         })
         await answerMessage.delete();
     },
+
     async acceptBug({bot, interaction, guild, member}) {
         const senderId = parseIdFromMention(interaction.message.embeds[0].fields[0].value);
         const text = interaction.message.embeds[0].fields[1].value;
@@ -155,6 +157,17 @@ module.exports = {
                     })
             ]
         }, senderId, guild);
+        const sender = guild.members.cache.get(senderId);
+        log(33, {
+            guildId: guild.id, // ID сервера
+            discordId: sender.id, // ID упомянутого участника
+            discordTag: sender.user.tag, // Tag упомянутого участника
+            discordNick: sender.displayName, // Серверный ник упомянутого участника
+            moderatorId: member.id, // ID автора сообщения
+            moderatorTag: member.user.tag, // Tag автора сообщения
+            moderatorNick: member.displayName, // Серверный ник автора сообщения
+            reason,
+        });
         await interaction.deferUpdate();
         await interaction.message.edit({
             embeds: [
@@ -182,7 +195,7 @@ module.exports = {
             components: []
         });
     },
-    async denyBug({bot, interaction, guild, member}) {
+    async deleteBug({bot, interaction, guild, member}) {
         const senderId = parseIdFromMention(interaction.message.embeds[0].fields[0].value);
         const text = interaction.message.embeds[0].fields[0].value;
 
@@ -193,7 +206,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle(`📌 | Предложения по улучшению!`)
                     .setColor(Colors.DarkPurple)
-                    .setDescription(`**Укажите причину по которой Вы отказываете баг пользователя! У Вас пять минут**`)
+                    .setDescription(`**Укажите причину по которой Вы удалить баг пользователя! У Вас пять минут**`)
                     .setAuthor({
                         name: guild.name,
                         iconURL: guild.iconURL(),
@@ -247,11 +260,22 @@ module.exports = {
             ]
         }, senderId, guild);
 
+        const sender = guild.members.cache.get(senderId);
+        log(35, {
+            guildId: guild.id, // ID сервера
+            discordId: sender.id, // ID упомянутого участника
+            discordTag: sender.user.tag, // Tag упомянутого участника
+            discordNick: sender.displayName, // Серверный ник упомянутого участника
+            moderatorId: member.id, // ID автора сообщения
+            moderatorTag: member.user.tag, // Tag автора сообщения
+            moderatorNick: member.displayName, // Серверный ник автора сообщения
+            reason,
+        });
 
         await interaction.message.edit({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle(`🇩 | Предложение отказано!`)
+                    .setTitle(`🇩 | Предложение удалено!`)
                     .setColor(Colors.DarkRed)
                     .addFields([
                             {
@@ -278,7 +302,7 @@ module.exports = {
             components: []
         });
     },
-    async deleteBug({bot, interaction, guild, member}) {
+    async denyBug({bot, interaction, guild, member}) {
         const senderId = parseIdFromMention(interaction.message.embeds[0].fields[0].value);
         const text = interaction.message.embeds[0].fields[0].value;
 
@@ -347,7 +371,7 @@ module.exports = {
         await interaction.message.edit({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle(`⛔ | Предложение удалено!`)
+                    .setTitle(`⛔ | Предложение отказано!`)
                     .setColor(Colors.DarkAqua)
                     .addFields([
                             {
@@ -372,6 +396,17 @@ module.exports = {
                     .setFooter(interaction.message.embeds[0].footer)
             ],
             components: []
+        });
+        const sender = guild.members.cache.get(senderId);
+        log(34, {
+            guildId: guild.id, // ID сервера
+            discordId: sender.id, // ID упомянутого участника
+            discordTag: sender.user.tag, // Tag упомянутого участника
+            discordNick: sender.displayName, // Серверный ник упомянутого участника
+            moderatorId: member.id, // ID автора сообщения
+            moderatorTag: member.user.tag, // Tag автора сообщения
+            moderatorNick: member.displayName, // Серверный ник автора сообщения
+            reason,
         });
     },
     async run({interaction, bot}) {

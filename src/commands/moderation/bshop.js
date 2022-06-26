@@ -39,31 +39,31 @@ module.exports = {
     const components = [
       new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-          .setCustomId(`bshop_minus_rebuke`)
+          .setCustomId(`bshopMinusRebuke`)
           .setStyle(ButtonStyle.Secondary)
           .setEmoji({
             name: `👾`,
           }),
         new ButtonBuilder()
-          .setCustomId(`bshop_10level`)
+          .setCustomId(`bshop10level`)
           .setStyle(ButtonStyle.Secondary)
           .setEmoji({
             name: `⭐`,
           }),
         new ButtonBuilder()
-          .setCustomId(`bshop_20level`)
+          .setCustomId(`bshop20level`)
           .setStyle(ButtonStyle.Secondary)
           .setEmoji({
             name: `🌟`,
           }),
         new ButtonBuilder()
-          .setCustomId(`bshop_30level`)
+          .setCustomId(`bshop30level`)
           .setStyle(ButtonStyle.Secondary)
           .setEmoji({
             name: `✨`,
           }),
         new ButtonBuilder()
-          .setCustomId(`bshop_imun`)
+          .setCustomId(`bshopImun`)
           .setStyle(ButtonStyle.Secondary)
           .setEmoji({
             name: `🏅`,
@@ -71,19 +71,19 @@ module.exports = {
       ),
       new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-          .setCustomId(`bshop_x2balls`)
+          .setCustomId(`bshopX2balls`)
           .setStyle(ButtonStyle.Secondary)
           .setEmoji({
             name: `🥈`,
           }),
         new ButtonBuilder()
-          .setCustomId(`bshop_x3balls`)
+          .setCustomId(`bshopX3balls`)
           .setStyle(ButtonStyle.Secondary)
           .setEmoji({
             name: `🥉`,
           }),
         new ButtonBuilder()
-          .setCustomId(`bshop_role`)
+          .setCustomId(`bshopRole`)
           .setStyle(ButtonStyle.Secondary)
           .setEmoji({
             name: `💥`,

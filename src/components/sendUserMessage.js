@@ -14,12 +14,15 @@ const sendUserMessage = async (message, userId, guild) => {
     return null
   }
   const embeds = message.embeds || []
+  const files = message.files || [];
   const components = message.components || []
+
   try {
     return await member.send({
       content: message.content,
       embeds,
-      components
+      components,
+      files
     })
   } catch (e) {
     const notificationsChannel =
@@ -28,7 +31,7 @@ const sendUserMessage = async (message, userId, guild) => {
         await guild.channels.fetch(settings.channelsId[guild.id].notifications)
       )
     
-    return notificationsChannel.send({
+    return await notificationsChannel.send({
       content: `${member} ${message.content ? message.content : ''}`,
       embeds,
       components

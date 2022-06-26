@@ -41,7 +41,6 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
     ); // выдаём мут человеку системно
     // Логируем мут в базу данных.
     log(2, {
-        serverId: "10", // Номер сервера
         guildId: guild.id, // ID сервера
         discordId: userId, // ID упомянутого участника
         discordTag: member.user.tag, // Tag упомянутого участника

@@ -440,7 +440,7 @@ const supportSettings = {
     rolesId.deputyMainAdmin,
     rolesId.curator,
     rolesId.discordMaster,
-    rolesId.juniorModerator,
+    rolesId.juniorDiscordMaster,
     rolesId.adviceAdministration
   ]
 }
@@ -898,7 +898,8 @@ module.exports = {
   categoriesPrivatesId,
   // Теги организации
   tagsFractions,
-
+  // Айди серверов на которых может использоваться данный бот. (Для guilds.fetch)
+  availableGuildsId: ['948675243025764404'],
   developers: [
     '316154352760782849', // * Yuri Lance
     '904648434949169203', // * Deivid Brown

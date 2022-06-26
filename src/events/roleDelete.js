@@ -12,6 +12,11 @@ module.exports = async (bot, role) => {
   }).then(logs => logs.entries.first())
   const member = guild.members.cache.get(entry.executor.id)
 
+
+  if(member.bot){
+    return;
+  }
+
   // Если пользователь имеет админку, то просто оповещаем в конференцию ДМов в ВК что создалась роль.
   if (isUserAllowEditServer(member)) {
     return bot.sendConferenceDiscordMastersMessage(`[Удаление роли] Администратор ${member.displayName} [${member.id}] удалил роль ${role.name}`)

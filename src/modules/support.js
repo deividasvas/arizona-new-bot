@@ -2,7 +2,15 @@ const Tickets = require('../models/Tickets')
 const {
     supportSettings, getGuildChannelsId, getGuildCategoriesId, getGuildRolesId
 } = require('../configs/settings')
-const {EmbedBuilder, Colors, ActionRowBuilder, ButtonBuilder, ButtonStyle, Collection} = require('discord.js')
+const {
+    EmbedBuilder,
+    Colors,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    Collection,
+    AttachmentBuilder, Attachment
+} = require('discord.js')
 const createTicket = require('../components/createTicket')
 const getTicket = require('../components/getTicket')
 const setModerInfoParam = require('../components/setModerInfoParam')
@@ -263,7 +271,7 @@ module.exports = {
             // Права для ролей с полным доступом
             permissions.push({
                 id: fullPermissionRoleId,
-                allow: ['ViewChannel', 'EmbedLinks', 'AttachFiles', 'ReadMessageHistory', 'UseExternalEmojis', 'AddReactions', 'CreateInstantInvite', 'ManageChannels', 'ManageRoles', 'ManageWebhooks', 'SendTTSMessages', 'ManageMessages', 'MentionEveryone', 'RequestToSpeak', 'UseApplicationCommands', 'ManageThreads', 'UseExternalStickers']
+                allow: ['ViewChannel', 'SendMessages', 'EmbedLinks', 'AttachFiles', 'ReadMessageHistory', 'UseExternalEmojis', 'AddReactions', 'CreateInstantInvite', 'ManageChannels', 'ManageRoles', 'ManageWebhooks', 'SendTTSMessages', 'ManageMessages', 'MentionEveryone', 'RequestToSpeak', 'UseApplicationCommands', 'ManageThreads', 'UseExternalStickers']
             })
         }
 
@@ -279,7 +287,9 @@ module.exports = {
             allow: ['ViewChannel', 'EmbedLinks', 'AttachFiles', 'ReadMessageHistory', 'UseExternalEmojis', 'AddReactions'],
             deny: ['CreateInstantInvite', 'ManageChannels', 'ManageRoles', 'ManageWebhooks', 'SendTTSMessages', 'ManageMessages', 'MentionEveryone', 'RequestToSpeak', 'UseApplicationCommands', 'ManageThreads', , 'UseExternalStickers']
         })
-        const newTicketChannel = await guild.channels.create(`${supportSettings.ticketNameStartsWith}-${newTicketId}`, {
+
+        const newTicketChannel = await guild.channels.create({
+            name: `${supportSettings.ticketNameStartsWith}-${newTicketId}`,
             permissionOverwrites: permissions, parent: categoriesId.activeTickets, reason: `Создание тикета`
         })
 
@@ -296,7 +306,7 @@ module.exports = {
 
         // Отправляем сообщение с информацией и кнопками в тикет.
         await newTicketChannel.send({
-            content: `${moderatorsRolesId.map((roleId) => `<@&${roleId}>`).join(' ')}`, embeds: [
+            content: `<@${member.id}> ${moderatorsRolesId.map((roleId) => `<@&${roleId}>`).join(' ')}`, embeds: [
                 new EmbedBuilder()
                     .setColor(Colors.Orange)
                     .setTitle(`***Техническая поддержка ⚡️ ${guild.name}!***`)
@@ -607,13 +617,13 @@ module.exports = {
                         .setEmoji({
                             name: `👍`
                         })
-                        .setCustomId('ticket-good-job'),
+                        .setCustomId('ticketGoodJob'),
                     new ButtonBuilder()
                         .setStyle(ButtonStyle.Danger)
                         .setEmoji({
                             name: `👎`
                         })
-                        .setCustomId('ticket-bad-job')
+                        .setCustomId('ticketBadJob')
                 ])
             ]
         })
@@ -733,12 +743,13 @@ module.exports = {
         const messagesOfTicket = (
             await ticketChannel.messages.fetch()
         ).map((message) => message)
-        const pathToFile = path.resolve(`./src/files/${ticketChannel.id}.txt`)
+        const pathToFile = path.join(__dirname, `../files/${ticketChannel.id}.txt`)
         const contentFile = messagesOfTicket.reverse().map(message => {
             const dateCreateMsg = new Date(message.createdAt)
             return `${dateCreateMsg.getFullYear()}-${dateCreateMsg.getMonth() + 1}-${dateCreateMsg.getDate()} ${dateCreateMsg.getHours()}:${dateCreateMsg.getMinutes()}:${dateCreateMsg.getSeconds()} | ${message.author.tag} (${message.author.id}) | "${message.content}" | ${JSON.stringify(message.embeds)}`
         })
         await fs.writeFileSync(pathToFile, contentFile.join('\n'))
+
         await sendUserMessage({
             content: `Ваш тикет №${ticket.ticketId} был закрыт. Ниже предоставлен полный диалог из тикета`,
             files: [
@@ -877,7 +888,7 @@ module.exports = {
             }
         ]
 
-        // Ищем действие которое будем выполнять среди массива по айдишнику интеграции.
+        // Ищем действие, которое будем выполнять среди массива по айдишнику интеграции.
         const action = actions.find(action => action.customId === interaction.customId)
         if (action) {
             // запускаем функцию, и в некоторых случаях она возвращает айди нового канала.
