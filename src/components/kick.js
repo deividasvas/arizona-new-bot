@@ -14,6 +14,7 @@ const kick = async (bot, guildId, userId, provocateurId, reason) => {
 
     // Логируем кик в базу данных.
     log(1, {
+        serverId: "10", // Номер сервера
         guildId: guild.id, // ID сервера
         discordId: userId, // ID упомянутого участника
         discordTag: member.user.tag, // Tag упомянутого участника

@@ -1,9 +1,8 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
 const sendUserMessage = require("../../components/sendUserMessage");
-const getCoinsProfile = require("../../components/getCoinsProfile");
-const CoinsUsers = require('../../models/CoinsUsers');
 const setUserCoinsParam = require("../../components/setUserCoinsParam");
 const isActiveNickCustomFont = require('../../components/isActiveSendEmojiAndStickersFromOtherServers')
+const log = require("../../components/log");
 module.exports = {
     name: "nick-add", // название команды
     descr: "Добавить пользователя в список людей которым доступно использование нестандартного шрифта", // описание команды
@@ -47,9 +46,19 @@ module.exports = {
         // Устанавливаем дату конца срока использования нестандартного шрифта
         const dateEnd = new Date();
         dateEnd.setDate(dateEnd.getDate() + 30);
-        await setUserCoinsParam(author.id, guild.id, 'customFontInNicknameSettings', {
+        await setUserCoinsParam(userId, guild.id, 'customFontInNicknameSettings', {
             dateEnd,
         });
+        const member = guild.members.cache.get(userId);
+        log(16, {
+            guildId: guild.id, // ID сервера
+            discordId: member.id, // ID упомянутого участника
+            discordTag: member.user.tag, // Tag упомянутого участника
+            discordNick: member.displayName, // Серверный ник упомянутого участника
+            moderatorId: author.id, // ID автора сообщения
+            moderatorTag: author.user.tag, // Tag автора сообщения
+            moderatorNick: author.displayName, // Серверный ник автора сообщения
+        })
         interaction.reply({
             ephemeral: true,
             embeds: [

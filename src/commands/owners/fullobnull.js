@@ -2,6 +2,7 @@ const {
     EmbedBuilder, Colors, ActionRowBuilder, ButtonBuilder, ButtonStyle,
 } = require("discord.js");
 const Moderators = require("../../models/Moderators");
+const log = require("../../components/log");
 module.exports = {
     name: "fullobnull", // название команды
     descr: "Обнулить полностью статистику модерации", // описание команды
@@ -41,7 +42,7 @@ module.exports = {
                 )
             ]
         });
-        const filter = i => i.user.id == author.id && (i.customId === 'fullObnullYes' || i.customId == 'fullObnullNo')
+        const filter = i => i.user.id === author.id && (i.customId === 'fullObnullYes' || i.customId === 'fullObnullNo')
         const collector = answer.createMessageComponentCollector({
             time: 30000,
             max: 1,
@@ -66,6 +67,13 @@ module.exports = {
                     giveRoles: 0, // количество выданных ролей
                 }
             });
+            log(14, {
+                guildId: guild.id, // ID сервера
+                moderatorId: author.id, // ID автора сообщения
+                moderatorTag: author.user.tag, // Tag автора сообщения
+                moderatorNick: author.displayName, // Серверный ник автора сообщения
+                reason,
+            })
             interaction.editReply({
                 embeds: [
                     new EmbedBuilder()

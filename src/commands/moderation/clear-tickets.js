@@ -5,6 +5,7 @@ const {
     ButtonBuilder,
     ButtonStyle
 } = require("discord.js");
+const log = require("../../components/log");
 
 module.exports = {
     name: "clear-tickets", // название команды
@@ -51,7 +52,7 @@ module.exports = {
                 )
             ]
         });
-        const filter = i => i.user.id == author.id && (i.customId === 'ticketclearYes' || i.customId == 'ticketclearNo')
+        const filter = i => i.user.id === author.id && (i.customId === 'ticketclearYes' || i.customId === 'ticketclearNo')
         const collector = answer.createMessageComponentCollector({
             time: 30000,
             max: 1,
@@ -65,6 +66,12 @@ module.exports = {
                         await ticket.delete();
                     }
                 }
+                log(12, {
+                    guildId: guild.id, // ID сервера
+                    moderatorId: author.id, // ID автора сообщения
+                    moderatorTag: author.user.tag, // Tag автора сообщения
+                    moderatorNick: author.displayName, // Серверный ник автора сообщения
+                })
                 interaction.editReply({
                     embeds: [
                         new EmbedBuilder()

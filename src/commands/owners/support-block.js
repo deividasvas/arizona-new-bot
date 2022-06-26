@@ -4,6 +4,7 @@ const {
 const Punishment = require('../../models/Punishment');
 const sendUserMessage = require("../../components/sendUserMessage");
 const {scheduleJob} = require("node-schedule");
+const log = require("../../components/log");
 module.exports = {
     name: "support-block", // название команды
     descr: "Блокировка саппорта пользователю", // описание команды
@@ -26,7 +27,7 @@ module.exports = {
         required: true,
     }], // аргументы
 
-    run: async ({bot, guild, args, interaction, author}) => {
+    run: async ({bot, guild, args, interaction, author, rolesId, channelsId}) => {
         const userForSupportBlock = guild.members.cache.get(args[0]);
         const days = args[1];
         const reason = args[2];
@@ -68,6 +69,16 @@ module.exports = {
             dateEnd,
         }).save();
 
+        log(18, {
+            guildId: guild.id, // ID сервера
+            discordId: userForSupportBlock.id, // ID упомянутого участника
+            discordTag: userForSupportBlock.user.tag, // Tag упомянутого участника
+            discordNick: userForSupportBlock.displayName, // Серверный ник упомянутого участника
+            moderatorId: author.id, // ID автора сообщения
+            moderatorTag: author.user.tag, // Tag автора сообщения
+            moderatorNick: author.displayName, // Серверный ник автора сообщения
+        })
+
         // канал куда будет логироваться выдача саппорт блока
         const logChannel = guild.channels.cache.get(channelsId.administrationCouncil);
         logChannel.send({
@@ -88,8 +99,8 @@ module.exports = {
                     })
             ]
         })
-        // снимаем мут как приходит время
-        sendUserMessage(
+        // снимаем саппорт блок как приходит время
+        await sendUserMessage(
             {
                 embeds: [
                     new EmbedBuilder()

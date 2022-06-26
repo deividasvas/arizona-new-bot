@@ -4,6 +4,7 @@ const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
 const Families = require("../../models/Families");
+const log = require("../../components/log");
 
 module.exports = {
   name: "famdelzam", // название команды
@@ -148,7 +149,7 @@ module.exports = {
           }),
       ],
     });
-    sendUserMessage(
+    await sendUserMessage(
       {
         embeds: [
           new EmbedBuilder()
@@ -171,5 +172,17 @@ module.exports = {
       familyCandidateForRemoveOfDeputy.id,
       guild
     );
+    log(27, {
+      guildId: guild.id, // ID сервера
+      discordId: familyCandidateForRemoveOfDeputy.id, // ID упомянутого участника
+      discordTag: familyCandidateForRemoveOfDeputy.user.tag, // Tag упомянутого участника
+      discordNick: familyCandidateForRemoveOfDeputy.displayName, // Серверный ник упомянутого участника
+      moderatorId: author.id, // ID автора сообщения
+      moderatorTag: author.user.tag, // Tag автора сообщения
+      moderatorNick: author.displayName, // Серверный ник автора сообщения
+      roleId: role.id,
+      roleName: role.name,
+      value: role.id
+    })
   },
 };

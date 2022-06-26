@@ -83,6 +83,7 @@ module.exports = {
         );
 
         log(3, {
+            serverId: "10", // Номер сервера
             guildId: guild.id, // ID сервера
             discordId: moderator.id, // ID упомянутого участника
             discordTag: moderator.user.tag, // Tag упомянутого участника

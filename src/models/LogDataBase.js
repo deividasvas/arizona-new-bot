@@ -23,10 +23,6 @@ const LogDataBase = new mongoose.Schema({
     time: {
         type: Date,
     },
-    nameRole: {
-        type: String,
-        default: 'Не указано',
-    },
     reason: {
         type: String,
         default: 'Не указано',
@@ -58,6 +54,10 @@ const LogDataBase = new mongoose.Schema({
     value: {
         type: String,
         default: 'Не указано',
+    },
+    serverId: {
+        type: String,
+        default: "Не указано"
     },
 })
 

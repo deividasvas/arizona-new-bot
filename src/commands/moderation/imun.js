@@ -2,6 +2,7 @@ const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.
 const getAllRolesIdModers = require("../../components/getAllRolesIdModers");
 const getModerInfo = require("../../components/getModerInfo");
 const setModerInfoParam = require("../../components/setModerInfoParam");
+const log = require("../../components/log");
 
 module.exports = {
   name: "imun", // название команды
@@ -76,6 +77,17 @@ module.exports = {
         ],
       });
     }
+
+    log(11, {
+      guildId: guild.id, // ID сервера
+      discordId: moderator.id, // ID упомянутого участника
+      discordTag: moderator.user.tag, // Tag упомянутого участника
+      discordNick: moderator.displayName, // Серверный ник упомянутого участника
+      moderatorId: author.id, // ID автора сообщения
+      moderatorTag: author.user.tag, // Tag автора сообщения
+      moderatorNick: author.displayName, // Серверный ник автора сообщения
+      reason,
+    })
 
     await setModerInfoParam(moderator.id, "main", "immunities", ({ immunities }) => immunities + 1);
     const punishModeratorsLogChannel = guild.channels.cache.get(

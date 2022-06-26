@@ -2,7 +2,7 @@ const LogDataBase = require('../models/LogDataBase');
 
 // Функция возвращает имя действия по айди.
 const getActionNameById = (numAction) => {
-  if (numAction == 0) {
+  if (numAction === 0) {
     return `Неопределенное (${numAction})`;
   } 
   // Moderations
@@ -52,8 +52,8 @@ const getActionNameById = (numAction) => {
   if (numAction === 39) return 'Bshopx2Balls'
   if (numAction === 40) return 'Bshopx3Balls'
   // Moderation
-  if (numAction === 41) return 'AdModerator'
-  if (numAction === 42) return 'UnModerator'
+  if (numAction === 41) return 'AddModerator'
+  if (numAction === 42) return 'RemoveModerator'
   // Private
   if (numAction === 43) return 'CreatePrivate'
   if (numAction === 44) return 'DeletePrivate'

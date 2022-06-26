@@ -6,6 +6,7 @@ const {
 } = require("discord.js");
 const Families = require("../../models/Families");
 const sendUserMessage = require("../../components/sendUserMessage");
+const log = require("../../components/log");
 
 module.exports = {
   name: "delete-fam", // название команды
@@ -47,13 +48,13 @@ module.exports = {
     }
     let voiceChannel = guild.channels.cache.find(
       (channel) =>
-        channel.id == family.voiceChannelId &&
+        channel.id === family.voiceChannelId &&
         channel.type === ChannelType.GuildVoice
     ); // Голосовой канал
 
     let textChannel = guild.channels.cache.find(
       (channel) =>
-        channel.id == family.textChannelId &&
+        channel.id === family.textChannelId &&
         channel.type === ChannelType.GuildText
     ); // Текстовый канал
 
@@ -121,5 +122,20 @@ module.exports = {
             })
       ]
     }, family.ownerId, guild);
+    const leaderFam = guild.members.cache.get(family.ownerId);
+    log(25, {
+      guildId: guild.id, // ID сервера
+      discordId: leaderFam.id, // ID упомянутого участника
+      discordTag: leaderFam.user.tag, // Tag упомянутого участника
+      discordNick: leaderFam.displayName, // Серверный ник упомянутого участника
+      moderatorId: author.id, // ID автора сообщения
+      moderatorTag: author.user.tag, // Tag автора сообщения
+      moderatorNick: author.displayName, // Серверный ник автора сообщения
+      roleName: role.name,
+      roleId: role.id,
+      channelName: textChannel.name,
+      channelId: textChannel.id,
+      value: role.name
+    })
   },
 };
