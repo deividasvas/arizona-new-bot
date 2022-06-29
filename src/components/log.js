@@ -53,6 +53,9 @@ const getActionNameById = (numAction) => {
   // Private
   if (numAction === 39) return 'CreatePrivate'
   if (numAction === 40) return 'DeletePrivate'
+  // Compensations
+  if(numAction === 41) return 'GiveCompensation'
+  if(numAction === 42) return 'UseCompensation'
 }
 
 // Функция для логирования действий

@@ -267,7 +267,7 @@ module.exports = {
                         await new EmbedBuilder()
                             .setTitle(`✅ | Одобрение блокировки пользователя!`)
                             .setDescription(
-                                `**Администратор ${user} одобрил блокировку пользователя <@${userForBanId}>\n\n\`Отправил\`: ${moderatorSender}\n\`Пользователь\`: <@${userForBanId}>\n\`Причина блокировки\`: ${reason}**`
+                                `**Администратор ${user} одобрил блокировку пользователя <@${userForBanId}>\n\n\`Отправил\`: ${moderatorSender}\n\`Пользователь\`: <@${userForBanId}>\n\`Причина блокировки\`: ${reason}\n\`Дней Бана\`: ${days}**`
                             )
                             .setColor(Colors.Blue)
                             .setAuthor({
@@ -292,7 +292,7 @@ module.exports = {
                         await new EmbedBuilder()
                             .setTitle(`❌ | Отклонение блокировки пользователя!`)
                             .setDescription(
-                                `**Администратор ${user} отклонил блокировку пользователя <@${userForBanId}>\n\n\`Отправил\`: ${moderatorSender}\n\`Пользователь\`: <@${userForBanId}>\n\`Причина блокировки\`: ${reason}**`
+                                `**Администратор ${user} отклонил блокировку пользователя <@${userForBanId}>\n\n\`Отправил\`: ${moderatorSender}\n\`Пользователь\`: <@${userForBanId}>\n\`Причина блокировки\`: ${reason}\n\`Дней Бана\`: ${days}**`
                             )
                             .setColor(Colors.Blue)
                             .setAuthor({

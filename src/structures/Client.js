@@ -13,11 +13,12 @@ module.exports = class ExtendedClient extends Client {
     constructor() {
         super({
             intents: [GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageReactions, GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.Guilds, GatewayIntentBits.GuildBans, GatewayIntentBits.GuildEmojisAndStickers, GatewayIntentBits.GuildIntegrations, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildScheduledEvents, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildWebhooks, GatewayIntentBits.MessageContent],
-            partials: [Partials.Reaction, Partials.Message, Partials.Channel]
+            partials: [Partials.Reaction, Partials.Message, Partials.Channel, Partials.GuildMember, Partials.GuildScheduledEvent, Partials.User]
         })
 
         this.commands = new Collection()
         this.modules = new Collection()
+        this.dateStart = new Date();
         this.fractions = {
             data: [],
             init: false,
@@ -29,7 +30,6 @@ module.exports = class ExtendedClient extends Client {
         this.whiteListRoles = settings.whiteListRoles
         this.typesArguments = settings.typesArguments
         this.inited = false // используется в ready.js
-        this.dateStart = new Date()
         this.tagsFractions = settings.tagsFractions
         // Путь до корневой директории проекта
         this.mainPathProject = path.join(__dirname, '../')
@@ -69,15 +69,21 @@ module.exports = class ExtendedClient extends Client {
                 let event = require(`../events/${file}`)
                 let eventName = file.split('.js')[0]
 
-                if(eventName === 'ready'){
-                   return this.once(eventName, event.bind(null, this));
+                if (eventName === 'ready') {
+                    return this.once(eventName, event.bind(null, this));
                 }
 
+                const callback = event.bind(null, this);
                 this.on(eventName, (...args) => {
-                    const callback = event.bind(null, this);
+                    // Белый список событий который
+                    const whiteListEvents = ['messageCreate', 'interactionCreate'];
+                    // Если это сообщение, и оно отправлено в лс бота, то передаём его напрямую без проверок.
+                    if(whiteListEvents.includes(eventName) && !args[0].guild){
+                        return callback(...args);
+                    }
                     // Проверка на то, является ли сервер валидным для работы.
                     const guildId = args[0].guild?.id || args[0].d?.guild_id;
-                    if(!guildId){
+                    if (!guildId) {
                         return;
                     }
                     if (settings.availableGuildsId.includes(guildId)) {
@@ -125,7 +131,11 @@ module.exports = class ExtendedClient extends Client {
     }
 
     async deleteSlashCommand(commandId, guild) {
-        await guild.commands.delete(commandId)
+        if(guild){
+            await guild.commands.delete(commandId)
+        } else {
+            await this.application.commands.delete(this.application.commands.cache.get(commandId));
+        }
     }
 
     async loadSlashCommand(command, guild) {
@@ -145,30 +155,41 @@ module.exports = class ExtendedClient extends Client {
             }
         )) // создаём массив с правами
 
-        for (const whiteRoleId of this.fullPermissionCommandsRolesId(rolesId)) {
-            // белый список ролей у которых есть полный доступ ко всем командам
-            permissions.push({
-                type: ApplicationCommandPermissionType.Role,
-                id: whiteRoleId,
-                permission: true
-            }) // добавляем роли из белого списка доступ к команде
+        if (!command.isDMCommand) {
+            for (const whiteRoleId of this.fullPermissionCommandsRolesId(rolesId)) {
+                // белый список ролей у которых есть полный доступ ко всем командам
+                permissions.push({
+                    type: ApplicationCommandPermissionType.Role,
+                    id: whiteRoleId,
+                    permission: true
+                }) // добавляем роли из белого списка доступ к команде
+            }
         }
         // guild.roles.everyone
-        buildCommand.setDMPermission(false);
+        if (command.isDMCommand) {
+            buildCommand.setDMPermission(command.isDMCommand || null);
+        }
         if (!permissions.find((perm) => perm.id === guild.id)) {
             // проверяем существует ли доступ для everyone у команды, если нет
             // то устанавливаем изначальное право для команды, что нельзя
-            buildCommand.setDefaultMemberPermissions(0)
+            buildCommand.setDefaultMemberPermissions(0);
         }
-
         const commandInfoGuild = guild.commands.cache.find(
             (command) => command.name === buildCommand.name
         ) // пытаемся найти уже существующую такую команду, чтобы просто обновить права и не создавать новую.
         if (commandInfoGuild) {
-            // Проверяем есть ли разница между изначальными правами для команды, если да, то меняем значение.
-            if (buildCommand.defaultPermission !== commandInfoGuild.defaultPermission) {
-                await commandInfoGuild.setDefaultPermission(buildCommand.defaultPermission)
-                console.log(`[📌 | ${buildCommand.name}]: Были обновлены права для обычных пользователей!`)
+            // Проверяем, если команда существует, но её режим только личные сообщение, то удаляем её и создаем в боте.
+            if (buildCommand.dm_permission) {
+                await commandInfoGuild.delete();
+                if(!this.application.commands.cache.find(command => commnad.name === buildCommand.name)){
+                    await this.application.commands.create({
+                        ...buildCommand,
+                        dmPermission: true,
+                        defaultMemberPermissions: 0
+                    });
+                }
+                // await commandInfoGuild.setDefaultMemberPermissions(buildCommand.default_member_permissions)
+                console.log(`[📌 | ${buildCommand.name}]: Команда переключена в режим "Только личные сообщения"!`)
             }
             // Проверяем разные ли аргументы между собой. Если да, то устанавливаем новые
 
@@ -193,7 +214,6 @@ module.exports = class ExtendedClient extends Client {
             ))
 
             if (JSON.stringify(actualArguments) !== JSON.stringify(newArguments)) {
-                console.log(buildCommand.name)
                 await commandInfoGuild.setOptions(buildCommand.options) // устанавливаем аргументы для команды
                 console.log(`[📌 | ${buildCommand.name}]: Были успешно изменены аргументы!`)
             }
@@ -202,13 +222,28 @@ module.exports = class ExtendedClient extends Client {
                 await commandInfoGuild.setDescription(buildCommand.description)
                 console.log(`[📌 | ${buildCommand.name}]: Было успешно изменено описание!`)
             }
+            console.log(buildCommand.name, buildCommand.dm_permission, commandInfoGuild.dmPermission)
+
             return console.log(`[📌 | ${buildCommand.name}]: Обновление закончено!`)
         }
 
-        // создаём команду если её ещё не создавали
-        const newCommand = await guild.commands.create(buildCommand)
-        // устанавливаем изначальное право для использования её everyone
-        await newCommand.setDefaultPermission(buildCommand.defaultPermission)
+        // Если это команда в личных сообщений, то создаём её только для них.
+        if(buildCommand.dm_permission){
+            console.log({
+                ...buildCommand,
+                dmPermission: buildCommand.dm_permission,
+                defaultMemberPermissions: 0,
+            })
+            await this.application.commands.create({
+                ...buildCommand,
+                dmPermission: buildCommand.dm_permission,
+                defaultMemberPermissions: 0,
+            });
+            return console.log(`[📌 | ${buildCommand.name}]: Успешная инициализация | Direct Command!`)
+        }
+
+        await guild.commands.create(buildCommand);
+
         console.log(`[📌 | ${buildCommand.name}]: Успешная инициализация!`)
     }
 
@@ -218,8 +253,12 @@ module.exports = class ExtendedClient extends Client {
             await guild.commands.fetch()
             for (const command of guild.commands.cache.values()) {
                 await guild.commands.delete(command.id)
-                console.log(`${command.name} удалена!`)
+                console.log(`${command.name} удалена с сервера ${guild.name}!`)
             }
+        }
+        for(const command of this.application.commands.cache.values()){
+            await command.delete();
+            console.log(`${command.name} удалена из бота!`)
         }
     }
 

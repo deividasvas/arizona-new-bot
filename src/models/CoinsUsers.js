@@ -4,21 +4,50 @@ const CoinsUsersSchema = new mongoose.Schema({
     dateCreate: Date, // дата создания профиля
     guildId: String, // айди сервера, где находится пользователь
     userId: String, // айди пользователя
-    coins: Number, // количество монет +
+    coins: Number, // количество монет
     sendEmojiAndStickersFromOtherServers: Schema.Types.Mixed, // возможность отправлять стикеры и эмодзи с других серверов
     isActiveCustomFontInNickname: Boolean, // возможность использовать нестандартный шрифт.
-    platforms: Number, // количество платформ +
+    platforms: Number, // количество платформ
     lastDateTransfer: Schema.Types.Mixed, // дата последнего перевода. Date или null
-    paidOfDay: Number, // количество денег которое передано за последний день +
-    promocode: Schema.Types.Mixed, // Промокод который ввёл пользователь. String или null +
-    depositCoins: Number, // количество денег на депозите +
-    isDepositActive: Boolean, // активен депозит или нет +
+    paidOfDay: Number, // количество денег которое передано за последний день
+    promocode: Schema.Types.Mixed, // Промокод который ввёл пользователь. String или null
+    depositCoins: Number, // количество денег на депозите
+    isDepositActive: Boolean, // активен депозит или нет
     lastDateDayDepositInteraction: Schema.Types.Mixed, // Последняя дата снятия с депозита днём 25% от суммы депозита. null или Date
     lastDateWeekDepositInteraction: Schema.Types.Mixed, // Последняя дата снятия с депозита неделю 100% от суммы депозита. null или Date
     lastDateDayRefillDeposit: Schema.Types.Mixed, // Последняя дата пополнения депозита.
     userPass: {
         dataEnd: Date // дата окончания подписки
-    }
+    },
+    compensations: [ // компенсаций
+        {
+            label: String, // Имя компенсации.
+            type: {
+                type: String
+            }, // Тип компенсаций.
+            timeValue: {
+                type: String,
+                default: "Не указано"
+            }, // Количество времени которое покрывает данная компенсация. Number.
+            timeType: {
+                type: String,
+                default: "Не указано"
+            }, // Тип времени. days, minutes. String.
+            level: {
+                type: Number,
+                default: 0
+            },
+            dateGive: {
+                type: Date,
+                default: Date.now,
+            },
+            userGiveId: String,
+            money: {
+                type: Number,
+                default: 0
+            }
+        }
+    ]
 });
 
 module.exports = mongoose.model("coins-users", CoinsUsersSchema);

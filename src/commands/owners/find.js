@@ -93,13 +93,13 @@ module.exports = {
       ]
     })
     const request = await api.findPlayer(nickname)
-    if (request.data.error) {
+    if (request.error) {
       return interaction.editReply({
         embeds: [
           await new EmbedBuilder()
             .setTitle(`❌ | Ошибка!`)
             .setDescription(
-              `**${request.data.error}**`
+              `**${request.error}**`
             )
             .setColor(Colors.Blue)
             .setAuthor({

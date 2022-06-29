@@ -924,7 +924,7 @@ module.exports = {
   // префикс для использования бота
   prefix: '/',
   // токен бота
-  token: 'OTYzODc2NzU0OTUzNDk0NTU4.GJAYEW.tzK98x6hCHW_WGTG21gDfOBg5UKbkfoPMrdb7Q',
+  token: 'OTU3NTg5MDQxODgzMjUwNjk5.GA8HR8.4RQcjlslxVmsmQf-T6dUev8-K0xH1PuLtFkO5g',
   // настройка базы данных
   database: {
     // URL для подключения к бд

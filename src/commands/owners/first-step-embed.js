@@ -2,7 +2,7 @@ const {
     EmbedBuilder, ButtonStyle, Colors, ActionRowBuilder, ButtonBuilder,
 } = require("discord.js");
 module.exports = {
-    name: "first-steps", // название команды
+    name: "first-step-embed", // название команды
     descr: "Обновить эмбед в канале первые-шаги", // описание команды
     perms: (rolesId) => [rolesId.discordMaster], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
     showInSlashCommands: false, // показывать ли команду в slash командах

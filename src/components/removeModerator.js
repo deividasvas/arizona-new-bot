@@ -1,6 +1,6 @@
 const { Colors } = require("discord.js");
 const { EmbedBuilder } = require("discord.js");
-const { channelsId, rolesId } = require("../configs/settings");
+const { getGuildChannelsId, getGuildRolesId } = require("../configs/settings");
 const Moderators = require("../models/Moderators");
 const getModerInfo = require("./getModerInfo");
 
@@ -9,7 +9,9 @@ const getModerInfo = require("./getModerInfo");
 */
 const removeModerator = async (bot, guildId, moderatorId) => {
   const guild = bot.guilds.cache.get(guildId);
-  const curatorsChannel = guild.channels.cache.get(channelsId[guildId].curators);
+  const rolesId = getGuildRolesId(guildId);
+  const channelsId = getGuildChannelsId(guildId);
+  const curatorsChannel = guild.channels.cache.get(channelsId.curators);
   const moderator =
     guild.members.cache.get(moderatorId) ||
     (await guild.members.fetch(moderatorId));
@@ -35,7 +37,7 @@ const removeModerator = async (bot, guildId, moderatorId) => {
     (warnOrRebuke) => warnOrRebuke.group === "warn"
   );
   await curatorsChannel.send({
-    content: `<@&${rolesId[guildId].curatorModeration}>`,
+    content: `<@&${rolesId.curatorModeration}>`,
     embeds: [
       new EmbedBuilder()
         .setTitle(`\`Снятие модератора:\`**${moderator.displayName}**`)

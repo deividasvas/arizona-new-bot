@@ -7,7 +7,7 @@ const {
 const { EmbedBuilder, Colors } = require('discord.js')
 const log = async (bot, oldMessage, newMessage) => {
   // Если автор сообщения бот, то ничего не делаем
-  if (oldMessage.author.bot) {
+  if (oldMessage.author?.bot || !oldMessage.author) {
     return
   }
   // Айдишники каналов сервера

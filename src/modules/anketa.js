@@ -1,5 +1,4 @@
 const {EmbedBuilder, Colors, ActionRowBuilder, ButtonBuilder, ButtonStyle} = require("discord.js");
-const getAllRolesIDAdmins = require("../components/getAllRolesIdAdmins");
 const {getGuildChannelsId, getGuildRolesId} = require("../configs/settings");
 
 module.exports = {
@@ -19,7 +18,7 @@ module.exports = {
     // Функция отправки анкеты
     async sendQuestionnaire({bot, guild, message}) {
         // канал куда будут отправляться анкеты которые на рассмотрений
-        const guildChannelsId = channelsId[guild.id];
+        const guildChannelsId = getGuildChannelsId(guild.id);
         const channelQuestionnaire = guild.channels.cache.get(guildChannelsId.questionnairesForCheck);
         const row = new ActionRowBuilder().addComponents([
             new ButtonBuilder()
@@ -68,7 +67,8 @@ module.exports = {
     },
     // Функция одобрения анкеты.
     async acceptQuestionnaire({bot, guild, interaction}) {
-        const acceptedQuestionnaireChannel = guild.channels.cache.get(channelsId[guild.id].acceptedQuestionnaire);
+        const channelsId = getGuildChannelsId(guild.id);
+        const acceptedQuestionnaireChannel = guild.channels.cache.get(channelsId.acceptedQuestionnaire);
         acceptedQuestionnaireChannel.send({
             embeds: [
                 new EmbedBuilder()
@@ -128,7 +128,8 @@ module.exports = {
         }
         const answer = messages.first();
         await answer.delete();
-        const deniedQuestionnaireChannel = guild.channels.cache.get(channelsId[guild.id].dontAcceptedQuestionnaire);
+        const channelsId = getGuildChannelsId(guild.id);
+        const deniedQuestionnaireChannel = guild.channels.cache.get(channelsId.dontAcceptedQuestionnaire);
         deniedQuestionnaireChannel.send({
             embeds: [
                 new EmbedBuilder()
@@ -191,7 +192,8 @@ module.exports = {
         }
         const answer = messages.first();
         await answer.delete();
-        const deniedQuestionnaireChannel = guild.channels.cache.get(channelsId[guild.id].dontAcceptedQuestionnaire);
+        const channelsId = getGuildChannelsId(guild.id);
+        const deniedQuestionnaireChannel = guild.channels.cache.get(channelsId.dontAcceptedQuestionnaire);
         deniedQuestionnaireChannel.send({
             embeds: [
                 new EmbedBuilder()
