@@ -4,6 +4,7 @@ const { default: mongoose } = require("mongoose");
 const ModeratorsSchema = new mongoose.Schema({
   userId: String, // Discord ID модератора
   guildId: String, // ID сервера на котором пользователь является модератором
+  theBestModerator: Boolean, // Является ли модератор лучшим за неделю
   main: { // общая информация по выданным наказаниям модератора и некоторая информация по самому модератору
     roles: Number, // количество отказанных/одобренных ролей
     tickets: Number, // количество отвеченных тикетов

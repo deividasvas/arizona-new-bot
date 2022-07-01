@@ -152,6 +152,8 @@ const _rolesId = {
     vip: `978383751732166657`,
     // Легендарный ОЛД Surpris'a
     legendaryOldSurprise: `948675243235475457`,
+    // Лучший модератор недели
+    theBestWeekModerator: `990140204402737152`,
   }
 }
 const _channelsId = {
@@ -774,7 +776,7 @@ const checkFamilyPass = async() => {
   })
 }
 
-const checkUserPass = () => {
+const checkUserPass = async() => {
   const user = await CoinsUsers.find();
 
   const hasPass = user.filter(users => users.userPass) // Фильтруем пользователей с подпиской
@@ -983,7 +985,16 @@ const coinsRates = {
       prize: "all",
       percent: 0.01,
     }
-  ]
+  ],
+  
+  rolesReputationGive: () => {
+    return [
+      {
+        id: rolesId.juniorDiscordMaster,
+        rep: 2
+      }
+    ]
+  }
 }
 
 module.exports = {
@@ -999,7 +1010,6 @@ module.exports = {
   getGuildCategoriesId(guildId){
     return _categories[guildId];
   },
-
 
   // Каналы в которые при входе создаётся приват.
   channelsForCreatePrivate,

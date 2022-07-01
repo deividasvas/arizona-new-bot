@@ -6,6 +6,7 @@ const getAllRolesIdFamilies = require('../components/getAllRolesIdFamilies')
 const createModerInfo = require('../components/createModerInfo')
 const Moderators = require('../models/Moderators')
 const getModerInfo = require('../components/getModerInfo')
+const HamsterForum = require('../api/forum')
 
 const logAction = async (bot, oldMember, newMember) => {
   const { guild } = newMember

@@ -41,16 +41,41 @@ module.exports = {
                 )
             ]
         });
+
+        const allModerators = await Moderators.find();
+        const oldBest = await Moderators.findOne({ theBestModerator: true })
+        const sortedModerators = allModerators.sort(async(a, b) => b.week.balls - a.week.balls);
+
+        const bestModerator = guild.members.cache.get(sortedModerators[0].userId);
+        const oldBestModerator = guild.members.cache.get(oldBest.userId);
+
+        await oldBestModerator.roles.remove(rolesId.theBestWeekModerator);
+        await bestModerator.roles.add(rolesId.theBestWeekModerator);
+
         const filter = i => i.user.id == author.id && (i.customId === 'fullObnullYes' || i.customId == 'fullObnullNo')
         const collector = answer.createMessageComponentCollector({
             time: 30000,
             max: 1,
             filter,
         });
+
         collector.on('collect', async (collectInteraction) => {
             if (collectInteraction.customId === 'fullObnullNo') {
                 return interaction.deleteReply();
             }
+
+            await Moderators.updateMany({
+                userId: oldBestModerator.id
+            }, {
+                theBestModerator: false
+            })
+
+            await Moderators.updateMany({
+                userId: bestModerator.id
+            }, {
+                theBestModerator: true
+            });
+
             await Moderators.updateMany({
                 guildId: guild.id
             }, {
@@ -66,6 +91,7 @@ module.exports = {
                     giveRoles: 0, // количество выданных ролей
                 }
             });
+
             interaction.editReply({
                 embeds: [
                     new EmbedBuilder()

@@ -24,11 +24,11 @@ module.exports = {
                 for(const setting of settings) {
                     if(setting.type == 'family') {
                         const fam = await Families.find({ // Ищем семью с подпиской в базе данных
-                            familyPass
+                            familyPass: { $ne : null }
                         })
             
                         for(const pass of fam) {
-                            if (pass.familyPass.dateEnd > new Date()) continue; // Если подписка не окончена - выходим
+                            if (pass.familyPass > new Date()) continue; // Если подписка не окончена - выходим
             
                             await pass.updateOne({
                                 familyPass: null
@@ -56,7 +56,7 @@ module.exports = {
                         const user = await getCoinsProfile(el.id, id)
             
                         for(const pass of user) {
-                            if(pass.userPass.dateEnd > new Date()) continue; // Если подписка не закончилась - выходим
+                            if(pass.userPass > new Date()) continue; // Если подписка не закончилась - выходим
             
                             await pass.updateOne({
                                 userPass: null,

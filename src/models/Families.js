@@ -8,9 +8,7 @@ const FamilySchema = new mongoose.Schema({
     roleId: String,
     voiceChannelId: String,
     textChannelId: String,
-    familyPass: {
-        dateEnd: Date,
-    }
+    EndDatefamilyPass: mongoose.Schema.Types.Mixed
 });
 
 module.exports = new mongoose.model("families", FamilySchema) // семейная коллекция.

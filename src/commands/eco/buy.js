@@ -398,9 +398,7 @@ module.exports = {
       await familyModel.findOneAndUpdate({
         ownerId: author.id
       }, {
-        familyPass: {
-          dateEnd,
-        }
+        familyPass: dateEnd,
       })
 
       await setUserCoinsParam(author.id, guild.id, `coins`, ({ coins }) => (
@@ -487,9 +485,7 @@ module.exports = {
         await UserCoins.findOneAndUpdate({
           userId: author.id
         }, {
-          userPass: {
-            dateEnd,
-          }
+          userPass: dateEnd,
         })
 
         await interaction.reply({
@@ -569,9 +565,7 @@ module.exports = {
       await UserCoins.findOneAndUpdate({
         userId: author.id
       }, {
-        userPass: {
-          dateEnd,
-        }
+        userPass: dateEnd,
       })
 
       await interaction.reply({

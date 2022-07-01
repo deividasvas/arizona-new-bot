@@ -1,4 +1,4 @@
-const { EmbedBuilder, Colors } = require("discord.js");
+const { EmbedBuilder, Colors, PermissionsBitField } = require("discord.js");
 
 module.exports = {
   name: "help", // название команды
@@ -12,6 +12,20 @@ module.exports = {
     // Ограничить попадание структур owner и moders в general
     const commands = [...bot.commands.values()].slice(0, 5); // делаем ограничение до 5 команд чтобы не было слишком много.
 
+    const isAdmin = message.member.permissions.has("ADMINISTRATOR");
+
+    const isAllowCommand = (cmd) => {
+      const rolesId = {...message.guild.roles.cache};
+      const allowRolesId = cmd.perms(rolesId); // тут список ролей которым разрешён доступ к команде.
+      const roles = [...message.member.roles.cache]; // тут роли чела
+      if(!allowRolesId.find(allowRoleId => roles.includes(allowRoleId))){
+        return false;
+      }
+      return true;
+     }
+     
+     const allowCommands = commands.filter(cmd => isAllowCommand(cmd));
+
     interaction
       .reply({
         ephemeral: true,
@@ -19,9 +33,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`📌 | Список команд!`)
             .setDescription(
-              `**${commands
-                .map((command) => `/${command.name} - \`${command.descr}\``)
-                .join("\n")}**`
+              `**/${allowCommands.name} - ${allowCommands.descr}**`
             )
             .setColor(Colors.Blue)
             .setTimestamp()
