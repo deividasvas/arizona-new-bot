@@ -10,7 +10,7 @@ module.exports = {
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [], // аргументы
 
-    run: async ({bot, guild, author, interaction}) => {
+    run: async ({bot, guild, author, interaction, rolesId}) => {
         const answer = await interaction.reply({
             embeds: [
                 new EmbedBuilder()
@@ -43,16 +43,6 @@ module.exports = {
             ]
         });
 
-        const allModerators = await Moderators.find();
-        const oldBest = await Moderators.findOne({ theBestModerator: true })
-        const sortedModerators = allModerators.sort(async(a, b) => b.week.balls - a.week.balls);
-
-        const bestModerator = guild.members.cache.get(sortedModerators[0].userId);
-        const oldBestModerator = guild.members.cache.get(oldBest.userId);
-
-        await oldBestModerator.roles.remove(rolesId.theBestWeekModerator);
-        await bestModerator.roles.add(rolesId.theBestWeekModerator);
-
         const filter = i => i.user.id === author.id && (i.customId === 'fullObnullYes' || i.customId === 'fullObnullNo')
 
         const collector = answer.createMessageComponentCollector({
@@ -66,13 +56,27 @@ module.exports = {
                 return interaction.deleteReply();
             }
 
-            await Moderators.updateMany({
-                userId: oldBestModerator.id
-            }, {
-                theBestModerator: false
-            })
+            const allModerators = await Moderators.find();
+            const oldBest = await Moderators.findOne({ theBestModerator: true })
+            const sortedModerators = allModerators.sort((a, b) => b.week.balls - a.week.balls);
 
-            await Moderators.updateMany({
+            const bestModerator = await guild.members.fetch(sortedModerators[0]._doc.userId);
+            const oldBestModerator = guild.members.cache.get(oldBest?.userId);
+
+            if(oldBestModerator){
+                await oldBestModerator.roles.remove(rolesId.theBestWeekModerator);
+            }
+            await bestModerator.roles.add(rolesId.theBestWeekModerator);
+
+            if(oldBestModerator){
+                await Moderators.updateOne({
+                    userId: oldBestModerator.id
+                }, {
+                    theBestModerator: false
+                })
+            }
+
+            await Moderators.updateOne({
                 userId: bestModerator.id
             }, {
                 theBestModerator: true
@@ -99,7 +103,6 @@ module.exports = {
                 moderatorId: author.id, // ID автора сообщения
                 moderatorTag: author.user.tag, // Tag автора сообщения
                 moderatorNick: author.displayName, // Серверный ник автора сообщения
-                reason,
             })
 
             interaction.editReply({

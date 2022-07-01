@@ -18,6 +18,7 @@ const createModerInfo = async (userId, guildId) => {
       // если нет, то создаём модератора
       userId, // Discord ID модератора
       guildId,
+      theBestModerator: false, // лучший модератор
       main: {
         // общая информация по выданным наказаниям модератора
         roles: 0, // выданные/отказанные роли

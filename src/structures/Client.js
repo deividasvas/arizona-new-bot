@@ -113,6 +113,7 @@ module.exports = class ExtendedClient extends Client {
                           category: dir
                       }) // устанавливаем инициализированную команду
 
+                      console.log(pull.archive)
                       // если данная команда не находится в архиве, то добавляем её в слэш команды
                       if (!pull.archive) {
                           await this.loadSlashCommand(pull, guild)
@@ -222,18 +223,12 @@ module.exports = class ExtendedClient extends Client {
               await commandInfoGuild.setDescription(buildCommand.description)
               console.log(`[📌 | ${buildCommand.name}]: Было успешно изменено описание!`)
           }
-          console.log(buildCommand.name, buildCommand.dm_permission, commandInfoGuild.dmPermission)
 
           return console.log(`[📌 | ${buildCommand.name}]: Обновление закончено!`)
       }
 
       // Если это команда в личных сообщений, то создаём её только для них.
       if(buildCommand.dm_permission){
-          console.log({
-              ...buildCommand,
-              dmPermission: buildCommand.dm_permission,
-              defaultMemberPermissions: 0,
-          })
           await this.application.commands.create({
               ...buildCommand,
               dmPermission: buildCommand.dm_permission,

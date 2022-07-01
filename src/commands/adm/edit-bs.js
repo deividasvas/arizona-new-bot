@@ -7,8 +7,8 @@ module.exports = {
     showInSlashCommands: false, // показывать ли команду в slash командах
     arguments: [], // аргументы
     archive: true, // команда находится в архиве
-    perms: () => {
-        return getAllRolesIdAdmins();
+    perms: (rolesId) => {
+        return getAllRolesIdAdmins(rolesId);
     }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
     run: async ({bot, interaction, args, author, guild}) => {

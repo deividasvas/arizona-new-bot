@@ -1,5 +1,7 @@
 const { EmbedBuilder, Colors } = require("discord.js");
-const getAllRolesIDAdmins = require("../components/getAllRolesIdAdmins");
+const Families = require("../models/Families");
+const { getGuildRolesId, getGuildChannelsId } = require('../configs/settings');
+const CoinsUsers = require("../models/CoinsUsers");
 
 module.exports = {
   /*
@@ -12,6 +14,8 @@ module.exports = {
   run: async ({ bot }) => {
         setInterval(async() => {
             for(const [id, guild] of bot.guilds.cache) {
+                const channelsId = getGuildChannelsId(guild.id);
+                const rolesId = getGuildRolesId(guild.id);
                 const settings = [
                     {
                         type: 'family',
@@ -22,16 +26,18 @@ module.exports = {
                 ]
             
                 for(const setting of settings) {
-                    if(setting.type == 'family') {
+                    if(setting.type === 'family') {
                         const fam = await Families.find({ // Ищем семью с подпиской в базе данных
-                            familyPass: { $ne : null }
+                            endDateFamilyPass: { $ne : null }
                         })
             
                         for(const pass of fam) {
-                            if (pass.familyPass > new Date()) continue; // Если подписка не окончена - выходим
+                            if (pass.endDateFamilyPass > new Date()) continue; // Если подписка не окончена - выходим
             
-                            await pass.updateOne({
-                                familyPass: null
+                            await Families.updateOne({
+                                ...pass
+                            }, {
+                                endDateFamilyPass: null
                             })
             
                             const adviceAdministrationChannel = guild.channels.cache.get(channelsId.administrationCouncil);
@@ -40,7 +46,7 @@ module.exports = {
                                 embeds: [
                                     await new EmbedBuilder()
                                     .setTitle(`✏️ | Семейная подписка`)
-                                    .setDescription(`**У семьи , владельцем которой является <@${el.id}> закончилась подписка "Family Pass".**`)
+                                    .setDescription(`**У семьи <@&${pass.roleId}>, владельцем которой является <@${pass.ownerId}> закончилась подписка "Family Pass".**`)
                                     .setColor(Colors.Blue)
                                     .setTimestamp()
                                     .setFooter({
@@ -52,13 +58,19 @@ module.exports = {
                         }
                     }
             
-                    if(setting.type == 'user') {
-                        const user = await getCoinsProfile(el.id, id)
+                    if(setting.type === 'user') {
+                        const users = await CoinsUsers.find({
+                            userPass: {
+                                $ne: null
+                            }
+                        })
             
-                        for(const pass of user) {
+                        for(const pass of users) {
                             if(pass.userPass > new Date()) continue; // Если подписка не закончилась - выходим
             
-                            await pass.updateOne({
+                            await CoinsUsers.updateOne({
+                                ...pass
+                            }, {
                                 userPass: null,
                                 sendEmojiAndStickersFromOtherServers: null,
                                 isActiveCustomFontInNickname: false

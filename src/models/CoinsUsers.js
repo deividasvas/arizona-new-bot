@@ -17,9 +17,7 @@ const CoinsUsersSchema = new mongoose.Schema({
     lastDateWeekDepositInteraction: Schema.Types.Mixed, // Последняя дата снятия с депозита неделю 100% от суммы депозита. null или Date
     lastDateDayRefillDeposit: Schema.Types.Mixed, // Последняя дата пополнения депозита.
     reputation: Number, // Количество репутации
-    userPass: {
-        dataEnd: Date // дата окончания подписки
-    },
+    userPass: Schema.Types.Mixed,
     compensations: [ // компенсаций
         {
             label: String, // Имя компенсации.
