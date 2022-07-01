@@ -7,7 +7,7 @@ class Api extends Parser{
     validateStatus: () => true
   })
   // Токен к веселому приколу.
-  token = 'Z6YtbJfpdROxixhG30reLv2OfSrwRh2N'
+  token = 'u7BfqsDZVwUMJb60'
 
   // Функция возвращает информацию по игроку исходя из переданных параметров.
   async findPlayer (nickname, serverId = 10) {

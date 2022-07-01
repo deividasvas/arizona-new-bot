@@ -7,6 +7,7 @@ const createModerInfo = require('../components/createModerInfo')
 const Moderators = require('../models/Moderators')
 const getModerInfo = require('../components/getModerInfo')
 const HamsterForum = require('../api/forum')
+const log = require("../components/log");
 
 const logAction = async (bot, oldMember, newMember) => {
   const { guild } = newMember
@@ -176,8 +177,6 @@ const securityLog = async (bot, oldMember, newMember) => {
   const allLogRoles = [
     // Все модерские роли
     ...getAllRolesIdModers(rolesId),
-    // Все админские роли
-    ...getAllRolesIdAdmins(rolesId),
     // Все семейные роли
     ...await getAllRolesIdFamilies(rolesId),
     // Легендарный олд сюрпрайза
@@ -211,6 +210,12 @@ const securityLog = async (bot, oldMember, newMember) => {
 
     // Если выданная роль это младший модератор, то вероятнее всего это поставили модератора, поэтому нужно сделать ему статистику
     if (role.id === rolesId.juniorModerator) {
+      log(37, {
+        guildId: guild.id, // ID сервера
+        discordId: newMember.id, // ID упомянутого участника
+        discordTag: newMember.user.tag, // Tag упомянутого участника
+        discordNick: newMember.displayName, // Серверный ник упомянутого участника
+      });
       await createModerInfo(newMember.id, guild.id)
     }
 
@@ -245,6 +250,7 @@ const securityLog = async (bot, oldMember, newMember) => {
 
     // Если снятая роль это младший модератор, то вероятнее всего это сняли модератора, поэтому нужно удалить ему статистику
     if (role.id === rolesId.juniorModerator) {
+      // console.log(await getModerInfo(bot, guild.id, newMember.id));
       const {
         main: {
           roles,
@@ -268,6 +274,13 @@ const securityLog = async (bot, oldMember, newMember) => {
         guildId: guild.id,
         userId: newMember.id
       })
+      log(38, {
+        guildId: guild.id, // ID сервера
+        discordId: newMember.id, // ID упомянутого участника
+        discordTag: newMember.user.tag, // Tag упомянутого участника
+        discordNick: newMember.displayName, // Серверный ник упомянутого участника
+      });
+
       const curatorsChannel = guild.channels.cache.get(channelsId.curators)
       curatorsChannel.send({
         embeds: [

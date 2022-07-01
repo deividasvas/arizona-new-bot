@@ -1,5 +1,6 @@
 const Punishment = require('../models/Punishment')
 const { cancelJob } = require('node-schedule')
+const log = require('../components/log');
 
 // Функция разблокировки пользователя.
 const unban = async (bot, guildId, userId, provocateur = '-', reason = 'Система снятия блокировки') => {
@@ -8,7 +9,6 @@ const unban = async (bot, guildId, userId, provocateur = '-', reason = 'Сист
     userId,
     guildId
   })
-  console.log(0)
   const guild = bot.guilds.cache.get(guildId)
   const user = await bot.users.fetch(userId)
   // Если наказания нет в базе данных, и бана на сервере нет, то ничего не делаем
@@ -17,6 +17,7 @@ const unban = async (bot, guildId, userId, provocateur = '-', reason = 'Сист
   })) {
     return
   }
+
   await guild.bans.remove(userId, `${reason} by ${provocateur.displayName || provocateur.toString()}`)
   await Punishment.deleteOne({
     action: 'ban',

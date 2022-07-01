@@ -1,7 +1,7 @@
 const {Colors} = require("discord.js");
 const {EmbedBuilder} = require("@discordjs/builders");
 const {scheduleJob} = require("node-schedule");
-const {rolesId, channelsId} = require("../configs/settings");
+const {getGuildRolesId, getGuildChannelsId} = require("../configs/settings");
 const Punishment = require("../models/Punishment");
 const sendUserMessage = require("./sendUserMessage");
 const unSupportBlock = require("./unSupportBlock");
@@ -12,6 +12,8 @@ const supportBlock = async (bot, guildId, userId, provocateur, days, reason) => 
         userId,
         action: "support-block",
     });
+    const channelsId = getGuildChannelsId(guildId);
+    const rolesId = getGuildRolesId(guildId);
     if (punish) {
         // если уже существует саппорт блок, то ничего не делаем
         if (punish.dateEnd <= new Date()) {
@@ -25,7 +27,7 @@ const supportBlock = async (bot, guildId, userId, provocateur, days, reason) => 
     const member =
         guild.members.cache.get(userId) || (await guild.members.fetch(userId));
 
-    member.roles.add(rolesId[guildId].supportBlock);
+    member.roles.add(rolesId.supportBlock);
     const dateEnd = new Date();
     dateEnd.setDate(dateEnd.getMinutes() + days);
     const newPunish = new Punishment({
@@ -40,7 +42,7 @@ const supportBlock = async (bot, guildId, userId, provocateur, days, reason) => 
     scheduleJob(`${guildId}-${userId}-support-block-${reason}`, dateEnd, () => {
         unSupportBlock(bot, userId, "-"); // ставим отслеживание на саппорт блок до определённое времени конца наказания.
         const guild = bot.guilds.cache.get(guildId);
-        const logChannel = guild.channels.cache.get(channelsId[guildId].administrationCouncil); // канал куда отправляем сообщение о снятии мута
+        const logChannel = guild.channels.cache.get(channelsId.administrationCouncil); // канал куда отправляем сообщение о снятии мута
         logChannel.send({
             embeds: [
                 new EmbedBuilder()

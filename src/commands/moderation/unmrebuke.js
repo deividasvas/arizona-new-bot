@@ -1,6 +1,7 @@
 const {EmbedBuilder, ApplicationCommandOptionType, Colors} = require("discord.js");
 const getModerInfo = require("../../components/getModerInfo");
 const setWarnsOrRebukes = require("../../components/setWarnsOrRebukes");
+const log = require("../../components/log");
 
 module.exports = {
     name: "unmrebuke", // название команды
@@ -87,6 +88,16 @@ module.exports = {
                 ],
             });
         }
+        log(10, {
+            guildId: guild.id, // ID сервера
+            discordId: moderator.id, // ID упомянутого участника
+            discordTag: moderator.user.tag, // Tag упомянутого участника
+            discordNick: moderator.displayName, // Серверный ник упомянутого участника
+            moderatorId: author.id, // ID автора сообщения
+            moderatorTag: author.user.tag, // Tag автора сообщения
+            moderatorNick: author.displayName, // Серверный ник автора сообщения
+            reason,
+        })
         await setWarnsOrRebukes(moderator.id, guild.id, ({warns}) => {
             const newRebukes = rebukes.slice(1); // 0 выговор убирается, потому, что, счёт идёт с 1
             const newWarns = warns.filter(warnOrRebuke => warnOrRebuke.group === 'warn');

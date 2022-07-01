@@ -7,7 +7,7 @@ const fs = require('fs')
 const path = require('path')
 
 // Путь до файла coins.json. Начинается от корневого файла.
-const pathToConfig = path.resolve('./configs/coins.json');
+const pathToConfig = path.join(__dirname, '../configs/coins.json');
 
 module.exports = {
   /*

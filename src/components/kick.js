@@ -3,6 +3,10 @@ const settings = require("../configs/settings");
 const getModerInfo = require("./getModerInfo");
 const updateModeratorTask = require("./updateModeratorTask");
 const log = require('./log');
+const getCoinsProfile = require("./getCoinsProfile");
+const setUserCoinsParam = require("./setUserCoinsParam");
+const sendUserMessage = require("./sendUserMessage");
+const {EmbedBuilder, Colors} = require("discord.js");
 
 // Функция кикает с сервера.
 const kick = async (bot, guildId, userId, provocateurId, reason) => {
@@ -10,7 +14,47 @@ const kick = async (bot, guildId, userId, provocateurId, reason) => {
     const provocateur = guild.members.cache.get(provocateurId);
     const member =
         guild.members.cache.get(userId) || (await guild.members.fetch(userId));
-    member.kick(`${reason} by ${provocateur.user.tag}`);
+    const { compensations } = await getCoinsProfile(userId, guildId);
+    // Если у человека есть иммунитет, то не кикаем и снимаем иммунитет.
+    const isSafe = !!compensations.find(compensation => compensation.type === 'immunityKick');
+    if(!isSafe){
+        member.kick(`${reason} by ${provocateur.user.tag}`);
+    } else {
+        await setUserCoinsParam(userId, guild.id, 'compensations', ({compensations}) => {
+            // Получаем индекс кика, чтобы удалить её из БД.
+            const index = compensations.findIndex(compensation => {
+                return compensation.type === 'immunityKick';
+            });
+            // Если индекс не найден, то просто возвращаем текущий массив.
+            if (index === -1) return compensations;
+            // Если индекс найден, то удаляем его из массива и возвращаем уже новый массив.
+            delete compensations[index];
+            return compensations.filter(compensation => !!compensation);
+        });
+        await sendUserMessage({
+          embeds: [
+              new EmbedBuilder()
+                  .setTitle(`😋️ | Повезло-повезло`)
+                  .setDescription(`**Вам было выдано наказание "Кик с сервера", но, на него сработал иммунитет!\nНаказание недействительно, иммунитет снят.**`)
+                  .setColor(Colors.Blue)
+                  .setTimestamp()
+                  .setAuthor({
+                      name: guild.name,
+                      iconURL: guild.iconURL()
+                  })
+                  .setFooter({
+                      text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                  })
+          ]
+        }, userId, guild);
+        await log(42, {
+            guildId, // ID сервера
+            discordId: member.id, // ID упомянутого участника
+            discordTag: member.user.tag, // Tag упомянутого участника
+            discordNick: member.displayName, // Серверный ник упомянутого участника
+            value: `KICK | ${JSON.stringify(compensations.find(compensation => compensation.type === 'immunityKick'))}`
+        })
+    }
 
     // Логируем кик в базу данных.
     log(1, {
@@ -22,6 +66,7 @@ const kick = async (bot, guildId, userId, provocateurId, reason) => {
         moderatorTag: provocateur.user.tag, // Tag автора сообщения
         moderatorNick: provocateur.displayName, // Серверный ник автора сообщения
         reason,
+        value: isSafe ? `Наказание не было выдано. Имелся иммунитет от кика!` : ""
     });
     // выдаем недельные муты и общие
 

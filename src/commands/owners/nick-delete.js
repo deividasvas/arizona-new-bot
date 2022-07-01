@@ -3,6 +3,7 @@ const sendUserMessage = require("../../components/sendUserMessage");
 const getCoinsProfile = require("../../components/getCoinsProfile");
 const setUserCoinsParam = require("../../components/setUserCoinsParam");
 const isActiveNickCustomFont = require('../../components/isActiveSendEmojiAndStickersFromOtherServers')
+const log = require("../../components/log");
 module.exports = {
     name: "nick-delete", // название команды
     descr: "Убрать пользователя из списка людей которым доступно использование нестандартного шрифта", // описание команды
@@ -43,7 +44,17 @@ module.exports = {
                 ],
             });
         }
-        await setUserCoinsParam(author.id, guild.id, 'customFontInNicknameSettings', null);
+        await setUserCoinsParam(userId, guild.id, 'customFontInNicknameSettings', null);
+        const member = guild.members.cache.get(userId);
+        log(17, {
+            guildId: guild.id, // ID сервера
+            discordId: member.id, // ID упомянутого участника
+            discordTag: member.user.tag, // Tag упомянутого участника
+            discordNick: member.displayName, // Серверный ник упомянутого участника
+            moderatorId: author.id, // ID автора сообщения
+            moderatorTag: author.user.tag, // Tag автора сообщения
+            moderatorNick: author.displayName, // Серверный ник автора сообщения
+        })
         interaction.reply({
             ephemeral: true,
             embeds: [

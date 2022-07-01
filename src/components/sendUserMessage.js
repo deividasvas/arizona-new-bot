@@ -1,4 +1,5 @@
 const settings = require('../configs/settings')
+const {getGuildChannelsId} = require("../configs/settings");
 
 /*
       Функция отправки сообщения пользователям в лс.
@@ -14,21 +15,25 @@ const sendUserMessage = async (message, userId, guild) => {
     return null
   }
   const embeds = message.embeds || []
+  const files = message.files || [];
   const components = message.components || []
+
   try {
     return await member.send({
       content: message.content,
       embeds,
-      components
+      components,
+      files
     })
   } catch (e) {
+    const channelsId = getGuildChannelsId(guild.id);
     const notificationsChannel =
-      guild.channels.cache.get(settings.channelsId[guild.id].notifications) ||
+      guild.channels.cache.get(channelsId.notifications) ||
       (
-        await guild.channels.fetch(settings.channelsId[guild.id].notifications)
+        await guild.channels.fetch(channelsId.notifications)
       )
     
-    return notificationsChannel.send({
+    return await notificationsChannel.send({
       content: `${member} ${message.content ? message.content : ''}`,
       embeds,
       components

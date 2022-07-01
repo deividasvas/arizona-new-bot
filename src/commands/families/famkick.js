@@ -3,6 +3,7 @@ const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
 const Families = require("../../models/Families");
+const log = require("../../components/log");
 
 module.exports = {
   name: "famkick", // название команды
@@ -162,5 +163,17 @@ module.exports = {
       familyCandidateForKick.id,
       guild
     );
+    log(29, {
+      guildId: guild.id, // ID сервера
+      discordId: familyCandidateForKick.id, // ID упомянутого участника
+      discordTag: familyCandidateForKick.user.tag, // Tag упомянутого участника
+      discordNick: familyCandidateForKick.displayName, // Серверный ник упомянутого участника
+      moderatorId: author.id, // ID автора сообщения
+      moderatorTag: author.user.tag, // Tag автора сообщения
+      moderatorNick: author.displayName, // Серверный ник автора сообщения
+      roleId: role.id,
+      roleName: role.name,
+      value: role.id
+    })
   },
 };

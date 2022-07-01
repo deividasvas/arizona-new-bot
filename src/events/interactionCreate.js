@@ -4,15 +4,27 @@ const { developers } = require('../configs/settings.js')
 const settings = require('../configs/settings.js')
 const CommandsDisabled = require('../models/CommandsDisabled.js')
 
-module.exports = async (bot, interaction) => {
-  if (interaction.isChatInputCommand()) {
-    // если это команда, то мы её обрабатываем
-    const { commandName, commandId, guild, channelId } = interaction
-    const command = bot.commands.get(commandName)
-    if (!bot.inited) {
-      return interaction.reply({
-        ephemeral: true, embeds: [
-          await new EmbedBuilder()
+// Обработчик команд в личных сообщениях.
+const commandDirectHandler = async (bot, interaction, command) => {
+    const args = interaction.options._hoistedOptions.map((arg) => arg.value)
+    return command
+        .run({
+            interaction,
+            bot,
+            args,
+            author: interaction.user,
+            developers,
+            theSlashCall: true
+        })
+}
+
+const commandHandler = async (bot, interaction) => {
+  const { commandName, commandId, guild, channelId } = interaction
+  const command = bot.commands.get(commandName)
+  if (!bot.inited) {
+    return interaction.reply({
+      ephemeral: true, embeds: [
+        await new EmbedBuilder()
             .setTitle(`🚫 | Ошибка!`)
             .setDescription(`**Ожидайте, происходит инициализация бота...**`)
             .setColor(Colors.Blue)
@@ -20,16 +32,17 @@ module.exports = async (bot, interaction) => {
             .setFooter({
               text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
             })
-        ]
-      })
-    }
-    if (!command) {
-      // Если бот инициализирован, и команды в слэшах нет, то её создание это парадокс.
-      // Поэтому, нужно её удалить + сказать что произошёл парадокс
-      await bot.deleteSlashCommand(interaction.commandId, guild)
-      return interaction.reply({
-        ephemeral: true, embeds: [
-          await new EmbedBuilder()
+      ]
+    })
+  }
+
+  if (!command) {
+    // Если бот инициализирован, и команды в слэшах нет, то её создание это парадокс.
+    // Поэтому, нужно её удалить + сказать что произошёл парадокс
+    await bot.deleteSlashCommand(interaction.commandId, guild)
+    return interaction.reply({
+      ephemeral: true, embeds: [
+        await new EmbedBuilder()
             .setTitle(`🚫 | Упс!`)
             .setDescription(`**Произошёл некоторый парадокс. Команда была создана случайно. Повторите попытку с другой командой!**`)
             .setColor(Colors.Blue)
@@ -37,18 +50,21 @@ module.exports = async (bot, interaction) => {
             .setFooter({
               text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
             })
-        ]
-      })
-    }
-    if (await CommandsDisabled.findOne({
-      commandName
-    }) || command.archive)
-    {
-      // Проверяем находится ли команда в выключенных или в архиве. Если да, то выдаём ошибку
-      await bot.deleteSlashCommand(commandId, guild)
-      return interaction.reply({
-        ephemeral: true, embeds: [
-          await new EmbedBuilder()
+      ]
+    })
+  }
+  if(command.isDMCommand){
+      return commandDirectHandler(bot, interaction, command);
+  }
+  if (await CommandsDisabled.findOne({
+    commandName
+  }) || command.archive)
+  {
+    // Проверяем находится ли команда в выключенных или в архиве. Если да, то выдаём ошибку
+    await bot.deleteSlashCommand(commandId, guild)
+    return interaction.reply({
+      ephemeral: true, embeds: [
+        await new EmbedBuilder()
             .setTitle(`🚫 | Ошибка!`)
             .setDescription(`**Команда \`${commandName}\` отключена!**`)
             .setColor(Colors.DarkRed)
@@ -59,20 +75,20 @@ module.exports = async (bot, interaction) => {
             .setFooter({
               text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
             })
-        ]
-      })
-    }
-    const args = interaction.options._hoistedOptions.map((arg) => arg.value)
-    const author = interaction.member
-    const channel = interaction.guild.channels.cache.get(channelId) || (
+      ]
+    })
+  }
+  const args = interaction.options._hoistedOptions.map((arg) => arg.value)
+  const author = interaction.member
+  const channel = interaction.guild.channels.cache.get(channelId) || (
       await interaction.guild.channels.fetch(channelId)
-    )
-    const rolesId = settings.getGuildRolesId(guild.id)
-    const channelsId = settings.getGuildChannelsId(guild.id)
-    const whiteListRoles = settings.whiteListRoles(rolesId)
-    const categoriesId = settings.getGuildCategoriesId(guild.id)
-    const fromPostToPostList = settings.fromPostToPostList(rolesId)
-    return command
+  )
+  const rolesId = settings.getGuildRolesId(guild.id)
+  const channelsId = settings.getGuildChannelsId(guild.id)
+  const whiteListRoles = settings.whiteListRoles(rolesId)
+  const categoriesId = settings.getGuildCategoriesId(guild.id)
+  const fromPostToPostList = settings.fromPostToPostList(rolesId)
+  return command
       .run({
         interaction,
         whiteListRoles,
@@ -108,8 +124,14 @@ module.exports = async (bot, interaction) => {
         }
       })
       .catch((err) => handleErrors(err, bot))
+}
+
+module.exports = async (bot, interaction) => {
+  if (interaction.isChatInputCommand()) {
+    // если это команда, то мы её обрабатываем
+    await commandHandler(bot, interaction);
   }
-  if (interaction.isButton()) {
+  if (interaction.isButton() || interaction.isSelectMenu()) {
     // если это кнопка, то передаём её модулям
     for (const module of bot.modules.values()) {
       // берём все модули и смотрим в каком принимаются айдишники которые нам нужны

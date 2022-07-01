@@ -5,7 +5,7 @@
     Данный класс обеспечивает команды наказаний возможностью следить за выдачей наказаний.
 */
 
-const {channelsId, rolesId} = require("../configs/settings");
+const {getGuildChannelsId, getGuildRolesId} = require("../configs/settings");
 const {EmbedBuilder, Colors} = require("discord.js");
 const bot = require("../index");
 const getMinutesInMs = require("./getMinutesInMs");
@@ -41,6 +41,8 @@ class timeChecker {
         // в канал кураторов с их упоминанием и совета.
 
         const guild = bot.guilds.cache.get(guildId);
+        const channelsId = getGuildChannelsId(guildId);
+        const rolesId = getGuildRolesId(guildId);
         // Смотрим, есть ли модератор и установленный сервер в закреплённом списке информации по наказаниям.
         if (!this.logs[guildId]) {
             this.logs[guildId] = {}; // устанавливаем изначальное значение серверу если его нет.
@@ -65,9 +67,9 @@ class timeChecker {
         // Как только добавили ещё одно выданное наказание - смотрим сколько у него в итоге текущих наказаний.
         // Если их более 5, то логируем об этом в канал кураторов.
         if (currentModeratorInfo.count >= 5) {
-            const curatorsModerationChannel = guild.channels.cache.get(channelsId[guildId].curators);
+            const curatorsModerationChannel = guild.channels.cache.get(channelsId.curators);
             return curatorsModerationChannel.send({
-                content: `<@&${rolesId[guildId].curatorModeration}> <@&${rolesId[guildId].adviceAdministration}>`,
+                content: `<@&${rolesId.curatorModeration}> <@&${rolesId.adviceAdministration}>`,
                 embeds: [new EmbedBuilder()
                     .setColor(Colors.Blue)
                     .setTitle(`📌 | Система безопасности`)

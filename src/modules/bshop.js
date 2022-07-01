@@ -7,6 +7,7 @@ const {
   getGuildChannelsId,
   getGuildRolesId
 } = require("../configs/settings");
+const log = require("../components/log");
 
 module.exports = {
   /*
@@ -371,6 +372,13 @@ module.exports = {
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],
+    });
+    log(36, {
+      guildId: guild.id, // ID сервера
+      discordId: user.id, // ID упомянутого участника
+      discordTag: user.user.tag, // Tag упомянутого участника
+      discordNick: user.displayName, // Серверный ник упомянутого участника
+      value: service.name
     });
   },
 };

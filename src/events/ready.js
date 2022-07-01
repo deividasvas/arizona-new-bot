@@ -1,16 +1,28 @@
+const {availableGuildsId} = require("../configs/settings");
+const {Collection} = require("discord.js");
 module.exports = async bot => {
-    bot.user.setActivity({ name: 'за Аrizona 🌺 Surprise', type: 'WATCHING', status: 'online' }) // * Активность
-    await bot.guilds.fetch();
-    for(const guild of bot.guilds.cache.values()){
+    bot.user.setActivity({name: 'за саморазвитием', type: 'watching', status: 'online'}) // * Активность
+    // Очищаем весь кэш серверов дабы не использовать сервер к которому у нас нет настройки
+    bot.guilds.cache.clear();
+    for (const guildId of availableGuildsId) {
+        // Подгружаем сервера к которым у нас есть настройка.
+        await bot.guilds.fetch({
+            guild: guildId,
+        });
+    }
+
+    await bot.application.commands.fetch();
+
+    for (const guild of bot.guilds.cache.values()) {
         await guild.channels.fetch();
         await guild.commands.fetch();
     }
     // await bot.deleteAllSlashCommands();
     await bot.command();
-    for(const [moduleName, module] of bot.modules){
+    for (const [moduleName, module] of bot.modules) {
         // Если в модуле установлено автоматически его запускать при старте бота, то запускаем.
-        if(module.autoRun){
-            module.run({ bot });
+        if (module.autoRun) {
+            module.run({bot});
         }
     }
 

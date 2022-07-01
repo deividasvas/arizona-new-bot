@@ -7,6 +7,7 @@ const {
 const { ChannelType, EmbedBuilder, Colors } = require('discord.js')
 const sendUserMessage = require('../components/sendUserMessage')
 const Privates = require('../models/Privates')
+const logFromDataBase = require('../components/log');
 
 // Функция создания привата.
 const createPrivate = async (member, name, parentId, isEveryone, permissions) => {
@@ -38,7 +39,8 @@ const createPrivate = async (member, name, parentId, isEveryone, permissions) =>
   }
 
   // Новый канал который и будет приватом.
-  const privateChannel = await member.guild.channels.create(`${name}`, {
+  const privateChannel = await member.guild.channels.create({
+    name,
     type: ChannelType.GuildVoice,
     permissionOverwrites,
     parent: parentId,
@@ -69,6 +71,15 @@ const createPrivate = async (member, name, parentId, isEveryone, permissions) =>
     }
   ])
 
+  logFromDataBase(39, {
+    guildId: member.guild.id, // ID сервера
+    channelId: privateChannel.id,
+    channelName: privateChannel.name,
+    discordId: member.id, // ID упомянутого участника
+    discordTag: member.user.tag, // Tag упомянутого участника
+    discordNick: member.displayName, // Серверный ник упомянутого участника
+  });
+
   return privateChannel
 }
 
@@ -84,6 +95,11 @@ const deletePrivate = async (guild, channelId) => {
     guildId: guild.id,
     channelId
   })
+  logFromDataBase(40, {
+    guildId: guild.id, // ID сервера
+    channelId: channel.id,
+    channelName: channel.name,
+  });
 }
 
 const privatesSystem = async ({

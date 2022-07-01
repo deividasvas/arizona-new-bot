@@ -1,6 +1,7 @@
 const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const setModerInfoParam = require("../../components/setModerInfoParam");
 const getModerInfo = require("../../components/getModerInfo");
+const log = require("../../components/log");
 
 const choices = [
   // подсказки к аргументу
@@ -76,7 +77,7 @@ module.exports = {
     rolesId.curatorModeration, // куратор модерации
   ], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-  run: async ({ bot, interaction, channelsId, rolesId, guild, args, channel }) => {
+  run: async ({ bot, interaction, channelsId, rolesId, guild, args, channel, author }) => {
     const whiteListChannels = [
       channelsId.curators,
       channelsId.administrationCouncil,
@@ -108,6 +109,18 @@ module.exports = {
         ],
       });
     }
+
+    log(6, {
+      guildId: guild.id, // ID сервера
+      discordId: member.id, // ID упомянутого участника
+      discordTag: member.user.tag, // Tag упомянутого участника
+      discordNick: member.displayName, // Серверный ник упомянутого участника
+      moderatorId: author.id, // ID автора сообщения
+      moderatorTag: author.user.tag, // Tag автора сообщения
+      moderatorNick: author.displayName, // Серверный ник автора сообщения
+      typeStats: typeStatistic,
+      value: newCount,
+    })
 
     await setModerInfoParam(member.id, guild.id, "main", typeStatistic, newCount);
     const choice = choices.find((choice) => choice.value === typeStatistic);

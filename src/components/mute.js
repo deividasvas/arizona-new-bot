@@ -6,12 +6,12 @@ const Punishment = require("../models/Punishment");
 const convertMinutesToMs = require("./convertMinutesToMs");
 const sendUserMessage = require("./sendUserMessage");
 const unmute = require("./unmute");
-const LogDataBase = require("../models/LogDataBase");
 const setModerInfoParam = require("../components/setModerInfoParam");
-const settings = require("../configs/settings");
 const getModerInfo = require("./getModerInfo");
 const updateModeratorTask = require("./updateModeratorTask");
 const log = require('./log');
+const setUserCoinsParam = require("./setUserCoinsParam");
+const getCoinsProfile = require("./getCoinsProfile");
 
 
 // Функция мутит пользователей.
@@ -35,10 +35,53 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
     const provocateur = guild.members.cache.get(provocateurId);
     const member =
         guild.members.cache.get(userId) || (await guild.members.fetch(userId));
-    member.timeout(
-        convertMinutesToMs(minutes),
-        `${reason} by ${provocateur.user.tag}`
-    ); // выдаём мут человеку системно
+    const { compensations } = await getCoinsProfile(userId, guildId);
+    // Если у человека есть иммунитет, то не выдаем мут и снимаем иммунитет.
+    const isSafe = compensations.find(compensation => compensation.type === 'immunityMute');
+    if(!isSafe){
+        // выдаём мут человеку системно
+        member.timeout(
+            convertMinutesToMs(minutes),
+            `${reason} by ${provocateur.user.tag}`
+        );
+        // Выдаём мут пользователю дополнительно при помощи роли чтоб другие могли это видеть.
+        member.roles.add(rolesId.muted);
+    } else {
+        await setUserCoinsParam(userId, guild.id, 'compensations', ({compensations}) => {
+            // Получаем индекс компенсации мута, чтобы удалить её из БД.
+            const index = compensations.findIndex(compensation => {
+                return compensation.type === 'immunityMute';
+            });
+            // Если индекс не найден, то просто возвращаем текущий массив.
+            if (index === -1) return compensations;
+            // Если индекс найден, то удаляем его из массива и возвращаем уже новый массив.
+            delete compensations[index];
+            return compensations.filter(compensation => !!compensation);
+        });
+        await sendUserMessage({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle(`😋️ | Повезло-повезло`)
+                    .setDescription(`**Вам было выдано наказание "Мут на \`${minutes}\` минут", но, на него сработал иммунитет!\nНаказание недействительно, иммунитет снят.**`)
+                    .setColor(Colors.Blue)
+                    .setTimestamp()
+                    .setAuthor({
+                        name: guild.name,
+                        iconURL: guild.iconURL()
+                    })
+                    .setFooter({
+                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                    })
+            ]
+        }, userId, guild);
+        await log(42, {
+            guildId, // ID сервера
+            discordId: member.id, // ID упомянутого участника
+            discordTag: member.user.tag, // Tag упомянутого участника
+            discordNick: member.displayName, // Серверный ник упомянутого участника
+            value: `MUTE | ${JSON.stringify(compensations.find(compensation => compensation.type === 'immunityMute'))} | ${minutes}`
+        })
+    }
     // Логируем мут в базу данных.
     log(2, {
         guildId: guild.id, // ID сервера
@@ -49,21 +92,22 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
         moderatorTag: provocateur.user.tag, // Tag автора сообщения
         moderatorNick: provocateur.displayName, // Серверный ник автора сообщения
         reason,
+        value: isSafe ? `Наказание не было выдано. Имелся иммунитет от мута!` : ""
     });
-    // Выдаём мут пользователю дополнительно при помощи роли чтоб другие могли это видеть.
-    member.roles.add(rolesId.muted);
     const dateEnd = new Date();
     dateEnd.setMinutes(dateEnd.getMinutes() + minutes);
     // Логируем текущее наказание в базу данных.
-    const newPunish = new Punishment({
-        action: "mute",
-        moderatorId: provocateurId,
-        userId,
-        guildId: guild.id,
-        reason,
-        dateEnd,
-    });
-    await newPunish.save();
+    if(!isSafe){
+        const newPunish = new Punishment({
+            action: "mute",
+            moderatorId: provocateurId,
+            userId,
+            guildId: guild.id,
+            reason,
+            dateEnd,
+        });
+        await newPunish.save();
+    }
     // выдаем недельные муты и общие
     await setModerInfoParam(
         provocateurId,
@@ -105,7 +149,9 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
             mutes: task.mutes - 1 <= 0 ? 0 : task.mutes - 1
         })
     }
-    console.log(dateEnd);
+    if(isSafe){
+        return;
+    }
     scheduleJob(`${guildId}-${userId}-mute-${reason}`, dateEnd, () => {
         console.log(`unmuteeeee`)
         unmute(bot, guildId, userId, "-"); // ставим отслеживание на мут до определённое времени конца наказания.

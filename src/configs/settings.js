@@ -444,7 +444,7 @@ const supportSettings = {
     rolesId.deputyMainAdmin,
     rolesId.curator,
     rolesId.discordMaster,
-    rolesId.juniorModerator,
+    rolesId.juniorDiscordMaster,
     rolesId.adviceAdministration
   ]
 }
@@ -1019,7 +1019,8 @@ module.exports = {
   categoriesPrivatesId,
   // Теги организации
   tagsFractions,
-
+  // Айди серверов на которых может использоваться данный бот. (Для guilds.fetch)
+  availableGuildsId: ['948675243025764404'],
   developers: [
     '316154352760782849', // * Yuri Lance
     '904648434949169203', // * Deivid Brown
@@ -1044,7 +1045,7 @@ module.exports = {
   // префикс для использования бота
   prefix: '/',
   // токен бота
-  token: 'OTYzODc2NzU0OTUzNDk0NTU4.YlceLg.QmLQ10ZLbE1FlU-yBCYV_bw00Rk',
+  token: 'OTU3NTg5MDQxODgzMjUwNjk5.GA8HR8.4RQcjlslxVmsmQf-T6dUev8-K0xH1PuLtFkO5g',
   // настройка базы данных
   database: {
     // URL для подключения к бд

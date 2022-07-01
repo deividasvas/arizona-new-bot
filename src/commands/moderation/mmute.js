@@ -108,7 +108,7 @@ module.exports = {
             ],
         });
 
-        sendUserMessage(
+        await sendUserMessage(
             {
                 content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
                 embeds: [
@@ -132,6 +132,8 @@ module.exports = {
             userForMute.id,
             guild
         );
+        await mute(bot, guild.id, userForMute.id, author.id, time, reason);
+        mutes.addModeratorPunish(author.id, guild.id);
         interaction.reply({
             ephemeral: true,
             embeds: [
@@ -152,7 +154,5 @@ module.exports = {
                     }),
             ],
         });
-        await mute(bot, guild.id, userForMute.id, author.id, time, reason);
-        mutes.addModeratorPunish(author.id, guild.id);
     },
 };

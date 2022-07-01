@@ -3,8 +3,8 @@ const getCoinsProfile = require("../../components/getCoinsProfile");
 const path = require('path')
 const pathToConfig = path.resolve('./configs/coins.json');
 module.exports = {
-  name: "fond", // название команды
-  descr: "Узнать текущее состояние счёта фонда", // описание команды
+  name: "loto-fond", // название команды
+  descr: "Узнать текущее состояние счёта фонда лотереи", // описание команды
   showInSlashCommands: false, // показывать ли команду в slash командах
   arguments: [], // аргументы
   perms: (rolesId) => [rolesId.everyone], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду

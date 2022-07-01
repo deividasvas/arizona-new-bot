@@ -35,7 +35,7 @@ module.exports = {
       name: 'событие',
       description: 'Событие с которым Вы производите действие',
       type: ApplicationCommandOptionType.String,
-      choices: fs.readdirSync(path.resolve('./events')).map(eventName => eventName.split('.js')[0]).map((eventName) => {
+      choices: fs.readdirSync(path.join(__dirname, '../../', 'events')).map(eventName => eventName.split('.js')[0]).map((eventName) => {
         return {
           name: eventName,
           value: eventName

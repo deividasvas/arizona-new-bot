@@ -14,7 +14,7 @@ function chunked(toChunk) {
 const log = async (bot, message) => {
     if (message.channel.type === "DM") return;
     // Если автор сообщения бот, то ничего не делаем
-    if (message.author?.bot) {
+    if (message.author?.bot || !message.author) {
         return;
     }
 
@@ -38,7 +38,7 @@ const log = async (bot, message) => {
     const embed = new EmbedBuilder()
         .setColor(Colors.Blue)
         .setTimestamp()
-        .setDescription(`${message.author} (${message.author.id}) удалил сообщение в канале ${message.channel} (${message.channel.id})`)
+        .setDescription(`${message.author || bot.user} (${message.author?.id || bot.id}) удалил сообщение в канале ${message.channel} (${message.channel.id})`)
         .setAuthor({
             name: `${message.member.user.tag} ${message.member.user.username ? `(${message.member.user.username})` : ''}`,
             iconURL: message.member.user.displayAvatarURL({size: 2048, dynamic: true, format: 'png'}),

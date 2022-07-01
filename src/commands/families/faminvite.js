@@ -11,6 +11,7 @@ const getTwoHourInMs = require("../../components/getTwoHourInMs");
 const sendUserMessage = require("../../components/sendUserMessage");
 const Families = require("../../models/Families");
 const getAllRolesIdAdmins = require('../../components/getAllRolesIdAdmins')
+const log = require("../../components/log");
 
 module.exports = {
   name: "faminvite", // название команды
@@ -328,6 +329,19 @@ module.exports = {
       );
 
       candidate.roles.add(role, `Приглашения в фаму by ${author.user.tag}`);
+
+      log(28, {
+        guildId: guild.id, // ID сервера
+        discordId: candidate.id, // ID упомянутого участника
+        discordTag: candidate.user.tag, // Tag упомянутого участника
+        discordNick: candidate.displayName, // Серверный ник упомянутого участника
+        moderatorId: author.id, // ID автора сообщения
+        moderatorTag: author.user.tag, // Tag автора сообщения
+        moderatorNick: author.displayName, // Серверный ник автора сообщения
+        roleId: role.id,
+        roleName: role.name,
+        value: role.id
+      })
 
       let logChannel =
         bot.channels.cache.get(channelsId.famLogs) ||

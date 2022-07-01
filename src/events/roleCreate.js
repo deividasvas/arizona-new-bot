@@ -1,5 +1,7 @@
 const { AuditLogEvent, EmbedBuilder, Colors } = require('discord.js')
 const sendUserMessage = require('../components/sendUserMessage')
+const isUserAllowEditServer = require('../components/isUserAllowEditServer');
+const log = require("../components/log");
 
 // Система анти-слива
 module.exports = async (bot, role) => {
@@ -10,12 +12,21 @@ module.exports = async (bot, role) => {
     limit: 1
   }).then(logs => logs.entries.first())
   const member = guild.members.cache.get(entry.executor.id)
-  if(member.user.bot){
-    return null;
+  log(13, {
+    guildId: guild.id, // ID сервера
+    moderatorId: member.id, // ID автора сообщения
+    moderatorTag: member.user.tag, // Tag автора сообщения
+    moderatorNick: member.displayName, // Серверный ник автора сообщения
+    nameRole: role.name,
+  })
+
+
+  if(member.bot){
+    return;
   }
 
   // Если пользователь имеет админку, то просто оповещаем в конференцию ДМов в ВК что создалась роль.
-  if (member.permissions.has('Administrator') || member.user.bot) {
+  if (isUserAllowEditServer(member)) {
     return bot.sendConferenceDiscordMastersMessage(`[Создание роли] Администратор ${member.displayName} [${member.id}] создал роль ${role.name}`)
   }
 

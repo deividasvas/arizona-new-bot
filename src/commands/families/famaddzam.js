@@ -3,6 +3,7 @@ const getAllRolesIdFamilies = require("../../components/getAllRolesIdFamilies");
 const sendUserMessage = require("../../components/sendUserMessage");
 const settings = require("../../configs/settings");
 const Families = require("../../models/Families");
+const log = require("../../components/log");
 
 module.exports = {
   name: "famaddzam", // название команды
@@ -189,28 +190,41 @@ module.exports = {
           }),
       ],
     });
-    sendUserMessage(
-      {
-        embeds: [
-          new EmbedBuilder()
-            .setTitle(`📌 | Новая должность`)
-            .setDescription(
-              `**Вы были успешно назначены на должность заместителя семьи \`\`${role.name}\`\`**`
-            )
-            .setColor(Colors.Blue)
-            .setTimestamp()
-            .setAuthor({
-              name: guild.name,
-              iconURL: guild.iconURL(),
-            })
-            .setFooter({
-              text: `Robo Hamster`,
-              iconURL: bot.user.displayAvatarURL(),
-            }),
-        ],
-      },
-      familyCandidateDeputy.id,
-      guild
+    await sendUserMessage(
+        {
+          embeds: [
+            new EmbedBuilder()
+                .setTitle(`📌 | Новая должность`)
+                .setDescription(
+                    `**Вы были успешно назначены на должность заместителя семьи \`\`${role.name}\`\`**`
+                )
+                .setColor(Colors.Blue)
+                .setTimestamp()
+                .setAuthor({
+                  name: guild.name,
+                  iconURL: guild.iconURL(),
+                })
+                .setFooter({
+                  text: `Robo Hamster`,
+                  iconURL: bot.user.displayAvatarURL(),
+                }),
+          ],
+        },
+        familyCandidateDeputy.id,
+        guild
     );
+
+    log(26, {
+      guildId: guild.id, // ID сервера
+      discordId: familyCandidateDeputy.id, // ID упомянутого участника
+      discordTag: familyCandidateDeputy.user.tag, // Tag упомянутого участника
+      discordNick: familyCandidateDeputy.displayName, // Серверный ник упомянутого участника
+      moderatorId: author.id, // ID автора сообщения
+      moderatorTag: author.user.tag, // Tag автора сообщения
+      moderatorNick: author.displayName, // Серверный ник автора сообщения
+      roleId: role.id,
+      roleName: role.name,
+      value: role.id
+    })
   },
 };

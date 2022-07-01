@@ -5,6 +5,7 @@ const getModerInfo = require("../../components/getModerInfo");
 const setModerInfoParam = require("../../components/setModerInfoParam");
 const {scheduleJob} = require("node-schedule");
 const Moderators = require("../../models/Moderators");
+const log = require("../../components/log");
 module.exports = {
     name: "neactive", // название команды
     descr: "Выдать неактив модератору", // описание команды
@@ -57,7 +58,16 @@ module.exports = {
         await setModerInfoParam(moderator.id, guild.id, `neactive`, `reason`, reason);
 
         moderator.roles.add(rolesId.neactive)
-
+        log(15, {
+            guildId: guild.id, // ID сервера
+            discordId: moderator.id, // ID упомянутого участника
+            discordTag: moderator.user.tag, // Tag упомянутого участника
+            discordNick: moderator.displayName, // Серверный ник упомянутого участника
+            moderatorId: moderator.id, // ID автора сообщения
+            moderatorTag: author.user.tag, // Tag автора сообщения
+            moderatorNick: author.displayName, // Серверный ник автора сообщения
+            reason,
+        })
         const neactiveLogChannel = guild.channels.cache.get(channelsId.neactiveLog)
         neactiveLogChannel.send({
             embeds: [new EmbedBuilder()

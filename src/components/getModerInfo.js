@@ -17,7 +17,7 @@ const getModerInfo = async (bot, guildId, userId) => {
   const guild = bot.guilds.cache.get(guildId || moderator.guildId);
   const member = guild.members.cache.get(userId) || await guild.members.fetch(userId);
   const allRolesIdModers = getAllRolesIdModers(rolesId);
-  if (!member.roles.cache.some((role) => allRolesIdModers.includes(role.id))) {
+  if (!member.roles.cache.some((role) => allRolesIdModers.includes(role.id)) && !moderator) {
     // проверяем является ли пользователь модератором, если нет, то кидаем ошибку.
     return {
       error: "THE_NOT_MODERATOR",
