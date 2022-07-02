@@ -1,7 +1,7 @@
 const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
 const getCoinsProfile = require("../../components/getCoinsProfile");
 const path = require('path')
-const pathToConfig = path.resolve('./configs/coins.json');
+const pathToConfig = path.join(__dirname, '../../configs/coins.json');
 module.exports = {
   name: "loto-fond", // название команды
   descr: "Узнать текущее состояние счёта фонда лотереи", // описание команды
@@ -25,7 +25,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -46,7 +46,7 @@ module.exports = {
             iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL()
           })
       ]

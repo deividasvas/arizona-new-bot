@@ -14,6 +14,7 @@ module.exports = {
       required: true
     }
   ], // аргументы
+  archive: true,
   perms: (rolesId) => {
     return getAllrolesIdModers(rolesId) // все модерские роли
   }, // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
@@ -31,7 +32,7 @@ module.exports = {
               name: guild.name, iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
         ]
       })
@@ -62,7 +63,7 @@ module.exports = {
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       } else {
         return new EmbedBuilder()
@@ -74,7 +75,7 @@ module.exports = {
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       }
     }

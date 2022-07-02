@@ -44,7 +44,7 @@ const log = async (bot, message) => {
             iconURL: message.member.user.displayAvatarURL({size: 2048, dynamic: true, format: 'png'}),
         })
         .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
         });
 

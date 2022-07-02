@@ -34,7 +34,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -66,7 +66,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -100,7 +100,7 @@ module.exports = {
           })}`)
           .setDescription(`>>> **Количество Coins: \`${coins}\`\nКоличество репутации: \`${reputation}\`\nИспользовать нестандартный шрифт: \`${isActiveCustomFontInNickname ? `Можно` : 'Нельзя'}\`\nВозможность отправлять стикеры/эмодзи с других серверов: \`${await isActiveSendEmojiAndStickersFromOtherServers(author.id, guild.id) ? `Присутствует (Ещё ${days} дней)` : `Отсутствует`}\`\nКоличество платформ: \`${platforms}\`\nПромокод: \`${promocode ? promocode : 'Не активировался'}\`\nСтатус депозита: \`${isDepositActive ? 'Активен' : 'Отключен'}\`\nДенег на депозите: \`${depositCoins.toFixed(4)}\`\nПодписка: \`${userPass ? `Активна до ${userPass.dateEnd.toLocaleString('ru-RU')}` : 'Неактивна'}\`**`)
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })

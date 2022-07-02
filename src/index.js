@@ -7,4 +7,3 @@ process.on('uncaughtException', errorHandle);
 process.on('unhandledRejection', errorHandle)
 process.on('unhandledRejection', errorHandle);
 module.exports = bot;
-

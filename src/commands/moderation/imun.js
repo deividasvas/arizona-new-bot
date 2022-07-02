@@ -33,7 +33,7 @@ module.exports = {
     const moderator =
       guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
     const reason = args[1];
-    const { error, main } = await getModerInfo(guild, moderator.id);
+    const { error, main } = await getModerInfo(bot, guild.id, moderator.id);
     if (error === "THE_NOT_MODERATOR") {
       return interaction.reply({
         ephemeral: true,
@@ -49,7 +49,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -71,7 +71,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -89,7 +89,7 @@ module.exports = {
       reason,
     })
 
-    await setModerInfoParam(moderator.id, "main", "immunities", ({ immunities }) => immunities + 1);
+    await setModerInfoParam(moderator.id, guild.id, "main", "immunities", ({ immunities }) => immunities + 1);
     const punishModeratorsLogChannel = guild.channels.cache.get(
       channelsId.punishModeratorsLog
     );
@@ -108,7 +108,7 @@ module.exports = {
           )
           .setTimestamp()
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],
@@ -128,7 +128,7 @@ module.exports = {
           )
           .setTimestamp()
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],

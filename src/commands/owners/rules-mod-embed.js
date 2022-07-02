@@ -31,7 +31,7 @@ module.exports = {
             })
             .setDescription(`**Форум модераторов - [форум](https://forum.robo-hamster.ru/)\nОсновной свод правил - [свод](https://forum.robo-hamster.ru/threads/8079/)\nДоказательство на блокировку - [ссылка](https://forum.robo-hamster.ru/threads/6330/)\nFAQ для модераторов - [FAQ](https://forum.robo-hamster.ru/threads/5373/),\nв нее входят:\n\`1. Меры наказании для модераторов.\`\n\`2. Команды для модераторов\`\n\`3. Регламент действии модераторов в стандартных ситуациях.\`**`)
             .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL(),
             })
         await rulesChannel.send({
@@ -49,7 +49,7 @@ module.exports = {
                 iconURL: guild.iconURL(),
             })
             .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL(),
             })
         await rulesChannel.send({
@@ -66,7 +66,7 @@ module.exports = {
                 iconURL: guild.iconURL(),
             })
             .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL(),
             })
         await rulesChannel.send({
@@ -86,7 +86,7 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ]

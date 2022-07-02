@@ -11,6 +11,12 @@ module.exports = {
     run: async ({bot, interaction, author}) => {
         const guilds = [];
         const {dmChannel} = author;
+        if(!dmChannel){
+            return interaction.reply({
+                ephemeral: true,
+                content: `Данная команда доступна только в ЛС с ботом!`
+            })
+        }
         for (const [id, guild] of bot.guilds.cache) {
             guilds.push({
                 id,
@@ -26,7 +32,7 @@ module.exports = {
                     .setColor(Colors.Blue)
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [
@@ -54,9 +60,10 @@ module.exports = {
                         .setColor(Colors.Red)
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
-                ]
+                ],
+                components: [],
             })
         });
 
@@ -89,9 +96,10 @@ module.exports = {
                         .setColor(Colors.Red)
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
-                ]
+                ],
+                components: [],
             })
         }
 
@@ -105,7 +113,7 @@ module.exports = {
                     .setColor(Colors.Blue)
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [],

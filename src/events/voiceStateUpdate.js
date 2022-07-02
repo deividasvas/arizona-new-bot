@@ -35,7 +35,6 @@ const createPrivate = async (member, name, parentId, isEveryone, permissions) =>
 
   for (const permission of permissions) {
     permissionOverwrites.push(permission)
-    // console.log(permission)
   }
 
   // Новый канал который и будет приватом.
@@ -46,6 +45,9 @@ const createPrivate = async (member, name, parentId, isEveryone, permissions) =>
     parent: parentId,
     reason: `Создан канал для приватных комнат | ${name}`
   })
+
+  const channelsId = getGuildChannelsId(member.guild.id)
+
   // Устанавливаем изначальный лимит пользователей до 2.
   await privateChannel.setUserLimit(2)
   // Переносим создателя привата в новый канал.
@@ -58,7 +60,7 @@ const createPrivate = async (member, name, parentId, isEveryone, permissions) =>
     embeds: [
       new EmbedBuilder()
         .setColor(Colors.DarkBlue)
-        .setDescription(`Вы создали приватный канал, вы можете изменить его как вам удобно через канал <#${channelsId[member.guild.id].managePrivate}>!`)
+        .setDescription(`Вы создали приватный канал, вы можете изменить его как вам удобно через канал <#${channelsId.managePrivate}>!`)
         .setTitle(`👥 | Приват комната успешно создана!`)
     ]
   }, member.id, member.guild)
@@ -142,43 +144,10 @@ const log = async ({
       iconURL: newMember.member.user.displayAvatarURL({ size: 2048, dynamic: true, format: 'png' })
     })
     .setFooter({
-      text: `Robo Hamster`,
+      text: `Surprise Bot`,
       iconURL: bot.user.displayAvatarURL()
     })
 
-  if (oldStreaming && !newStreaming) {
-    embed.setDescription(`**${oldMember.member.user.tag}** ${oldMember.member.user.username ? `(${oldMember.member.user.username})` : ''} закончил прямой эфир в **${oldMember.channel.name}**`)
-    embed.addFields([
-      {
-        name: `Канал`,
-        value: `${oldMember ? `<#${oldMember.channel.id}> (${oldMember.channel.name})` : `<#${newMember.channel.id}> (${newMember.channel.name})`}`
-      },
-      {
-        name: `Информация`,
-        value: `**Участник:** ${oldMember.member.user} (${oldMember.member.user.id})\n**Канал:** ${oldMember.channel} (${oldMember.channel.id})`
-      }
-    ])
-    return await logChannel.send({
-      embeds: [embed]
-    })
-  }
-
-  if (!oldStreaming && newStreaming) {
-    embed.setDescription(`**${oldMember.member.user.tag}** ${oldMember.member.user.username ? `(${oldMember.member.user.username})` : ''} начал прямой эфир в **${oldMember.channel.name}**`)
-    embed.addFields([
-      {
-        name: `Канал`,
-        value: `${oldMember ? `<#${oldMember.channel.id}> (${oldMember.channel.name})` : `<#${newMember.channel.id}> (${newMember.channel.name})`}`
-      },
-      {
-        name: `Информация`,
-        value: `**Участник:** ${oldMember.member.user} (${oldMember.member.user.id})\n**Канал:** ${oldMember.channel} (${oldMember.channel.id})`
-      }
-    ])
-    return await logChannel.send({
-      embeds: [embed]
-    })
-  }
 
   if (oldChannel && actualChannel && oldMember?.channelId !== newMember?.channelId) {
     embed.setDescription(`**${newMember.member.user.tag}** ${newMember.member.user.username ? `(${newMember.member.user.username})` : ''} переместился с **${oldMember.channel.name}** в **${newMember.channel.name}**`)

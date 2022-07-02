@@ -41,7 +41,7 @@ function sendLogs (name, user, message, originalMessage, channel, image) {
   ])
   embed.setImage(image)
   embed.setFooter({
-    text: 'Система автомодерации | Robo Hamster',
+    text: 'Система автомодерации | Surprise Bot',
     iconURL: channel.guild.iconURL({ format: 'png', size: 2048, dynamic: true })
   })
 

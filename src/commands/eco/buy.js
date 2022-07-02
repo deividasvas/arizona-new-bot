@@ -33,15 +33,15 @@ module.exports = {
           value: `oneLevelRank`
         },
         {
-          name: `Surprise family pass | ${coinsRates.famPassMonthPrise} монет (в месяц)`,
+          name: `Family pass | ${coinsRates.famPassMonthPrise} монет (в месяц)`,
           value: `famPass`
         },
         {
-          name: `Surprise pass | ${coinsRates.userPassPrice.week} монет в неделю`,
+          name: `Person pass | ${coinsRates.userPassPrice.week} монет в неделю`,
           value: `weekPass`
         },
         {
-          name: `Surprise pass | ${coinsRates.userPassPrice.month} монет в месяц`,
+          name: `Person pass | ${coinsRates.userPassPrice.month} монет в месяц`,
           value: `monthPass`
         }
       ],
@@ -72,7 +72,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -100,7 +100,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
@@ -123,7 +123,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
@@ -150,7 +150,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -172,7 +172,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
@@ -192,7 +192,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -214,7 +214,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
@@ -234,7 +234,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
@@ -258,7 +258,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -271,7 +271,7 @@ module.exports = {
       const countLevels = args[1]
       // Итоговая цена за это всё.
       const price = countLevels * coinsRates.oneLevelRankPrice
-      if (countLevels === 0) {
+      if (!countLevels) {
         return interaction.reply({
           embeds: [
             await new EmbedBuilder()
@@ -285,12 +285,34 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
         })
       }
+
+      if(countLevels > 25){
+        return interaction.reply({
+          embeds: [
+            await new EmbedBuilder()
+                .setTitle(`❌ | Ошибка!`)
+                .setDescription(
+                    `**Максимальное количество уровней для покупки - \`25\`**`
+                )
+                .setColor(Colors.Blue)
+                .setAuthor({
+                  name: guild.name,
+                  iconURL: guild.iconURL()
+                })
+                .setFooter({
+                  text: `Surprise Bot`,
+                  iconURL: bot.user.displayAvatarURL()
+                })
+          ]
+        })
+      }
+
       if (profile.coins < price) {
         return interaction.reply({
           embeds: [
@@ -305,7 +327,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
@@ -322,7 +344,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
             .setDescription(`**Пользователь ${author} (${author.id}) приобрел \`${countLevels}\` уровней(ень) за \`${price.toFixed(3)}\` монет. Необходимо ему их выдать!!!**`)
         ]
@@ -343,13 +365,13 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
       })
     }
-    if(type == 'famPass') {
+    if(type === 'famPass') {
       if(!leaderFam) {
         return interaction.reply({
           embeds: [
@@ -364,7 +386,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
@@ -385,7 +407,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
@@ -419,14 +441,14 @@ module.exports = {
             iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL()
           })
         ]
       })
     }
 
-    if(type == 'weekPass') {
+    if(type === 'weekPass') {
         if(profile.userPass) {
           return nteraction.reply({
             embeds: [
@@ -441,7 +463,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
             ]
@@ -462,7 +484,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
             ]
@@ -499,14 +521,14 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
           ]
         })
     }
 
-    if(type == 'monthPass') {
+    if(type === 'monthPass') {
       if(profile.userPass) {
         return nteraction.reply({
           embeds: [
@@ -521,7 +543,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
           ]
@@ -542,7 +564,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
           ]
@@ -579,7 +601,7 @@ module.exports = {
             iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL()
           })
         ]

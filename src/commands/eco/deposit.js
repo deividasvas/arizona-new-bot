@@ -24,7 +24,7 @@ const putDeposit = async ({ bot, user, interaction, sum, profile, guild, channel
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -41,7 +41,7 @@ const putDeposit = async ({ bot, user, interaction, sum, profile, guild, channel
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -57,7 +57,7 @@ const putDeposit = async ({ bot, user, interaction, sum, profile, guild, channel
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -77,7 +77,7 @@ const putDeposit = async ({ bot, user, interaction, sum, profile, guild, channel
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -94,7 +94,7 @@ const putDeposit = async ({ bot, user, interaction, sum, profile, guild, channel
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -132,7 +132,7 @@ const putDeposit = async ({ bot, user, interaction, sum, profile, guild, channel
           name: guild.name, iconURL: guild.iconURL()
         })
         .setFooter({
-          text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+          text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
         })
     ]
   })
@@ -164,7 +164,7 @@ const putDeposit = async ({ bot, user, interaction, sum, profile, guild, channel
           }
         ])
         .setFooter({
-          text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+          text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
         })
     ]
   })
@@ -183,7 +183,7 @@ const withdrawMoney = async ({ bot, user, interaction, sum, profile, guild, chan
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -208,7 +208,7 @@ const withdrawMoney = async ({ bot, user, interaction, sum, profile, guild, chan
                 name: guild.name, iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
               })
           ]
         })
@@ -233,7 +233,7 @@ const withdrawMoney = async ({ bot, user, interaction, sum, profile, guild, chan
                 name: guild.name, iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
               })
           ]
         })
@@ -268,7 +268,7 @@ const withdrawMoney = async ({ bot, user, interaction, sum, profile, guild, chan
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -296,7 +296,7 @@ const withdrawMoney = async ({ bot, user, interaction, sum, profile, guild, chan
           name: guild.name, iconURL: guild.iconURL()
         })
         .setFooter({
-          text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+          text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
         })
     ]
   })
@@ -328,7 +328,7 @@ const withdrawMoney = async ({ bot, user, interaction, sum, profile, guild, chan
           }
         ])
         .setFooter({
-          text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+          text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
         })
     ]
   })
@@ -385,7 +385,7 @@ module.exports = {
               name: guild.name, iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
         ]
       })
@@ -404,7 +404,7 @@ module.exports = {
               name: guild.name, iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
         ]
       })

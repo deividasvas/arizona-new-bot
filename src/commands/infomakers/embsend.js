@@ -30,7 +30,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -94,7 +94,7 @@ module.exports = {
       .send({
         embeds: [embed],
       })
-      .catch(() => {
+      .catch((err) => {
         console.log(err);
         interaction.reply({
           ephemeral: true,
@@ -110,7 +110,7 @@ module.exports = {
                 iconURL: guild.iconURL(),
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL(),
               }),
           ],

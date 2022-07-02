@@ -78,7 +78,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -111,7 +111,7 @@ module.exports = {
             )
             .setTimestamp()
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]

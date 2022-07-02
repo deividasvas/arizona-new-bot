@@ -34,7 +34,7 @@ module.exports = {
           name: guild.name, iconURL: guild.iconURL()
         })
         .setFooter({
-          text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+          text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
         })
       // Если время конца неактива уже прошло, то просто снимаем неактив.
       if (neactive.dateEnd <= new Date()) {

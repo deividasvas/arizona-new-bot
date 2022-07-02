@@ -58,7 +58,7 @@ module.exports = {
             .setDescription(`**Дневные ограничения на перевод были убраны!**`)
             .setColor(Colors.Blue)
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
             .setAuthor({
               name: guild.name, iconURL: guild.iconURL()
@@ -134,7 +134,7 @@ module.exports = {
             .setDescription(`**Депозит был обновлен!!**`)
             .setColor(Colors.Green)
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
             .setAuthor({
               name: guild.name, iconURL: guild.iconURL()

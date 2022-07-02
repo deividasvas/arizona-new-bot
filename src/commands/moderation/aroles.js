@@ -26,7 +26,7 @@ module.exports = {
             iconURL: guild.iconURL(),
           })
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           })
           .addFields({
@@ -53,7 +53,7 @@ module.exports = {
             `**Вы успешно прорекламировали канал <#${channelsId.requestRoles}> в канале <#${channelsId.welcome}>**`
           )
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],

@@ -85,7 +85,6 @@ module.exports = {
         // Компенсация которую нужно выдать
         const { label, value: _value } = compensationsOptions.find(option => option.value === interaction.values[0])
         const value = JSON.parse(_value);
-        // console.log(interaction);
 
         await setUserCoinsParam(userId, interaction.guildId, 'compensations', ({compensations}) => {
             return [...compensations, {
@@ -110,7 +109,7 @@ module.exports = {
                         `**Пользователю <@${userId}> успешно была выдана компенсация \`${label}\`**`
                     )
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],
@@ -132,7 +131,7 @@ module.exports = {
                         `**Вам была выдана компенсация в виде \`${label}\` на сервере \`${guild.name}\`.\nВыдал модератор: ${moderatorUser} (${moderatorUser.tag})**`
                     )
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ]
@@ -156,7 +155,7 @@ module.exports = {
                         `**Модератор <@${member.id}> выдал пользователю <@${userId}> компенсацию в виде \`${label}\`!**`
                     )
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ]

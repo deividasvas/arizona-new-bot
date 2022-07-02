@@ -1,6 +1,5 @@
 const { EmbedBuilder, ApplicationCommandOptionType, Colors } = require("discord.js");
-const Promocodes = require('../../models/Promocodes');
-const { promocodeMaxJuniperBotLevel, coinsOfActivatePromocode } = require("../../configs/settings");
+const { coinsRates: {promocodeMaxJuniperBotLevel, coinsOfActivatePromocode} } = require("../../configs/settings");
 
 module.exports = {
 	name: "promo-info", // название команды
@@ -26,7 +25,7 @@ module.exports = {
 							iconURL: guild.iconURL()
 						})
 						.setFooter({
-							text: `Robo Hamster`,
+							text: `Surprise Bot`,
 							iconURL: bot.user.displayAvatarURL()
 						})
 				]
@@ -44,7 +43,7 @@ module.exports = {
 						iconURL: guild.iconURL()
 					})
 					.setFooter({
-						text: `Robo Hamster`,
+						text: `Surprise Bot`,
 						iconURL: bot.user.displayAvatarURL()
 					})
 			]

@@ -7,6 +7,7 @@ const settings = require("../../configs/settings");
 const getMinutesInMs = require("../../components/getMinutesInMs");
 const timeChecker = require("../../components/timeChecker");
 const log = require('../../components/log');
+const {linksToReportModerators} = require("../../configs/settings");
 
 // Таймер на кики
 const kicks = new timeChecker('кик');
@@ -56,7 +57,7 @@ module.exports = {
                 iconURL: guild.iconURL(),
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL(),
               }),
         ],
@@ -64,7 +65,7 @@ module.exports = {
     }
     await sendUserMessage(
       {
-        content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
+        content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - ${linksToReportModerators[guild.id]}`,
         embeds: [
           new EmbedBuilder()
             .setColor(Colors.Blue)
@@ -78,7 +79,7 @@ module.exports = {
             )
               .setTimestamp()
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL(),
               }),
         ],
@@ -102,7 +103,7 @@ module.exports = {
           )
           .setTimestamp()
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],
@@ -123,7 +124,7 @@ module.exports = {
           )
           .setTimestamp()
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],

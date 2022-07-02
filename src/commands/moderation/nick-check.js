@@ -47,7 +47,7 @@ module.exports = {
             },
           ])
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL()
           })
       ]

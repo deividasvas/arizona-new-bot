@@ -30,7 +30,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                     }),],
             });
         }
@@ -61,7 +61,7 @@ module.exports = {
                             iconURL: guild.iconURL(),
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -82,7 +82,7 @@ module.exports = {
                                 name: guild.name, iconURL: guild.iconURL(),
                             })
                             .setFooter({
-                                text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                                text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                             }),],
                 });
             }
@@ -98,7 +98,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL(),
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                         }),],
             });
         }
@@ -115,7 +115,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL(),
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                         }),],
             });
         }
@@ -149,7 +149,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -170,7 +170,7 @@ module.exports = {
                             `**Поздравляем! Вы выполнили задание на снятие предупреждение и предупреждение было успешно снято!**`
                         )
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -192,7 +192,7 @@ module.exports = {
                         `>>> **Выдать \`${task.mutes}\` мутов\nВыдать \`${task.bans}\` банов\nВыдать \`${task.tickets}\` тикетов\nВыдать \`${task.kicks}\` киков**`
                     )
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],

@@ -27,7 +27,7 @@ module.exports = {
                     .setColor(Colors.Blue)
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [
@@ -59,7 +59,7 @@ module.exports = {
                         .setColor(Colors.Red)
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ],
                 components: [],
@@ -84,7 +84,7 @@ module.exports = {
                         .setColor(Colors.Red)
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ],
                 components: [],
@@ -114,7 +114,7 @@ module.exports = {
                     .setColor(Colors.Blue)
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [
@@ -143,7 +143,7 @@ module.exports = {
                         .setColor(Colors.Red)
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ],
                 components: [],
@@ -185,7 +185,7 @@ module.exports = {
                     .setColor(Colors.Green)
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [],

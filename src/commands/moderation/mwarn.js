@@ -40,7 +40,7 @@ module.exports = {
         rolesId.curatorModeration, // куратор модерации
     ], // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-    run: async ({bot, interaction, author, guild, args, channel, fromPostToPostList, channelsId}) => {
+    run: async ({bot, interaction, author, guild, args, rolesId, fromPostToPostList, channelsId}) => {
         const moderator =
             guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
         const reason = args[1];
@@ -64,7 +64,7 @@ module.exports = {
                             iconURL: guild.iconURL(),
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -126,7 +126,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -148,7 +148,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -200,7 +200,7 @@ module.exports = {
                                 )
                                 .setTimestamp()
                                 .setFooter({
-                                    text: `Robo Hamster`,
+                                    text: `Surprise Bot`,
                                     iconURL: bot.user.displayAvatarURL(),
                                 }),
                         ],
@@ -227,7 +227,7 @@ module.exports = {
                                 )
                                 .setTimestamp()
                                 .setFooter({
-                                    text: `Robo Hamster`,
+                                    text: `Surprise Bot`,
                                     iconURL: bot.user.displayAvatarURL(),
                                 }),
                         ],
@@ -267,7 +267,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -289,7 +289,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -333,7 +333,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -356,7 +356,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -392,7 +392,7 @@ module.exports = {
                     )
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],
@@ -414,7 +414,7 @@ module.exports = {
                     )
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],

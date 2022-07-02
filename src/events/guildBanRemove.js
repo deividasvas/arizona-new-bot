@@ -39,7 +39,7 @@ module.exports = (bot, unban) => {
                     )
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],

@@ -50,7 +50,7 @@ module.exports = {
                             iconURL: guild.iconURL(),
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ]
@@ -94,7 +94,7 @@ module.exports = {
                         `**「📝」Выдал: <@${author.id}> (${author.user.tag})\n「📌」Кому: <@${userForSupportBlock.id}> (${userForSupportBlock.user.tag})\n「📕」Причина: \`${reason}\`\n「📅」До снятия блокировки саппорта \`${days}\` дней**`
                     )
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ]
@@ -115,7 +115,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -139,7 +139,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -161,7 +161,7 @@ module.exports = {
                     )
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],

@@ -46,7 +46,7 @@ const words = async ({ bot, interaction, author, profile, bet, guild, channel })
           name: guild.name, iconURL: guild.iconURL()
         })
         .setFooter({
-          text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+          text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
         })
     ]
   })
@@ -68,7 +68,7 @@ const words = async ({ bot, interaction, author, profile, bet, guild, channel })
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -92,7 +92,7 @@ const words = async ({ bot, interaction, author, profile, bet, guild, channel })
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -113,7 +113,7 @@ const words = async ({ bot, interaction, author, profile, bet, guild, channel })
           name: guild.name, iconURL: guild.iconURL()
         })
         .setFooter({
-          text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+          text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
         })
     ]
   })
@@ -135,7 +135,7 @@ const rockPaperScissors = async ({ bot, interaction, author, profile, bet, guild
           name: guild.name, iconURL: guild.iconURL()
         })
         .setFooter({
-          text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+          text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
         })
     ]
   })
@@ -160,7 +160,7 @@ const rockPaperScissors = async ({ bot, interaction, author, profile, bet, guild
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -185,7 +185,7 @@ const rockPaperScissors = async ({ bot, interaction, author, profile, bet, guild
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })
@@ -206,7 +206,7 @@ const rockPaperScissors = async ({ bot, interaction, author, profile, bet, guild
           name: guild.name, iconURL: guild.iconURL()
         })
         .setFooter({
-          text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+          text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
         })
     ]
   })
@@ -251,7 +251,7 @@ module.exports = {
               name: guild.name, iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
         ]
       })
@@ -275,7 +275,7 @@ module.exports = {
               name: guild.name, iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
         ]
       })
@@ -308,7 +308,7 @@ module.exports = {
               name: guild.name, iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
         ]
       })
@@ -327,7 +327,7 @@ module.exports = {
               name: guild.name, iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
         ]
       })

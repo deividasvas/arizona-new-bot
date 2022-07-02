@@ -37,7 +37,7 @@ module.exports = {
       }
       const oldTicketId = (
         await Tickets.find({
-          guildId: id
+          guildId: guild.id
         }).sort({ $natural: -1 }).limit(1)
       )[0]?.ticketId || 0
       const embed = new EmbedBuilder()

@@ -29,7 +29,7 @@ module.exports = {
                 name: guild.name, iconURL: guild.iconURL(),
             })
             .setFooter({
-                text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
             })
         const row = new ActionRowBuilder().addComponents(
             [
@@ -81,7 +81,7 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ]

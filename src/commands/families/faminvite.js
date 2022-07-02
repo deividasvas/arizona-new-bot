@@ -12,6 +12,7 @@ const sendUserMessage = require("../../components/sendUserMessage");
 const Families = require("../../models/Families");
 const getAllRolesIdAdmins = require('../../components/getAllRolesIdAdmins')
 const log = require("../../components/log");
+const settings = require("../../configs/settings");
 
 module.exports = {
   name: "faminvite", // название команды
@@ -56,7 +57,7 @@ module.exports = {
             .setDescription(`**Вы не являетесь лидером/заместителем семьи!**`)
             .setColor(Colors.Blue)
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -72,7 +73,7 @@ module.exports = {
             .setDescription(`**Вы не можете пригласить самого себя в семью!**`)
             .setColor(Colors.Blue)
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -94,7 +95,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -102,7 +103,7 @@ module.exports = {
     }
 
     const familiesRolesId = allFamilies.map((family) => family.id);
-    const roles = candidate.roles.cache.values();
+    const roles = [...candidate.roles.cache];
     let countFamsOfCandidate = roles.reduce((total, current) =>
       familiesRolesId.includes(current.id) ? total + 1 : total
     ); // количество семей в которых состоит пользователь
@@ -121,7 +122,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -141,7 +142,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -154,12 +155,12 @@ module.exports = {
         new EmbedBuilder()
           .setTitle(`📌 | Приглашение в семью!`)
           .setDescription(
-            `Вы успешно отправили приглашение ${candidate} на вступлению в Вашу семью`
+            `**Вы успешно отправили приглашение ${candidate} на вступлению в Вашу семью!**`
           )
           .setColor(Colors.Blue)
           .setTimestamp()
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],
@@ -190,7 +191,7 @@ module.exports = {
               .setColor(Colors.Blue)
               .setTimestamp()
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL(),
               }),
         ],
@@ -253,7 +254,7 @@ module.exports = {
                   iconURL: guild.iconURL(),
                 })
                 .setFooter({
-                  text: `Robo Hamster`,
+                  text: `Surprise Bot`,
                   iconURL: bot.user.displayAvatarURL(),
                 }),
           ],
@@ -273,7 +274,7 @@ module.exports = {
                       iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                      text: `Robo Hamster`,
+                      text: `Surprise Bot`,
                       iconURL: bot.user.displayAvatarURL(),
                     }),
               ],
@@ -299,7 +300,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -319,7 +320,7 @@ module.exports = {
                 iconURL: guild.iconURL(),
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL(),
               }),
           ],
@@ -360,7 +361,7 @@ module.exports = {
               `**「📝」Семья: <@&${family.roleId}>\n「📌」Пригласил: ${author} \`[${author.id}]\`\n「👪」Приглашенный: ${candidate} \`[${candidate.id}]\`**`
             )
             .setFooter({
-              text: "Robo Hamster",
+              text: "Surprise Bot",
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],

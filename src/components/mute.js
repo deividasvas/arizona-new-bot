@@ -70,7 +70,7 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
                         iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         }, userId, guild);
@@ -153,7 +153,6 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
         return;
     }
     scheduleJob(`${guildId}-${userId}-mute-${reason}`, dateEnd, () => {
-        console.log(`unmuteeeee`)
         unmute(bot, guildId, userId, "-"); // ставим отслеживание на мут до определённое времени конца наказания.
         const guild = bot.guilds.cache.get(guildId);
         const moderationLog = guild.channels.cache.get(channelsId.moderationLog); // канал куда отправляем сообщение о снятии мута
@@ -171,7 +170,7 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
                     )
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],
@@ -192,7 +191,7 @@ const mute = async (bot, guildId, userId, provocateurId, minutes, reason) => {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],

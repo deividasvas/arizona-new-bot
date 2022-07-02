@@ -7,7 +7,7 @@ module.exports = {
     arguments: [], // аргументы
     perms: (rolesId) => [rolesId.everyone], // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
-    run: async ({bot, interaction, author, rolesId}) => {
+    run: async ({bot, interaction, channel, author, rolesId}) => {
         // Сделать фильтрацию команд
         // Ограничить попадание структур owner и moders в general
 
@@ -97,7 +97,7 @@ module.exports = {
         const render = async () => {
             await renderCommandsByList(list);
             const reply = await interaction.fetchReply();
-            const button = await interaction.channel.awaitMessageComponent({
+            const button = await channel.awaitMessageComponent({
                 filter: testInteraction => reply.id === testInteraction.message.id && testInteraction.member.id === author.id && ['helpBackList', 'helpNextList'].includes(testInteraction.customId),
                 limit: 1,
                 time: 60000,

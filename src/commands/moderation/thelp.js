@@ -25,7 +25,7 @@ module.exports = {
                         `**\`/set-stat\` - изменить статистику\n\`/myinfo\` - посмотреть свою статистику\n\`/myinfo [Модератор]\` - посмотреть чужую статистику**`
                     )
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ]

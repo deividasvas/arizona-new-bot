@@ -35,7 +35,7 @@ const handleErrors = (err, bot, { message, command, isCommandError = false, } = 
                 .setColor(`#ff0022`)
                 .setTimestamp()
                 .setFooter({
-                    text: `Robo Hamster`,
+                    text: `Surprise Bot`,
                     iconURL: message.bot.user.displayAvatarURL()
                 })
         ]

@@ -22,19 +22,6 @@ const updateModeratorTask = async (moderatorId, guildId, task = {
     }
     const {mutes = 0, bans = 0, kicks = 0, tickets = 0} = task;
     const status = task.status || mutes === 0 && bans === 0 && kicks === 0 && tickets === 0 ? "no" : "active";
-    console.log({
-        moderatorId,
-        guildId,
-        $set: {
-            task: {
-                mutes,
-                bans,
-                kicks,
-                tickets,
-                status
-            },
-        }
-    })
     await Moderators.updateOne({
         userId: moderatorId,
         guildId

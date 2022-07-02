@@ -79,7 +79,7 @@ class timeChecker {
                     .setDescription(`**Модератор <@${moderatorId}> выдал более 5 наказаний за 5 минут. Тип наказания: \`${this.typePunish}\`.**`)
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
 

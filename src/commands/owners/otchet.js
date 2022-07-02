@@ -43,7 +43,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                     })
                     .setDescription(`**${moderatorsInfoString}**`)
             ]

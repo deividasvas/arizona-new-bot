@@ -27,7 +27,7 @@ const setWarnsOrRebukes = async (userId, guildId, func) => {
     },
     {
       $set: {
-        warns: await func(moderator), // функция должна вернуть массив с всеми варнами и выговорами
+        warns: typeof func === 'function' ? await func(moderator) : func, // функция должна вернуть массив с всеми варнами и выговорами
       },
     }
   );

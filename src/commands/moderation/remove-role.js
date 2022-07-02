@@ -45,7 +45,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -65,7 +65,7 @@ module.exports = {
           「👮‍♂️」Кто: ${author.displayName} (${author.id})
           「📄」Причина: \`${reason}\`**`)
           .setColor(Colors.Blue)
-          .setFooter({ text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL() })
+          .setFooter({ text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL() })
       ]
     })
 
@@ -83,7 +83,7 @@ module.exports = {
             iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL()
           })
       ]
@@ -102,7 +102,7 @@ module.exports = {
             iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL()
           })
       ]

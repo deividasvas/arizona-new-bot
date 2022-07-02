@@ -25,7 +25,7 @@ module.exports = {
                     name: guild.name, iconURL: guild.iconURL(),
                 })
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                 })
                 .addFields({
                     name: '**Ссылки на разделы:**',
@@ -47,7 +47,7 @@ module.exports = {
                 })
                 .setDescription(`**Вы успешно про рекламировали форум модерации в канале <#${channelsId.welcome}>**`)
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                 })],
         });
     },

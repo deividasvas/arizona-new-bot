@@ -29,7 +29,7 @@ module.exports = {
             `**Уважаемые пользователи нашего Discord Сервера!\nЕсли у вас есть вопрос или проблема, то можете обратиться в канал \n<#${channelsId.support}>**`
           )
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           })
           .addFields({
@@ -56,7 +56,7 @@ module.exports = {
             `**Вы успешно про рекламировали канал <#${channelsId.support}> в канале <#${channelsId.welcome}>**`
           )
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           })
       ],

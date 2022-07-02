@@ -78,7 +78,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -98,7 +98,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -116,7 +116,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -137,7 +137,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
 
             ]
@@ -175,7 +175,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [
@@ -219,7 +219,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
@@ -245,7 +245,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -253,7 +253,7 @@ module.exports = {
         }
         // ID тикета который будет установлен текущему.
         const newTicketId = (
-            await Tickets.find({}).sort({$natural: -1}).limit(1)
+            await Tickets.find({ guildId: guild.id }).sort({$natural: -1}).limit(1)
         )[0]?.ticketId + 1 || 1
         // массив с правами на канал.
         const permissions = []
@@ -325,7 +325,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ], components: [
                 new ActionRowBuilder()
@@ -367,7 +367,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
@@ -397,7 +397,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -418,7 +418,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -449,7 +449,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [
@@ -493,7 +493,7 @@ module.exports = {
                     })
                     .setColor(Colors.Orange)
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
@@ -518,7 +518,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
@@ -544,7 +544,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -562,7 +562,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -607,7 +607,7 @@ module.exports = {
                     })
                     .setColor(Colors.Orange)
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [
@@ -649,7 +649,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [
@@ -735,7 +735,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
@@ -770,7 +770,7 @@ module.exports = {
                 iconURL: guild.iconURL()
             })
             .setFooter({
-                text: 'Robo Hamster',
+                text: 'Surprise Bot',
                 iconURL: bot.user.displayAvatarURL()
             })
         const logChannel = guild.channels.cache.get(channelsId.ticketsLog)
@@ -922,7 +922,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -945,7 +945,7 @@ module.exports = {
                     })
                     .setColor(Colors.Orange)
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [
@@ -979,7 +979,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
@@ -1026,7 +1026,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -1051,7 +1051,7 @@ module.exports = {
                     })
                     .setColor(Colors.Orange)
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ],
             components: [
@@ -1109,7 +1109,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })

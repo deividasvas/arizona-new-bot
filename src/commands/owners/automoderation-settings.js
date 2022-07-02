@@ -124,7 +124,7 @@ module.exports = {
             .setTitle(`Настройки автомодераций`)
             .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
             .addFields([
@@ -200,7 +200,7 @@ module.exports = {
             iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL()
           })
       ]

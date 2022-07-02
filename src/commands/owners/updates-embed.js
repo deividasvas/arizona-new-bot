@@ -33,7 +33,7 @@ module.exports = {
                 name: guild.name, iconURL: guild.iconURL(),
             })
             .setFooter({
-                text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
             })
             .setImage("https://images-ext-2.discordapp.net/external/_xP3aYiyMM6cHa6-yAo_QAUm8IMwyJ6Y9m6rP19WH0g/https/images-ext-2.discordapp.net/external/0AmbBsPa4GWh0kIPtCWje6z8IFI38cc43W8YbGHldhU/https/images-ext-2.discordapp.net/external/z96taxZ7kvTVwGuR4lXY4MwRJO9KnvZzzDd7kTq59sY/https/support.discordapp.com/hc/en-us/article_attachments/206303208/eJwVyksOwiAQANC7sJfp8Ke7Lt15A0MoUpJWGmZcGe-ubl_eW7zGLmaxMZ80A6yNch-rJO4j1SJr73Uv6Wwkcz8gMae8HeXJBOjC5NEap42dokUX_4SotI8GVfBaYYDldr3n3y_jomRtD_H5ArCeI9g.zGz1JSL-9DXgpkX_SkmMDM8NWGg.gif");
 
@@ -74,7 +74,7 @@ module.exports = {
                     name: guild.name, iconURL: guild.iconURL(),
                 })
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                 })]
         });
     },

@@ -38,7 +38,7 @@ module.exports = {
             .setDescription(`**Вы не состоите ни в одной из семей.**`)
             .setColor(Colors.Blue)
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -68,7 +68,7 @@ module.exports = {
             .setColor(Colors.Blue)
             .setTimestamp()
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -85,7 +85,7 @@ module.exports = {
         .setColor(Colors.Blue)
         .setTimestamp()
         .setFooter({
-          text: `Robo Hamster`,
+          text: `Surprise Bot`,
           iconURL: bot.user.displayAvatarURL(),
         });
 
@@ -125,7 +125,7 @@ module.exports = {
               .setDescription(`**Некорректное значение!**`)
               .setColor(Colors.Blue)
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL(),
               }),
           ],
@@ -159,7 +159,7 @@ module.exports = {
             .setColor(Colors.Blue)
             .setTimestamp()
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],

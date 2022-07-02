@@ -10,7 +10,7 @@ class Api extends Parser{
   token = 'u7BfqsDZVwUMJb60'
 
   // Функция возвращает информацию по игроку исходя из переданных параметров.
-  async findPlayer (nickname, serverId = 10) {
+  async findPlayer (nickname, serverId = "10") {
     const request = await this.instance.get(`/find?nick=${nickname}&server=${serverId}&token=${this.token}`)
     if (request.status === 200) {
       return {

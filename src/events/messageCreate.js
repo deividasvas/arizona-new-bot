@@ -52,19 +52,17 @@ const commandDirectMessageHandler = async (bot, message) => {
         // Проверяем находится ли команда в выключенных или в архиве. Если да, то выдаём ошибку
         return message
             .reply({
-                embeds: [
-                    await new EmbedBuilder()
-                        .setTitle(`🚫 | Ошибка!`)
-                        .setDescription(`**Команда \`${commandName}\` отключена!**`)
-                        .setColor(Colors.DarkRed)
-                        .setTimestamp()
-                        .setAuthor({
-                            name: message.guild.name, iconURL: message.guild.iconURL()
-                        })
-                        .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
-                        })
-                ]
+                embeds: [await new EmbedBuilder()
+                    .setTitle(`🚫 | Ошибка!`)
+                    .setDescription(`**Команда \`${commandName}\` отключена!**`)
+                    .setColor(Colors.DarkRed)
+                    .setTimestamp()
+                    .setAuthor({
+                        name: message.guild.name, iconURL: message.guild.iconURL()
+                    })
+                    .setFooter({
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
+                    })]
             })
             .then((msg) => setTimeout(() => msg.delete(), 10000));
     }
@@ -77,26 +75,20 @@ const commandDirectMessageHandler = async (bot, message) => {
 
         return message
             .reply({
-                embeds: [
-                    await new EmbedBuilder()
-                        .setTitle(`🚫 | Ошибка!`)
-                        .setDescription(`**Используйте:\n${commandUse}**\n\n**Описание команды:** \`\`\`${command.descr}\`\`\`\n**Аргументы:**\n\`\`\`${command.arguments
-                            .map(({
-                                      name,
-                                      type,
-                                      required,
-                                      choices,
-                                      description
-                                  }) => `${name} | ${description} | ${bot.typesArguments.find((typeArgument) => typeArgument.type === type).value} - [${required ? "Обязателен" : "Необязателен"}] ${choices?.length > 0 ? `(${choices
-                                .map((choice) => choice.value)
-                                .join(" | ")})` : ""}`)
-                            .join("\n")}\`\`\``)
-                        .setColor(Colors.Blue)
-                        .setTimestamp()
-                        .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
-                        })
-                ]
+                embeds: [await new EmbedBuilder()
+                    .setTitle(`🚫 | Ошибка!`)
+                    .setDescription(`**Используйте:\n${commandUse}**\n\n**Описание команды:** \`\`\`${command.descr}\`\`\`\n**Аргументы:**\n\`\`\`${command.arguments
+                        .map(({
+                                  name, type, required, choices, description
+                              }) => `${name} | ${description} | ${bot.typesArguments.find((typeArgument) => typeArgument.type === type).value} - [${required ? "Обязателен" : "Необязателен"}] ${choices?.length > 0 ? `(${choices
+                            .map((choice) => choice.value)
+                            .join(" | ")})` : ""}`)
+                        .join("\n")}\`\`\``)
+                    .setColor(Colors.Blue)
+                    .setTimestamp()
+                    .setFooter({
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
+                    })]
             })
             .then((msg) => {
                 setTimeout(() => {
@@ -117,20 +109,18 @@ const commandDirectMessageHandler = async (bot, message) => {
         if (!typeArgument.validator(argumentValue, message.guild, message)) {
             // проверяем через валидатор типов аргументов является ли наш аргумент валидным. Если нет, то выкидываем ошибку.
             return message.reply({
-                embeds: [
-                    await new EmbedBuilder()
-                        .setTitle(`🚫 | Ошибка!`)
-                        .setDescription(`**Вы неверно указали аргумент \`${argument.name}\`.\nНеобходимо следующее значение: \`${typeArgument.value}\`**`)
-                        .setColor(Colors.Blue)
-                        .setAuthor({
-                            name: message.guild.name, iconURL: message.guild.iconURL()
-                        })
-                        .setTimestamp()
-                        .setTimestamp()
-                        .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
-                        })
-                ]
+                embeds: [await new EmbedBuilder()
+                    .setTitle(`🚫 | Ошибка!`)
+                    .setDescription(`**Вы неверно указали аргумент \`${argument.name}\`.\nНеобходимо следующее значение: \`${typeArgument.value}\`**`)
+                    .setColor(Colors.Blue)
+                    .setAuthor({
+                        name: message.guild.name, iconURL: message.guild.iconURL()
+                    })
+                    .setTimestamp()
+                    .setTimestamp()
+                    .setFooter({
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
+                    })]
             }).then((msg) => {
                 setTimeout(() => {
                     message.delete();
@@ -149,20 +139,18 @@ const commandDirectMessageHandler = async (bot, message) => {
             }
             if (!isValidValueForTheArgument(argumentValue)) {
                 return message.reply({
-                    embeds: [
-                        await new EmbedBuilder()
-                            .setTitle(`🚫 | Ошибка!`)
-                            .setDescription(`**Вы указали невалидное значение для аргумента \`${argument.name}\`.\nВалидные значения: \`${argument.choices.map(choice => choice.value).join(", ")}\`.\nВаше значение: \`${argumentValue}\`**`)
-                            .setColor(Colors.Blue)
-                            .setAuthor({
-                                name: message.guild.name, iconURL: message.guild.iconURL()
-                            })
-                            .setTimestamp()
-                            .setTimestamp()
-                            .setFooter({
-                                text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
-                            })
-                    ]
+                    embeds: [await new EmbedBuilder()
+                        .setTitle(`🚫 | Ошибка!`)
+                        .setDescription(`**Вы указали невалидное значение для аргумента \`${argument.name}\`.\nВалидные значения: \`${argument.choices.map(choice => choice.value).join(", ")}\`.\nВаше значение: \`${argumentValue}\`**`)
+                        .setColor(Colors.Blue)
+                        .setAuthor({
+                            name: message.guild.name, iconURL: message.guild.iconURL()
+                        })
+                        .setTimestamp()
+                        .setTimestamp()
+                        .setFooter({
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
+                        })]
                 }).then((msg) => {
                     setTimeout(() => {
                         message.delete();
@@ -194,19 +182,15 @@ const commandDirectMessageHandler = async (bot, message) => {
     return command
         .run({
             interaction: {
-                ...message, reply, editReply
-            },
-            author: message.author,
-            bot,
-            args,
-            developers,
-            theSlashCall: false
+                ...message, reply, editReply, fetchReply: async () => cache[message.id],
+            }, author: message.author, bot, args, developers, theSlashCall: false
         })
         .catch((err) => handleErrors(err, bot))
 }
 
 // Функция для обработки команд
 const commandHandler = async (bot, message) => {
+    debugger
     const reply = async (option) => {
         // Функция для похожего поведения ответа, как и в interaction
         // Сделано для того, чтобы не переписывать по 20 тысяч раз код на message и interaction.
@@ -234,10 +218,8 @@ const commandHandler = async (bot, message) => {
     if (!message.content.startsWith(bot.prefix)) {
         return null;
     }
-    console.log('commandHandler', message.type);
-    if (message.type.toLowerCase() === 'dm') {
-        return commandDirectMessageHandler(bot, message);
-    }
+
+    debugger
 
     // Все айдишники ролей на сервере.
     const rolesId = getGuildRolesId(message.guild.id);
@@ -260,53 +242,45 @@ const commandHandler = async (bot, message) => {
     if (!command) {
         return;
     }
+    debugger
     if (await CommandsDisabled.findOne({
         commandName
     }) || command.archive) {
         // Проверяем находится ли команда в выключенных или в архиве. Если да, то выдаём ошибку
         return message
             .reply({
-                embeds: [
-                    await new EmbedBuilder()
-                        .setTitle(`🚫 | Ошибка!`)
-                        .setDescription(`**Команда \`${commandName}\` отключена!**`)
-                        .setColor(Colors.DarkRed)
-                        .setTimestamp()
-                        .setAuthor({
-                            name: message.guild.name, iconURL: message.guild.iconURL()
-                        })
-                        .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
-                        })
-                ]
+                embeds: [await new EmbedBuilder()
+                    .setTitle(`🚫 | Ошибка!`)
+                    .setDescription(`**Команда \`${commandName}\` отключена!**`)
+                    .setColor(Colors.DarkRed)
+                    .setTimestamp()
+                    .setAuthor({
+                        name: message.guild.name, iconURL: message.guild.iconURL()
+                    })
+                    .setFooter({
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
+                    })]
             })
             .then((msg) => setTimeout(() => msg.delete(), 10000));
     }
 
     // получаем все айдишники ролей которые могут запускать данную команду
-    const permissions = [
-        ...bot.fullPermissionCommandsRolesId(rolesId),
-        ...(
-            await command.perms(rolesId)
-        )
-    ];
+    const permissions = [...bot.fullPermissionCommandsRolesId(rolesId), ...(await command.perms(rolesId))];
     if (!message.member?.roles.cache.some((role) => permissions.includes(role.id)) && !message.member.permissions.has("Administrator")) {
         // если у пользователя нет не одной роли которая может использовать данную команду, то отдаём отказ.
         return message
             .reply({
-                embeds: [
-                    await new EmbedBuilder()
-                        .setTitle(`🚫 | Ошибка!`)
-                        .setDescription(`**Вам недоступна данная команда!**`)
-                        .setColor(Colors.DarkRed)
-                        .setTimestamp()
-                        .setAuthor({
-                            name: message.guild.name, iconURL: message.guild.iconURL()
-                        })
-                        .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
-                        })
-                ]
+                embeds: [await new EmbedBuilder()
+                    .setTitle(`🚫 | Ошибка!`)
+                    .setDescription(`**Вам недоступна данная команда!**`)
+                    .setColor(Colors.DarkRed)
+                    .setTimestamp()
+                    .setAuthor({
+                        name: message.guild.name, iconURL: message.guild.iconURL()
+                    })
+                    .setFooter({
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
+                    })]
             })
             .then((msg) => {
                 setTimeout(() => {
@@ -314,6 +288,7 @@ const commandHandler = async (bot, message) => {
                 }, 20000);
             });
     }
+
 
     if (args.length < command.arguments.filter((argument) => argument.required === true).length) {
         // если данных аргументов меньше чем минимально необходимо, то выдаём FAQ по команде.
@@ -323,26 +298,20 @@ const commandHandler = async (bot, message) => {
 
         return message
             .reply({
-                embeds: [
-                    await new EmbedBuilder()
-                        .setTitle(`🚫 | Ошибка!`)
-                        .setDescription(`**Используйте:\n${commandUse}**\n\n**Описание команды:** \`\`\`${command.descr}\`\`\`\n**Аргументы:**\n\`\`\`${command.arguments
-                            .map(({
-                                      name,
-                                      type,
-                                      required,
-                                      choices,
-                                      description
-                                  }) => `${name} | ${description} | ${bot.typesArguments.find((typeArgument) => typeArgument.type === type).value} - [${required ? "Обязателен" : "Необязателен"}] ${choices?.length > 0 ? `(${choices
-                                .map((choice) => choice.value)
-                                .join(" | ")})` : ""}`)
-                            .join("\n")}\`\`\``)
-                        .setColor(Colors.Blue)
-                        .setTimestamp()
-                        .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
-                        })
-                ]
+                embeds: [await new EmbedBuilder()
+                    .setTitle(`🚫 | Ошибка!`)
+                    .setDescription(`**Используйте:\n${commandUse}**\n\n**Описание команды:** \`\`\`${command.descr}\`\`\`\n**Аргументы:**\n\`\`\`${command.arguments
+                        .map(({
+                                  name, type, required, choices, description
+                              }) => `${name} | ${description} | ${bot.typesArguments.find((typeArgument) => typeArgument.type === type).value} - [${required ? "Обязателен" : "Необязателен"}] ${choices?.length > 0 ? `(${choices
+                            .map((choice) => choice.value)
+                            .join(" | ")})` : ""}`)
+                        .join("\n")}\`\`\``)
+                    .setColor(Colors.Blue)
+                    .setTimestamp()
+                    .setFooter({
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
+                    })]
             })
             .then((msg) => {
                 setTimeout(() => {
@@ -363,20 +332,18 @@ const commandHandler = async (bot, message) => {
         if (!typeArgument.validator(argumentValue, message.guild, message)) {
             // проверяем через валидатор типов аргументов является ли наш аргумент валидным. Если нет, то выкидываем ошибку.
             return message.reply({
-                embeds: [
-                    await new EmbedBuilder()
-                        .setTitle(`🚫 | Ошибка!`)
-                        .setDescription(`**Вы неверно указали аргумент \`${argument.name}\`.\nНеобходимо следующее значение: \`${typeArgument.value}\`**`)
-                        .setColor(Colors.Blue)
-                        .setAuthor({
-                            name: message.guild.name, iconURL: message.guild.iconURL()
-                        })
-                        .setTimestamp()
-                        .setTimestamp()
-                        .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
-                        })
-                ]
+                embeds: [await new EmbedBuilder()
+                    .setTitle(`🚫 | Ошибка!`)
+                    .setDescription(`**Вы неверно указали аргумент \`${argument.name}\`.\nНеобходимо следующее значение: \`${typeArgument.value}\`**`)
+                    .setColor(Colors.Blue)
+                    .setAuthor({
+                        name: message.guild.name, iconURL: message.guild.iconURL()
+                    })
+                    .setTimestamp()
+                    .setTimestamp()
+                    .setFooter({
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
+                    })]
             }).then((msg) => {
                 setTimeout(() => {
                     message.delete();
@@ -395,20 +362,18 @@ const commandHandler = async (bot, message) => {
             }
             if (!isValidValueForTheArgument(argumentValue)) {
                 return message.reply({
-                    embeds: [
-                        await new EmbedBuilder()
-                            .setTitle(`🚫 | Ошибка!`)
-                            .setDescription(`**Вы указали невалидное значение для аргумента \`${argument.name}\`.\nВалидные значения: \`${argument.choices.map(choice => choice.value).join(", ")}\`.\nВаше значение: \`${argumentValue}\`**`)
-                            .setColor(Colors.Blue)
-                            .setAuthor({
-                                name: message.guild.name, iconURL: message.guild.iconURL()
-                            })
-                            .setTimestamp()
-                            .setTimestamp()
-                            .setFooter({
-                                text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
-                            })
-                    ]
+                    embeds: [await new EmbedBuilder()
+                        .setTitle(`🚫 | Ошибка!`)
+                        .setDescription(`**Вы указали невалидное значение для аргумента \`${argument.name}\`.\nВалидные значения: \`${argument.choices.map(choice => choice.value).join(", ")}\`.\nВаше значение: \`${argumentValue}\`**`)
+                        .setColor(Colors.Blue)
+                        .setAuthor({
+                            name: message.guild.name, iconURL: message.guild.iconURL()
+                        })
+                        .setTimestamp()
+                        .setTimestamp()
+                        .setFooter({
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
+                        })]
                 }).then((msg) => {
                     setTimeout(() => {
                         message.delete();
@@ -437,10 +402,11 @@ const commandHandler = async (bot, message) => {
     // Передаётся interaction чтобы команды в случае смены режима с Message на Slash или наоборот работали нормально.
     // Пожалуйста, не меняйте, а следуйте тому что есть
 
+
     return command
         .run({
             interaction: {
-                ...message, reply, editReply
+                ...message, reply, editReply, fetchReply: async () => cache[message.id],
             },
             author: message.member,
             guild: message.guild,
@@ -466,13 +432,12 @@ const commandHandler = async (bot, message) => {
 }
 
 module.exports = async (bot, message) => {
-    console.log('default', message.type);
-    // dm channel
-    if (message.type === 0) {
-        return commandDirectMessageHandler(bot, message);
-    }
-    if (message.author.bot) {
+    if (message.author?.bot || !message.author) {
         return;
+    }
+    // dm channel
+    if (message.type === 0 && !message.guildId) {
+        return commandDirectMessageHandler(bot, message);
     }
     // Все айдишники каналов на сервере.
     const channelsId = getGuildChannelsId(message.guild.id);

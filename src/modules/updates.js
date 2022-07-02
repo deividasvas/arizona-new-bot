@@ -30,7 +30,7 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ],
@@ -57,7 +57,7 @@ module.exports = {
                             iconURL: guild.iconURL(),
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -108,7 +108,7 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ],
@@ -152,7 +152,7 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ]
@@ -166,7 +166,6 @@ module.exports = {
             moderatorId: member.id, // ID автора сообщения
             moderatorTag: member.user.tag, // Tag автора сообщения
             moderatorNick: member.displayName, // Серверный ник автора сообщения
-            reason,
         });
         await interaction.deferUpdate();
         await interaction.message.edit({
@@ -212,7 +211,7 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ]
@@ -254,7 +253,7 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ]
@@ -319,7 +318,7 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ]
@@ -361,7 +360,7 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ]
@@ -456,7 +455,7 @@ module.exports = {
                                 iconURL: guild.iconURL(),
                             })
                             .setFooter({
-                                text: `Robo Hamster`,
+                                text: `Surprise Bot`,
                                 iconURL: bot.user.displayAvatarURL(),
                             })
                     ]

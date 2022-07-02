@@ -27,7 +27,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -49,7 +49,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -71,7 +71,7 @@ module.exports = {
           .setTimestamp()
           .setImage('https://www.cats-british.ru/files/articles/pochemu_koshka_smotrit_v_glaza.jpg')
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL()
           })
       ]
@@ -91,7 +91,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -109,7 +109,7 @@ module.exports = {
             name: guild.name, iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
           })
       ]
     })

@@ -58,7 +58,7 @@ module.exports = {
                         `**\`${message.content}\`**`
                     )
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
             ],
@@ -81,7 +81,7 @@ module.exports = {
                     })
                     .setDescription(`>>> **${interaction.message.embeds[0].description.split('`')[1]}**`)
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
                     .addFields([
@@ -112,7 +112,7 @@ module.exports = {
                     })
                     .setDescription(`**Введите причину отказа. У Вас одна минута!**`)
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
 
@@ -142,7 +142,7 @@ module.exports = {
                     })
                     .setDescription(`>>> **${interaction.message.embeds[0].description.split('`')[1]}**`)
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
                     .addFields([
@@ -176,7 +176,7 @@ module.exports = {
                     })
                     .setDescription(`**Введите причину удаления. У Вас одна минута!**`)
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
 
@@ -206,7 +206,7 @@ module.exports = {
                     })
                     .setDescription(`>>> **${interaction.message.embeds[0].description.split('`')[1]}**`)
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     })
                     .addFields([
@@ -256,7 +256,7 @@ module.exports = {
                             iconURL: guild.iconURL(),
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],

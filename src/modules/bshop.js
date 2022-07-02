@@ -29,14 +29,14 @@ module.exports = {
   run: async ({ bot, interaction, user, guild: _guild, message }) => {
     // команда запуска. Автоматически запускается если находится айди в interactionCreate из списка выше
     const { customId } = interaction;
-    const channelsId = getGuildChannelsId(guild.id);
-    const rolesId = getGuildRolesId(guild.id);
     const { main, error, warns, week, guildId } = await getModerInfo(
-      bot,
-      _guild?.id,
-      user.id
+        bot,
+        _guild?.id,
+        user.id
     );
     const guild = bot.guilds.cache.get(guildId); // получаем дискорд сервер по айдишнику из статистики модератора
+    const channelsId = getGuildChannelsId(guild.id);
+    const rolesId = getGuildRolesId(guild.id);
     if (error === "THE_NOT_MODERATOR") {
       return interaction.reply({
         ephemeral: true,
@@ -52,7 +52,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -110,7 +110,7 @@ module.exports = {
                 )
                 .setTimestamp()
                 .setFooter({
-                  text: `Robo Hamster`,
+                  text: `Surprise Bot`,
                   iconURL: bot.user.displayAvatarURL(),
                 }),
             ],
@@ -213,7 +213,7 @@ module.exports = {
                 )
                 .setTimestamp()
                 .setFooter({
-                  text: `Robo Hamster`,
+                  text: `Surprise Bot`,
                   iconURL: bot.user.displayAvatarURL(),
                 }),
             ],
@@ -291,7 +291,7 @@ module.exports = {
             })
             .setColor(Colors.Blue)
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -313,7 +313,7 @@ module.exports = {
               iconURL: guild.iconURL(),
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -344,7 +344,7 @@ module.exports = {
           .setDescription(`**${await service.answer()}**`) // service.answer может отправлять внутри себя сообщения, но должен возвращать строку с ответом. Без форматировании текста
           .setTimestamp()
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],
@@ -368,7 +368,7 @@ module.exports = {
           )
           .setTimestamp()
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],

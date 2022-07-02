@@ -33,7 +33,7 @@ module.exports = async (bot, member) => {
     })
     .setTimestamp()
     .setFooter({
-      text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+      text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
     })
     .setDescription(`${member} ${member.user.username}#${member.user.discriminator} присоединился в Discord сервер`)
     .addFields([

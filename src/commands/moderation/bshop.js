@@ -18,9 +18,31 @@ module.exports = {
   perms: (rolesId) => getAllRolesIdModers(rolesId), // Функция которая возвращает массив с ID ролей которым можно использовать эту команду
 
   async run({ bot, interaction, author, guild, channelsId, theSlashCall }) {
-    const {
-      main: { balls },
-    } = await getModerInfo(bot, guild.id, author.id);
+    const moderator = await getModerInfo(bot, guild.id, author.id);
+    if (moderator.error === "THE_NOT_MODERATOR") {
+      return interaction.reply({
+        ephemeral: true,
+        embeds: [
+          new EmbedBuilder()
+              .setTitle(`❌ | Ошибка!`)
+              .setDescription(
+                  `**Вы не являетесь модератором. Если это не так, то обратитесь к технической поддержке Вашего сервера**`
+              )
+              .setColor(Colors.Blue)
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL(),
+              })
+              .setFooter({
+                text: `Surprise Bot`,
+                iconURL: bot.user.displayAvatarURL(),
+              }),
+        ],
+      });
+    }
+
+    const { main: {balls} } = moderator;
+
     const embed = new EmbedBuilder()
       .setTitle("📌 | Магазин для модерации!")
       .setDescription(
@@ -29,11 +51,11 @@ module.exports = {
       .setColor(Colors.Blue)
       .setTimestamp()
       .setFooter({
-        text: `Robo Hamster`,
+        text: `Surprise Bot`,
         iconURL: bot.user.displayAvatarURL(),
       })
       .setAuthor({
-        name: `Robo Hamster`,
+        name: `Surprise Bot`,
         iconURL: guild.iconURL(),
       }); // эмбед который мы будем отправлять модераторам
     const components = [

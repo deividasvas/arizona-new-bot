@@ -30,7 +30,7 @@ const commandHandler = async (bot, interaction) => {
             .setColor(Colors.Blue)
             .setTimestamp()
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
       ]
     })
@@ -48,7 +48,7 @@ const commandHandler = async (bot, interaction) => {
             .setColor(Colors.Blue)
             .setTimestamp()
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
       ]
     })
@@ -73,7 +73,7 @@ const commandHandler = async (bot, interaction) => {
               name: guild.name, iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+              text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
             })
       ]
     })

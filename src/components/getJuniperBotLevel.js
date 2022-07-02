@@ -53,6 +53,7 @@ const getJuniperBotLevel = async (bot, userId, guildId) => {
 				sortBy: "EXP"
 			}
 		})
+		console.log(request);
 		const result = request.data.content.find((lvl) => lvl.id === userId);
 		resolve(result?.level || 0);
 	});

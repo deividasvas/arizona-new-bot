@@ -57,7 +57,7 @@ const supportBlock = async (bot, guildId, userId, provocateur, days, reason) => 
                     )
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],
@@ -78,7 +78,7 @@ const supportBlock = async (bot, guildId, userId, provocateur, days, reason) => 
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],

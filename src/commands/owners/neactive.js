@@ -44,7 +44,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                     }),],
             });
         }
@@ -79,7 +79,7 @@ module.exports = {
                     name: guild.name, iconURL: guild.iconURL(),
                 })
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                 })]
         })
         interaction.reply({
@@ -92,7 +92,7 @@ module.exports = {
                     name: guild.name, iconURL: guild.iconURL(),
                 })
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                 })]
         })
         scheduleJob(`${guildId}-${userId}-neactive`, dateEnd, async () => {
@@ -105,7 +105,7 @@ module.exports = {
                     name: guild.name, iconURL: guild.iconURL(),
                 })
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                 })
             const neactiveLogChannel = guild.channels.cache.get(channelsId.neactiveLog);
             neactiveLogChannel.send({

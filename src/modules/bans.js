@@ -4,7 +4,7 @@ const getAllRolesIdModers = require('../components/getAllRolesIdModers')
 const parseUserIdFromMention = require('../components/parseIdFromMention')
 const sendUserMessage = require('../components/sendUserMessage')
 const BansVotes = require('../models/BansVotes')
-const {getGuildChannelsId, getGuildRolesId} = require('../configs/settings')
+const {getGuildChannelsId, getGuildRolesId, linksToReportModerators} = require('../configs/settings')
 const fs = require('fs')
 const path = require('path')
 const setModerInfoParam = require('../components/setModerInfoParam')
@@ -46,14 +46,14 @@ module.exports = {
                     )
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
         await sendUserMessage(
             {
-                content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
+                content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - ${linksToReportModerators[guildId]}`,
                 embeds: [
                     new EmbedBuilder()
                         .setColor(Colors.Blue)
@@ -67,7 +67,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL()
                         })
                 ]
@@ -147,7 +147,7 @@ module.exports = {
                             iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL()
                         })
                 ]
@@ -211,7 +211,7 @@ module.exports = {
                             iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL()
                         })
                 ],
@@ -236,7 +236,7 @@ module.exports = {
                             iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL()
                         })
                 ],
@@ -275,7 +275,7 @@ module.exports = {
                                 iconURL: guild.iconURL()
                             })
                             .setFooter({
-                                text: `Robo Hamster`,
+                                text: `Surprise Bot`,
                                 iconURL: bot.user.displayAvatarURL()
                             })
                     ]
@@ -300,7 +300,7 @@ module.exports = {
                                 iconURL: guild.iconURL()
                             })
                             .setFooter({
-                                text: `Robo Hamster`,
+                                text: `Surprise Bot`,
                                 iconURL: bot.user.displayAvatarURL()
                             })
                     ]

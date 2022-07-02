@@ -68,13 +68,13 @@ module.exports = {
           new EmbedBuilder()
             .setTitle(`💰 | Вопросы-ответы`)
             .setColor(Colors.Blue)
-            .setDescription(`**\`Индекс | Вопрос | Ответ\`\n${questions.map((question, index) => `${index} | ${question.text} | [${question.answers.join(', ')}]`).join('\n')}**`)
+            .setDescription(`**\`Индекс | Вопрос | Ответ\`\n${questions.map((question, index) => `${index + 1} | ${question.text} | [${question.answers.join(', ')}]`).join('\n')}**`)
             .setAuthor({
               name: guild.name,
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -98,14 +98,14 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
         })
       }
 
-      const question = questions[questionNumber - 1]
+      const question = questions[questionNumber]
 
       if (!question) {
         return interaction.reply({
@@ -122,7 +122,7 @@ module.exports = {
                 iconURL: guild.iconURL()
               })
               .setFooter({
-                text: `Robo Hamster`,
+                text: `Surprise Bot`,
                 iconURL: bot.user.displayAvatarURL()
               })
           ]
@@ -145,7 +145,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -168,7 +168,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -196,7 +196,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -231,7 +231,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -261,7 +261,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]

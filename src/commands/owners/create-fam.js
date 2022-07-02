@@ -73,7 +73,7 @@ module.exports = {
                             iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL()
                         })
                 ]
@@ -96,7 +96,7 @@ module.exports = {
                             iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL()
                         })
                 ]
@@ -106,7 +106,7 @@ module.exports = {
         let role = await guild.roles.create({
             name: familyName,
             color,
-            permision: [],
+            permissions: [],
             position: (
                 await guild.roles.fetch(rolesId.fams)
             ).position - 1
@@ -138,7 +138,7 @@ module.exports = {
                         iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL()
                     })
             ]
@@ -159,7 +159,7 @@ module.exports = {
                         iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL()
                     })
             ]
@@ -193,7 +193,7 @@ module.exports = {
                 }
             ],
             reason: 'Создан канал для семей',
-            parent: categories.fams
+            parent: categories.famsChannels
         })
 
         // Создание текстового канала
@@ -229,7 +229,7 @@ module.exports = {
                 }
             ],
             reason: 'Создан канал для семей',
-            parent: categories.fams
+            parent: categories.famsChannels
         })
         const newFamily = new Families({
             guildId: guild.id,
@@ -254,7 +254,7 @@ module.exports = {
                         iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL()
                     })
             ]
@@ -274,7 +274,7 @@ module.exports = {
                         iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL()
                     })
             ]

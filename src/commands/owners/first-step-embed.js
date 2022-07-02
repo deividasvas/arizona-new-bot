@@ -22,7 +22,7 @@ module.exports = {
             .setTitle(`📌 | Первые шаги!`)
             .setColor(Colors.Blue)
             .setDescription(`**Добро пожаловать на дискорд игрового сервера:
-\`Arizona RolePlay | Surprise | 185.169.134.109:7777\`
+\`${guild.name}\`
 
 Приветствую тебя, друг, давай познакомим тебя с нашим дискордом!
 
@@ -35,7 +35,7 @@ module.exports = {
 Уже прочитал? Ну хорошо
 Для получение роли тебе нужно будет сделать ник по форме для твоей организации:
 \`[Организация][Ранг] Имя Фамилия\`
-Тэги организаций ты можешь посмотреть в канале <#${channelsId.tagsFractions}>
+Тэги организаций ты можешь посмотреть в канале <#${channelsId.rolesForms}>
 
 После того как ты все сделал, тебе нужно будет зайти в канал <#${channelsId.requestRoles}> и нажать на кнопку "Запросить роль фракции"
 
@@ -46,7 +46,7 @@ module.exports = {
                 name: guild.name, iconURL: guild.iconURL(),
             })
             .setFooter({
-                text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
             })
 
         if (messagesOfBot[0]) {
@@ -70,7 +70,7 @@ module.exports = {
                     name: guild.name, iconURL: guild.iconURL(),
                 })
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                 })]
         });
     },

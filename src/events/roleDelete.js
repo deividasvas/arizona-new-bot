@@ -19,7 +19,7 @@ module.exports = async (bot, role) => {
 
   // Если пользователь имеет админку, то просто оповещаем в конференцию ДМов в ВК что создалась роль.
   if (isUserAllowEditServer(member)) {
-    return bot.sendConferenceDiscordMastersMessage(`[Удаление роли] Администратор ${member.displayName} [${member.id}] удалил роль ${role.name}`)
+    return bot.sendConferenceDiscordMastersMessage(guild.id, `[Удаление роли] Администратор ${member.displayName} [${member.id}] удалил роль ${role.name}`)
   }
 
   // Если пользователь не администратор, то снимаем с него все роли, удаляем роль, и пишем об этом в конференцию дискорд мастеров.
@@ -35,7 +35,7 @@ module.exports = async (bot, role) => {
   }
   // Создаем роль которую удалил пользователь.
   guild.roles.create(role)
-  bot.sendConferenceDiscordMastersMessage(`[Анти-слив] Пользователь ${member.displayName} [${member.id}] удалил роль (${role.name}). С него сняты все роли по системе безопасности!.`)
+  bot.sendConferenceDiscordMastersMessage(guild.id,`[Анти-слив] Пользователь ${member.displayName} [${member.id}] удалил роль (${role.name}). С него сняты все роли по системе безопасности!.`)
   await sendUserMessage({
     embeds: [
       new EmbedBuilder()
@@ -50,7 +50,7 @@ module.exports = async (bot, role) => {
         )
         .setTimestamp()
         .setFooter({
-          text: `Robo Hamster`,
+          text: `Surprise Bot`,
           iconURL: bot.user.displayAvatarURL()
         })
     ]

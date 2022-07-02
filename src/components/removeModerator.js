@@ -50,7 +50,7 @@ const removeModerator = async (bot, guildId, moderatorId) => {
         )
         .setColor(Colors.Blue)
         .setFooter({
-          text: `Robo Hamster`,
+          text: `Surprise Bot`,
           iconURL: bot.user.displayAvatarURL(),
         }),
     ],

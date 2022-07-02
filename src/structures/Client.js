@@ -20,7 +20,11 @@ module.exports = class ExtendedClient extends Client {
       this.modules = new Collection()
       this.dateStart = new Date();
       this.fractions = {
-          data: [],
+          data: {
+              // Айди гильдии: список с фракциями
+              '992774340925984778': [],
+              '991804363276300348': [],
+          },
           init: false,
           dateOldInit: null
       }
@@ -34,7 +38,11 @@ module.exports = class ExtendedClient extends Client {
       // Путь до корневой директории проекта
       this.mainPathProject = path.join(__dirname, '../')
       this.authVkBot().then(() => {
-          this.sendConferenceDiscordMastersMessage = text => this.vk.sendMessage(2000000001, text)
+          this.sendConferenceDiscordMastersMessage = (guildId, text) => {
+              if(this.vk[guildId]){
+                  this.vk[guildId].sendMessage(2000000001, text);
+              }
+          }
       });
       this.login(this.token)
       this.module()
@@ -43,14 +51,21 @@ module.exports = class ExtendedClient extends Client {
   }
 
   async authVkBot() {
-      const vk = new VkBot({token: `5ec415c3f848afaa88af5dd6ac3ffcccb7b2dc12dd369d72b3003ee42d069282311baaef97ef0ae0bf2d7`})
-      vk.startPolling((err) => {
-          if (err) {
-              return console.log(err)
+      const vk = {
+          // Ключ гильдии: объект с ботом или null
+          "992774340925984778": new VkBot({token: `5ec415c3f848afaa88af5dd6ac3ffcccb7b2dc12dd369d72b3003ee42d069282311baaef97ef0ae0bf2d7`}),
+          "991804363276300348": null,
+      }
+      for(const bot of Object.values(vk)){
+          if(bot){
+              bot.startPolling((err) => {
+                  if(err){
+                      console.log(`При авторизации бота VK произошла ошибка!`, err);
+                  }
+              })
           }
-          console.log('[📌 | VK BOT]: Бот успешно запущен!')
-          this.vk = vk
-      })
+      }
+      this.vk = vk;
   }
 
   // async login(token) {
@@ -113,9 +128,10 @@ module.exports = class ExtendedClient extends Client {
                           category: dir
                       }) // устанавливаем инициализированную команду
 
-                      console.log(pull.archive)
-                      // если данная команда не находится в архиве, то добавляем её в слэш команды
-                      if (!pull.archive) {
+                      // если данная команда не находится в архиве и не содержит
+                      // в себе настройку что она не должна работать на этом сервере
+                      //  , то добавляем её в слэш команды
+                      if (!pull.archive && !pull.disableInGuilds?.includes(guild.id)) {
                           await this.loadSlashCommand(pull, guild)
                       }
 
@@ -190,7 +206,7 @@ module.exports = class ExtendedClient extends Client {
                   });
               }
               // await commandInfoGuild.setDefaultMemberPermissions(buildCommand.default_member_permissions)
-              console.log(`[📌 | ${buildCommand.name}]: Команда переключена в режим "Только личные сообщения"!`)
+              console.log(`[📌 | ${guild.name} |${buildCommand.name}]: Команда переключена в режим "Только личные сообщения"!`)
           }
           // Проверяем разные ли аргументы между собой. Если да, то устанавливаем новые
 
@@ -216,15 +232,15 @@ module.exports = class ExtendedClient extends Client {
 
           if (JSON.stringify(actualArguments) !== JSON.stringify(newArguments)) {
               await commandInfoGuild.setOptions(buildCommand.options) // устанавливаем аргументы для команды
-              console.log(`[📌 | ${buildCommand.name}]: Были успешно изменены аргументы!`)
+              console.log(`[📌 | ${guild.name} |${buildCommand.name}]: Были успешно изменены аргументы!`)
           }
           // Проверяем есть ли разница в описании обоих команд.
           if (buildCommand.description !== commandInfoGuild.description) {
               await commandInfoGuild.setDescription(buildCommand.description)
-              console.log(`[📌 | ${buildCommand.name}]: Было успешно изменено описание!`)
+              console.log(`[📌 | ${guild.name} |${buildCommand.name}]: Было успешно изменено описание!`)
           }
 
-          return console.log(`[📌 | ${buildCommand.name}]: Обновление закончено!`)
+          return console.log(`[📌 | ${guild.name} | ${buildCommand.name}]: Обновление закончено!`)
       }
 
       // Если это команда в личных сообщений, то создаём её только для них.
@@ -234,12 +250,12 @@ module.exports = class ExtendedClient extends Client {
               dmPermission: buildCommand.dm_permission,
               defaultMemberPermissions: 0,
           });
-          return console.log(`[📌 | ${buildCommand.name}]: Успешная инициализация | Direct Command!`)
+          return console.log(`[📌 | ${buildCommand.name}]: | ${guild.name} Успешная инициализация | Direct Command!`)
       }
 
       await guild.commands.create(buildCommand);
 
-      console.log(`[📌 | ${buildCommand.name}]: Успешная инициализация!`)
+      console.log(`[📌 | ${buildCommand.name}]: | ${guild.name} | Успешная инициализация!`)
   }
 
   async deleteAllSlashCommands() {

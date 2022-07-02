@@ -3,6 +3,7 @@ const getAllrolesIdModers = require("../../components/getAllRolesIdModers");
 const mute = require("../../components/mute");
 const sendUserMessage = require("../../components/sendUserMessage");
 const timeChecker = require("../../components/timeChecker");
+const {linksToReportModerators} = require("../../configs/settings");
 
 const mutes = new timeChecker('мут');
 module.exports = {
@@ -58,7 +59,7 @@ module.exports = {
                             iconURL: guild.iconURL(),
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -78,7 +79,7 @@ module.exports = {
                             iconURL: guild.iconURL(),
                         })
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -102,7 +103,7 @@ module.exports = {
                     )
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],
@@ -110,7 +111,7 @@ module.exports = {
 
         await sendUserMessage(
             {
-                content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
+                content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - ${linksToReportModerators[guild.id]}`,
                 embeds: [
                     new EmbedBuilder()
                         .setColor(Colors.Blue)
@@ -124,7 +125,7 @@ module.exports = {
                         )
                         .setTimestamp()
                         .setFooter({
-                            text: `Robo Hamster`,
+                            text: `Surprise Bot`,
                             iconURL: bot.user.displayAvatarURL(),
                         }),
                 ],
@@ -149,7 +150,7 @@ module.exports = {
                     )
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],

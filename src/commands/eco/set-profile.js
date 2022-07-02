@@ -79,7 +79,7 @@ module.exports = {
 							name: guild.name, iconURL: guild.iconURL()
 						})
 						.setFooter({
-							text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+							text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
 						})
 				]
 			})
@@ -95,7 +95,7 @@ module.exports = {
 					.setDescription(`**Вы изменили параметр в статистике пользователя ${member} - \`${args[1]}\` на \`${args[2]}\`**`)
 					.setColor(Colors.Blurple)
 					.setFooter({
-						text: `Robo Hamster`,
+						text: `Surprise Bot`,
 						iconURL: bot.user.displayAvatarURL()
 					})
 			]
@@ -122,7 +122,7 @@ module.exports = {
 					.setColor(Colors.Blurple)
 					.setTimestamp()
 					.setFooter({
-						text: `Robo Hamster`,
+						text: `Surprise Bot`,
 						iconURL: bot.user.displayAvatarURL()
 					})
 			]

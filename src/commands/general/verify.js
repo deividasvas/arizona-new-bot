@@ -35,7 +35,7 @@ module.exports = {
           })
           .setDescription(`\`${author.displayName}\`, Вы успешно получили роль <@&${rolesId.verify}>`)
           .setFooter({
-            text: `Robo Hamster`, iconURL: `${bot.user.displayAvatarURL()}`,
+            text: `Surprise Bot`, iconURL: `${bot.user.displayAvatarURL()}`,
           })
           .setTimestamp(),
       ],

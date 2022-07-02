@@ -48,7 +48,7 @@ module.exports = {
             )
             .setColor(Colors.Blue)
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -63,7 +63,7 @@ module.exports = {
             .setDescription(`**Невозможно исключить самого себя из семьи**`)
             .setColor(Colors.Blue)
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -84,7 +84,7 @@ module.exports = {
             )
             .setColor(Colors.Blue)
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],
@@ -116,7 +116,7 @@ module.exports = {
             }]\`**`
           )
           .setFooter({
-            text: "Robo Hamster",
+            text: "Surprise Bot",
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],
@@ -136,7 +136,7 @@ module.exports = {
             `**Вы успешно исключили ${familyCandidateForKick} из семьи \`\`${role.name}\`\` **`
           )
           .setFooter({
-            text: "Robo Hamster",
+            text: "Surprise Bot",
             iconURL: bot.user.displayAvatarURL(),
           }),
       ],
@@ -155,7 +155,7 @@ module.exports = {
               `**Вы были исключены из семьи \`\`${role.name}\`\` её руководителем ${author}**`
             )
             .setFooter({
-              text: "Robo Hamster",
+              text: "Surprise Bot",
               iconURL: bot.user.displayAvatarURL(),
             }),
         ],

@@ -5,7 +5,7 @@ const sendUserMessage = require("../../components/sendUserMessage");
 const setModerInfoParam = require("../../components/setModerInfoParam");
 const settings = require("../../configs/settings");
 const {
-    rolesId, channelsId, whiteListRoles,
+    rolesId, channelsId, whiteListRoles, linksToReportModerators,
 } = require("../../configs/settings");
 const timeChecker = require("../../components/timeChecker");
 
@@ -28,11 +28,11 @@ module.exports = {
     },], // аргументы
     perms: (rolesId) => getAllRolesIdModers(rolesId), // Функция, которая возвращает массив с ID ролей которым можно использовать эту команду
 
-    run: async ({bot, interaction, author, guild, args}) => {
+    run: async ({bot, interaction, author, guild, args, rolesId}) => {
         const userForVoiceKick = guild.members.cache.get(args[0]) || (await guild.members.fetch(args[0]));
         const reason = args[1];
 
-        const roleInWhiteList = userForVoiceKick.roles.cache.find((role) => whiteListRoles.includes(role.id)); // проверяем, есть ли у человека роль которая находится в белом списке по отношению к выдачам наказаний.
+        const roleInWhiteList = userForVoiceKick.roles.cache.find((role) => whiteListRoles(rolesId).includes(role.id)); // проверяем, есть ли у человека роль которая находится в белом списке по отношению к выдачам наказаний.
         if (roleInWhiteList) {
             // если у человека есть роль из белого списка ролей, то отвечаем запросившему что у пользователя роль из белого списка
             return interaction.reply({
@@ -44,7 +44,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                     })],
             });
         }
@@ -58,14 +58,14 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                     }),
 
                 ]
             })
         }
         await sendUserMessage({
-            content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - https://forum.robo-hamster.ru/forums/49/`,
+            content: `Если Вы не согласны с наказанием, то обжаловать наказание можно здесь - ${linksToReportModerators[guild.id]}`,
             embeds: [new EmbedBuilder()
                 .setColor(Colors.Blue)
                 .setTitle(`📌 | Вы были исключены из голосового канала!`)
@@ -75,7 +75,7 @@ module.exports = {
                 .setDescription(`**「📝」Исключил: <@${author.id}>\n「📕」Причина: \`${reason}\`**`)
                 .setTimestamp()
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                 }),],
         }, userForVoiceKick.id, guild); // отправляем в лс пользователю сообщение об исключений
         await userForVoiceKick.voice.disconnect(reason + " / " + author.displayName);
@@ -90,7 +90,7 @@ module.exports = {
                 .setDescription(`**「📝」Исключил: <@${author.id}> (${author.user.tag})\n「📌」Кого: <@${userForVoiceKick.id}> (${userForVoiceKick.user.tag})\n「📕」Причина: \`${reason}\`**`)
                 .setTimestamp()
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                 }),],
         });
 
@@ -104,7 +104,7 @@ module.exports = {
                 .setDescription(`**Вы успешно исключили пользователя ${userForVoiceKick} с голосового канала по причине \`${reason}\`**`)
                 .setTimestamp()
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                 }),],
         });
         // выдаем недельные баллы и общие

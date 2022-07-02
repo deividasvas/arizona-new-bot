@@ -33,13 +33,13 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                     })],
             });
         }
 
-        // Проверяем находится ли канал в нужной нам категории.
-        if (channel.parentId !== categories.movies) {
+        // Проверяем находится ли канал в нужной нам категории
+        if (channelForDelete.parentId !== categories.movies) {
             return interaction.reply({
                 ephemeral: true, embeds: [await new EmbedBuilder()
                     .setTitle(`❌ | Ошибка!`)
@@ -49,12 +49,12 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL(),
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL(),
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL(),
                     })],
             });
         }
 
-        channel.delete();
+        channelForDelete.delete();
 
         interaction.reply({
             embeds: [
@@ -64,12 +64,12 @@ module.exports = {
                         iconURL: guild.iconURL(),
                     })
                     .setDescription(
-                        `**Вы успешно удалили канал \`${channel.name}\`**`
+                        `**Вы успешно удалили канал \`${channelForDelete.name}\`**`
                     )
                     .setColor(Colors.Blue)
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],

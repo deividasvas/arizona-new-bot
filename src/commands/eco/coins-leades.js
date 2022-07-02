@@ -25,7 +25,7 @@ module.exports = {
               iconURL: guild.iconURL()
             })
             .setFooter({
-              text: `Robo Hamster`,
+              text: `Surprise Bot`,
               iconURL: bot.user.displayAvatarURL()
             })
         ]
@@ -51,13 +51,13 @@ module.exports = {
         new EmbedBuilder()
           .setTitle(`💰 | Топ 10 лидеров по монетам`)
           .setColor(Colors.Blue)
-          .setDescription(`**\`Индекс | Пользователь | Количество монет\`\n${answer.join('\n')}**`)
+          .setDescription(`**\`Место | Пользователь | Количество монет\`\n${answer.join('\n')}**`)
           .setAuthor({
             name: guild.name,
             iconURL: guild.iconURL()
           })
           .setFooter({
-            text: `Robo Hamster`,
+            text: `Surprise Bot`,
             iconURL: bot.user.displayAvatarURL()
           })
       ]

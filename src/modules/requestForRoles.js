@@ -45,7 +45,7 @@ const log = async (emoji, description, {channelsId, guild, nickname, bot, rolesI
                     name: guild.name, iconURL: guild.iconURL()
                 })
                 .setFooter({
-                    text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                    text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                 })
         ]
     })
@@ -94,7 +94,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
@@ -113,7 +113,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -131,7 +131,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
@@ -155,7 +155,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                 ]
             })
@@ -181,7 +181,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                         .setColor(Colors.Blue)
                 ]
@@ -202,7 +202,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                         .setColor(Colors.Blue)
                 ]
@@ -210,19 +210,19 @@ module.exports = {
         }
 
         // Проверяем, есть ли у человека тег по какую-то роль
-        const tags = bot.tagsFractions(rolesId)
+        const tags = bot.tagsFractions(guild.id, rolesId)
         const tagInfo = getFractionTagAndRoleIdByNickname(bot, nickname, tags)
         if (!tagInfo) {
             return interaction.reply({
                 ephemeral: true, embeds: [
                     new EmbedBuilder()
                         .setTitle(`❌ | Ошибка!`)
-                        .setDescription(`**На Ваш тег не нашлось определённой роли! Перепроверьте Ваш тег с тегом в канале <#${channelsId.tagsFractions}>**`)
+                        .setDescription(`**На Ваш тег не нашлось определённой роли! Перепроверьте Ваш тег с тегом в канале <#${channelsId.rolesForms}>**`)
                         .setAuthor({
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                         .setColor(Colors.Blue)
                 ]
@@ -256,7 +256,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ], components: [
                 new ActionRowBuilder()
@@ -301,7 +301,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
                     .setDescription(`**Ваш запрос на выдачу роли <@&${tagInfo.roleId}> был успешно отправлен! Ожидайте выдачи от модераторов!**`)
             ]
@@ -361,7 +361,7 @@ module.exports = {
                     .setDescription(`<@${member.id}> (${member.id}) одобрил запрос от ${userForGiveRole} (${userForGiveRole.id})`)
                     .setColor(Colors.Blue)
                     .setTimestamp()
-                    .setFooter({text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()})
+                    .setFooter({text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()})
                     .addFields([
                         {
                             name: `Роль для выдачи`, value: `<@&${roleId}>`
@@ -384,7 +384,7 @@ module.exports = {
           「😣」Кому: ${userForGiveRole} (${userForGiveRole.id})
           「👮‍♂️」Кто: ${member.displayName} (${member.id})**`)
                     .setColor(Colors.Blue)
-                    .setFooter({text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()})
+                    .setFooter({text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()})
             ]
         })
 
@@ -396,7 +396,7 @@ module.exports = {
                     .setDescription(`Модератор ${member} (${member.displayName}) одобрил Ваш запрос на выдачу роли!.`)
                     .setColor(Colors.Blue)
                     .setTimestamp()
-                    .setFooter({text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()})
+                    .setFooter({text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()})
             ]
         }, userForGiveRole.id, guild)
     },
@@ -419,7 +419,7 @@ module.exports = {
                     .setDescription(`Укажите причину отклонения запроса на выдачу роли пользователю ${userForDenyRole}. У Вас одна минута!`)
                     .setColor(Colors.DarkRed)
                     .setTimestamp()
-                    .setFooter({text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()})
+                    .setFooter({text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()})
             ]
         })
         const messages = await interaction.channel.awaitMessages({
@@ -464,7 +464,7 @@ module.exports = {
                     ])
                     .setColor(Colors.DarkRed)
                     .setTimestamp()
-                    .setFooter({text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()})
+                    .setFooter({text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()})
             ]
         })
         await sendUserMessage({
@@ -475,7 +475,7 @@ module.exports = {
                     .setDescription(`Модератор <@${member.id}>(${member.displayName}) отклонил Ваш запрос на выдачу роли. Причина: \`${reason}\``)
                     .setColor(Colors.DarkRed)
                     .setTimestamp()
-                    .setFooter({text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()})
+                    .setFooter({text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()})
             ]
         }, userForDenyRole.id, guild)
         interaction.message.delete()
@@ -495,7 +495,7 @@ module.exports = {
                     .setTimestamp()
                     .setImage('https://www.cats-british.ru/files/articles/pochemu_koshka_smotrit_v_glaza.jpg')
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
@@ -544,7 +544,7 @@ module.exports = {
                     .setDescription(`Укажите причину удаления запроса на выдачу роли пользователю ${userForDenyRole}. У Вас одна минута!`)
                     .setColor(Colors.DarkBlue)
                     .setTimestamp()
-                    .setFooter({text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()})
+                    .setFooter({text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()})
             ], ephemeral: true
         })
         const messages = await interaction.channel.awaitMessages({
@@ -591,7 +591,7 @@ module.exports = {
                     ])
                     .setColor(Colors.DarkBlue)
                     .setTimestamp()
-                    .setFooter({text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()})
+                    .setFooter({text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()})
             ]
         })
         await sendUserMessage({
@@ -602,7 +602,7 @@ module.exports = {
                     .setDescription(`Модератор <@${member.id}> удалил Ваш запрос на выдачу роли. Причина: \`${reason}\``)
                     .setColor(Colors.DarkBlue)
                     .setTimestamp()
-                    .setFooter({text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()})
+                    .setFooter({text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()})
             ]
         }, userForDenyRole.id, guild)
         interaction.message.delete()
@@ -621,7 +621,7 @@ module.exports = {
                             name: guild.name, iconURL: guild.iconURL()
                         })
                         .setFooter({
-                            text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                            text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                         })
                         .setColor(Colors.Blue)
                 ]
@@ -653,7 +653,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
                     .setColor(Colors.Blue)
                     .setDescription(`**Привет!\n Ты не так давно запрашивал роль в организацию!\n Так вот, модератору для проверки того есть ли ты в организации нужна твоя статистика!\n Сделай скриншот статистики через команду \`/stats\`.\n Как только введёшь эту команду и откроется меню со статистикой - введи команду \`/time\` и нажми на кнопку F8.\n После этого у тебя по пути \`C:\\Users\\[имя пользователя]\\Documents\\GTA San Andreas User Files\\SAMP\\screens\` появиться файл \`sa-mp-номер.png\`.\n Отправь этот файл в этот чат модератору и тебе выдадут роль!**`)
@@ -670,7 +670,7 @@ module.exports = {
                         name: guild.name, iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         })
@@ -718,7 +718,7 @@ module.exports = {
                                 name: guild.name, iconURL: guild.iconURL()
                             })
                             .setFooter({
-                                text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                                text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                             })
                             .setColor(Colors.Blue)
                     ]

@@ -59,7 +59,7 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
                         iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         }, userId, guild);
@@ -103,7 +103,7 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
                         iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         }, userId, guild);
@@ -140,7 +140,7 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
                         iconURL: guild.iconURL()
                     })
                     .setFooter({
-                        text: `Robo Hamster`, iconURL: bot.user.displayAvatarURL()
+                        text: `Surprise Bot`, iconURL: bot.user.displayAvatarURL()
                     })
             ]
         }, userId, guild);
@@ -203,7 +203,7 @@ const ban = async (bot, guildId, userId, provocateurId, days, reason) => {
                     )
                     .setTimestamp()
                     .setFooter({
-                        text: `Robo Hamster`,
+                        text: `Surprise Bot`,
                         iconURL: bot.user.displayAvatarURL(),
                     }),
             ],
